@@ -1,0 +1,109 @@
+<template>
+	<!--表单区域-->
+	<view>
+		<!--标题和返回-->
+		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
+			<block slot="backText">返回</block>
+			<block slot="content">助力公司</block>
+		</cu-custom>
+		<!--表单区域-->
+		<view>
+			<form>
+				<view class="cu-form-group">
+					<view class="flex align-center">
+
+						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.companyName"
+							style="padding-right: 90px; background-color:#ccc; height: 40px; border-radius: 20rpx; padding-left: 30px;" />
+
+
+
+
+						<button class="cu-btn block bg-blue margin-tb-sm lg" @click="searchCompany">
+							<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>搜索
+						</button>
+
+						<button class="cu-btn block bg-gray margin-tb-sm lg" @click="clear">
+							<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>取消
+						</button>
+
+					</view>
+
+				</view>
+
+			</form>
+		</view>
+	</view>
+</template>
+
+<script>
+	import myDate from '@/components/my-componets/my-date.vue'
+
+	export default {
+		name: "informationForm",
+		components: {
+			myDate
+		},
+		props: {
+			formData: {
+				type: Object,
+				default: () => {},
+				required: false
+			}
+		},
+		data() {
+			return {
+				CustomBar: this.CustomBar,
+				NavBarColor: this.NavBarColor,
+				loading: false,
+				model: {},
+				companyName: {},
+				backRouteName: 'index',
+				url: {
+					queryById: "/member/queryById",
+					add: "/member/add",
+					edit: "/member/edit",
+					findPageByCompanyName: "/company/movements/findPageByCompanyName", //助力新增页面模糊查询调用企查查
+				},
+			}
+		},
+		created() {
+			this.initFormData();
+		},
+		methods: {
+			initFormData() {
+				if (this.formData) {
+					let dataId = this.formData.dataId;
+					this.$http.get(this.url.queryById, {
+						params: {
+							id: dataId
+						}
+					}).then((res) => {
+						if (res.data.success) {
+							console.log("表单数据", res);
+							this.model = res.data.result;
+						}
+					})
+				}
+			},
+			clear() {
+				// 重置
+				this.companyName = []
+				this.model.companyName = []
+				this.companyName = null
+				this.queryParam = {}
+				this.loadList(1)
+			},
+			searchCompany() {
+				// 助力新增页面模糊查询调用企查查
+				//表单项内容发生改变
+				uni.request({
+					url: "company/movements/findPageByCompanyName",
+					success(res) {
+						console.log(res)
+					}
+				})
+			},
+
+		}
+	}
+</script>
