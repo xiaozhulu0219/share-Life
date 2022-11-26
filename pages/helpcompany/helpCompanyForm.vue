@@ -9,24 +9,16 @@
 		<!--表单区域-->
 		<view>
 			<form>
-				<view class="cu-form-group">
-					<view class="flex align-center">
-
-						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.companyName"
-							style="padding-right: 90px; background-color:#ccc; height: 40px; border-radius: 20rpx; padding-left: 30px;" />
-
-
-
-
-						<button class="cu-btn block bg-blue margin-tb-sm lg" @click="searchCompany">
+				<view class="search">
+					<view class="iptbox">
+						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.companyName" class="ipt" @confirm="searchCompany"/>
+						<!-- <button class="cu-btn block bg-blue margin-tb-sm lg" @click="searchCompany">
 							<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>搜索
-						</button>
-
-						<button class="cu-btn block bg-gray margin-tb-sm lg" @click="clear">
-							<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>取消
-						</button>
-
+						</button> -->
 					</view>
+					<button class="cu-btn block bg-gray margin-tb-sm lg" @click="clear">
+						<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>取消
+					</button>
 
 				</view>
 
@@ -97,7 +89,11 @@
 				// 助力新增页面模糊查询调用企查查
 				//表单项内容发生改变
 				uni.request({
-					url: "company/movements/findPageByCompanyName",
+					// url: "company/movements/findPageByCompanyName",
+					url:"/enterprise/list",
+					data:{
+						enterpriseName:this.model.companyName,
+					},
 					success(res) {
 						console.log(res)
 					}
@@ -107,3 +103,25 @@
 		}
 	}
 </script>
+<style>
+	.search{
+		display: flex;
+		background-color: #ffffff;
+		align-items: center;
+	}
+	.iptbox{
+		width: 80%;
+		background-color:#ccc; 
+		height: 40px; 
+		border-radius: 20rpx; 
+		padding-left: 20px;
+	}
+	.ipt{
+		display: block;
+		height: 100%;
+	}
+	.lg{
+		height: 40px;
+	}
+	
+</style>
