@@ -6,18 +6,10 @@
 		</cu-custom>
 		<form>
 			<view class="cu-form-group">
-				<view class="title">姓名</view>
-				<input placeholder="请输入姓名" name="input" v-model="myFormData.realname"></input>
-			</view>
-			<view class="cu-form-group">
-				<view class="title">用户名</view>
-				<input placeholder="用户名" name="input" v-model="myFormData.username" disabled></input>
-			</view>
-			<view class="cu-form-group">
 				<view class="title">头像</view>
 				<view class="grid col-4 grid-square flex-sub">
 					<view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
-					 <image :src="imgList[index]" mode="aspectFill"></image>
+						<image :src="imgList[index]" mode="aspectFill"></image>
 						<view class="cu-tag bg-red radius" @tap.stop="DelImg" :data-index="index">
 							<text class='cuIcon-close'></text>
 						</view>
@@ -28,44 +20,41 @@
 				</view>
 			</view>
 
+			<view class="cu-form-group">
+				<view class="title">昵称</view>
+				<input placeholder="请输入昵称" name="input" v-model="myFormData.nickName"></input>
+			</view>
+
 			<view class="cu-form-group margin-top">
 				<view class="title">性别</view>
 				<switch class='switch-sex' @change="SwitchC" :class="switchC?'checked':''" :checked="switchC?true:false"></switch>
 			</view>
 
-
 			<view class="cu-form-group">
 				<view class="title">个性签名</view>
-				<input placeholder="个性签名" name="input" v-model="myFormData.sign" disabled></input>
+				<input placeholder="个性签名" name="input" v-model="myFormData.signature" disabled></input>
+			</view>
+
+			<view class="cu-form-group">
+				<view class="title">毕业时间</view>
+				<input placeholder="毕业时间" name="input" v-model="myFormData.graduationDate" disabled></input>
+			</view>
+
+			<view class="cu-form-group">
+				<view class="title">经验</view>
+				<input placeholder="经验" name="input" v-model="myFormData.experience" disabled></input>
 			</view>
 
 			<view class="cu-form-group">
 				<view class="title">职业</view>
 				<input placeholder="职业" name="input" v-model="myFormData.job" disabled></input>
 			</view>
+
 			<view class="cu-form-group">
 				<view class="title">憧憬公司标签</view>
-				<input placeholder="憧憬公司标签" name="input" v-model="myFormData.chongjing" disabled></input>
+				<input placeholder="憧憬公司标签" name="input" v-model="myFormData.dreamCompanySign" disabled></input>
 			</view>
 
-
-
-			<view class="cu-form-group margin-top">
-				<view class="title">手机号码</view>
-				<input placeholder="输入手机号码" name="input" v-model="myFormData.phone"></input>
-				<view class="cu-capsule radius">
-					<view class='cu-tag bg-blue '>
-						+86
-					</view>
-					<view class="cu-tag line-blue">
-						中国大陆
-					</view>
-				</view>
-			</view>
-			<view class="cu-form-group">
-				<view class="title">邮箱</view>
-				<input placeholder="输入邮箱" name="input" v-model="myFormData.email"></input>
-			</view>
 			<view class="padding flex flex-direction">
 				<button class="cu-btn bg-blue lg"  @click="onSubmit">提交</button>
 			</view>
@@ -83,14 +72,15 @@
 				uploadUrl:"/sys/common/upload",
 				myFormData:{
 					avatar:'',
-					realname:'',
-					username:'',
+					nickName:'',
+					signature:'',
+					graduationDate:'',
+					experience:'',
+					job:'',
+					dreamCompanySign:'',
 					sex:1,
-					birthday:'',
 					orgCode:'',
 					workNo:'',
-					phone:'',
-					email:'',
 					id:'',
 				},
 			};
