@@ -94,24 +94,10 @@ const routes = [
 		},
 	},
 	{
-		path: '/pages/member/graduationDate',
-		name: 'graduationDate',
-		meta: {
-			title: '新毕业时间编辑',
-		},
-	},
-	{
 		path: '/pages/member/sex',
 		name: 'sex',
 		meta: {
 			title: '新性别编辑',
-		},
-	},
-	{
-		path: '/pages/member/job',
-		name: 'job',
-		meta: {
-			title: '新职业编辑',
 		},
 	},
 	{

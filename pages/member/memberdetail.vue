@@ -53,26 +53,13 @@
 				</navigator>
 			</view>
 
-			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/graduationDate" :style="[{animationDelay: '0.1s'}]">
-					<view class="content">
-						<text class="text-grey">毕业时间</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.graduationDate}}</text>
-					</view>
-				</navigator>
+			<view class="cu-form-group">
+				<my-date label="毕业时间" class="text-grey" v-model="personalMsg.graduationDate" placeholder="请选择毕业时间"  fields="day"></my-date>
 			</view>
 
-			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/job" :style="[{animationDelay: '0.1s'}]">
-					<view class="content">
-						<text class="text-grey">职业</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.job}}</text>
-					</view>
-				</navigator>
+			<!--  这个是配字典将来可以滚动选择  -->
+			<view class="cu-form-group">
+				<app-select label=" 职    业：" class="text-grey" v-model="personalMsg.job" placeholder="请选择职业" :dict="plan_type" space ></app-select>
 			</view>
 
 			<view class="cu-list menu">
@@ -104,7 +91,14 @@
 
 <script>
 	import api from '@/api/api.js'
+	import appSelect from '@/components/my-componets/appSelect.vue'
+	import myImageUpload from '@/components/my-componets/my-image-upload.vue'
+	import myDate from '@/components/my-componets/my-date.vue'
+
 	export default {
+		components:{
+			appSelect,myImageUpload,myDate
+		},
 		data() {
 			return {
 				personalMsg:{
