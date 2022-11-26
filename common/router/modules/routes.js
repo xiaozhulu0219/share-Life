@@ -73,13 +73,6 @@ const routes = [
 		},
 	},
 	{
-		path: '/pages/member/memberedit',
-		name: 'memberedit',
-		meta: {
-			title: '新个人编辑',
-		},
-	},
-	{
 		path: '/pages/member/dreamCompanySign',
 		name: 'dreamCompanySign',
 		meta: {
@@ -98,6 +91,27 @@ const routes = [
 		name: 'signature',
 		meta: {
 			title: '新个性签名编辑',
+		},
+	},
+	{
+		path: '/pages/member/graduationDate',
+		name: 'graduationDate',
+		meta: {
+			title: '新毕业时间编辑',
+		},
+	},
+	{
+		path: '/pages/member/sex',
+		name: 'sex',
+		meta: {
+			title: '新性别编辑',
+		},
+	},
+	{
+		path: '/pages/member/job',
+		name: 'job',
+		meta: {
+			title: '新职业编辑',
 		},
 	},
 	{

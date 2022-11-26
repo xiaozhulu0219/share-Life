@@ -1,0 +1,205 @@
+<template>
+    <view>
+        <cu-custom bgColor="bg-gradual-pink" :isBack="true">
+            <block slot="backText">返回</block>
+            <block slot="content">编辑毕业时间</block>
+        </cu-custom>
+        <form>
+            <view class="cu-form-group">
+                <view class="title">头像</view>
+                <view class="grid col-4 grid-square flex-sub">
+                    <view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
+                        <image :src="imgList[index]" mode="aspectFill"></image>
+                        <view class="cu-tag bg-red radius" @tap.stop="DelImg" :data-index="index">
+                            <text class='cuIcon-close'></text>
+                        </view>
+                    </view>
+                    <view class="solids" @tap="ChooseImage" v-if="imgList.length<1">
+                        <text class='cuIcon-cameraadd'></text>
+                    </view>
+                </view>
+            </view>
+
+            <view class="cu-form-group">
+                <view class="title">昵称</view>
+                <input placeholder="请输入昵称" name="input" v-model="myFormData.nickName"></input>
+            </view>
+
+            <view class="cu-form-group margin-top">
+                <view class="title">性别</view>
+                <switch class='switch-sex' @change="SwitchC" :class="switchC?'checked':''" :checked="switchC?true:false"></switch>
+            </view>
+
+            <view class="cu-form-group">
+                <view class="title">个性签名</view>
+                <input placeholder="个性签名" name="input" v-model="myFormData.signature" disabled></input>
+            </view>
+
+            <view class="cu-form-group">
+                <view class="title">毕业时间</view>
+                <input placeholder="毕业时间" name="input" v-model="myFormData.graduationDate" disabled></input>
+            </view>
+
+            <view class="cu-form-group">
+                <view class="title">经验</view>
+                <input placeholder="经验" name="input" v-model="myFormData.experience" disabled></input>
+            </view>
+
+            <view class="cu-form-group">
+                <view class="title">职业</view>
+                <input placeholder="职业" name="input" v-model="myFormData.job" disabled></input>
+            </view>
+
+            <view class="cu-form-group">
+                <view class="title">憧憬公司标签</view>
+                <input placeholder="憧憬公司标签" name="input" v-model="myFormData.dreamCompanySign" disabled></input>
+            </view>
+
+            <view class="padding flex flex-direction">
+                <button class="cu-btn bg-blue lg"  @click="onSubmit">提交</button>
+            </view>
+        </form>
+    </view>
+</template>
+
+<script>
+    export default {
+        data() {
+            return {
+                index: -1,
+                switchC: true,
+                imgList: [],
+                uploadUrl:"/sys/common/upload",
+                myFormData:{
+                    avatar:'',
+                    nickName:'',
+                    signature:'',
+                    graduationDate:'',
+                    experience:'',
+                    job:'',
+                    dreamCompanySign:'',
+                    sex:1,
+                    orgCode:'',
+                    workNo:'',
+                    id:'',
+                },
+            };
+        },
+        onLoad: function (option) {
+            console.log("this.$Route.query",this.$Route.query);
+            let query=this.$Route.query
+            if(query){
+                this.myFormData=query;
+                if(this.myFormData.sex=='女'){
+                    this.switchC = false
+                }else if(this.myFormData.sex=='男'){
+                    this.switchC = true
+                }
+                if(this.myFormData.avatar){
+                    this.imgList=[this.myFormData.avatar]
+                }
+                if(!this.myFormData.birthday){
+                    this.myFormData.birthday= '无'
+                }
+                if(this.myFormData.identity=='普通成员'){
+                    this.myFormData.identity = 1
+                }else if(this.myFormData.identity=='上级'){
+                    this.myFormData.identity = 2
+                }
+                if(this.myFormData.status=='正常'){
+                    this.myFormData.status = 1
+                }else if(this.myFormData.status=='冻结'){
+                    this.myFormData.status = 2
+                }
+                this.Avatar=this.myFormData.avatar
+
+                Object.keys(this.myFormData).map(key=>{
+                    if(this.myFormData[key]=='无'){
+                        this.myFormData[key] = ''
+                    }
+                })
+                console.log("this.myFormData",this.myFormData)
+            }
+        },
+        methods: {
+            onSubmit() {
+                let myForm = this.myFormData
+                console.log("myForm",myForm)
+                this.myFormData.id = this.$store.getters.userid
+                if(this.switchC){
+                    this.myFormData.sex=1
+                }else{
+                    this.myFormData.sex=2
+                }
+                console.log('myform',this.myFormData)
+                this.$tip.loading();
+                this.$http.put('/sys/user/appEdit',this.myFormData).then(res=>{
+                    console.log(res)
+                    this.$tip.loaded();
+                    if (res.data.success){
+                        this.$tip.toast('提交成功')
+                        this.$Router.replace({name:'memberdetail'})
+                        /* uni.navigateTo({
+                            url: '/pages/user/userdetail'
+                        }) */
+                    }
+                }).catch(()=>{
+                    this.$tip.loaded();
+                    this.$tip.error('提交失败')
+                });
+            },
+            DateChange(e) {
+                this.myFormData.birthday = e.detail.value
+            },
+            SwitchC(e) {
+                this.switchC = e.detail.value
+            },
+            ChooseImage() {
+                var that=this;
+                uni.chooseImage({
+                    count: 4, //默认9
+                    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['album'], //从相册选择
+                    success: (res) => {
+                        that.$http.upload(that.$config.apiUrl+that.uploadUrl, {
+                            filePath: res.tempFilePaths[0],
+                            name: 'file'
+                        })
+                            .then(res => {
+                                that.myFormData.avatar=res.data.message;
+                            })
+                            .catch(err => {
+                                that.$tip.error(err.data.message)
+                            });
+                        this.imgList = res.tempFilePaths
+                    }
+                });
+            },
+            ViewImage(e) {
+                uni.previewImage({
+                    urls: this.imgList,
+                    current: e.currentTarget.dataset.url
+                });
+            },
+            DelImg(e) {
+                uni.showModal({
+                    title: '召唤师',
+                    content: '确定要删除这段回忆吗？',
+                    cancelText: '再看看',
+                    confirmText: '再见',
+                    success: res => {
+                        if (res.confirm) {
+                            this.imgList.splice(e.currentTarget.dataset.index, 1)
+                        }
+                    }
+                })
+            }
+        }
+    }
+</script>
+
+<style>
+    .cu-form-group .title {
+        min-width: calc(4em + 15px);
+    }
+</style>

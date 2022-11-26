@@ -141,9 +141,6 @@
 			"path": "pages/member/memberdetail",
 			"style": {}
 		},{
-			"path": "pages/member/memberedit",
-			"style": {}
-		},{
 			"path": "pages/member/dreamCompanySign",
 			"style": {}
 		},{
@@ -151,6 +148,15 @@
 			"style": {}
 		},{
 			"path": "pages/member/signature",
+			"style": {}
+		},{
+			"path": "pages/member/sex",
+			"style": {}
+		},{
+			"path": "pages/member/job",
+			"style": {}
+		},{
+			"path": "pages/member/graduationDate",
 			"style": {}
 		}, {
 			"path": "pages/user/people",

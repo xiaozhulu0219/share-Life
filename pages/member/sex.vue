@@ -2,17 +2,15 @@
     <view>
         <cu-custom bgColor="bg-gradual-pink" :isBack="true">
             <block slot="backText">返回</block>
-            <block slot="content">编辑名字</block>
+            <block slot="content">编辑性别</block>
         </cu-custom>
         <form>
-
-            <view class="cu-form-group">
-                <view class="title">昵称</view>
-                <input placeholder="请输入昵称" name="input" v-model="myFormData.nickName"></input>
+            <view class="cu-form-group margin-top">
+                <view class="title">性别</view>
+                <switch class='switch-sex' @change="SwitchC" :class="switchC?'checked':''" :checked="switchC?true:false"></switch>
             </view>
-
             <view class="padding flex flex-direction">
-                <button class="cu-btn bg-blue lg" @click="onSubmit">提交</button>
+                <button class="cu-btn bg-blue lg"  @click="onSubmit">提交</button>
             </view>
         </form>
     </view>
@@ -25,74 +23,74 @@
                 index: -1,
                 switchC: true,
                 imgList: [],
-                uploadUrl: "/sys/common/upload",
-                myFormData: {
-                    nickName: '',
-                    orgCode: '',
-                    workNo: '',
-                    id: '',
+                uploadUrl:"/sys/common/upload",
+                myFormData:{
+                    sex:1,
+                    orgCode:'',
+                    workNo:'',
+                    id:'',
                 },
             };
         },
         onLoad: function (option) {
-            console.log("this.$Route.query", this.$Route.query);
-            let query = this.$Route.query
-            if (query) {
-                this.myFormData = query;
-                if (this.myFormData.sex == '女') {
+            console.log("this.$Route.query",this.$Route.query);
+            let query=this.$Route.query
+            if(query){
+                this.myFormData=query;
+                if(this.myFormData.sex=='女'){
                     this.switchC = false
-                } else if (this.myFormData.sex == '男') {
+                }else if(this.myFormData.sex=='男'){
                     this.switchC = true
                 }
-                if (this.myFormData.avatar) {
-                    this.imgList = [this.myFormData.avatar]
+                if(this.myFormData.avatar){
+                    this.imgList=[this.myFormData.avatar]
                 }
-                if (!this.myFormData.birthday) {
-                    this.myFormData.birthday = '无'
+                if(!this.myFormData.birthday){
+                    this.myFormData.birthday= '无'
                 }
-                if (this.myFormData.identity == '普通成员') {
+                if(this.myFormData.identity=='普通成员'){
                     this.myFormData.identity = 1
-                } else if (this.myFormData.identity == '上级') {
+                }else if(this.myFormData.identity=='上级'){
                     this.myFormData.identity = 2
                 }
-                if (this.myFormData.status == '正常') {
+                if(this.myFormData.status=='正常'){
                     this.myFormData.status = 1
-                } else if (this.myFormData.status == '冻结') {
+                }else if(this.myFormData.status=='冻结'){
                     this.myFormData.status = 2
                 }
-                this.Avatar = this.myFormData.avatar
+                this.Avatar=this.myFormData.avatar
 
-                Object.keys(this.myFormData).map(key => {
-                    if (this.myFormData[key] == '无') {
+                Object.keys(this.myFormData).map(key=>{
+                    if(this.myFormData[key]=='无'){
                         this.myFormData[key] = ''
                     }
                 })
-                console.log("this.myFormData", this.myFormData)
+                console.log("this.myFormData",this.myFormData)
             }
         },
         methods: {
             onSubmit() {
                 let myForm = this.myFormData
-                console.log("myForm", myForm)
+                console.log("myForm",myForm)
                 this.myFormData.id = this.$store.getters.userid
-                if (this.switchC) {
-                    this.myFormData.sex = 1
-                } else {
-                    this.myFormData.sex = 2
+                if(this.switchC){
+                    this.myFormData.sex=1
+                }else{
+                    this.myFormData.sex=2
                 }
-                console.log('myform', this.myFormData)
+                console.log('myform',this.myFormData)
                 this.$tip.loading();
-                this.$http.put('/sys/user/appEdit', this.myFormData).then(res => {
+                this.$http.put('/sys/user/appEdit',this.myFormData).then(res=>{
                     console.log(res)
                     this.$tip.loaded();
-                    if (res.data.success) {
+                    if (res.data.success){
                         this.$tip.toast('提交成功')
-                        this.$Router.replace({name: 'memberdetail'})
+                        this.$Router.replace({name:'memberdetail'})
                         /* uni.navigateTo({
                             url: '/pages/user/userdetail'
                         }) */
                     }
-                }).catch(() => {
+                }).catch(()=>{
                     this.$tip.loaded();
                     this.$tip.error('提交失败')
                 });
@@ -104,18 +102,18 @@
                 this.switchC = e.detail.value
             },
             ChooseImage() {
-                var that = this;
+                var that=this;
                 uni.chooseImage({
                     count: 4, //默认9
                     sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
                     sourceType: ['album'], //从相册选择
                     success: (res) => {
-                        that.$http.upload(that.$config.apiUrl + that.uploadUrl, {
+                        that.$http.upload(that.$config.apiUrl+that.uploadUrl, {
                             filePath: res.tempFilePaths[0],
                             name: 'file'
                         })
                             .then(res => {
-                                that.myFormData.avatar = res.data.message;
+                                that.myFormData.avatar=res.data.message;
                             })
                             .catch(err => {
                                 that.$tip.error(err.data.message)

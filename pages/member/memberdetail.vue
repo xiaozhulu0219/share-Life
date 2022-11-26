@@ -2,12 +2,14 @@
 	<view>
 		<scroll-view scroll-y class="page">
 			<cu-custom bgColor="bg-gradual-pink" :isBack="true">
-				<block slot="backText">返回111</block>
-				<block slot="content">用户详情</block>
-				<view slot="right"  @tap="rightClick">编辑</view>
+				<block slot="backText">返回</block>
+				<block slot="content">编辑资料</block>
+				<!--<view slot="right"  @tap="rightClick">编辑</view>-->
 			</cu-custom>
+
 			<!-- list列表 -->
 			<view class="cu-list menu">
+
 				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="text-grey">头像</text>
@@ -15,67 +17,85 @@
 					<view class="action">
 						<view class="cu-avatar round sm" :style="{backgroundImage: 'url(' + personalMsg.avatar + ')'}"></view>
 					</view>
-
 				</view>
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.2s'}]">
+			</view>
+
+			<view class="cu-list menu">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/nickName" :style="[{animationDelay: '0.1s'}]">
 					<view class="content">
-						<text class="text-grey">姓名</text>
+						<text class="text-grey">昵称</text>
 					</view>
 					<view class="action">
 						<text class="text-grey">{{personalMsg.realname}}</text>
 					</view>
-				</view>
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.3s'}]">
+				</navigator>
+			</view>
+
+			<view class="cu-list menu">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/sex" :style="[{animationDelay: '0.1s'}]">
 					<view class="content">
 						<text class="text-grey">性别</text>
 					</view>
 					<view class="action">
 						<text class="text-grey">{{personalMsg.sex}}</text>
 					</view>
-				</view>
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.4s'}]">
-					<view class="content">
-						<text class="text-grey">生日</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.birthday}}</text>
-					</view>
-				</view>
+				</navigator>
 			</view>
-
 
 			<view class="cu-list menu">
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.5s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/signature" :style="[{animationDelay: '0.1s'}]">
 					<view class="content">
-						<text class="text-grey">对外信息展示</text>
+						<text class="text-grey">个性签名</text>
 					</view>
 					<view class="action">
-						<text class="text-grey">{{getSubStringText(personalMsg.realname+'@'+personalMsg.orgCode,11)}}</text>
+						<text class="text-grey">{{personalMsg.signature}}</text>
 					</view>
-				</view>
+				</navigator>
 			</view>
-
-
 
 			<view class="cu-list menu">
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.9s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/graduationDate" :style="[{animationDelay: '0.1s'}]">
 					<view class="content">
-						<text class="text-grey">手机</text>
+						<text class="text-grey">毕业时间</text>
 					</view>
 					<view class="action">
-						<text class="text-grey">{{personalMsg.phone}}</text>
+						<text class="text-grey">{{personalMsg.graduationDate}}</text>
 					</view>
-				</view>
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '1s'}]">
-					<view class="content">
-						<text class="text-grey">邮箱</text>
-					</view>
-					<view class="action">
-						<text class="text-grey">{{personalMsg.email}}</text>
-					</view>
-				</view>
+				</navigator>
 			</view>
 
+			<view class="cu-list menu">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/job" :style="[{animationDelay: '0.1s'}]">
+					<view class="content">
+						<text class="text-grey">职业</text>
+					</view>
+					<view class="action">
+						<text class="text-grey">{{personalMsg.job}}</text>
+					</view>
+				</navigator>
+			</view>
+
+			<view class="cu-list menu">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/dreamCompanySign" :style="[{animationDelay: '0.1s'}]">
+					<view class="content">
+						<text class="text-grey">憧憬公司标签</text>
+					</view>
+					<view class="action">
+						<text class="text-grey">{{personalMsg.dreamCompanySign}}</text>
+					</view>
+				</navigator>
+			</view>
+
+			<view class="cu-list menu">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/dreamCompanySign" :style="[{animationDelay: '0.1s'}]">
+					<view class="content">
+						<text class="text-grey">是否匿名</text>
+					</view>
+					<view class="action">
+						<text class="text-grey">{{personalMsg.dreamCompanySign}}</text>
+					</view>
+				</navigator>
+			</view>
 
 
 		</scroll-view>
@@ -91,6 +111,12 @@
 					avatar:'',
 					realname:'',
 					username:'',
+					nickName:'',
+					signature:'',
+					graduationDate:'',
+					experience:'',
+					job:'',
+					dreamCompanySign:'',
 					sex:1,
 					birthday:new Date(),
 					orgCode:'',

@@ -74,9 +74,7 @@
         methods: {
             onSubmit() {
                 let myForm = this.myFormData
-
                 console.log("myForm", myForm)
-
                 this.myFormData.id = this.$store.getters.userid
                 if (this.switchC) {
                     this.myFormData.sex = 1
@@ -90,7 +88,7 @@
                     this.$tip.loaded();
                     if (res.data.success) {
                         this.$tip.toast('提交成功')
-                        this.$Router.replace({name: 'userdetail'})
+                        this.$Router.replace({name: 'memberdetail'})
                         /* uni.navigateTo({
                             url: '/pages/user/userdetail'
                         }) */
