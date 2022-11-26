@@ -57,9 +57,13 @@
 				<my-date label="毕业时间" class="text-grey" v-model="personalMsg.graduationDate" placeholder="请选择毕业时间"  fields="day"></my-date>
 			</view>
 
+			<view class="cu-form-group">
+				<my-date label="参加工作时间" class="text-grey" v-model="personalMsg.startWorkDate" placeholder="请选择参加工作时间"  fields="day"></my-date>
+			</view>
+
 			<!--  这个是配字典将来可以滚动选择  -->
 			<view class="cu-form-group">
-				<app-select label=" 职    业：" class="text-grey" v-model="personalMsg.job" placeholder="请选择职业" :dict="plan_type" space ></app-select>
+				<app-select label=" 职    业：" class="text-grey" v-model="personalMsg.job" placeholder="请选择职业" :dict="job_type" space ></app-select>
 			</view>
 
 			<view class="cu-list menu">
@@ -90,6 +94,7 @@
 </template>
 
 <script>
+	const job_type = [{text:'程序员',value:'1'},{text:'医生',value:'2'},{text:'宇航员',value:'3'},{text:'老师',value:'4'},{text:'销售',value:'5'}];
 	import api from '@/api/api.js'
 	import appSelect from '@/components/my-componets/appSelect.vue'
 	import myImageUpload from '@/components/my-componets/my-image-upload.vue'
@@ -101,6 +106,7 @@
 		},
 		data() {
 			return {
+				job_type,
 				personalMsg:{
 					avatar:'',
 					realname:'',
@@ -108,8 +114,9 @@
 					nickName:'',
 					signature:'',
 					graduationDate:'',
+					startWorkDate:'',
 					experience:'',
-					job:'',
+					job:'1',
 					dreamCompanySign:'',
 					sex:1,
 					birthday:new Date(),
@@ -122,6 +129,7 @@
 					post:'',
 					departIds:'',
 					identity:'',
+
 				},
 				userUrl:'/sys/user/queryById',
 				positionUrl:'/sys/position/list',

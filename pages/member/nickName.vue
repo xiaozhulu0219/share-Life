@@ -5,11 +5,13 @@
             <block slot="content">编辑名字</block>
         </cu-custom>
         <form>
+            <view class="title text-grey " style="font-size:120%;width: 200px; height: 40px; ">七天内可修改一次名字</view>
 
             <view class="cu-form-group">
-                <view class="title">昵称</view>
                 <input placeholder="请输入昵称" name="input" v-model="myFormData.nickName"></input>
             </view>
+
+            <view class="title text-grey " style="font-size:30%;width: 300px; height: 40px; ">请输入2-24个字符，不包括@<>/等无效字符哦</view>
 
             <view class="padding flex flex-direction">
                 <button class="cu-btn bg-blue lg" @click="onSubmit">提交</button>

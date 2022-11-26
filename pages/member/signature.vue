@@ -5,10 +5,10 @@
             <block slot="content">编辑简介</block>
         </cu-custom>
         <form>
+            <view class="title text-grey " style="font-size:120%;width: 200px; height: 40px; ">七天内可修改三次简介</view>
 
             <view class="cu-form-group">
-                <view class="title">个性签名</view>
-                <input placeholder="个性签名" name="input" v-model="myFormData.signature" disabled></input>
+                <input placeholder="个性签名" style="width: 18px; height: 200px; " name="input" v-model="myFormData.signature" disabled></input>
             </view>
 
             <view class="padding flex flex-direction">
@@ -40,29 +40,6 @@
             let query = this.$Route.query
             if (query) {
                 this.myFormData = query;
-                if (this.myFormData.sex == '女') {
-                    this.switchC = false
-                } else if (this.myFormData.sex == '男') {
-                    this.switchC = true
-                }
-                if (this.myFormData.avatar) {
-                    this.imgList = [this.myFormData.avatar]
-                }
-                if (!this.myFormData.birthday) {
-                    this.myFormData.birthday = '无'
-                }
-                if (this.myFormData.identity == '普通成员') {
-                    this.myFormData.identity = 1
-                } else if (this.myFormData.identity == '上级') {
-                    this.myFormData.identity = 2
-                }
-                if (this.myFormData.status == '正常') {
-                    this.myFormData.status = 1
-                } else if (this.myFormData.status == '冻结') {
-                    this.myFormData.status = 2
-                }
-                this.Avatar = this.myFormData.avatar
-
                 Object.keys(this.myFormData).map(key => {
                     if (this.myFormData[key] == '无') {
                         this.myFormData[key] = ''
