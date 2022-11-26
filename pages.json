@@ -143,6 +143,15 @@
 		},{
 			"path": "pages/member/memberedit",
 			"style": {}
+		},{
+			"path": "pages/member/dreamCompanySign",
+			"style": {}
+		},{
+			"path": "pages/member/nickName",
+			"style": {}
+		},{
+			"path": "pages/member/signature",
+			"style": {}
 		}, {
 			"path": "pages/user/people",
 			"style": {}

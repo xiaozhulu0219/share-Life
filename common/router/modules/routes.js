@@ -69,42 +69,63 @@ const routes = [
 		path: '/pages/member/memberdetail',
 		name: 'memberdetail',
 		meta: {
-			title: '个人详情',
+			title: '新个人详情',
 		},
 	},
 	{
 		path: '/pages/member/memberedit',
 		name: 'memberedit',
 		meta: {
-			title: '个人编辑',
+			title: '新个人编辑',
+		},
+	},
+	{
+		path: '/pages/member/dreamCompanySign',
+		name: 'dreamCompanySign',
+		meta: {
+			title: '新憧憬公司标签编辑',
+		},
+	},
+	{
+		path: '/pages/member/nickName',
+		name: 'nickName',
+		meta: {
+			title: '新昵称编辑',
+		},
+	},
+	{
+		path: '/pages/member/signature',
+		name: 'signature',
+		meta: {
+			title: '新个性签名编辑',
 		},
 	},
 	{
 	    path: '/pages/user/userdetail',
 	    name: 'userdetail',
 	    meta: {
-	        title: '个人详情',
+	        title: '原个人详情',
 	    },
 	},
 	{
 	    path: '/pages/user/useredit',
 	    name: 'useredit',
 	    meta: {
-	        title: '个人编辑',
+	        title: '原个人编辑',
 	    },
 	},
 	{
 	    path: '/pages/user/userexit',
 	    name: 'userexit',
 	    meta: {
-	        title: '退出',
+	        title: '原退出',
 	    },
 	},
 	{
 	    path: '/pages/user/location',
 	    name: 'location',
 	    meta: {
-	        title: '定位',
+	        title: '原定位',
 	    },
 	},
 	{

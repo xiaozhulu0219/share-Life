@@ -87,7 +87,7 @@
 	export default {
 		data() {
 			return {
-				 personalMsg:{
+				personalMsg:{
 					avatar:'',
 					realname:'',
 					username:'',
@@ -135,7 +135,7 @@
 					if (res.data.success) {
 						let result = res.data.result
 						if(result.avatar&&result.avatar.length >0)
-						this.personalMsg.avatar = api.getFileAccessHttpUrl(result.avatar)
+							this.personalMsg.avatar = api.getFileAccessHttpUrl(result.avatar)
 						this.personalMsg.realname = result.realname
 						this.personalMsg.username= result.username
 						this.personalMsg.post = result.post
