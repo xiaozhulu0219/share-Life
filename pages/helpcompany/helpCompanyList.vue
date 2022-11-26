@@ -6,7 +6,7 @@
 		</cu-custom>
 
 		<navigator class="cu-item arrow animation-slide-bottom" url="/pages/helpcompany/helpCompanyForm" :style="[{animationDelay: '0.1s'}]">
-			<button  style="width: 120px; height: 30px;" class="cu-btn block bg-white margin-tb-sm llg" @click="clear">
+			<button  style="width: 120px; height: 30px;" class="cu-btn block bg-white margin-tb-sm lg" @click="clear">
 				<text class="cuIcon-settingsfill text-cyan"></text>
 				<text class="text-grey">助力公司</text>
 			</button>
