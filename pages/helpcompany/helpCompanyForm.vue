@@ -11,7 +11,7 @@
 			<form>
 				<view class="search">
 					<view class="iptbox">
-						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.companyName" class="ipt" @confirm="searchCompany"/>
+						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt" @confirm="searchCompany"/>
 						<!-- <button class="cu-btn block bg-blue margin-tb-sm lg" @click="searchCompany">
 							<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>搜索
 						</button> -->
@@ -49,12 +49,13 @@
 				loading: false,
 				model: {},
 				companyName: {},
+				enterpriseName: {},
 				backRouteName: 'index',
 				url: {
 					queryById: "/member/queryById",
 					add: "/member/add",
 					edit: "/member/edit",
-					findPageByCompanyName: "/company/movements/findPageByCompanyName", //助力新增页面模糊查询调用企查查
+					findPageByEnterpriseName: "/enterprise/list", //助力新增页面模糊查询调用企查查
 				},
 			}
 		},
@@ -88,16 +89,19 @@
 			searchCompany() {
 				// 助力新增页面模糊查询调用企查查
 				//表单项内容发生改变
-				uni.request({
-					// url: "company/movements/findPageByCompanyName",
-					url:"/enterprise/list",
-					data:{
-						enterpriseName:this.model.companyName,
-					},
-					success(res) {
-						console.log(res)
-					}
-				})
+				if (this.formData) {
+					let enterpriseName = this.formData.enterpriseName;
+					this.$http.get(this.url.findPageByEnterpriseName, {
+						params: {
+							enterpriseName: enterpriseName
+						}
+					}).then((res) => {
+						if (res.data.success) {
+							console.log("表单数据", res);
+							this.model = res.data.result;
+						}
+					})
+				}
 			},
 
 		}
@@ -111,9 +115,9 @@
 	}
 	.iptbox{
 		width: 80%;
-		background-color:#ccc; 
-		height: 40px; 
-		border-radius: 20rpx; 
+		background-color:#ccc;
+		height: 40px;
+		border-radius: 20rpx;
 		padding-left: 20px;
 	}
 	.ipt{
@@ -123,5 +127,5 @@
 	.lg{
 		height: 40px;
 	}
-	
+
 </style>
