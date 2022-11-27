@@ -11,7 +11,7 @@
 			<form>
 				<view class="search">
 					<view class="iptbox">
-						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt" @confirm="searchCompany"/>
+						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt" @confirm="searchCompany" @input="searchCompany"/>
 						<!-- <button class="cu-btn block bg-blue margin-tb-sm lg" @click="searchCompany">
 							<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>搜索
 						</button>-->
@@ -23,8 +23,15 @@
 				</view>
 
 			</form>
+			<!-- 模糊搜索列表 -->
+			<view>
+				<ul v-for="item in listData">
+					<li>{{item.enterpriseName}}</li>
+				</ul>
+			</view>
 		</view>
-	</view>
+	    </view>
+	
 </template>
 
 <script>
@@ -48,6 +55,7 @@
 				NavBarColor: this.NavBarColor,
 				loading: false,
 				backRouteName: 'index',
+				listData:[],//模糊搜索列表
 				model:{
 					enterpriseName: '',
 				},
@@ -97,7 +105,9 @@
 					}).then((res) => {
 						if (res.data.success) {
 							console.log("表单数据", res);
-							this.model = res.data.result;
+							console.log("过滤数据", res.data.result);
+							this.listData=res.data.result.records
+							// this.model = res.data.result;
 						}
 					})
 				}

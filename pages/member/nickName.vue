@@ -3,19 +3,18 @@
         <cu-custom bgColor="bg-gradual-pink" :isBack="true">
             <block slot="backText">返回</block>
             <block slot="content">编辑名字</block>
+			<block slot="right" @click="onSubmit" >保存</block>
         </cu-custom>
         <form>
-            <view class="title text-grey " style="font-size:120%;width: 200px; height: 40px; ">七天内可修改一次名字</view>
+            <view class="title text-grey " style="font-size:120%; height: 40px;padding: 10px;padding-left: 25px;">七天内可修改一次名字</view>
 
-            <view class="cu-form-group">
+            <view class="cu-form-group" style="border-radius: 10px;width: 95%;margin: 0 auto;">
                 <input placeholder="请输入昵称" name="input" v-model="myFormData.nickName"></input>
             </view>
 
-            <view class="title text-grey " style="font-size:30%;width: 300px; height: 40px; ">请输入2-24个字符，不包括@<>/等无效字符哦</view>
+            <view class="title text-grey " style="font-size:30%;width: 300px; height: 40px;padding: 10px;padding-left:25px; ">请输入2-24个字符，不包括@<>/等无效字符哦</view>
 
-            <view class="padding flex flex-direction">
-                <button class="cu-btn bg-blue lg" @click="onSubmit">提交</button>
-            </view>
+        
         </form>
     </view>
 </template>
@@ -153,4 +152,7 @@
     .cu-form-group .title {
         min-width: calc(4em + 15px);
     }
+	.save{
+		
+	}
 </style>

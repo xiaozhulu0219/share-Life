@@ -5,10 +5,10 @@
             <block slot="content">编辑简介</block>
         </cu-custom>
         <form>
-            <view class="title text-grey " style="font-size:120%;width: 200px; height: 40px; ">七天内可修改三次简介</view>
+            <view class="title text-grey " style="font-size:120%; height: 40px;padding: 10px;padding-left: 30px; ">七天内可修改三次简介</view>
 
-            <view class="cu-form-group">
-                <input placeholder="个性签名" style="width: 18px; height: 200px; " name="input" v-model="myFormData.signature" disabled></input>
+            <view class="cu-form-group textarea" >
+                <textarea placeholder="个性签名" style="width: 18px; height: 200px; " name="input" v-model="myFormData.signature" ></textarea>
             </view>
 
             <view class="padding flex flex-direction">
@@ -128,5 +128,12 @@
 <style>
     .cu-form-group .title {
         min-width: calc(4em + 15px);
+		
     }
+	.textarea{
+		margin-top: 10px;
+		border-radius: 20px;
+		width: 90%;
+		margin: 0 auto;
+	}
 </style>
