@@ -49,7 +49,7 @@
 						<text class="text-grey">扫码</text>
 					</view>
 				</view>-->
-				<navigator class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.5s'}]" url="/pages/user/location" hover-class="none">
+				<navigator class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.3s'}]" url="/pages/user/location" hover-class="none">
 					<view class="content" >
 						<text class="cuIcon-location text-cyan"></text>
 						<text class="text-grey">定位</text>
@@ -57,7 +57,7 @@
 				</navigator>
 
 
-				<navigator class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.6s'}]" url="/pages/user/userexit" hover-class="none">
+				<navigator class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.4s'}]" url="/pages/user/userexit" hover-class="none">
 					<view class="content" >
 						<text class="cuIcon-exit text-cyan"></text>
 						<text class="text-grey">退出</text>

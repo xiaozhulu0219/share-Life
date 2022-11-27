@@ -12,9 +12,6 @@
 				<view class="search">
 					<view class="iptbox">
 						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt" @confirm="searchCompany" @input="searchCompany"/>
-						<!-- <button class="cu-btn block bg-blue margin-tb-sm lg" @click="searchCompany">
-							<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>搜索
-						</button>-->
 					</view>
 					<button class="cu-btn block bg-gray margin-tb-sm lg" @click="clear">
 						<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>取消
@@ -24,14 +21,18 @@
 
 			</form>
 			<!-- 模糊搜索列表 -->
-			<view>
-				<ul v-for="item in listData">
-					<li>{{item.enterpriseName}}</li>
-				</ul>
+			<view class="cu-list menu">
+				<view class="cu-item" v-for="(item,index) in listData" :key="index" @click="goHome">
+					<view class="flex" style="width:600%">
+						<text class="text-lg" style="font-size:220%;width: 500px; height: 200px; color: #000;padding-right: 200px">
+							{{item.enterpriseName}}
+						</text>
+					</view>
+				</view>
 			</view>
 		</view>
 	    </view>
-	
+
 </template>
 
 <script>
@@ -92,6 +93,9 @@
 				this.enterpriseName = null
 				this.queryParam = {}
 				this.loadList(1)
+
+				this.model.listData = []   //模糊搜索列表
+				this.listData=[]
 			},
 			searchCompany() {
 				// 助力新增页面模糊查询调用企查查

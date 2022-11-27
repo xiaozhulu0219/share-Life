@@ -52,11 +52,11 @@
 					</view>
 				</navigator>
 			</view>
-		
-		     <view class="cu-list menu ">
+
+		     <view class="cu-list menu">
 				<my-date label="毕业时间" class="text-grey" v-model="personalMsg.graduationDate" placeholder="请选择毕业时间"  fields="day"></my-date>
 			</view>
-			
+
 
 			<view class="cu-list menu">
 				<my-date label="参加工作时间" class="text-grey" v-model="personalMsg.startWorkDate" placeholder="请选择参加工作时间"  fields="day"></my-date>
