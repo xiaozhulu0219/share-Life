@@ -21,7 +21,7 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/nickName" :style="[{animationDelay: '0.1s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/nickName" :style="[{animationDelay: '0.2s'}]">
 					<view class="content">
 						<text class="text-grey">昵称</text>
 					</view>
@@ -32,7 +32,7 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/sex" :style="[{animationDelay: '0.1s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/sex" :style="[{animationDelay: '0.3s'}]">
 					<view class="content">
 						<text class="text-grey">性别</text>
 					</view>
@@ -43,7 +43,7 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/signature" :style="[{animationDelay: '0.1s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/signature" :style="[{animationDelay: '0.4s'}]">
 					<view class="content">
 						<text class="text-grey">个性签名</text>
 					</view>
@@ -67,7 +67,7 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/dreamCompanySign" :style="[{animationDelay: '0.1s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/dreamCompanySign" :style="[{animationDelay: '0.8s'}]">
 					<view class="content">
 						<text class="text-grey">憧憬公司标签</text>
 					</view>
@@ -78,7 +78,7 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/dreamCompanySign" :style="[{animationDelay: '0.1s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/dreamCompanySign" :style="[{animationDelay: '0.9s'}]">
 					<view class="content">
 						<text class="text-grey">是否匿名</text>
 					</view>
