@@ -3,6 +3,7 @@
         <cu-custom bgColor="bg-gradual-pink" :isBack="true">
             <block slot="backText">返回</block>
             <block slot="content">编辑简介</block>
+            <block slot="right" @click="onSubmit" >保存</block>
         </cu-custom>
         <form>
             <view class="title text-grey " style="font-size:120%; height: 40px;padding: 10px;padding-left: 30px; ">七天内可修改三次简介</view>
@@ -11,9 +12,6 @@
                 <textarea placeholder="个性签名" style="width: 18px; height: 200px; " name="input" v-model="myFormData.signature" ></textarea>
             </view>
 
-            <view class="padding flex flex-direction">
-                <button class="cu-btn bg-blue lg" @click="onSubmit">提交</button>
-            </view>
         </form>
     </view>
 </template>
@@ -128,7 +126,7 @@
 <style>
     .cu-form-group .title {
         min-width: calc(4em + 15px);
-		
+
     }
 	.textarea{
 		margin-top: 10px;
