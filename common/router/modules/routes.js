@@ -24,7 +24,7 @@ const routes = [
 	    },
 	},
 	{
-		path: '/pages/information/information',
+		path: '/pages/information/informationList',
 		name: 'information',
 		meta: {
 			title: '新首页列表',

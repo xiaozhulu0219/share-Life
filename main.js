@@ -36,7 +36,7 @@ import member from './pages/member/member.vue'
 Vue.component('member',member)
 
 //以下两个是新首页
-import information from './pages/information/information.vue'
+import information from './pages/information/informationList.vue'
 Vue.component('information',information)
 
 import informationForm from './pages/information/informationForm.vue'
