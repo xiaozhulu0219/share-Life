@@ -14,7 +14,7 @@
 						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt" @confirm="searchCompany"/>
 						<!-- <button class="cu-btn block bg-blue margin-tb-sm lg" @click="searchCompany">
 							<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>搜索
-						</button> -->
+						</button>-->
 					</view>
 					<button class="cu-btn block bg-gray margin-tb-sm lg" @click="clear">
 						<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>取消
@@ -47,10 +47,10 @@
 				CustomBar: this.CustomBar,
 				NavBarColor: this.NavBarColor,
 				loading: false,
-				model: {},
-				companyName: {},
-				enterpriseName: {},
 				backRouteName: 'index',
+				model:{
+					enterpriseName: '',
+				},
 				url: {
 					queryById: "/member/queryById",
 					add: "/member/add",
@@ -80,17 +80,16 @@
 			},
 			clear() {
 				// 重置
-				this.companyName = []
-				this.model.companyName = []
-				this.companyName = null
+				this.model.enterpriseName = []
+				this.enterpriseName = null
 				this.queryParam = {}
 				this.loadList(1)
 			},
 			searchCompany() {
 				// 助力新增页面模糊查询调用企查查
 				//表单项内容发生改变
-				if (this.formData) {
-					let enterpriseName = this.formData.enterpriseName;
+				if (this.model) {
+					let enterpriseName = this.model.enterpriseName;
 					this.$http.get(this.url.findPageByEnterpriseName, {
 						params: {
 							enterpriseName: enterpriseName
