@@ -9,10 +9,10 @@
 			></input>
 			<w-picker
 			    :visible.sync="visible"
-				ref="picker" 
-			    mode="date" 
-			    startYear="2020" 
-			    endYear="2100"
+				ref="picker"
+			    mode="date"
+			    startYear="1990"
+			    endYear="2022"
 				:value="value"
 			    :fields="fields"
 			    @confirm="onConfirm($event,'date')"
@@ -68,7 +68,7 @@
 	            }
 	        },
 	        created(){
-				
+
 	        },
 	        methods:{
 				timechange(){
@@ -87,7 +87,7 @@
 	        }
 	    }
 </script>
-	
+
 <style scoped>
-	
+
 </style>

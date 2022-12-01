@@ -3,14 +3,12 @@
         <cu-custom bgColor="bg-gradual-pink" :isBack="true">
             <block slot="backText">返回</block>
             <block slot="content">编辑性别</block>
+            <block slot="right" @click="onSubmit" >保存</block>
         </cu-custom>
         <form>
             <view class="cu-form-group margin-top">
                 <view class="title">性别</view>
                 <switch class='switch-sex' @change="SwitchC" :class="switchC?'checked':''" :checked="switchC?true:false"></switch>
-            </view>
-            <view class="padding flex flex-direction">
-                <button class="cu-btn bg-blue lg"  @click="onSubmit">提交</button>
             </view>
         </form>
     </view>
