@@ -4,7 +4,7 @@
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
 			<block slot="backText">返回</block>
-			<block slot="content">助力公司</block>
+			<block slot="content">助力公司详情</block>
 		</cu-custom>
 		<!--表单区域-->
 		<view>
