@@ -4,8 +4,7 @@
             <block slot="backText">返回</block>
             <block slot="content">憧憬公司标签</block>
         </cu-custom>
-        <form>
-
+        <!-- <form>
             <view class="cu-form-group">
                 <view class="title">憧憬公司标签</view>
                 <input placeholder="憧憬公司标签" name="input" v-model="myFormData.dreamCompanySign" disabled></input>
@@ -14,7 +13,48 @@
             <view class="padding flex flex-direction">
                 <button class="cu-btn bg-blue lg" @click="onSubmit">提交</button>
             </view>
-        </form>
+        </form> -->
+		<view class="content-box padding bg-white">
+			<view class="">
+				<view class="padding-bottom text-bold">
+					已选择标签
+				</view>
+				<view class="margin-bottom flex flex-wrap" v-if="selectedList.length > 0">
+					<text class="tag-item active" v-for="(item,index) in selectedList" :key="index">
+						{{item}}
+					</text>
+				</view>
+				<view class="margin-bottom" v-else>
+					暂无
+				</view>
+			</view>
+			<view class="">
+				<view class="padding-bottom text-bold">
+					自定义标签
+				</view>
+				<view class="margin-bottom flex flex-wrap">
+					<template v-if="customList.length > 0">
+						<text class="tag-item active" v-for="(item,index) in customList" :key="index">{{item}}</text>
+					</template>
+					<text class="tag-item" @tap="addTag">
+						+
+					</text>
+				</view>
+			</view>
+			<view class="">
+				<view class="padding-bottom text-bold">
+					憧憬公司标签
+				</view>
+				<view class="margin-bottom flex flex-wrap" v-if="tagList.length > 0">
+					<text class="tag-item" :class="item.status ? 'active' : ''" v-for="(item,index) in tagList" :key="index" @tap="selectTag(item)">
+						{{item.label}}
+					</text>
+				</view>
+				<view class="margin-bottom" v-else>
+					暂无
+				</view>
+			</view>
+		</view>
     </view>
 </template>
 
@@ -33,9 +73,13 @@
                     workNo: '',
                     id: '',
                 },
+				selectedList:[],
+				customList:[],
+				tagList:[],
             };
         },
         onLoad: function (option) {
+			this.queryTags()
             console.log("this.$Route.query", this.$Route.query);
             let query = this.$Route.query
             if (query) {
@@ -72,6 +116,30 @@
             }
         },
         methods: {
+			queryTags() {
+				this.$http.get('/sys/dict/querySomeDictItems',{params:{'dicts':'member_dream_company_sign'}}).then(res => {
+					if (res.data.success) {
+						let newList = res.data.result.member_dream_company_sign.map(item => {
+							item.status = false
+							return item
+						})
+						this.tagList = newList
+					}
+				})
+			},
+			selectTag(item) {
+				const idx = this.selectedList.indexOf(item.label)
+				if (item.status) {
+					item.status = false
+					this.selectedList.splice(idx,1)
+				} else {
+					item.status = true
+					this.selectedList.unshift(item.label)
+				}
+			},
+			addTag() {
+				
+			},
             onSubmit() {
                 let myForm = this.myFormData
                 console.log("myForm", myForm)
@@ -152,4 +220,20 @@
     .cu-form-group .title {
         min-width: calc(4em + 15px);
     }
+	
+	.content-box {
+		height: calc(100vh - 90rpx);
+	}
+	
+	.tag-item {
+		margin: 10rpx;
+		padding: 16rpx 30rpx;
+		background-color: #ddd;
+		border-radius: 50rpx;
+		color: #fff;
+	}
+	
+	.tag-item.active {
+		background-color: #8874ff;
+	}
 </style>
