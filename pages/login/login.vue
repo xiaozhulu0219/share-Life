@@ -2,8 +2,8 @@
 	<view class="zai-box">
 		<scroll-view scroll-y class="page">
 			<view class="text-center" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
-				<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" mode='aspectFit'
-					class="zai-logo "></image>
+<!--				<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" mode='aspectFit' class="zai-logo "></image>-->
+				<image src="../../static/images/touxiang.jpg" mode='aspectFit' class="zai-logo "></image>
 				<view class="zai-title text-shadow ">SHARE LIFE </view>
 			</view>
 			<view class="box padding-lr-xl login-paddingtop" :style="[{animation: 'show ' + 0.6+ 's 1'}]">

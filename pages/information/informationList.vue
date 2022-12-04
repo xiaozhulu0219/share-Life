@@ -1,161 +1,295 @@
-<template name="home">
+<template>
 	<view>
-		<scroll-view>
-			<!-- 轮播 -->
-			<swiper class="screen-swiper square-dot"  :indicator-dots="true" :circular="true"
-					:autoplay="true" interval="5000" duration="500" :style="[{animation: 'show 0.2s 1'}]">
-				<swiper-item v-for="(item,index) in swiperList" :key="index">
-					<image :src="item.url" mode="aspectFill" v-if="item.type=='image'"></image>
-					<video :src="item.url" autoplay loop muted :show-play-btn="false" :controls="false" objectFit="cover" v-if="item.type=='video'"></video>
-				</swiper-item>
+		<!--标题和返回-->
+		<cu-custom :bgColor="NavBarColor">
+			<block slot="content">首页</block>
+		</cu-custom>
+
+		<!-- 搜索框 -->
+		<view class="search">
+			<view class="search-bar-box">
+				<image class="search-span" src="../../static/images/search.png" />
+				<!-- @confirm="search" 点击 -->
+				<input class="searchInput" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10"
+					   type="text" />
+				<button class="search-btn">搜索</button>
+			</view>
+		</view>
+		<!-- 搜索框 -->
+
+		<!-- <view class="cu-tabbar-height"></view> -->
+		<view class="mine-tab">
+			<view class="tab-title flex justify-center">
+				<view class="padding-sm" v-for="(item,index) in tabs" :key="index" @tap="clickTab(index)">
+					<text :class="activeTab === index ? 'active' : ''">{{item.name}}</text>
+				</view>
+			</view>
+			<swiper :current="activeTab" class="padding">
+				<!--<swiper-item v-for="(item,index) in tabs"  :key="index">
+					<view class="swiper-item">{{item.name}}</view>
+				</swiper-item>-->
 			</swiper>
+		</view>
 
-			<!-- 常用服务 -->
-			<view class="cu-bar bg-white solid-bottom" :style="[{animation: 'show 0.5s 1'}]">
-				<view class="action">
-					<text class='cuIcon-title text-blue'></text>常用服务
-				</view>
-			</view>
 
-			<view class="cu-list grid col-4 text-sm">
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: (index + 1)*0.05 + 's'}]" v-for="(item,index) in usList" :key="index" @tap="goPage(item.page)">
-					<view class="padding text-center">
-						<image :src="item.icon" style="width:28px;height:28px;">
-							<view class="cu-tag badge margin-top-sm" style="margin-left:1.2em" v-if="getTtemDotInfo(item)">
-								<block v-if="getTtemDotInfo(item)">{{getTtemDotInfo(item)}}</block>
-							</view>
-						</image>
-						<view class="margin-top-xs">{{item.title}}</view>
+		<!--滚动加载列表-->
+		<mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
+					   @down="downCallback" @up="upCallback">
+			<view class="cu-list menu">
+				<view class="cu-item" v-for="(item,index) in list" :key="index" @click="goHome">
+					<view class="flex" style="width:600%">
+						<text class="text-lg" style="font-size:220%;width: 500px; height: 200px; color: #000;padding-right: 200px">
+							{{ item.nickName}}
+							{{ item.createTime}}
+							{{ item.createBy}}
+							<image src="../../static/images/dianzan.png" mode="" @click="search"
+								   style="width: 15px ;height: 14px"></image>
+							<br>
+							<image src="../../static/images/cai.png" mode="" @click="search"
+								   style="width: 15px ;height: 14px"></image>
+						</text>
 					</view>
 				</view>
 			</view>
+		</mescroll-body>
 
-			<!-- 其他服务 -->
-			<view class="cu-bar bg-white solid-bottom margin-top"  :style="[{animation: 'show 0.6s 1'}]">
-				<view class="action">
-					<text class='cuIcon-title text-yellow'></text>其他服务
-				</view>
-			</view>
-			<view class="cu-list grid col-4 text-sm">
-				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: (index + 1)*0.1 + 's'}]" v-for="(item,index) in osList" :key="index" @tap="goPage(item.page)">
-					<view class="padding text-center">
-						<image :src="item.icon" style="width:28px;height:28px;"/>
-						<view class="margin-top-xs">{{item.title}}</view>
-					</view>
-				</view>
-			</view>
-		</scroll-view>
-		<view class="cu-tabbar-height margin-top"></view>
+
 	</view>
 </template>
 
 <script>
-	import { us,os } from '@/common/util/work.js'
-	import socket from '@/common/js-sdk/socket/socket.js'
+	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
+	import Mixin from "@/common/mixin/Mixin.js";
+
 	export default {
-		name: 'information',
-		props:{
-			cur:String,
-		},
-		watch: {
-			cur: {
-				immediate: true,
-				handler:function(val,oldVal){
-					console.log('cur',val,oldVal)
-					this.initMenu()
-				},
-			},
-		},
+		name: '助力详情',
+		mixins: [MescrollMixin, Mixin],
 		data() {
 			return {
-				swiperList: [
-					{id:1,type: 'image',url: '/static/banner/banner1.png', link: ''},
-					{id:2,type: 'image',url: '/static/banner/banner2.jpg', link: ''},
-					{id:3,type: 'image',url: '/static/banner/banner3.jpg', link: ''},
-					{id:4,type: 'image',url: '/static/banner/banner4.jpg', link: ''},
-				],
-				middleApps: [
-					{icon: 'line2_icon1.png', title: '审批', 'text': '个人审批'},
-					{icon: 'line2_icon2.png', title: '审批稿', 'text': '审批草稿箱'},
-				],
-				usList:us.data,
-				osList:os.data,
-				msgCount:0,
-				dot:{
-					mailHome:false
-				}
-			}
+				activeTab:0,
+				tabs:[{id:1,name:'推荐'},{id:1,name:'助力'},{id:1,name:'百科'},{id:1,name:'游戏'}],
+				personalList:{
+					avatar:'',
+					realname:'',
+					username:'',
+					post:''
+				},
+				CustomBar: this.CustomBar,
+				NavBarColor: this.NavBarColor,
+				url: "/umsMember/list",
+				inputValue: '',
+				searchHistoryList: [] //搜索出来的内容
+			};
 		},
 		methods: {
-			initMenu(){
-				console.log("-----------home------------")
-				this.onSocketOpen()
-				this.onSocketReceive()
-				this.loadCount(0);
-			},
-			goPage(page){
-				if(!page){
-					return false;
-				}
-				if(page==='annotationList'){
-					this.msgCount = 0
-				}
-				this.dot[page]=false
-				this.$Router.push({name: page})
-			},
-			// 启动webSocket
-			onSocketOpen() {
-				socket.init('websocket');
-			},
-			onSocketReceive() {
-				var _this=this
-				socket.acceptMessage = function(res){
-					// console.log("页面收到的消息", res);
-					if(res.cmd == "topic"){
-						//系统通知
-						_this.loadCount('1')
-					}else if(res.cmd == "user"){
-						//用户消息
-						_this.loadCount('2')
-					} else if(res.cmd == 'email'){
-						//邮件消息
-						_this.loadEmailCount()
-					}
-				}
-			},
-			loadCount(flag){
-				console.log("loadCount::flag",flag)
-				let url = '/sys/annountCement/listByUser';
-				this.$http.get(url).then(res=>{
-					console.log("res::",res)
-					if(res.data.success){
-						let msg1Count = res.data.result.anntMsgTotal;
-						let msg2Count = res.data.result.sysMsgTotal;
-						this.msgCount = msg1Count + msg2Count
-						console.log("this.msgCount",this.msgCount)
-					}
+			goHome() {
+				this.$Router.push({
+					name: "index"
 				})
 			},
-			loadEmailCount(){
-				this.dot.mailHome = true
+			/*	search() {
+                    //表单项内容发生改变-- - 助力详情页
+                    uni.request({
+                        url: "company/movements/findPagePublishByRecommend",
+                        success(res) {
+                            console.log(res)
+                        }
+                    })
+
+
+
+                },*/
+			model(item, index) {
+				this.inputValue = item
 			},
-			getTtemDotInfo(item){
-				if(item.page==='annotationList' && this.msgCount>0){
-					return this.msgCount
+			del(item, index) {
+				this.searchHistoryList.splice(0, 1)
+			},
+			search() {
+				if (this.inputValue == '') {
+					uni.showModal({
+						title: '搜索内容不能为空'
+					});
+				} else {
+					if (!this.searchHistoryList.includes(this.inputValue)) {
+						this.searchHistoryList.unshift(this.inputValue);
+						uni.setStorage({
+							key: 'searchList',
+							data: JSON.stringify(this.searchHistoryList)
+						});
+					} else {
+						//有搜索记录，删除之前的旧记录，将新搜索值重新push到数组首位
+						let i = this.searchHistoryList.indexOf(this.inputValue);
+						this.searchHistoryList.splice(i, 1);
+						this.searchHistoryList.unshift(this.inputValue);
+						uni.showToast({
+							title: '不能重复添加'
+						});
+						uni.setStorage({
+							key: 'searchList',
+							data: JSON.stringify(this.searchHistoryList)
+						});
+					}
 				}
-				return '';
+				this.inputValue = ''
+			},
+			//清空历史记录
+			empty() {
+				uni.showToast({
+					title: '已清空'
+				});
+				uni.removeStorage({
+					key: 'searchList'
+				});
+
+				this.searchHistoryList = [];
+			},
+
+			async onLoad() {
+				let list = await uni.getStorage({
+					key: 'searchList'
+				});
+
+				console.log(list[1].data);
+
+				if (list[1].data) {
+					this.searchHistoryList = JSON.parse(list[1].data);
+				}
 			}
 		}
 	}
 </script>
 
-<style scoped>
-	.cu-list.grid>.cu-item {
-		padding: 0px 0px;
-	}
-	.line2-icon {
-		width: 60px;
-		height: 60px;
+<style lang='scss'>
+	// 搜索框
+	.search {
+		width: 100%;
+		height: 100rpx;
+		margin-top: 2%;
 	}
 
+	.search-bar-box {
+		display: flex;
+		margin: 0 auto;
+		width: 620rpx;
+		height: 70rpx;
+		border: 5rpx solid #00a8cc;
+		border-radius: 50rpx;
+	}
+
+	.search-span {
+		width: 100rpx;
+		height: 56rpx;
+		margin-top: 6rpx;
+		margin-left: 30rpx;
+	}
+
+	.searchInput {
+		width: 100%;
+		margin-top: 10rpx;
+		margin-left: 20rpx;
+		font-size: 30rpx;
+		color: #7f7f81;
+	}
+
+	.search-btn {
+		background-color: #00a8cc;
+		/* Green */
+		color: white;
+		text-align: center;
+		display: inline-block;
+		font-size: 35rpx;
+		width: 240rpx;
+		height: 70rpx;
+		line-height: 65rpx;
+		border-radius: 30rpx;
+		letter-spacing: 3rpx;
+	}
+
+
+	.searchHistory {
+		width: 100%;
+		margin-top: 16rpx;
+
+		.searchHistoryItem {
+			width: 100%;
+			display: flex;
+			flex-wrap: wrap;
+
+			view {
+				/* width: 50px; */
+				height: 20rpx;
+				background: #f0f0f0;
+				padding: 4rpx;
+				margin: 6rpx 5rpx;
+			}
+		}
+	}
+
+	.main_classify {
+		background: white;
+
+		.main_under_classify {
+			.li {
+				height: 124rpx;
+				border-bottom: 2rpx #999999 solid;
+				padding: 20rpx 28rpx;
+				display: flex;
+				justify-content: space-between;
+				margin-top: 20rpx;
+
+				image {
+					width: 116rpx;
+					height: 110rpx;
+					border-radius: 50%;
+					margin-right: 20rpx;
+					margin-top: 6rpx;
+				}
+
+				.li_content {
+					width: 254rpx;
+
+					.title {
+						display: block;
+						font-weight: 800;
+						font-size: 28rpx;
+					}
+
+					text {
+						line-height: 40rpx;
+					}
+
+					.zhiwei {
+						color: #666666;
+					}
+
+					.heng {
+						color: #999999;
+					}
+				}
+
+				.li_end {
+					padding: 0rpx 40rpx;
+					width: 140rpx;
+					height: 52rpx;
+					border: 1rpx solid red;
+					border-radius: 50rpx;
+					display: flex;
+					justify-content: space-between;
+					margin-top: 36rpx;
+
+					.jia {
+						width: 24rpx;
+						height: 24rpx;
+						margin-top: 16rpx;
+					}
+
+					.erji {
+						width: 42rpx;
+						height: 42rpx;
+					}
+				}
+			}
+		}
+	}
 </style>

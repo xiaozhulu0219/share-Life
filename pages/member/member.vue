@@ -8,7 +8,8 @@
 				</view>
 				<view class="padding">
 					<view class="margin-bottom-xl flex">
-						<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" class="png round" mode="aspectFit"></image>
+<!--						<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" class="png round" mode="aspectFit"></image>-->
+						<image src="../../static/images/touxiang.jpg" mode="" @click="updateHeadPic" class="png round"></image>
 						<!-- <image :src="personalList.avatar" class="png round" mode="scaleToFill"></image>	 -->
 						<!-- <image src="https://static.jeecg.com/upload/test/wave_1595818053612.gif" mode="scaleToFill" class="gif-wave"></image> -->
 						<view class="margin-left-xl flex flex-sub flex-direction justify-around">
@@ -18,10 +19,10 @@
 					</view>
 					<view class="flex justify-between align-center">
 						<view class="flex text-sm">
-							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">我的发布</text></view>
-							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">我的助力</text></view>
-							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">收藏</text></view>
-							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">赞过</text></view>
+							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">关注</text></view>
+							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">粉丝</text></view>
+							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">获赞与收藏</text></view>
+							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">助力</text></view>
 						</view>
 						<navigator url="/pages/member/memberdetail">
 							<view class="edit text-sm">
@@ -31,66 +32,7 @@
 					</view>
 				</view>
 			</view>
-			<!-- <view class="padding flex text-center text-grey bg-white shadow-warp">
-				<view class="flex flex-sub flex-direction solid-right animation-slide-top" :style="[{animationDelay: '0.2s'}]">
-					<view class="text-xl text-orange">{{personalList.username}}</view>
-					<view class="margin-top-sm"><text class="cuIcon-people"></text> 用户</view>
-				</view>
 
-				<view class="flex flex-sub flex-direction animation-slide-top" :style="[{animationDelay: '0.2s'}]">
-					<view class="text-xl text-green">{{personalList.post?personalList.post:'员工'}}</view>
-					<view class="margin-top-sm"><text class="cuIcon-news"></text> 职务</view>
-				</view>
-
-			</view> -->
-
-
-			<!-- 列表list-->
-
-			<!-- <view class="cu-list menu card-menu margin-top-xl margin-bottom-xl shadow-lg radius">
-
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/memberdetail" :style="[{animationDelay: '0.1s'}]">
-					<view class="content">
-						<text class="cuIcon-settingsfill text-cyan"></text>
-						<text class="text-grey">编辑资料</text>
-					</view>
-				</navigator>
-
-				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.15s'}]">
-					<view class="content" >
-						<text class="cuIcon-favorfill text-yellow"></text>
-						<text class="text-grey">收藏</text>
-					</view>
-				</view>
-				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.3s'}]">
-					<view class="content">
-						<text class="cuIcon-redpacket_fill text-red"></text>
-						<text class="text-grey">红包</text>
-					</view>
-				</view>
-				<view class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.4s'}]" @tap="scan">
-					<view class="content">
-						<text class="cuIcon-scan text-red"></text>
-						<text class="text-grey">扫码</text>
-					</view>
-				</view>
-				<navigator class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.3s'}]" url="/pages/user/location" hover-class="none">
-				</navigator>
-				<navigator class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.2s'}]" url="/pages/user/location" hover-class="none">
-					<view class="content" >
-						<text class="cuIcon-location text-cyan"></text>
-						<text class="text-grey">定位</text>
-					</view>
-				</navigator>
-
-
-				<navigator class="cu-item arrow animation-slide-bottom" :style="[{animationDelay: '0.25s'}]" url="/pages/user/userexit" hover-class="none">
-					<view class="content" >
-						<text class="cuIcon-exit text-cyan"></text>
-						<text class="text-grey">退出</text>
-					</view>
-				</navigator>
-			</view> -->
 			<!-- <view class="cu-tabbar-height"></view> -->
 			<view class="mine-tab">
 				<view class="tab-title flex justify-center">
@@ -226,13 +168,13 @@
 	/* .UCenter-bg text {
 		opacity: 0.8;
 	} */
-	
+
 	.UCenter-bg .edit {
 		padding: 10rpx 20rpx;
 		border: 2rpx solid #fff;
 		border-radius: 30rpx;
 	}
-	
+
 	.UCenter-bg image {
 		width: 160rpx;
 		height: 160rpx;
@@ -259,7 +201,7 @@
 		width: 750rpx;
 		height: 300rpx;
 	}
-	
+
 	.mine-tab {
 		position: relative;
 		top: -50rpx;
@@ -267,12 +209,12 @@
 		background-color: #fff;
 		border-radius: 30rpx 30rpx 0 0;
 	}
-	
+
 	.tab-title {
 		color: #888;
 		border-bottom: 1px solid #eee;
 	}
-	
+
 	.tab-title text.active {
 		color: #000;
 		font-weight: bold;
