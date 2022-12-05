@@ -1,8 +1,8 @@
 <template>
 	<view>
-		<home :cur="PageCur" v-if="PageCur=='home'" :key="commponent1Key"></home>
+<!--		<home :cur="PageCur" v-if="PageCur=='home'" :key="commponent1Key"></home>-->
 		<information  :cur="PageCur" v-if="PageCur=='information'" :key="commponent3Key"></information>
-		<people v-if="PageCur=='people'" :key="commponent2Key"></people>
+<!--		<people v-if="PageCur=='people'" :key="commponent2Key"></people>-->
 		<member v-if="PageCur=='member'" :key="commponent4Key"></member>
 		<helpCompanyList v-if="PageCur=='helpCompanyList'" :key="commponent4Key"></helpCompanyList>
 		<view class="cu-bar tabbar bg-white shadow foot">
@@ -39,7 +39,7 @@
 	export default {
 		data() {
 		return {
-				PageCur: 'home',
+				PageCur: 'information',
 				commponent1Key: 0,
 				commponent2Key: 0,
 				commponent3Key: 0,
@@ -47,7 +47,7 @@
 			}
 		},
 		onLoad:function(){
-			this.PageCur='home'
+			this.PageCur='information'
 			++this.commponent1Key
 			++this.commponent2Key
 			++this.commponent3Key
