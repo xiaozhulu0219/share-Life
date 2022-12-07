@@ -1376,6 +1376,11 @@ button.cuIcon.lg {
 	flex: 1
 }
 
+.cu-list.menu>.cu-item .img {
+	width: 240px;
+	height: 120px;
+}
+
 .cu-list.menu>.cu-item .content .cu-tag.sm {
 	display: inline-block;
 	margin-left: 10upx;
