@@ -3,7 +3,7 @@
 		<scroll-view scroll-y class="page">
 			<!-- 头部logo-->
 			<view class="UCenter-bg">
-				<view class="padding text-right text-xl">
+				<view class="padding text-right text-xl text-exit">
 					<navigator url="/pages/user/userexit"><text class="cuIcon-exit"></text></navigator>
 				</view>
 				<view class="padding">
@@ -168,6 +168,13 @@
 	/* .UCenter-bg text {
 		opacity: 0.8;
 	} */
+
+	.text-exit {
+		position: absolute;
+		top: 10px;
+		right: 0;
+		bottom: 0;
+	}
 
 	.UCenter-bg .edit {
 		padding: 10rpx 20rpx;

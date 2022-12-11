@@ -11,12 +11,15 @@
 			<view class="cu-list menu">
 
 				<view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
-					<view class="content">
-						<text class="text-grey">头像</text>
+					<view class="img">
+						<image src="../../static/images/touxiang.jpg" mode="" @click="updateHeadPic" class="png round" style="width: 90px;height: 90px;top: 20%;left: 50%;"></image>
 					</view>
-					<view class="action">
-						<view class="cu-avatar round sm" :style="{backgroundImage: 'url(' + personalMsg.avatar + ')'}"></view>
-					</view>
+<!--					<view class="content">-->
+<!--						<text class="text-grey">头像</text>-->
+<!--					</view>-->
+<!--					<view class="action">-->
+<!--						<view class="cu-avatar round sm" :style="{backgroundImage: 'url(' + personalMsg.avatar + ')'}"></view>-->
+<!--					</view>-->
 				</view>
 			</view>
 

@@ -7,8 +7,8 @@
 				<slot></slot>
 				<text :style="{'color':themeColor}" @tap.stop.prevent="pickerConfirm">确定</text>
 			</view>
-			<date-picker 
-				v-if="mode=='date'" 
+			<date-picker
+				v-if="mode=='date'"
 				class="w-picker-wrapper"
 				:startYear="startYear"
 				:endYear="endYear"
@@ -18,12 +18,12 @@
 				:current="current"
 				:disabled-after="disabledAfter"
 				@change="handlerChange"
-				@touchstart="touchStart" 
+				@touchstart="touchStart"
 				@touchend="touchEnd">
 			</date-picker>
-			
+
 			<range-picker
-				v-if="mode=='range'" 
+				v-if="mode=='range'"
 				class="w-picker-wrapper"
 				:startYear="startYear"
 				:endYear="endYear"
@@ -31,12 +31,12 @@
 				:item-height="itemHeight"
 				:current="current"
 				@change="handlerChange"
-				@touchstart="touchStart" 
+				@touchstart="touchStart"
 				@touchend="touchEnd">
 			</range-picker>
-			
+
 			<half-picker
-				v-if="mode=='half'" 
+				v-if="mode=='half'"
 				class="w-picker-wrapper"
 				:startYear="startYear"
 				:endYear="endYear"
@@ -45,12 +45,12 @@
 				:current="current"
 				:disabled-after="disabledAfter"
 				@change="handlerChange"
-				@touchstart="touchStart" 
+				@touchstart="touchStart"
 				@touchend="touchEnd">
 			</half-picker>
-			
+
 			<shortterm-picker
-				v-if="mode=='shortTerm'" 
+				v-if="mode=='shortTerm'"
 				class="w-picker-wrapper"
 				:startYear="startYear"
 				:endYear="endYear"
@@ -60,10 +60,10 @@
 				expand="60"
 				:disabled-after="disabledAfter"
 				@change="handlerChange"
-				@touchstart="touchStart" 
+				@touchstart="touchStart"
 				@touchend="touchEnd">
 			</shortterm-picker>
-			
+
 			<time-picker
 				v-if="mode=='time'"
 				class="w-picker-wrapper"
@@ -73,10 +73,10 @@
 				:disabled-after="disabledAfter"
 				:second="second"
 				@change="handlerChange"
-				@touchstart="touchStart" 
+				@touchstart="touchStart"
 				@touchend="touchEnd">
 			</time-picker>
-			
+
 			<selector-picker
 				v-if="mode=='selector'"
 				class="w-picker-wrapper"
@@ -86,10 +86,10 @@
 				:default-type="defaultType"
 				:default-props="defaultProps"
 				@change="handlerChange"
-				@touchstart="touchStart" 
+				@touchstart="touchStart"
 				@touchend="touchEnd">
 			</selector-picker>
-			
+
 			<region-picker
 				v-if="mode=='region'"
 				class="w-picker-wrapper"
@@ -98,10 +98,10 @@
 				:default-type="defaultType"
 				:item-height="itemHeight"
 				@change="handlerChange"
-				@touchstart="touchStart" 
+				@touchstart="touchStart"
 				@touchend="touchEnd">
 			</region-picker>
-			
+
 			<linkage-picker
 				v-if="mode=='linkage'"
 				class="w-picker-wrapper"
@@ -112,7 +112,7 @@
 				:default-props="defaultProps"
 				:item-height="itemHeight"
 				@change="handlerChange"
-				@touchstart="touchStart" 
+				@touchstart="touchStart"
 				@touchend="touchEnd">
 			</linkage-picker>
 		</view>
@@ -208,7 +208,7 @@
 			},
 			startYear:{
 				type:[String,Number],
-				default:1970
+				default:1990
 			},
 			endYear:{
 				type:[String,Number],
@@ -323,7 +323,7 @@
 		  	font-size: 30upx;
 		  }
 		}
-		
+
 		.w-picker-hd:after {
 		  content: ' ';
 		  position: absolute;
