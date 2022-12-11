@@ -2,7 +2,7 @@ let BASE_URL = ''
 
 
 if (process.env.NODE_ENV == 'development') {
-    BASE_URL = 'http://127.0.0.1:9090/jeecg-boot' // 开发环境
+    BASE_URL = 'http://43.142.29.190:9090/jeecg-boot' // 开发环境
 } else {
 	BASE_URL = 'http://43.142.29.190:9090/jeecg-boot' // 现在生产环境也用这个
 }
