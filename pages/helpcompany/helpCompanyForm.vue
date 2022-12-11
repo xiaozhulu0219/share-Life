@@ -9,11 +9,11 @@
 		<!--表单区域-->
 		<view>
 			<form>
-				<view class="search">
+				<view class="search padding">
 					<view class="iptbox">
-						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt" @confirm="searchCompany" @input="searchCompany"/>
+						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt text-df" @confirm="searchCompany" @input="searchCompany"/>
 					</view>
-					<button class="cu-btn block bg-gray margin-tb-sm lg" @click="clear">
+					<button class="cu-btn block bg-gray lg" @click="clear">
 						<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>取消
 					</button>
 
@@ -21,16 +21,20 @@
 
 			</form>
 			<!-- 模糊搜索列表 -->
-			<view class="cu-list menu">
-				<view class="cu-item" v-for="(item,index) in listData" :key="index" @click="goHome">
-					<view class="flex" style="width:600%">
-						<text class="text-lg" style="font-size:220%;width: 500px; height: 200px; color: #000;padding-right: 200px">
+			<view class="cu-list bg-white">
+				<view class="flex align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index" @click="search(item.enterpriseName)">
+					<!-- <checkbox style="transform:scale(0.7)" value="cb" checked="false" /> -->
+					<view class="padding-left">
+						{{item.enterpriseName}}
+					</view>
+					<!-- <view class="flex" style="width:600%">
+						<text class="">
 							<image src="../../static/images/weixuanze.png" mode="" @click="search"
 								   style="width: 15px ;height: 14px"></image>
 							<br>
 							{{item.enterpriseName}}
 						</text>
-					</view>
+					</view> -->
 				</view>
 			</view>
 		</view>
@@ -119,22 +123,27 @@
 					})
 				}
 			},
-
+			search(name) {
+				console.log(name)
+				this.$router.push(`helpCompanySelectForm?name=${name}`)
+			}
 		}
 	}
 </script>
 <style>
 	.search{
 		display: flex;
-		background-color: #ffffff;
 		align-items: center;
+		background-color: #ffffff;
+		border-bottom: 1px solid #eee;
 	}
 	.iptbox{
-		width: 80%;
-		background-color:#ccc;
-		height: 40px;
-		border-radius: 20rpx;
+		flex: 1;
+		/* background-color:#ccc; */
 		padding-left: 20px;
+		height: 40px;
+		border: 1px solid #ccc;
+		border-radius: 10rpx;
 	}
 	.ipt{
 		display: block;

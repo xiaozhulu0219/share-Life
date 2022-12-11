@@ -53,6 +53,9 @@
 				required: false
 			}
 		},
+		onLoad(option) {
+			console.log(option)
+		},
 		data() {
 			return {
 				CustomBar: this.CustomBar,

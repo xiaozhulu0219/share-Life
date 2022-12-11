@@ -119,6 +119,10 @@
 			"path": "pages/helpcompany/helpCompanyList",
 			"style": {}
 		},
+		{
+			"path": "pages/helpcompany/helpCompanySelectForm",
+			"style": {}
+		},
         {
 			"path": "pages/home/home",
 			"style": {}

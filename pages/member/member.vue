@@ -57,7 +57,7 @@
 		data() {
 			return {
 				activeTab:0,
-				tabs:[{id:1,name:'我的发布'},{id:1,name:'我的助力'},{id:1,name:'收藏'},{id:1,name:'赞过'}],
+				tabs:[{id:1,name:'我的发布'},{id:2,name:'我的助力'},{id:3,name:'收藏'},{id:4,name:'赞过'}],
 				personalList:{
 					avatar:'',
 					realname:'',

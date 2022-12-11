@@ -1669,7 +1669,7 @@ button.cuIcon.lg {
 	position: fixed;
 	width: 100%;
 	bottom: 0;
-	z-index: 1024;
+	/* z-index: 1024; */
 	box-shadow: 0 -1upx 6upx rgba(0, 0, 0, 0.1);
 }
 

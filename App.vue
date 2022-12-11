@@ -154,6 +154,7 @@
 	@import "plugin/colorui/main.css";
 	@import "plugin/colorui/icon.css";
     @import "plugin/colorui/animation.css";
+	@import "plugin/iconfont/iconfont.css";
 	.nav-list {
 		display: flex;
 		flex-wrap: wrap;

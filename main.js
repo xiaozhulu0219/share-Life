@@ -49,6 +49,9 @@ Vue.component('helpCompanyList',helpCompanyList)
 import helpCompanyForm from './pages/helpcompany/helpCompanyForm.vue'
 Vue.component('helpCompanyForm',helpCompanyForm)
 
+import helpCompanySelectForm from './pages/helpcompany/helpCompanySelectForm.vue'
+Vue.component('helpCompanySelectForm',helpCompanySelectForm)
+
 import people from './pages/user/people.vue'
 Vue.component('people',people)
 
