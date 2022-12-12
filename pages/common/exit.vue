@@ -24,12 +24,12 @@
 
 <script>
 	import api from "@/api/api";
-	
+
 	export default {
 		data() {
 			return {
 				modalName: null,
-				item:{msg:'退出成功'},
+				item:{msg:'退出成功111'},
 			}
 		},
 		onLoad: function (option) {

@@ -4,25 +4,25 @@
 			<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 				<block slot="content">helloWorld</block>
 			</cu-custom>
-			
+
 			<view class="padding flex flex-direction">
 				<app-select label=" 类    型：" v-model="type" placeholder="请选择类型" :dict="plan_type" space ></app-select>
 			</view>
-			
+
 			<view class="padding flex flex-direction">
 			  <my-date label="开始时间：" v-model="beginTime" placeholder="请选择开始时间" required fields="minute"></my-date>
 			</view>
-			
-			
+
+
 			<view class="padding flex flex-direction">
 			  <uni-calendar :showMonth="true" :selected="selected" />
 			</view>
-			
-			
+
+
 			<view class="padding flex flex-direction">
 			  <my-image-upload />
 			</view>
-			
+
 		</scroll-view>
 	</view>
 
@@ -33,8 +33,8 @@
 	import appSelect from '@/components/my-componets/appSelect.vue'
 	import myImageUpload from '@/components/my-componets/my-image-upload.vue'
 	import myDate from '@/components/my-componets/my-date.vue'
-	
-	
+
+
 	export default {
 		components:{
 		    appSelect,myImageUpload,myDate
@@ -42,7 +42,7 @@
 		data() {
 			return {
 				modalName: null,
-				item:{msg:'退出成功'},
+				item:{msg:'退出成功2222'},
 				plan_type,
 				type:"1",
 				selected:[],
@@ -50,7 +50,7 @@
 			}
 		},
 		methods: {
-			
+
 		}
 	}
 </script>
