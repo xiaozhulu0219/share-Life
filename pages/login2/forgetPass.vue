@@ -22,8 +22,8 @@
 					<input class="xw-login-form-input" placeholder="请输入密码" name="password" :password="showPassword"
 						type="text" value="" />
 					<view class="login-form-icon login-form-seepass" @click="changePassword">
-						<image src="../../static/img/l03.png" mode="aspectFill" v-if="showPassword"></image>
-						<image src="../../static/img/l04.png" mode="aspectFill" v-else></image>
+						<image src="../../static/images/l03.png" mode="aspectFill" v-if="showPassword"></image>
+						<image src="../../static/images/l04.png" mode="aspectFill" v-else></image>
 					</view>
 				</view>
 				<text class="xw-login-form-code" @click="goLogin">已修改，去登录</text>

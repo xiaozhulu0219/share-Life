@@ -24,6 +24,7 @@
 
 <script>
 	import api from "@/api/api";
+	import {log} from "../../plugin/uni-simple-router/helpers/warn";
 
 	export default {
 		data() {
@@ -39,8 +40,9 @@
 		},
 		methods: {
 			goback(){
+				console.log("跳转方法调用了");
 				uni.navigateTo({
-					url:'/pages/login/login'
+					url:'/pages/common/helloWorld'
 				})
 			}
 		}

@@ -7,6 +7,34 @@ const routes = [
 		 },
 	},
 	{
+		path: "/pages/login2/login2",
+		name: 'login2',
+		meta: {
+			title: '新登录',
+		},
+	},
+	{
+		path: "/pages/login2/forgetPass",
+		name: 'forgetPass',
+		meta: {
+			title: '忘记密码',
+		},
+	},
+	{
+		path: "/pages/qidongye/qidongye",
+		name: 'qidongye',
+		meta: {
+			title: '启动页',
+		},
+	},
+	{
+		path: "/pages/register/register",
+		name: 'register',
+		meta: {
+			title: '注册',
+		},
+	},
+	{
         //注意：path必须跟pages.json中的地址对应，最前面别忘了加'/'哦
       path: '/pages/index/index',
       name: 'index',

@@ -54,7 +54,6 @@
 					</view>
 				</block>
 
-
 				<!-- #ifdef APP-PLUS -->
 				<view class="padding flex flex-direction  text-center">
 					当前版本:{{version}}

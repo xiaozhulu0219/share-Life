@@ -15,8 +15,8 @@
 					<view class="xw-login-form-label">密码</view>
 					<input class="xw-login-form-input" placeholder="请输入密码" name="password" v-model="form.password" :password="showPassword" type="text" />
 					<view class="login-form-icon login-form-seepass" @click="changePassword">
-						<image src="../../static/img/l03.png" mode="aspectFill" v-if="showPassword"></image>
-						<image src="../../static/img/l04.png" mode="aspectFill" v-else></image>
+						<image src="../../static/images/l03.png" mode="aspectFill" v-if="showPassword"></image>
+						<image src="../../static/images/l04.png" mode="aspectFill" v-else></image>
 					</view>
 				</view>
 				<view class="xw-login-form-item" v-if="logintype">
@@ -66,7 +66,7 @@
 		methods: {
 			goForgetPass(){
 				uni.navigateTo({
-					url:'../forgetPass/index'
+					url:'../login2/forgetPass'
 				})
 			},
 			changeLogintype() {
@@ -128,7 +128,7 @@
 					type:'2'//登录
 				}
 				this.$http.request({
-					url: '/auth/sendCode',
+					url: '/umsMember/send',
 					method: 'POST',
 					data:JSON.stringify(formData),
 					success: (res) => {
@@ -246,7 +246,7 @@
 							var userID=res.data.data.userId
 							var userSig=res.data.data.sign
 							TUICalling.login({//登录音视频
-							    sdkAppID: sdkAppID, 
+							    sdkAppID: sdkAppID,
 							    userID: userID,
 							    userSig: userSig
 							},(res) => {

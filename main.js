@@ -31,6 +31,20 @@ Vue.prototype.$http = http
 import home from './pages/home/home.vue'
 Vue.component('home',home)
 
+//以下几个是将来的登录注册
+import login2 from './pages/login2/login2.vue'
+Vue.component('login2',login2)
+
+import register from './pages/register/register.vue'
+Vue.component('register',register)
+
+import qidongye from './pages/qidongye/qidongye.vue'
+Vue.component('qidongye',qidongye)
+
+import forgetPass from './pages/login2/forgetPass.vue'
+Vue.component('forgetPass',forgetPass)
+
+
 //以下一个是将来的用户
 import member from './pages/member/member.vue'
 Vue.component('member',member)

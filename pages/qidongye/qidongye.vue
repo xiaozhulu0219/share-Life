@@ -1,6 +1,6 @@
 <template>
 	<view class="wx-index">
-		<image class="wx-bg" src="../../static/wx/bg.jpg" mode="aspectFill"></image>
+		<image class="wx-bg" src="../../static/images/bg.jpg" mode="aspectFill"></image>
 		<view class="wx-btns">
 			<view class="wx-btn wx-btn-info" @click="goLogin">登录</view>
 			<view class="wx-btn wx-btn-normal" @click="goRegister">注册</view>
