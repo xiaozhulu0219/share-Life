@@ -8,21 +8,29 @@
 				</view>
 				<view class="padding">
 					<view class="margin-bottom-xl flex">
-<!--						<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" class="png round" mode="aspectFit"></image>-->
-						<image src="../../static/images/touxiang.jpg" mode="" @click="updateHeadPic" class="png round"></image>
+						<!--						<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" class="png round" mode="aspectFit"></image>-->
+						<image src="../../static/images/touxiang.jpg" mode="" @click="updateHeadPic" class="png round">
+						</image>
 						<!-- <image :src="personalList.avatar" class="png round" mode="scaleToFill"></image>	 -->
 						<!-- <image src="https://static.jeecg.com/upload/test/wave_1595818053612.gif" mode="scaleToFill" class="gif-wave"></image> -->
 						<view class="margin-left-xl flex flex-sub flex-direction justify-around">
-							<text class="text-bold">昵称</text>
+							<text class="text-bold">{{personalList.nickName}}</text>
 							<text class="cuIcon-male text-blue"></text>
+							<text class="">{{personalList.signature}}</text>
 						</view>
+
 					</view>
+
 					<view class="flex justify-between align-center">
 						<view class="flex text-sm">
-							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">关注</text></view>
-							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">粉丝</text></view>
-							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">获赞与收藏</text></view>
-							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text :style="{color:'#ddd'}">助力</text></view>
+							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text
+									:style="{color:'#ddd'}">关注</text></view>
+							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text
+									:style="{color:'#ddd'}">粉丝</text></view>
+							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text
+									:style="{color:'#ddd'}">获赞与收藏</text></view>
+							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text
+									:style="{color:'#ddd'}">助力</text></view>
 						</view>
 						<navigator url="/pages/member/memberdetail">
 							<view class="edit text-sm">
@@ -41,7 +49,7 @@
 					</view>
 				</view>
 				<swiper :current="activeTab" class="padding">
-					<swiper-item v-for="(item,index) in tabs"  :key="index">
+					<swiper-item v-for="(item,index) in tabs" :key="index">
 						<view class="swiper-item">{{item.name}}</view>
 					</swiper-item>
 				</swiper>
@@ -56,38 +64,52 @@
 		name: "member",
 		data() {
 			return {
-				activeTab:0,
-				tabs:[{id:1,name:'我的发布'},{id:2,name:'我的助力'},{id:3,name:'收藏'},{id:4,name:'赞过'}],
-				personalList:{
-					avatar:'',
-					realname:'',
-					username:'',
-					post:''
+				activeTab: 0,
+				tabs: [{
+					id: 1,
+					name: '我的发布'
+				}, {
+					id: 2,
+					name: '我的助力'
+				}, {
+					id: 3,
+					name: '收藏'
+				}, {
+					id: 4,
+					name: '赞过'
+				}],
+				personalList: {
+					avatar: '',
+					realname: '',
+					username: '',
+					nickName: "",
+					post: '',
+					signature: ""
 				},
-				positionUrl:'/sys/position/list',
-				departUrl:'/sys/user/userDepartList',
-				userUrl:'/sys/user/queryById',
-				postUrl:'/sys/position/queryByCode',
-				userId:'',
-				id:''
+				positionUrl: '/sys/position/list',
+				departUrl: '/sys/user/userDepartList',
+				userUrl: '/sys/user/queryById',
+				postUrl: '/sys/position/queryByCode',
+				userId: '',
+				id: ''
 			};
 		},
 		watch: {
 			cur: {
 				immediate: true,
 				handler() {
-					console.log('watch',this.cur)
-					this.userId=this.$store.getters.userid;
+					console.log('watch', this.cur)
+					this.userId = this.$store.getters.userid;
 					this.load()
 				},
 			},
 		},
 		methods: {
-			scan(){
+			scan() {
 				console.log("进来了")
 				// #ifndef H5
 				uni.scanCode({
-					success: function (res) {
+					success: function(res) {
 						console.log('条码res：' + res);
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
@@ -98,20 +120,28 @@
 				this.$tip.alert("暂不支持")
 				// #endif
 			},
-			load(){
-				if(!this.userId){
+			load() {
+				if (!this.userId) {
 
 					return;
 				}
-				this.$http.get(this.userUrl,{params:{id:this.userId}}).then(res=>{
-					console.log("res",res)
+				this.$http.get(this.userUrl, {
+					params: {
+						id: this.userId
+					}
+				}).then(res => {
+					console.log("res", res)
 					if (res.data.success) {
 						let perArr = res.data.result
-						let avatar=(perArr.avatar && perArr.avatar.length > 0)? api.getFileAccessHttpUrl(perArr.avatar):'/static/avatar_boy.png'
-						this.personalList.avatar =avatar
+						let avatar = (perArr.avatar && perArr.avatar.length > 0) ? api.getFileAccessHttpUrl(perArr
+							.avatar) : '/static/avatar_boy.png'
+						this.personalList.avatar = avatar
 						this.personalList.realname = perArr.realname
+						this.personalList.nickName = perArr.nickName
 						this.personalList.username = perArr.username
 						this.personalList.depart = perArr.departIds
+						this.personalList.signature = perArr.signature
+						console.log(this.personalList.nickName, 'this.personalList.nickName ')
 						this.getpost(perArr.post)
 					}
 				}).catch(err => {
@@ -119,23 +149,27 @@
 				});
 
 			},
-			getpost(code){
-				if(!code||code.length==0){
-					this.personalList.post='员工'
+			getpost(code) {
+				if (!code || code.length == 0) {
+					this.personalList.post = '员工'
 					return false;
 				}
-				this.$http.get(this.postUrl,{params:{code:code}}).then(res=>{
-					console.log("postUrl",res)
+				this.$http.get(this.postUrl, {
+					params: {
+						code: code
+					}
+				}).then(res => {
+					console.log("postUrl", res)
 					if (res.data.success) {
-						this.personalList.post=res.data.result.name
+						this.personalList.post = res.data.result.name
 					}
 				}).catch(err => {
 					console.log(err);
 				});
 
 			},
-			clickTab(index){
-				if(this.activeTab === index) return
+			clickTab(index) {
+				if (this.activeTab === index) return
 				this.activeTab = index
 			},
 		}
@@ -187,7 +221,7 @@
 		height: 160rpx;
 	}
 
-	.UCenter-bg .gif-wave{
+	.UCenter-bg .gif-wave {
 		position: absolute;
 		width: 100%;
 		bottom: 0;
@@ -197,14 +231,16 @@
 		height: 100rpx;
 	}
 
-	map,.mapBox{
+	map,
+	.mapBox {
 		left: 0;
 		z-index: 99;
 		mix-blend-mode: screen;
 		height: 100rpx;
 	}
 
-	map,.mapBox{
+	map,
+	.mapBox {
 		width: 750rpx;
 		height: 300rpx;
 	}
