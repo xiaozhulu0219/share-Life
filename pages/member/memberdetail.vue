@@ -29,7 +29,7 @@
 						<text class="text-grey">昵称</text>
 					</view>
 					<view class="action">
-						<text class="text-grey">{{personalMsg.realname}}</text>
+						<text class="text-grey">{{personalMsg.nickName}}</text>
 					</view>
 				</navigator>
 			</view>
@@ -113,8 +113,6 @@
 				job_type,
 				personalMsg:{
 					avatar:'',
-					realname:'',
-					username:'',
 					nickName:'',
 					signature:'',
 					graduationDate:'',
@@ -123,17 +121,8 @@
 					job:'1',
 					dreamCompanySign:'',
 					sex:1,
-					birthday:new Date(),
-					orgCode:'',
-					workNo:'',
 					status:1,
-					phone:'',
-					telephone:'',
-					email:'',
-					post:'',
-					departIds:'',
 					identity:'',
-
 				},
 				userUrl:'/sys/user/queryById',
 				positionUrl:'/sys/position/list',
@@ -154,34 +143,24 @@
 				return text.substr(0,len)+"..."
 			},
 			rightClick(){
-				console.log("用户")
 				this.$Router.push({name:'memberedit', params:this.personalMsg})
 				/* uni.navigateTo({
 				    url: '/pages/user/useredit?item='+item
 				}); */
 			},
 			loadinfo(){
-				console.log("用户")
 				this.$http.get(this.userUrl,{params:{id:this.$store.getters.userid}}).then(res=> {
-					console.log("用户",res)
 					if (res.data.success) {
 						let result = res.data.result
 						if(result.avatar&&result.avatar.length >0)
 							this.personalMsg.avatar = api.getFileAccessHttpUrl(result.avatar)
-						this.personalMsg.realname = result.realname
-						this.personalMsg.username= result.username
-						this.personalMsg.post = result.post
+						this.personalMsg.nickName = result.nickName
+						this.personalMsg.signature = result.signature
+						this.personalMsg.graduationDate = result.graduationDate
+						this.personalMsg.startWorkDate = result.startWorkDate
+						this.personalMsg.job = result.job
 						this.personalMsg.sex = result.sex===1?'男':'女'
-						this.personalMsg.birthday = result.birthday== null?'无':result.birthday
-						this.personalMsg.departIds= result.departIds
-						this.personalMsg.workNo= result.workNo
-						this.personalMsg.phone= result.phone
-						this.personalMsg.telephone= result.telephone== null?'无':result.telephone
-						this.personalMsg.email= result.email
-						this.personalMsg.post= result.post
-						this.personalMsg.identity= result.identity=== 1?'普通成员':'上级'
 						this.personalMsg.status= result.status === 1?'正常':'冻结'
-						this.personalMsg.orgCode= result.orgCode
 					}
 				}).catch(e=>{
 					console.log("请求错误",e)
@@ -211,6 +190,9 @@
 					console.log("请求错误",e)
 				})
 			},
+
+
+
 		}
 	}
 </script>
