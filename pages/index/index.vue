@@ -96,7 +96,7 @@ export default {
 }
 .card-item {
 	width: 40%;
-	height: 120rpx;
+	/* height: 120rpx; */
 	border-radius: 20rpx;
 }
 </style>

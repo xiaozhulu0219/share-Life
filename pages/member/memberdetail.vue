@@ -46,11 +46,11 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/signature" :style="[{animationDelay: '0.4s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" :url="`/pages/member/signature?query=${JSON.stringify(this.personalMsg)}`" :style="[{animationDelay: '0.4s'}]">
 					<view class="content">
 						<text class="text-grey">个性签名</text>
 					</view>
-					<view class="action">
+					<view class="action signature">
 						<text class="text-grey">{{personalMsg.signature}}</text>
 					</view>
 				</navigator>
@@ -221,5 +221,13 @@
 
 	.switch-music::before {
 		content: "\e6db";
+	}
+	.signature {
+		width: 70%;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		-webkit-line-clamp: 2;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 </style>

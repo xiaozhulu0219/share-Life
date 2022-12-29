@@ -55,6 +55,18 @@
 				</view>
 			</view>
 		</view>
+    <!-- 自定义标签模态框 -->
+    <view class="definedTag-mask" v-if="showDefineTag">
+      <view class="definedTag-box">
+        <view class="tag-title">自定义标签</view>
+        <input type="text" class="tag-input" v-model="tagName" maxlength="6" 
+        placeholder="最长6个字" placeholder-color="#999" />
+        <view class="buttons">
+          <view class="btn" @tap.stop="showDefineTag = false">取消</view>
+          <view class="btn-confirm btn" @tap="defineTagConfirm">保存</view>
+        </view>
+      </view>
+    </view>
     </view>
 </template>
 
@@ -73,16 +85,18 @@
                     workNo: '',
                     id: '',
                 },
-				selectedList:[],
-				customList:[],
-				tagList:[],
+				        selectedList:[],
+				        customList:[],
+				        tagList:[],
+                tagName: '',// 自定义标签
+                showDefineTag: false // 控制自定义标签模态框显示
             };
         },
         onLoad: function (option) {
-			this.queryTags()
-            console.log("this.$Route.query", this.$Route.query);
-            let query = this.$Route.query
-            if (query) {
+			    this.queryTags();
+          console.log("this.$Route.query", this.$Route.query);
+          let query = this.$Route.query
+          if (query) {
                 this.myFormData = query;
                 if (this.myFormData.sex == '女') {
                     this.switchC = false
@@ -113,10 +127,10 @@
                     }
                 })
                 console.log("this.myFormData", this.myFormData)
-            }
+          }
         },
         methods: {
-			queryTags() {
+			    queryTags() {
 				this.$http.get('/sys/dict/querySomeDictItems',{params:{'dicts':'member_dream_company_sign'}}).then(res => {
 					if (res.data.success) {
 						let newList = res.data.result.member_dream_company_sign.map(item => {
@@ -126,8 +140,8 @@
 						this.tagList = newList
 					}
 				})
-			},
-			selectTag(item) {
+			    },
+			    selectTag(item) {
 				const idx = this.selectedList.indexOf(item.label)
 				if (item.status) {
 					item.status = false
@@ -136,11 +150,18 @@
 					item.status = true
 					this.selectedList.unshift(item.label)
 				}
-			},
-			addTag() {
-				
-			},
-            onSubmit() {
+			    },
+			    addTag() {
+				this.showDefineTag = true;
+			    },
+          // 新增自定义标签
+          defineTagConfirm(){
+        if(!this.tagName.trim()) return;
+        this.$http.post('',{tagName: this.tagName}).then(res =>{
+          console.log(res)
+        })
+          },
+          onSubmit() {
                 let myForm = this.myFormData
                 console.log("myForm", myForm)
                 this.myFormData.id = this.$store.getters.userid
@@ -165,14 +186,14 @@
                     this.$tip.loaded();
                     this.$tip.error('提交失败')
                 });
-            },
-            DateChange(e) {
+          },
+          DateChange(e) {
                 this.myFormData.birthday = e.detail.value
-            },
-            SwitchC(e) {
+          },
+          SwitchC(e) {
                 this.switchC = e.detail.value
-            },
-            ChooseImage() {
+          },
+          ChooseImage() {
                 var that = this;
                 uni.chooseImage({
                     count: 4, //默认9
@@ -192,14 +213,14 @@
                         this.imgList = res.tempFilePaths
                     }
                 });
-            },
-            ViewImage(e) {
+          },
+          ViewImage(e) {
                 uni.previewImage({
                     urls: this.imgList,
                     current: e.currentTarget.dataset.url
                 });
-            },
-            DelImg(e) {
+          },
+          DelImg(e) {
                 uni.showModal({
                     title: '召唤师',
                     content: '确定要删除这段回忆吗？',
@@ -211,12 +232,12 @@
                         }
                     }
                 })
-            }
+          }
         }
     }
 </script>
 
-<style>
+<style scoped>
     .cu-form-group .title {
         min-width: calc(4em + 15px);
     }
@@ -236,4 +257,50 @@
 	.tag-item.active {
 		background-color: #8874ff;
 	}
+  .definedTag-mask {
+    background-color: rgba(0,0,0,.3);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+  }
+  .definedTag-box {
+    margin: auto;
+    padding-top: 20rpx;
+    width: 80%;
+    overflow: hidden;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 20rpx;
+  }
+  .tag-title {
+    font-size: 18px;
+    color: #333;
+  }
+  .tag-input {
+    background-color: #f9f9f9;
+    margin: 20rpx 20rpx 60rpx;
+    padding: 4rpx 10rpx;
+    box-sizing: border-box;
+    height: 80rpx;
+    text-align: left;
+  }
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .btn {
+    flex: 1;
+    height: 80rpx;
+    line-height: 80rpx;
+    color: #666;
+    background-color: #f0f0f0;
+  }
+  .btn-confirm {
+    background-color: #0081ff;
+    color: #fff;
+  }
 </style>
