@@ -1,5 +1,6 @@
 <template>
 	<view class="wx-login">
+		<!--这个是找回密码页-->
 		<watermark></watermark>
 		<view class="wx-login-title">找回密码</view>
 		<view class="xw-login-form">

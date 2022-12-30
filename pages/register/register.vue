@@ -1,5 +1,6 @@
 <template>
 	<view class="wx-login">
+		<!--这个要作为注册页-->
 		<watermark></watermark>
 		<view class="wx-login-title">手机号注册</view>
 		<view class="xw-login-form">
