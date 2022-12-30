@@ -1,5 +1,6 @@
 <template>
 	<view class="wx-login">
+		<!--这个login页面用来参照按钮-->
 		<watermark></watermark>
 		<view class="wx-login-title">手机号登录</view>
 		<view class="xw-login-form">

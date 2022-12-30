@@ -38,8 +38,8 @@ Vue.component('login2',login2)
 import register from './pages/register/register.vue'
 Vue.component('register',register)
 
-import qidongye from './pages/qidongye/qidongye.vue'
-Vue.component('qidongye',qidongye)
+import engine from './pages/engine/engine.vue'
+Vue.component('engine',engine)
 
 import forgetPass from './pages/login2/forgetPass.vue'
 Vue.component('forgetPass',forgetPass)
@@ -60,8 +60,8 @@ Vue.component('informationForm',informationForm)
 import helpCompanyList from './pages/helpcompany/helpCompanyList.vue'
 Vue.component('helpCompanyList',helpCompanyList)
 
-import helpCompanyForm from './pages/helpcompany/helpCompanyForm.vue'
-Vue.component('helpCompanyForm',helpCompanyForm)
+import helpCompanyLikeQueryList from './pages/helpcompany/helpCompanyLikeQueryList.vue'
+Vue.component('helpCompanyLikeQueryList',helpCompanyLikeQueryList)
 
 import helpCompanySelectForm from './pages/helpcompany/helpCompanySelectForm.vue'
 Vue.component('helpCompanySelectForm',helpCompanySelectForm)

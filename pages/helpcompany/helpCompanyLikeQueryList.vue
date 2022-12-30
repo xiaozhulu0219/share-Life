@@ -1,5 +1,5 @@
 <template>
-	<!--表单区域-->
+	<!--助力公司模糊搜索页、表单区域-->
 	<view>
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">

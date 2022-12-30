@@ -21,8 +21,8 @@ const routes = [
 		},
 	},
 	{
-		path: "/pages/qidongye/qidongye",
-		name: 'qidongye',
+		path: "/pages/engine/engine",
+		name: 'engine',
 		meta: {
 			title: '启动页',
 		},
@@ -66,10 +66,10 @@ const routes = [
 		},
 	},
 	{
-		path: '/pages/helpcompany/helpCompanyForm',
+		path: '/pages/helpcompany/helpCompanyLikeQueryList',
 		name: 'informationForm',
 		meta: {
-			title: '助力公司新增页',
+			title: '助力公司新增时模糊查询结果列表页',
 		},
 	},
 	{
