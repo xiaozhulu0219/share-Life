@@ -6,7 +6,7 @@
 			   name="input"
 			   v-model="selected"
 			   disabled="true"
-			></input>
+			/>
 			<w-picker
 			    :visible.sync="visible"
 				ref="picker"
@@ -87,5 +87,7 @@
 </script>
 
 <style scoped>
-
+input{
+  text-align: right;
+}
 </style>
