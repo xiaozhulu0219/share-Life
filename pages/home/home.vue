@@ -9,14 +9,14 @@
 				<!-- <image class="search-span" src="../../static/images/search.png" /> -->
 				<!-- @confirm="search" 点击 -->
 				<text class="padding-left text-gray iconfont icon-search"></text>
-				<input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10" type="text" />
+				<input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10" type="text"/>
 				<button class="search-btn text-df">搜索</button>
 			</view>
 		</view>
 
 		<view>
 			<view class="search-tab">
-				<view class="tab-title flex justify-center">
+				<view class="tab-title flex justify-between">
 					<view class="padding-sm" v-for="(item, index) in tabs" :key="index" @tap="clickTab(index)">
 						<text :class="activeTab === index ? 'active' : ''">{{ item.name }}</text>
 					</view>
@@ -73,7 +73,7 @@
 		data() {
 			return {
 				activeTab: 0,
-				tabs: [{ id: 1, name: '推荐' }, { id: 2, name: '助力' }, { id: 3, name: '百科' }, { id: 4, name: '游戏' }],
+				tabs: [{ id: 1, name: '推荐' }, { id: 2, name: '助力' }, { id: 3, name: '百科' }, { id: 4, name: '游戏' }, { id: 5, name: '关注' }],
 				CustomBar: this.CustomBar,
 				NavBarColor: this.NavBarColor,
 				url: '/umsMember/list',
@@ -176,16 +176,17 @@
 		align-items: center;
 		width: 100%;
 		height: 100rpx;
-		margin: 3% 0;
+		margin: 0;
 	}
 
 	.search-bar-box {
 		display: flex;
 		align-items: center;
-		width: 620rpx;
+		width: 60%;
 		height: 70rpx;
 		border: 5rpx solid #00a8cc;
 		border-radius: 50rpx;
+		margin-top: -20rpx;
 	}
 
 	.search-btn {
@@ -286,6 +287,10 @@
 	}
 	.tab-title {
 		color: #666;
+		width: 90%;
+		margin-left: 5%;
+		margin-top: -30rpx;
+		font-size: 40rpx;
 	}
 
 	.tab-title text.active {

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<!--这个页面现在除了在index当一个背景板、暂时没什么用-->
+		<!--这个页面将来做首页的助力公司列表页-->
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor">
 			<block slot="content">助力公司列表</block>
