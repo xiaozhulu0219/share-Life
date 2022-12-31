@@ -49,15 +49,19 @@ export default {
           });
           this.multiIndex[0] = firstIdx;
           this.multiIndex[1] = secondIdx;
-          const detailArr = this.multiObject[secondIdx].children.map(item => item.name);
-          this.multiArray.splice(this.multiArray.length - 1, 1, detailArr);
+          const detailArr = this.multiObject[secondIdx].children || [];
+          const secondNames = detailArr.map(item => item.name);
+          this.multiArray.splice(this.multiArray.length - 1, 1, secondNames);
         }
       });
     },
     // 完成选择器选择事件
     PickerChange(e) {
+      const [fId,sId] = e.detail.value
       this.multiIndex = e.detail.value;
-      // this.editJobInfo();
+      const selectJob = this.multiObject[fId].children[sId];
+      console.log(selectJob,'selectJob')
+      this.editJobInfo(selectJob);
     },
     // 选择器列改变事件
     pickerColumnChange(e){
@@ -70,9 +74,11 @@ export default {
       }
     },
     // 发送请求修改职业信息
-    editJobInfo(){
-      this.$http.get('',{params: {}}).then(res => {
-
+    editJobInfo({id,name}){
+      this.$http.get('/sys/editJob',{params: {id,job: name}}).then(res => {
+        if(res.data.success){
+          console.log(res.data.result)
+        }
       });
     },
     // 根据id获取职业列表
