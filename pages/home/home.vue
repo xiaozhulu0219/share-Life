@@ -73,7 +73,7 @@
 		data() {
 			return {
 				activeTab: 0,
-				tabs: [{ id: 1, name: '推荐' }, { id: 2, name: '助力' }, { id: 3, name: '百科' }, { id: 4, name: '游戏' }],
+				tabs: [{ id: 1, name: '推荐' }, { id: 2, name: '助力' }, { id: 3, name: '百科' }, { id: 4, name: '游戏' }, { id: 5, name: '关注' }],
 				CustomBar: this.CustomBar,
 				NavBarColor: this.NavBarColor,
 				url: '/umsMember/list',

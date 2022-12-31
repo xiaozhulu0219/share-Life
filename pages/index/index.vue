@@ -21,7 +21,7 @@
 			<view class="popup-card bg-white">
 				<view class="padding text-right cuIcon-close" @tap="closeModal"></view>
 				<view class="flex popup-content">
-					<view class="card-item padding bg-gradual-green">发动态</view>
+					<view class="card-item padding bg-gradual-green" @tap="goInformation">发动态</view>
 					<view class="card-item padding bg-gradual-blue" @tap="goHelpCom">助力公司</view>
 				</view>
 			</view>
@@ -56,6 +56,12 @@ export default {
 		},
 		closeModal() {
 			this.$refs.popup.close();
+		},
+		goInformation() {
+			this.$refs.popup.close();
+			uni.navigateTo({
+				url:'/pages/information/informationForm'
+			})
 		},
 		goHelpCom() {
 			this.$refs.popup.close();
