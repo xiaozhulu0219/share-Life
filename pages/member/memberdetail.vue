@@ -24,7 +24,7 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/nickName" :style="[{animationDelay: '0.2s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" :url="`/pages/member/nickName?query=${JSON.stringify(this.personalMsg)}`" :style="[{animationDelay: '0.2s'}]">
 					<view class="content">
 						<text class="text-grey">昵称</text>
 					</view>
@@ -67,7 +67,9 @@
 
 			<!--  这个是配字典将来可以滚动选择  -->
 			<view class="cu-list menu">
-				<app-select label="职    业：" class="text-grey" v-model="personalMsg.job" placeholder="请选择职业" :dict="job_type" space ></app-select>
+				<secondPickerVue label="职    业：" 
+        class="text-grey" v-model="personalMsg.job" 
+        placeholder="请选择职业" ></secondPickerVue>
 			</view>
 
 			<view class="cu-list menu">
@@ -98,19 +100,20 @@
 </template>
 
 <script>
-	const job_type = [{text:'程序员',value:'1'},{text:'医生',value:'2'},{text:'宇航员',value:'3'},{text:'老师',value:'4'},{text:'销售',value:'5'}];
+	// const job_type = [{text:'程序员',value:'1'},{text:'医生',value:'2'},{text:'宇航员',value:'3'},{text:'老师',value:'4'},{text:'销售',value:'5'}];
 	import api from '@/api/api.js'
-	import appSelect from '@/components/my-componets/appSelect.vue'
+	import appSelect from '@/components/my-componets/appSelect.vue';
+  import secondPickerVue from '@/components/my-componets/secondPicker.vue';
 	import myImageUpload from '@/components/my-componets/my-image-upload.vue'
 	import myDate from '@/components/my-componets/my-date.vue'
 
 	export default {
 		components:{
-			appSelect,myImageUpload,myDate
+			appSelect,myImageUpload,myDate,secondPickerVue
 		},
 		data() {
 			return {
-				job_type,
+				// job_type,
 				personalMsg:{
 					avatar:'',
 					nickName:'',

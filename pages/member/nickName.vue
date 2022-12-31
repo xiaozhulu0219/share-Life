@@ -2,7 +2,7 @@
 	<view>
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 			<view slot="backText">返回</view>
-			<view slot="content">编辑名字</view>
+			<view slot="content">编辑昵称</view>
 			<view slot="right" @click="onSubmit">保存</view>
 		</cu-custom>
 		<form>
@@ -10,7 +10,7 @@
 				七天内可修改一次名字</view>
 
 			<view class="cu-form-group" style="border-radius: 10px;width: 95%;margin: 0 auto;">
-				<input placeholder="请输入昵称" name="input" v-model="myFormData.nickName"></input>
+				<input placeholder="请输入昵称" name="input" v-model="myFormData.nickName" />
 			</view>
 
 			<view class="title text-grey "
