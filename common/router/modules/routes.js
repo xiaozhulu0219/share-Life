@@ -67,16 +67,30 @@ const routes = [
 	},
 	{
 		path: '/pages/helpcompany/helpCompanyLikeQueryList',
-		name: 'informationForm',
+		name: 'helpCompanyLikeQueryList',
 		meta: {
 			title: '助力公司新增时模糊查询结果列表页',
 		},
 	},
 	{
+		path: '/pages/helpcompany/helpCompanyDetailForm',
+		name: 'helpCompanyDetailForm',
+		meta: {
+			title: '助力公司新增时模糊查询结果列表页111',
+		},
+	},
+	{
 		path: '/pages/helpcompany/helpCompanyList',
-		name: 'informationList',
+		name: 'helpCompanyList',
 		meta: {
 			title: '助力公司列表',
+		},
+	},
+	{
+		path: '/pages/helpcompany/helpCompanySelectForm',
+		name: 'helpCompanySelectForm',
+		meta: {
+			title: '助力公司列表111',
 		},
 	},
     {
