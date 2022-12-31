@@ -7,7 +7,7 @@
 					<navigator url="/pages/user/userexit"><text class="cuIcon-exit"></text></navigator>
 				</view>
 				<view class="padding">
-					<view class="margin-bottom-xl flex">
+					<view class="margin-bottom-xl flex personInfo">
 						<!--						<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" class="png round" mode="aspectFit"></image>-->
 						<image src="../../static/images/touxiang.jpg" mode="" @click="updateHeadPic" class="png round">
 						</image>
@@ -16,12 +16,10 @@
 						<view class="margin-left-xl flex flex-sub flex-direction justify-around">
 							<text class="text-bold">{{personalList.nickName}}</text>
 							<text class="cuIcon-male text-blue"></text>
-							<text class="">{{personalList.signature}}</text>
 						</view>
-
 					</view>
-
-					<view class="flex justify-between align-center">
+					<text class="flex flex-sub flex-direction signature">{{personalList.signature}}</text>
+					<view class="flex justify-between align-center personData">
 						<view class="flex text-sm">
 							<view class="flex flex-direction align-center margin-right-xl"><text>0</text><text
 									:style="{color:'#ddd'}">关注</text></view>
@@ -204,6 +202,7 @@
 	} */
 
 	.text-exit {
+		margin-top: 30rpx;
 		position: absolute;
 		top: 10px;
 		right: 0;
@@ -219,6 +218,26 @@
 	.UCenter-bg image {
 		width: 160rpx;
 		height: 160rpx;
+	}
+
+	.UCenter-bg .personInfo {
+		/* background-color: aquamarine; */
+		margin-top: 30rpx;
+	}
+
+	.UCenter-bg .signature {
+		margin-top: -30rpx;
+		width: 100%;
+		height: 110rpx;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.UCenter-bg .personData {
+		margin-top: 30rpx;
 	}
 
 	.UCenter-bg .gif-wave {
