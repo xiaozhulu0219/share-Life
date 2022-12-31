@@ -48,21 +48,21 @@ const routes = [
 	  //aliasPath:'/',  //对于h5端你必须在首页加上aliasPath并设置为/
 	  name: 'home',
 	    meta: {
-	        title: '原主页',
+	        title: '主页',
 	    },
 	},
 	{
 		path: '/pages/information/informationList',
 		name: 'information',
 		meta: {
-			title: '新首页列表',
+			title: '新首页百态动态列表',
 		},
 	},
 	{
 		path: '/pages/information/informationForm',
 		name: 'informationForm',
 		meta: {
-			title: '新首页新增页',
+			title: '动态新增页',
 		},
 	},
 	{
@@ -77,6 +77,13 @@ const routes = [
 		name: 'informationList',
 		meta: {
 			title: '助力公司列表',
+		},
+	},
+	{
+		path: '/pages/helpcompany/helpCompanySelectForm',
+		name: 'helpCompanySelectForm',
+		meta: {
+			title: '助力公司新增时选择公司后的跳转页',
 		},
 	},
     {
