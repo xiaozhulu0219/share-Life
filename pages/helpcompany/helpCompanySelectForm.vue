@@ -41,7 +41,7 @@
 					<view class="flex popup-content popup-title">助力公司</view>
 					<view class="flex popup-content popup-text">助力该公司后，您需要认证自己资料为在职、离职、面试者身份后，可为该企业添加标签以及首条评论</view>
 					<view class="flex popup-content">
-						<view class="card-item padding bg-gradual-green" @tap="goInformation">确认助力</view>
+						<view class="card-item padding bg-gradual-green" @tap="confirmHelp">确认助力</view>
 						<view class="card-item padding bg-gradual-blue" @tap="closeModal">再想想</view>
 					</view>
 				</view>
@@ -84,6 +84,7 @@
 					add: "/member/add",
 					edit: "/member/edit",
 					findPageByEnterpriseName: "/enterprise/list", //助力新增页面模糊查询调用企查查
+					savePublish: "/company/movements/savePublish"
 				},
 			}
 		},
@@ -141,6 +142,19 @@
 			closeModal() {
 				this.$refs.popup.close();
 			},
+			confirmHelp() {
+				this.$http.post(this.url.savePublish, {
+					params: {
+						companyName: this.model.enterpriseName
+					}
+				}).then(res => {
+					if (res.data.success) {
+						console.log("助力成功");
+					}else{
+						this.$tip.toast(res.data.message);
+					}
+				})
+			}
 
 		}
 	}
