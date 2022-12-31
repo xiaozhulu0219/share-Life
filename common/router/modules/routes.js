@@ -74,7 +74,7 @@ const routes = [
 	},
 	{
 		path: '/pages/helpcompany/helpCompanyList',
-		name: 'informationList',
+		name: 'helpCompanyList',
 		meta: {
 			title: '助力公司列表',
 		},
@@ -86,18 +86,11 @@ const routes = [
 			title: '助力公司新增时选择公司后的跳转页',
 		},
 	},
-    {
-	    path: '/pages/user/people',
-        name: 'people',
-        meta: {
-	        title: '原个人中心',
-	    },
-	},
 	{
 		path: '/pages/member/member',
 		name: 'member',
 		meta: {
-			title: '新个人',
+			title: '个人页',
 		},
 	},
 	{
