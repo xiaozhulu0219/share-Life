@@ -29,27 +29,23 @@ export default {
   data() {
     return {
       multiArray: [[],[]], // 职业级联选择器数组
-      multiObject: [],      // 职业数组
+      multiObject: [],// 职业数组
       multiIndex: [-1,-1]
     }
   },
   methods: {
     // 根据二级id获取一级二级职业id, 设置选择器选中状态
-    getFirstByChildId(){
-      this.$http.get('/sys/category/queryByChildId',{params: {id:"1609113068629487618" }}).then(res => {
+    getFirstByChildId(id){
+      this.$http.get('/sys/category/queryByChildId',{params: { id }}).then(res => {
         if(res.data.success){
           const [firstId, secondId] = res.data.result;
           const firstIdx = this.multiObject.findIndex(item => item.id === firstId);
+          // 一级分类的二级详细分类
           const firstJobDetail = this.multiObject[firstIdx].children || [];
-          let secondIdx = -1
-          firstJobDetail.forEach((item,index) => {
-            if(item.id === secondId){
-              secondIdx = index;
-            }
-          });
+          const secondIdx = firstJobDetail.findIndex(item => item.id === secondId);
           this.multiIndex[0] = firstIdx;
           this.multiIndex[1] = secondIdx;
-          const detailArr = this.multiObject[secondIdx].children || [];
+          const detailArr = this.multiObject[firstIdx].children || [];
           const secondNames = detailArr.map(item => item.name);
           this.multiArray.splice(this.multiArray.length - 1, 1, secondNames);
         }
@@ -57,7 +53,7 @@ export default {
     },
     // 完成选择器选择事件
     PickerChange(e) {
-      const [fId,sId] = e.detail.value
+      const [fId, sId] = e.detail.value
       this.multiIndex = e.detail.value;
       const selectJob = this.multiObject[fId].children[sId];
       console.log(selectJob,'selectJob')
@@ -74,8 +70,8 @@ export default {
       }
     },
     // 发送请求修改职业信息
-    editJobInfo({id,name}){
-      this.$http.get('/sys/editJob',{params: {id,job: name}}).then(res => {
+    editJobInfo({id}){
+      this.$http.get('/sys/editJob',{params: {id: this.$store.getters.userid,job: id}}).then(res => {
         if(res.data.success){
           console.log(res.data.result)
         }
