@@ -42,7 +42,7 @@
 			goback(){
 				console.log("跳转方法调用了");
 				uni.navigateTo({
-					url:'/pages/common/helloWorld'
+					url:'/pages/login/login'
 				})
 			}
 		}
