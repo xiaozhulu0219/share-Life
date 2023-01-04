@@ -88,6 +88,7 @@
 				departUrl: '/sys/user/userDepartList',
 				userUrl: '/sys/user/queryById',
 				postUrl: '/sys/position/queryByCode',
+				findMemberPublishPageUrl:'/company/movements/findMemberPublishPage',
 				userId: '',
 				id: ''
 			};
@@ -169,6 +170,20 @@
 			clickTab(index) {
 				if (this.activeTab === index) return
 				this.activeTab = index
+				if(index === 1){  
+					this.$http.get(this.findMemberPublishPageUrl, {
+						params: {
+							page: 1,
+							pagesize:20
+						}
+					}).then(res => {
+						if (res.data.success) {
+							console.log(res.data.result)
+						}
+					}).catch(err => {
+						console.log(err);
+					});
+				}
 			},
 		}
 	}
