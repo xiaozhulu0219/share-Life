@@ -75,7 +75,6 @@ export default {
   data() {
     return {
       index: -1,
-      switchC: true,
       imgList: [],
       uploadUrl: '/sys/common/upload',
       myFormData: {
@@ -98,9 +97,8 @@ export default {
   methods: {
     handleTagSelect(tags) {
       const tagSelectArr = tags.split(',');
-      console.log(tagSelectArr, '====', this.customList, this.tagList);
-      const customName = this.customList.map(item => item.selfComSign);
-      const tagName = this.tagList.map(item => item.selfComSign);
+      const customName = this.customList.map(item => item.label);
+      const tagName = this.tagList.map(item => item.label);
       tagSelectArr.forEach(item => {
         const cIndex = customName.indexOf(item);
         const tIndex = tagName.indexOf(item);
@@ -179,49 +177,7 @@ export default {
           this.handleTagSelect(tags);
         }
       });
-    },
-    SwitchC(e) {
-      this.switchC = e.detail.value;
-    },
-    ChooseImage() {
-      var that = this;
-      uni.chooseImage({
-        count: 4, //默认9
-        sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-        sourceType: ['album'], //从相册选择
-        success: (res) => {
-          that.$http.upload(that.$config.apiUrl + that.uploadUrl, {
-              filePath: res.tempFilePaths[0],
-              name: 'file'
-          }).then(res => {
-              that.myFormData.avatar = res.data.message;
-          })
-          .catch(err => {
-              that.$tip.error(err.data.message);
-          });
-          this.imgList = res.tempFilePaths;
-        }
-      });
     }
-    // ViewImage(e) {
-    //   uni.previewImage({
-    //       urls: this.imgList,
-    //       current: e.currentTarget.dataset.url
-    //   });
-    // },
-    // DelImg(e) {
-    //   uni.showModal({
-    //       title: '召唤师',
-    //       content: '确定要删除这段回忆吗？',
-    //       cancelText: '再看看',
-    //       confirmText: '再见',
-    //       success: res => {
-    //           if (res.confirm) {
-    //               this.imgList.splice(e.currentTarget.dataset.index, 1);
-    //           }
-    //       }
-    //   });
-    // }
   }
 };
 </script>

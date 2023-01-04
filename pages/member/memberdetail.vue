@@ -35,7 +35,7 @@
 			</view>
 
 			<view class="cu-list menu">
-				<navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/sex" :style="[{animationDelay: '0.3s'}]">
+				<navigator class="cu-item arrow animation-slide-bottom" :url="`/pages/member/sex?query=${this.personalMsg.sexNum}`" :style="[{animationDelay: '0.3s'}]">
 					<view class="content">
 						<text class="text-grey">性别</text>
 					</view>
@@ -135,9 +135,9 @@
 				departUrl: '/sys/user/userDepartList'
 			};
 		},
-		onLoad() {
-			this.loadinfo();
-		},
+    onShow() {
+      this.loadinfo();
+    },
 		methods: {
 			getSubStringText(text, len) {
 				if (!text || text.length == 0) {
@@ -155,6 +155,7 @@
 				}); */
 			},
 			loadinfo() {
+        this.$tip.loading();
 				this.$http.get(this.userUrl, { params: { id: this.$store.getters.userid } }).then(res => {
 					if (res.data.success) {
 						const { avatar, sex, status } = res.data.result;
@@ -163,9 +164,12 @@
             }
 						this.personalMsg = res.data.result;
 						this.personalMsg.sex = sex === 1 ? '男' : '女';
+            this.personalMsg.sexNum = sex;
 						this.personalMsg.status = status === 1 ? '正常' : '冻结';
 					}
+          this.$tip.loaded();
 				}).catch(e => {
+          this.$tip.loaded();
 					console.log('请求错误', e);
 				});
 

@@ -1,15 +1,16 @@
 <template>
-	<view>
+	<view class="sex-container">
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 			<view slot="backText">返回</view>
 			<view slot="content">编辑性别</view>
 			<view slot="right" @click="onSubmit()">保存</view>
 		</cu-custom>
 		<form>
-			<view class="cu-form-group margin-top">
-				<view class="title">性别</view>
-				<switch class='switch-sex' @change="SwitchC" :class="switchC?'checked':''"
-					:checked="switchC?true:false"></switch>
+      <view class="title">选择你的性别</view>
+			<view class="sex-options">
+          <view @tap="switchSex(2)" class="sex">女<view v-show="sex === 2" class='cuIcon-check'></view></view>
+          <view class="gap"></view>
+          <view @tap="switchSex(1)" class="sex">男<view v-show="sex === 1" class='cuIcon-check'></view></view>
 			</view>
 		</form>
 	</view>
@@ -20,144 +21,83 @@
 		data() {
 			return {
 				index: -1,
-				switchC: true,
-				imgList: [],
-				uploadUrl: "/sys/common/upload",
-				myFormData: {
-					sex: 1,
-					orgCode: '',
-					workNo: '',
-					id: '',
-				},
+        sex: 0
 			};
 		},
 		onLoad: function(option) {
-			console.log("this.$Route.query", this.$Route.query);
-			let query = this.$Route.query
-			if (query) {
-				this.myFormData = query;
-				if (this.myFormData.sex == '女') {
-					this.switchC = false
-				} else if (this.myFormData.sex == '男') {
-					this.switchC = true
-				}
-				if (this.myFormData.avatar) {
-					this.imgList = [this.myFormData.avatar]
-				}
-				// if (!this.myFormData.birthday) {
-				// 	this.myFormData.birthday = '无'
-				// }
-				if (this.myFormData.identity == '普通成员') {
-					this.myFormData.identity = 1
-				} else if (this.myFormData.identity == '上级') {
-					this.myFormData.identity = 2
-				}
-				if (this.myFormData.status == '正常') {
-					this.myFormData.status = 1
-				} else if (this.myFormData.status == '冻结') {
-					this.myFormData.status = 2
-				}
-				this.Avatar = this.myFormData.avatar
-
-				Object.keys(this.myFormData).map(key => {
-					if (this.myFormData[key] == '无') {
-						this.myFormData[key] = ''
-					}
-				})
-				console.log("this.myFormData", this.myFormData)
-			}
+			const sex = this.$Route.query;
+      this.sex = sex;
 		},
 		methods: {
+      switchSex(sex) {
+        this.sex = sex;
+      },
 			onSubmit() {
-				console.log('789456')
-				let myForm = this.myFormData
-				console.log("myForm", myForm)
-				this.myFormData.id = this.$store.getters.userid
-				if (this.switchC) {
-					this.myFormData.sex = 1
-				} else {
-					this.myFormData.sex = 2
-				}
-				// this.myFormData.token = uni.getStorageSync('Access-Token')
-				console.log('myform', this.myFormData)
-
+				const id = this.$store.getters.userid;
 				this.$tip.loading();
 				this.$http.get('/sys/editSex', {
 					params: {
-						id: this.$store.getters.userid,
-						sex: this.myFormData.sex
+						id,
+						sex: this.sex
 					}
 				}).then(res => {
-					console.log(res, 'res789')
-
 					this.$tip.loaded();
 					if (res.data.success) {
-						this.$tip.toast('提交成功')
+						this.$tip.toast('提交成功');
 						this.$Router.replace({
 							name: 'memberdetail'
-						})
+						});
 						/* uni.navigateTo({
 						    url: '/pages/user/userdetail'
 						}) */
 					}
 				}).catch((err) => {
-					console.log(err, 'err')
+					console.log(err, 'err');
 					this.$tip.loaded();
-					this.$tip.error('提交失败')
+					this.$tip.error('提交失败');
 				});
-			},
-			DateChange(e) {
-				this.myFormData.birthday = e.detail.value
-			},
-			SwitchC(e) {
-				this.switchC = e.detail.value
-			},
-			ChooseImage() {
-				var that = this;
-				uni.chooseImage({
-					count: 4, //默认9
-					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-					sourceType: ['album'], //从相册选择
-					success: (res) => {
-						that.$http.upload(that.$config.apiUrl + that.uploadUrl, {
-								filePath: res.tempFilePaths[0],
-								name: 'file'
-							})
-							.then(res => {
-								that.myFormData.avatar = res.data.message;
-							})
-							.catch(err => {
-								that.$tip.error(err.data.message)
-							});
-						this.imgList = res.tempFilePaths
-					}
-				});
-			},
-			ViewImage(e) {
-				uni.previewImage({
-					urls: this.imgList,
-					current: e.currentTarget.dataset.url
-				});
-			},
-			DelImg(e) {
-				uni.showModal({
-					title: '召唤师',
-					content: '确定要删除这段回忆吗？',
-					cancelText: '再看看',
-					confirmText: '再见',
-					success: res => {
-						if (res.confirm) {
-							this.imgList.splice(e.currentTarget.dataset.index, 1)
-						}
-					}
-				})
 			}
 		}
-	}
+	};
 </script>
 
 <style>
-	.cu-form-group .title {
+.right {
+  cursor: pointer;
+}
+.sex-container {
+  background-color: #f0f0f0;
+}
+	 .title {
 		min-width: calc(4em + 15px);
+    color: #666;
+    font-size: 16px;
+    margin-left: 20px;
+    margin-top: 20px;
+
 	}
+  .sex-options {
+    box-sizing: border-box;
+    width: 96%;
+    margin: 20rpx;
+    height: 200rpx;
+    background-color: #fff;
+    border-radius: 16rpx;
+  }
+  .sex {
+    display: flex;
+    padding: 0 20px;
+    justify-content: space-between;
+    line-height: 100rpx;
+    cursor: pointer;
+  }
+  .cuIcon-check {
+    color:#0081ff;
+  }
+  .gap{
+    width: 98%;
+    height: 1px;
+    margin: 0 auto;
+    background: #f0f0f0;
+  }
 </style>
