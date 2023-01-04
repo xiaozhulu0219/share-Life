@@ -66,6 +66,9 @@ Vue.component('helpCompanyLikeQueryList',helpCompanyLikeQueryList)
 import helpCompanySelectForm from './pages/helpcompany/helpCompanySelectForm.vue'
 Vue.component('helpCompanySelectForm',helpCompanySelectForm)
 
+import helpCompanyDetailForm from './pages/helpcompany/helpCompanyDetailForm.vue'
+Vue.component('helpCompanyDetailForm',helpCompanyDetailForm)
+
 import people from './pages/user/people.vue'
 Vue.component('people',people)
 

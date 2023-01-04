@@ -123,6 +123,10 @@
 			"path": "pages/helpcompany/helpCompanySelectForm",
 			"style": {}
 		},
+		{
+			"path": "pages/helpcompany/helpCompanyDetailForm",
+			"style": {}
+		},
         {
 			"path": "pages/home/home",
 			"style": {}
