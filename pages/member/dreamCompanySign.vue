@@ -117,7 +117,6 @@ export default {
         id: this.$store.getters.userid
       };
       this.$http.get('/sys/editDreamCompanySign', { params }).then(res => {
-        this.$tip.toast(res.data.success ? '修改成功' : '修改失败');
       }).catch(e => {
 				console.log('请求错误', e);
 			});

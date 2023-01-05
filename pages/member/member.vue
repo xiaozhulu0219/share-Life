@@ -15,8 +15,8 @@
 						<!-- <image src="https://static.jeecg.com/upload/test/wave_1595818053612.gif" mode="scaleToFill" class="gif-wave"></image> -->
 						<view class="margin-left-xl flex flex-sub flex-direction justify-around">
 							<text class="text-bold">{{personalList.nickName}}</text>
-							<text class="cuIcon-male text-blue"></text>
-						</view>
+							<text :class="[{'cuIcon-male text-blue': personalList.sex === 1},{'cuIcon-female text-pink': personalList.sex === 2}]"></text>
+            </view>
 					</view>
 					<text class="flex flex-sub flex-direction signature">{{personalList.signature}}</text>
 					<view class="flex justify-between align-center personData">
@@ -57,9 +57,9 @@
 </template>
 
 <script>
-	import api from '@/api/api'
+	import api from '@/api/api';
 	export default {
-		name: "member",
+		name: 'member',
 		data() {
 			return {
 				activeTab: 0,
@@ -80,15 +80,15 @@
 					avatar: '',
 					realname: '',
 					username: '',
-					nickName: "",
+					nickName: '',
 					post: '',
-					signature: ""
+					signature: ''
 				},
 				positionUrl: '/sys/position/list',
 				departUrl: '/sys/user/userDepartList',
 				userUrl: '/sys/user/queryById',
 				postUrl: '/sys/position/queryByCode',
-				findMemberPublishPageUrl:'/company/movements/findMemberPublishPage',
+				findMemberPublishPageUrl: '/company/movements/findMemberPublishPage',
 				userId: '',
 				id: ''
 			};
@@ -97,15 +97,15 @@
 			cur: {
 				immediate: true,
 				handler() {
-					console.log('watch', this.cur)
+					console.log('watch', this.cur);
 					this.userId = this.$store.getters.userid;
-					this.load()
-				},
-			},
+					this.load();
+				}
+			}
 		},
 		methods: {
 			scan() {
-				console.log("进来了")
+				console.log('进来了');
 				// #ifndef H5
 				uni.scanCode({
 					success: function(res) {
@@ -116,12 +116,11 @@
 				});
 				// #endif
 				// #ifdef H5
-				this.$tip.alert("暂不支持")
+				this.$tip.alert('暂不支持');
 				// #endif
 			},
 			load() {
 				if (!this.userId) {
-
 					return;
 				}
 				this.$http.get(this.userUrl, {
@@ -129,28 +128,23 @@
 						id: this.userId
 					}
 				}).then(res => {
-					console.log("res", res)
 					if (res.data.success) {
-						let perArr = res.data.result
-						let avatar = (perArr.avatar && perArr.avatar.length > 0) ? api.getFileAccessHttpUrl(perArr
-							.avatar) : '/static/avatar_boy.png'
-						this.personalList.avatar = avatar
-						this.personalList.realname = perArr.realname
-						this.personalList.nickName = perArr.nickName
-						this.personalList.username = perArr.username
-						this.personalList.depart = perArr.departIds
-						this.personalList.signature = perArr.signature
-						console.log(this.personalList.nickName, 'this.personalList.nickName ')
-						this.getpost(perArr.post)
+						const { avatar: originalAvatar, departIds, post } = res.data.result;
+            this.personalList = res.data.result;
+						const avatar = (originalAvatar && originalAvatar.length > 0)
+            ? api.getFileAccessHttpUrl(originalAvatar)
+            : '/static/avatar_boy.png';
+						this.personalList.avatar = avatar;
+						this.personalList.depart = departIds;
+						this.getpost(post);
 					}
 				}).catch(err => {
 					console.log(err);
 				});
-
 			},
 			getpost(code) {
 				if (!code || code.length == 0) {
-					this.personalList.post = '员工'
+					this.personalList.post = '员工';
 					return false;
 				}
 				this.$http.get(this.postUrl, {
@@ -158,35 +152,34 @@
 						code: code
 					}
 				}).then(res => {
-					console.log("postUrl", res)
+					console.log('postUrl', res);
 					if (res.data.success) {
-						this.personalList.post = res.data.result.name
+						this.personalList.post = res.data.result.name;
 					}
 				}).catch(err => {
 					console.log(err);
 				});
-
 			},
 			clickTab(index) {
-				if (this.activeTab === index) return
-				this.activeTab = index
-				if(index === 1){  
+				if (this.activeTab === index) return;
+				this.activeTab = index;
+				if (index === 1) {
 					this.$http.get(this.findMemberPublishPageUrl, {
 						params: {
 							page: 1,
-							pagesize:20
+							pagesize: 20
 						}
 					}).then(res => {
 						if (res.data.success) {
-							console.log(res.data.result)
+							console.log(res.data.result);
 						}
 					}).catch(err => {
 						console.log(err);
 					});
 				}
-			},
+			}
 		}
-	}
+	};
 </script>
 
 <style>
