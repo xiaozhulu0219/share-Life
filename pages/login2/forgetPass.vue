@@ -1,22 +1,22 @@
 <template>
 	<view class="wx-login">
 		<!--这个是找回密码页-->
-		<watermark></watermark>
+		<!-- <watermark></watermark> -->
 		<view class="wx-login-title">找回密码</view>
 		<view class="xw-login-form">
-			<form @submit="sublogin">
+			<form @submit="forgetPassword">
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">手机号</view>
-					<input class="xw-login-form-input" maxlength="11" placeholder="请填写手机号" type="text" name="phone" v-model="phone" />
-					<view class="login-form-icon login-form-seepass" @click="phone=''" v-if="phone.length>0">
+					<input class="xw-login-form-input" maxlength="11" placeholder="请填写手机号" type="text" name="mobile" v-model="mobile" />
+					<view class="login-form-icon login-form-seepass" @click="mobile=''" v-if="mobile.length">
 						<uni-icons type="clear" size="26" color="#B9CCE0"></uni-icons>
 					</view>
 				</view>
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">验证码</view>
-					<input class="xw-login-form-input" placeholder="请填写验证码" v-model="code" name="code" type="text" />
+					<input class="xw-login-form-input" placeholder="请填写验证码" v-model="captcha" name="captcha" type="text" />
 					<view class="wx-btn wx-btn-info" @click="getMsgCode()" v-if="!loading">获取验证码</view>
-					<view class="wx-btn wx-btn-info" v-else>{{time}}秒后重试</view>
+					<view class="wx-btn wx-btn-grad" v-else>{{time}}秒后重试</view>
 				</view>
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">新密码</view>
@@ -30,13 +30,11 @@
 				<text class="xw-login-form-code" @click="goLogin">已修改，去登录</text>
 				<button class="wx-btn wx-btn-info xw-login-form-btn" form-type="submit">找回密码</button>
 				<view class="login-agree">
-					<view class="login-agree-checkd" @click="agree = !agree">
-						<label for="agree">
-							<checkbox id="agree" style="transform:scale(0.7)" :checked="agree" />
-							<text class="login-agree-btn">已阅读并同意</text>
-						</label>
+					<view class="login-agree-checked" @click="agree = !agree">
+            <view class="checkWrap"><text :class="['cuIcon-check',{isSelected: agree}]"></text></view>
+            <text class="login-agree-btn">已阅读并同意</text>
 					</view>
-					<view class="login-agree-text" @click="goagreement()">《隐私及服务协议》</view>
+					<view class="login-agree-text" @click="goAgreement()">《隐私及服务协议》</view>
 				</view>
 			</form>
 		</view>
@@ -44,43 +42,72 @@
 </template>
 
 <script>
+  import formChecker from '@/common/formChecker.js';
 	export default {
 		data() {
 			return {
-				code:'',
+				captcha: '',
 				loading: false,
 				timer: null,
 				time: 60,
-				logintype: 0,
-				phone: '',
+				mobile: '',
 				cid: '',
 				showPassword: true,
 				agree: false,
-			}
+        rules: [
+           {
+            name: 'mobile',
+            checkType: 'required',
+            errorMsg: '请填写手机号码'
+          },
+          {
+            name: 'mobile',
+            checkType: 'phone',
+            checkRule: '11',
+            errorMsg: '请填写正确的手机号码'
+          },
+          {
+            name: 'captcha',
+            checkType: 'required',
+            errorMsg: '请输入验证码'
+            },
+          {
+            name: 'password',
+            checkType: 'required',
+           errorMsg: '请输入密码'
+            },
+           {
+            name: 'password',
+           checkType: 'string',
+           checkRule: '8,20',
+           errorMsg: '密码至少输入8-20位'
+            }
+        ]
+			};
 		},
 		onLoad() {},
 		methods: {
 			changePassword() {
 				this.showPassword = !this.showPassword;
 			},
-			goLogin(){
+			goLogin() {
 				uni.navigateTo({
-					url: '../login/index'
-				})
+					url: '/pages/login2/login3'
+				});
 			},
-			goagreement() {
+			goAgreement() {
 				// uni.navigateTo({//本地协议
 				// 	url: '../../pages/agreement/index?name=微聊'
 				// })
-				this.$http.request({//在线协议
+				this.$http.request({ //在线协议
 					url: '/common/getAgreement',
 					success: (res) => {
 						if (res.data.code == 200) {
 							// #ifdef H5
-							window.open(res.data.data)
+							window.open(res.data.data);
 							// #endif
 							// #ifdef APP-PLUS
-							this.$fc.openWebView(res.data.data)
+							this.$fc.openWebView(res.data.data);
 							// #endif
 						}
 					}
@@ -88,76 +115,35 @@
 			},
 			getMsgCode() {
 				var reg = /^1[0-9]{10,10}$/;
-				if(!reg.test(this.phone)){
+				if (!reg.test(this.mobile)) {
 					uni.showToast({
-						title:'请输入正确的手机号',
-						icon:'none'
-					})
-					return
+						title: '请输入正确的手机号',
+						icon: 'none'
+					});
+					return;
 				}
-				this.loading = true
+				this.loading = true;
 				this.timer = setInterval(() => {
-					this.time--
+					this.time--;
 					if (this.time <= 0) {
-						clearInterval(this.timer)
-						this.loading = false
-						this.time = 60
+						clearInterval(this.timer);
+						this.loading = false;
+						this.time = 60;
 					}
-				}, 1000)
-				var formData={
-					phone:this.phone,
-					type:'3'//找回密码
-				}
-				this.$http.request({
-					url: '/auth/sendCode',
-					method: 'POST',
-					data:JSON.stringify(formData),
-					success: (res) => {
-						if (res.data.code == 200) {
-							// todo验证码
-							this.code=res.data.data.code
+				}, 1000);
+        this.$http.get('/sys/sharelifeSend', { params: { phone: this.mobile } }).then(res => {
+          if (res.data.success) {
+							this.captcha = res.data.result;
 							uni.showToast({
-								title:'验证码已发送至你的手机',
-								icon:'none'
-							})
+								title: '验证码已发送至你的手机',
+								icon: 'none'
+							});
 						}
-					}
-				});
+        });
 			},
-			rMathfloor(min, max) { //返回包括最大/小值
-				return Math.floor(Math.random() * (max - min + 1)) + min
-			},
-			sublogin(e) {
-				var rules = {
-					phone: {
-						rules: [{
-							checkType: "required",
-							errorMsg: "请填写手机号码"
-						}, {
-							checkType: "phone",
-							errorMsg: "请填写正确的手机号码"
-						}]
-					},
-					password: {
-						rules: [{
-							checkType: "required",
-							errorMsg: "请输入密码"
-						}, {
-							checkType: "string",
-							checkRule: "8,20",
-							errorMsg: "至少输入8-20位"
-						}]
-					},
-					code: {
-						rules: [{
-							checkType: "required",
-							errorMsg: "请输入验证码"
-						}]
-					}
-				};
+			forgetPassword(e) {
 				var formData = e.detail.value;
-				var checkRes = this.$zmmFormCheck.check(formData, rules);
-				formData.password=this.$md5.hex_md5(formData.password)
+				var checkRes = formChecker.check(formData, this.rules);
 				if (checkRes) {
 					if (!this.agree) {
 						uni.showToast({
@@ -166,28 +152,31 @@
 						});
 						return;
 					}
-					this.$http.request({
-						url: '/auth/forget',
-						method: 'POST',
-						data:JSON.stringify(formData),
-						success: (res) => {
-							if (res.data.code == 200) {
+
+          this.$http.post('/sys/sharelifeForget', formData).then(res => {
+            if (res.data.success) {
 								uni.showToast({
-									title:'密码修改成功'
-								})
+									title: '密码修改成功',
+                  complete() {
+										setTimeout(() => {
+											uni.redirectTo({
+												url: '/pages/login2/login3'
+											});
+										}, 1500);
+									}
+								});
 							}
-						}
-					});
+          });
 				} else {
 					uni.showToast({
-						title: this.$zmmFormCheck.error,
-						icon: "none",
+						title: formChecker.error,
+						icon: 'none',
 						position: 'bottom'
 					});
 				}
-			},
+			}
 		}
-	}
+	};
 </script>
 
 <style lang="scss" scoped>
@@ -265,6 +254,7 @@
 		height: 100rpx;
 		line-height: 100rpx;
 		color: #8295a5;
+    cursor: pointer;
 	}
 
 	.wx-btn {
@@ -281,9 +271,32 @@
 	.wx-btn-info {
 		background-color: #05C160;
 	}
+  .wx-btn-grad {
+    background-color: #ccc;
+    color: #fff;
+    cursor: not-allowed;
+  }
 
 	.xw-login-form-btn {
 		width: 300rpx;
 		margin-top: 120rpx;
 	}
+  .login-agree-checked {
+    display: flex;
+    align-items: center;
+  }
+  .checkWrap {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+  }
+  .cuIcon-check {
+    color: transparent;
+    font-size: 14px;
+  }
+  .isSelected {
+    color: #007AFF;
+  }
 </style>

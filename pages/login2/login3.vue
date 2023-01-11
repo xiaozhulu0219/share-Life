@@ -5,13 +5,14 @@
 			<view class="text-center" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
 <!--				<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" mode='aspectFit' class="zai-logo "></image>-->
 				<image src="../../static/images/touxiang.jpg" mode='aspectFit' class="zai-logo "></image>
-				<view class="zai-title text-shadow ">SHARE LIFE </view>
+				<view class="zai-title text-shadow "> SHARE LIFE </view>
 			</view>
 			<view class="box padding-lr-xl login-paddingtop" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
+        <!-- 账号密码登录 start表单 -->
 				<block v-if="loginWay==1">
 					<view class="cu-form-group margin-top  shadow-warp" :class="[shape=='round'?'round':'']">
 						<view class="title"><text class="cuIcon-people margin-right-xs"></text>账号:</view>
-						<input placeholder="请输入账号" name="input" v-model="userName"></input>
+						<input placeholder="请输入账号" name="input" v-model="userName" />
 					</view>
 					<view class="cu-form-group margin-top shadow-warp" :class="[shape=='round'?'round':'']">
 						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>密码:</view>
@@ -21,20 +22,25 @@
 								@click="changePassword"></text>
 						</view>
 					</view>
+          <text class="xw-login-form-code" v-if="loginWay !== 2" @click="loginWay = 2">使用短信验证码登录</text>
+          <view class="xw-login-form-code" @click="goForgetPass">忘记密码</view>
 					<view class="padding text-center margin-top">
 						<button class="cu-btn bg-blue lg margin-right shadow" :loading="loading"
 							:class="[shape=='round'?'round':'']" @tap="onLogin"><text
 								space="emsp">{{loading ? "登录中...":" 登录 "}}</text>
 						</button>
-						<button class="cu-btn line-blue lg margin-left shadow" :loading="loading"
+						<!-- <button class="cu-btn line-blue lg margin-left shadow" :loading="loading"
 							:class="[shape=='round'?'round':'']" @tap="loginWay=3-loginWay">短信登录
-						</button>
+						</button> -->
 					</view>
 				</block>
+        <!-- 账号密码登录 end表单 -->
+
+        <!-- 手机号登录 start表单 -->
 				<block v-else>
 					<view class="cu-form-group margin-top  shadow-warp" :class="[shape=='round'?'round':'']">
 						<view class="title"><text class="cuIcon-mobile margin-right-xs"></text>手机号:</view>
-						<input placeholder="请输入手机号" type="number" maxlength="11" v-model="phoneNo"></input>
+						<input placeholder="请输入手机号" type="number" maxlength="11" v-model="phoneNo"/>
 					</view>
 					<view class="cu-form-group margin-top shadow-warp" :class="[shape=='round'?'round':'']">
 						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>验证码:</view>
@@ -44,16 +50,19 @@
 								{{ getSendBtnText }}</button>
 						</view>
 					</view>
+          <text class="xw-login-form-code" v-if="loginWay !== 1" @click="loginWay = 1">使用密码登录</text>
+          <view class="xw-login-form-code" @click="goForgetPass">忘记密码</view>
 					<view class="padding text-center margin-top">
 						<button class="cu-btn bg-blue lg margin-right shadow" :loading="loading"
 							:class="[shape=='round'?'round':'']" @tap="onSMSLogin"><text
 								space="emsp">{{loading ? "登录中...":" 登录 "}}</text>
 						</button>
-						<button class="cu-btn line-blue lg margin-left shadow" :loading="loading"
+						<!-- <button class="cu-btn line-blue lg margin-left shadow" :loading="loading"
 							:class="[shape=='round'?'round':'']" @tap="loginWay=1">账户登录
-						</button>
+						</button> -->
 					</view>
 				</block>
+        <!-- 手机号登录 end表单 -->
 
 				<!-- #ifdef APP-PLUS -->
 				<view class="padding flex flex-direction  text-center">
@@ -70,6 +79,14 @@
 			</image>
 			<view class="gray-text">登录中...</view>
 		</view>
+    <!-- 隐私协议 -->
+    <view class="login-agree">
+					<view class="login-agree-checked" @click="agree = !agree">
+            <view class="checkWrap"><text :class="['cuIcon-check',{isSelected: agree}]"></text></view>
+            <text class="login-agree-btn">已阅读并同意</text>
+					</view>
+					<view class="login-agree-text" @click="goAgreement()">《隐私及服务协议》</view>
+				</view>
 	</view>
 
 </template>
@@ -79,10 +96,10 @@
 		ACCESS_TOKEN,
 		USER_NAME,
 		USER_INFO
-	} from "@/common/util/constants"
+	} from '@/common/util/constants';
 	import {
 		mapActions
-	} from "vuex"
+	} from 'vuex';
 	import configService from '@/common/service/config.service.js';
 
 	export default {
@@ -100,9 +117,10 @@
 				smsCountInterval: null,
 				toggleDelay: false,
 				version: '',
+        agree: false,
 				//第三方登录相关信息
-				thirdType: "",
-				thirdLoginInfo: "",
+				thirdType: '',
+				thirdLoginInfo: '',
 				thirdLoginState: false,
 				bindingPhoneModal: false,
 				thirdUserUuid: '',
@@ -113,9 +131,9 @@
 		},
 		onLoad: function() {
 			// #ifdef APP-PLUS
-			var that = this
+			var that = this;
 			plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
-				that.version = wgtinfo.version
+				that.version = wgtinfo.version;
 			});
 			// #endif
 		},
@@ -135,10 +153,36 @@
 			},
 			canPwdLogin() {
 				return this.userName.length > 4 && this.password.length > 4;
-			},
+			}
 		},
 		methods: {
-			...mapActions(["mLogin", "PhoneLogin", "ThirdLogin"]),
+			...mapActions(['mLogin', 'PhoneLogin', 'ThirdLogin']),
+      // 忘记密码
+      goForgetPass() {
+        console.log('////');
+				uni.navigateTo({
+					url: '/pages/login2/forgetPass'
+				});
+			},
+      // 勾选协议
+      goAgreement() {
+				// uni.navigateTo({//本地协议
+				// 	url: '../../pages/agreement/index?name=微聊'
+				// })
+				this.$http.request({ //在线协议
+					url: '/common/getAgreement',
+					success: (res) => {
+						if (res.data.code == 200) {
+							// #ifdef H5
+							window.open(res.data.data);
+							// #endif
+							// #ifdef APP-PLUS
+							this.$fc.openWebView(res.data.data);
+							// #endif
+						}
+					}
+				});
+			},
 			onLogin: function() {
 				if (!this.userName || this.userName.length == 0) {
 					this.$tip.toast('请填写用户名');
@@ -148,66 +192,73 @@
 					this.$tip.toast('请填写密码');
 					return;
 				}
-				let loginParams = {
+        if (!this.agree) {
+						uni.showToast({
+							title: '请先同意《隐私及服务协议》',
+							icon: 'none'
+						});
+						return;
+					}
+				const loginParams = {
 					username: this.userName,
 					password: this.password
-				}
+				};
 				this.loading = true;
 				this.mLogin(loginParams).then((res) => {
 					this.loading = false;
 					if (res.data.success) {
 						// #ifdef APP-PLUS
-						this.saveClientId()
+						this.saveClientId();
 						// #endif
 						// #ifndef APP-PLUS
-						this.$tip.success('登录成功!')
+						this.$tip.success('登录成功!');
 						this.$Router.replaceAll({
 							name: 'index'
-						})
+						});
 						// #endif
 					} else {
 						this.$tip.alert(res.data.message);
 					}
 				}).catch((err) => {
-					let msg = err.data.message || "请求出现错误，请稍后再试"
+					const msg = err.data.message || '请求出现错误，请稍后再试';
 					this.loading = false;
 					this.$tip.alert(msg);
 				}).finally(() => {
 					this.loading = false;
-				})
+				});
 			},
 			saveClientId() {
 				var info = plus.push.getClientInfo();
 				var cid = info.clientid;
-				this.$http.get("/sys/user/saveClientId", {
+				this.$http.get('/sys/user/saveClientId', {
 					params: {
 						clientId: cid
 					}
 				}).then(res => {
-					console.log("res::saveClientId>", res)
-					this.$tip.success('登录成功!')
+					console.log('res::saveClientId>', res);
+					this.$tip.success('登录成功!');
 					this.$Router.replaceAll({
 						name: 'index'
-					})
-				})
+					});
+				});
 			},
 			changePassword() {
 				this.showPassword = !this.showPassword;
 			},
 			onSMSSend() {
-				let smsParams = {};
+				const smsParams = {};
 				smsParams.mobile = this.phoneNo;
-				smsParams.smsmode = "0";
-				let checkPhone = new RegExp(/^[1]([3-9])[0-9]{9}$/);
+				smsParams.smsmode = '0';
+				const checkPhone = new RegExp(/^[1]([3-9])[0-9]{9}$/);
 				if (!smsParams.mobile || smsParams.mobile.length == 0) {
 					this.$tip.toast('请输入手机号');
-					return false
+					return false;
 				}
 				if (!checkPhone.test(smsParams.mobile)) {
 					this.$tip.toast('请输入正确的手机号');
-					return false
+					return false;
 				}
-				this.$http.post("/sys/sms", smsParams).then(res => {
+				this.$http.post('/sys/sms', smsParams).then(res => {
 					if (res.data.success) {
 						this.smsCountDown = 60;
 						this.startSMSTimer();
@@ -226,7 +277,7 @@
 				}, 1000);
 			},
 			onSMSLogin() {
-				let checkPhone = new RegExp(/^[1]([3-9])[0-9]{9}$/);
+				const checkPhone = new RegExp(/^[1]([3-9])[0-9]{9}$/);
 
 				if (!this.phoneNo || this.phoneNo.length == 0) {
 					this.$tip.toast('请填写手机号');
@@ -234,28 +285,27 @@
 				}
 				if (!checkPhone.test(this.phoneNo)) {
 					this.$tip.toast('请输入正确的手机号');
-					return false
+					return false;
 				}
 				if (!this.smsCode || this.smsCode.length == 0) {
 					this.$tip.toast('请填短信验证码');
 					return;
 				}
-				let loginParams = {
+				const loginParams = {
 					mobile: this.phoneNo,
 					captcha: this.smsCode
 				};
 				this.PhoneLogin(loginParams).then((res) => {
-					console.log("res====》", res)
 					if (res.data.success) {
-						this.$tip.success('登录成功!')
+						this.$tip.success('登录成功!');
 						this.$Router.replaceAll({
 							name: 'index'
-						})
+						});
 					} else {
 						this.$tip.error(res.data.message);
 					}
 				}).catch((err) => {
-					let msg = ((err.response || {}).data || {}).message || err.data.message || "请求出现错误，请稍后再试"
+					const msg = ((err.response || {}).data || {}).message || err.data.message || '请求出现错误，请稍后再试';
 					this.$tip.error(msg);
 				});
 			},
@@ -263,18 +313,18 @@
 				// 登陆成功，重定向到主页
 				this.$Router.replace({
 					name: 'index'
-				})
+				});
 			},
 			requestFailed(err) {
-				this.$message.warning("登录失败")
-			},
+				this.$message.warning('登录失败');
+			}
 		},
 		beforeDestroy() {
 			if (this.smsCountInterval) {
 				clearInterval(this.smsCountInterval);
 			}
-		},
-	}
+		}
+	};
 </script>
 
 <style>
@@ -327,4 +377,47 @@
 	.zai-btn.button-hover {
 		transform: translate(1upx, 1upx);
 	}
+  .xw-login-form-code {
+		font-size: 28rpx;
+		padding: 0 12rpx;
+		height: 100rpx;
+		line-height: 100rpx;
+		color: #8295a5;
+    cursor: pointer;
+	}
+  /* 隐私政策 */
+  .login-agree {
+		margin-bottom: 10px;
+		justify-content: center;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+	}
+
+	.login-agree-text,
+	.login-agree-btn {
+		font-size: 24rpx;
+		color: #222;
+	}
+  .login-agree-checked {
+    display: flex;
+    align-items: center;
+  }
+  .checkWrap {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+  }
+	.login-agree-text {
+		color: #8295a5;
+	}
+  .cuIcon-check {
+    color: transparent;
+    font-size: 14px;
+  }
+  .isSelected {
+    color: #007AFF;
+  }
 </style>

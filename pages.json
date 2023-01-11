@@ -58,6 +58,10 @@
 			"style": {}
 		},
 		{
+			"path": "pages/register/register",
+			"style": {}
+		},
+		{
 			"path": "pages/component/list",
 			"style": {}
 		},
@@ -130,7 +134,20 @@
         {
 			"path": "pages/home/home",
 			"style": {}
-		}, {
+		},
+    {
+      "path": "pages/login2/login2",
+			"style": {}
+    },
+    {
+      "path": "pages/login2/login3",
+			"style": {}
+    },
+    {
+      "path": "pages/login2/forgetPass",
+			"style": {}
+    },
+    {
 			"path": "pages/login/login",
 			"style": {}
 		}, {
