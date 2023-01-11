@@ -52,6 +52,7 @@
 					<view class="content">
 						<text class="text-grey">个性签名</text>
 					</view>
+          <!-- todo 默认值最好前端给 要不然回显 空空如也～ -->
 					<view class="action signature">
 						<text class="text-grey">{{personalMsg.signature}}</text>
 					</view>
@@ -291,6 +292,7 @@
 		-webkit-line-clamp: 2;
 		overflow: hidden;
 		text-overflow: ellipsis;
+    text-align: right;
 	}
   .tag {
     width: 66%;

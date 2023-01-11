@@ -3,46 +3,27 @@
 		<!--这个login页面是按照login.vue复制而来、要改造为手机号、密码登录。测试成功后替代原login.vue页面-->
 		<scroll-view scroll-y class="page">
 			<view class="text-center" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
-<!--				<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" mode='aspectFit' class="zai-logo "></image>-->
+        <!--	<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" mode='aspectFit' class="zai-logo "></image>-->
 				<image src="../../static/images/touxiang.jpg" mode='aspectFit' class="zai-logo "></image>
 				<view class="zai-title text-shadow "> SHARE LIFE </view>
 			</view>
 			<view class="box padding-lr-xl login-paddingtop" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
-        <!-- 账号密码登录 start表单 -->
-				<block v-if="loginWay==1">
+				<block>
 					<view class="cu-form-group margin-top  shadow-warp" :class="[shape=='round'?'round':'']">
-						<view class="title"><text class="cuIcon-people margin-right-xs"></text>账号:</view>
-						<input placeholder="请输入账号" name="input" v-model="userName" />
+						<view class="title"><text class="cuIcon-people margin-right-xs"></text>手机号:</view>
+						<input placeholder="请输入手机号" name="input" type="number" maxlength="11" v-model="phoneNo" />
 					</view>
-					<view class="cu-form-group margin-top shadow-warp" :class="[shape=='round'?'round':'']">
+          <!-- 手机号密码登录 start -->
+					<view v-if="loginWay==1" class="cu-form-group margin-top shadow-warp" :class="[{'round': shape == 'round'}]">
 						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>密码:</view>
 						<input class="uni-input" placeholder="请输入密码" :password="!showPassword" v-model="password" />
 						<view class="action text-lg">
-							<text :class="[showPassword ? 'cuIcon-attention' : 'cuIcon-attentionforbid']"
-								@click="changePassword"></text>
+							<text :class="[showPassword ? 'cuIcon-attention' : 'cuIcon-attentionforbid']" @click="changePassword"></text>
 						</view>
 					</view>
-          <text class="xw-login-form-code" v-if="loginWay !== 2" @click="loginWay = 2">使用短信验证码登录</text>
-          <view class="xw-login-form-code" @click="goForgetPass">忘记密码</view>
-					<view class="padding text-center margin-top">
-						<button class="cu-btn bg-blue lg margin-right shadow" :loading="loading"
-							:class="[shape=='round'?'round':'']" @tap="onLogin"><text
-								space="emsp">{{loading ? "登录中...":" 登录 "}}</text>
-						</button>
-						<!-- <button class="cu-btn line-blue lg margin-left shadow" :loading="loading"
-							:class="[shape=='round'?'round':'']" @tap="loginWay=3-loginWay">短信登录
-						</button> -->
-					</view>
-				</block>
-        <!-- 账号密码登录 end表单 -->
-
-        <!-- 手机号登录 start表单 -->
-				<block v-else>
-					<view class="cu-form-group margin-top  shadow-warp" :class="[shape=='round'?'round':'']">
-						<view class="title"><text class="cuIcon-mobile margin-right-xs"></text>手机号:</view>
-						<input placeholder="请输入手机号" type="number" maxlength="11" v-model="phoneNo"/>
-					</view>
-					<view class="cu-form-group margin-top shadow-warp" :class="[shape=='round'?'round':'']">
+          <!-- 手机号密码登录 end -->
+           <!-- 手机号验证码登录 start -->
+          <view v-else class="cu-form-group margin-top shadow-warp" :class="[{'round': shape == 'round'}]">
 						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>验证码:</view>
 						<input class="uni-input" placeholder="请输入验证码" v-model="smsCode" />
 						<view class="action">
@@ -50,19 +31,17 @@
 								{{ getSendBtnText }}</button>
 						</view>
 					</view>
+           <!-- 手机号验证码登录 end -->
           <text class="xw-login-form-code" v-if="loginWay !== 1" @click="loginWay = 1">使用密码登录</text>
+          <text class="xw-login-form-code" v-if="loginWay !== 2" @click="loginWay = 2">使用短信验证码登录</text>
           <view class="xw-login-form-code" @click="goForgetPass">忘记密码</view>
 					<view class="padding text-center margin-top">
 						<button class="cu-btn bg-blue lg margin-right shadow" :loading="loading"
-							:class="[shape=='round'?'round':'']" @tap="onSMSLogin"><text
-								space="emsp">{{loading ? "登录中...":" 登录 "}}</text>
+							:class="[{'round':shape == 'round'}]" @tap="login('password')">
+              <text space="emsp">{{loading ? "登录中...":" 登录 "}}</text>
 						</button>
-						<!-- <button class="cu-btn line-blue lg margin-left shadow" :loading="loading"
-							:class="[shape=='round'?'round':'']" @tap="loginWay=1">账户登录
-						</button> -->
 					</view>
 				</block>
-        <!-- 手机号登录 end表单 -->
 
 				<!-- #ifdef APP-PLUS -->
 				<view class="padding flex flex-direction  text-center">
@@ -74,7 +53,6 @@
 		</scroll-view>
 		<!-- 登录加载弹窗 -->
 		<view class="cu-load load-modal" v-if="loading">
-			<!-- <view class="cuIcon-emojifill text-orange"></view> -->
 			<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" mode="aspectFit" class="round">
 			</image>
 			<view class="gray-text">登录中...</view>
@@ -82,7 +60,7 @@
     <!-- 隐私协议 -->
     <view class="login-agree">
 					<view class="login-agree-checked" @click="agree = !agree">
-            <view class="checkWrap"><text :class="['cuIcon-check',{isSelected: agree}]"></text></view>
+            <view class="checkWrap"><text :class="['cuIcon-check',{'isSelected': agree}]"></text></view>
             <text class="login-agree-btn">已阅读并同意</text>
 					</view>
 					<view class="login-agree-text" @click="goAgreement()">《隐私及服务协议》</view>
@@ -107,9 +85,8 @@
 			return {
 				shape: '', //round 圆形
 				loading: false,
-				userName: 'admin',
-				password: '123456',
-				phoneNo: '',
+				password: '15288888888',
+				phoneNo: '15288888888',
 				smsCode: '',
 				showPassword: false, //是否显示明文
 				loginWay: 1, //1: 账密，2：验证码
@@ -138,28 +115,23 @@
 			// #endif
 		},
 		computed: {
+      // 发送验证码按钮是否可用
 			isSendSMSEnable() {
 				return this.smsCountDown <= 0 && this.phoneNo.length > 4;
 			},
+      // 发送验证码按钮文案
 			getSendBtnText() {
-				if (this.smsCountDown > 0) {
+				if (this.smsCountDown) {
 					return this.smsCountDown + '秒后发送';
 				} else {
 					return '发送验证码';
 				}
-			},
-			canSMSLogin() {
-				return this.userName.length > 4 && this.smsCode.length > 4;
-			},
-			canPwdLogin() {
-				return this.userName.length > 4 && this.password.length > 4;
 			}
 		},
 		methods: {
-			...mapActions(['mLogin', 'PhoneLogin', 'ThirdLogin']),
+			...mapActions(['newMLogin', 'PhoneLogin', 'ThirdLogin']),
       // 忘记密码
       goForgetPass() {
-        console.log('////');
 				uni.navigateTo({
 					url: '/pages/login2/forgetPass'
 				});
@@ -183,9 +155,18 @@
 					}
 				});
 			},
-			onLogin: function() {
-				if (!this.userName || this.userName.length == 0) {
-					this.$tip.toast('请填写用户名');
+      // 登录操作
+      login(type) {
+        if (type === 'password') {
+          this.onLogin();
+          return;
+        }
+        this.onSMSLogin();
+      },
+      // 手机号密码登录
+			onLogin() {
+				if (!this.phoneNo || this.phoneNo.length == 0) {
+					this.$tip.toast('请输入手机号');
 					return;
 				}
 				if (!this.password || this.password.length == 0) {
@@ -193,18 +174,19 @@
 					return;
 				}
         if (!this.agree) {
-						uni.showToast({
-							title: '请先同意《隐私及服务协议》',
-							icon: 'none'
-						});
-						return;
-					}
+					uni.showToast({
+						title: '请先同意《隐私及服务协议》',
+						icon: 'none'
+					});
+					return;
+				}
+        if (this.loading) {return;}
 				const loginParams = {
-					username: this.userName,
+					mobile: this.phoneNo,
 					password: this.password
 				};
 				this.loading = true;
-				this.mLogin(loginParams).then((res) => {
+				this.newMLogin(loginParams).then((res) => {
 					this.loading = false;
 					if (res.data.success) {
 						// #ifdef APP-PLUS
@@ -242,9 +224,11 @@
 					});
 				});
 			},
+      // 密码是否可见
 			changePassword() {
 				this.showPassword = !this.showPassword;
 			},
+      // 发送验证码到手机
 			onSMSSend() {
 				const smsParams = {};
 				smsParams.mobile = this.phoneNo;
@@ -268,6 +252,7 @@
 					}
 				});
 			},
+      // 发送验证码倒计时
 			startSMSTimer() {
 				this.smsCountInterval = setInterval(() => {
 					this.smsCountDown--;
@@ -276,6 +261,7 @@
 					}
 				}, 1000);
 			},
+      // 手机号验证码登录
 			onSMSLogin() {
 				const checkPhone = new RegExp(/^[1]([3-9])[0-9]{9}$/);
 
