@@ -1,45 +1,43 @@
 <template>
 	<view class="wx-login">
-		<watermark></watermark>
+		<!--这个要作为注册页-->
+		<!-- <watermark></watermark> -->
 		<view class="wx-login-title">手机号注册</view>
 		<view class="xw-login-form">
-			<form @submit="sublogin">
+			<form @submit="register" :rules="rules" ref="registerForm">
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">手机号</view>
-					<input class="xw-login-form-input" maxlength="11" placeholder="请填写手机号" type="text" name="phone" v-model="phone" />
-					<view class="login-form-icon login-form-seepass" @click="phone=''" v-if="phone.length>0">
-						<uni-icons type="clear" size="26" color="#B9CCE0"></uni-icons>
+					<input class="xw-login-form-input" maxlength="11" placeholder="请填写手机号" type="text" name="mobile" v-model="mobile" />
+					<view class="login-form-icon login-form-seepass" @click="mobile=''" v-if="mobile.length">
+						<text class='cuIcon-close'></text>
 					</view>
 				</view>
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">验证码</view>
-					<input class="xw-login-form-input" placeholder="请填写验证码" v-model="code" name="code" type="text" />
+					<input class="xw-login-form-input" placeholder="请填写验证码" v-model="captcha" name="captcha" type="text" />
 					<view class="wx-btn wx-btn-info" @click="getMsgCode()" v-if="!loading">获取验证码</view>
-					<view class="wx-btn wx-btn-info" v-else>{{time}}秒后重试</view>
+					<view class="wx-btn wx-btn-grad" v-else>{{time}}秒后重试</view>
 				</view>
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">密码</view>
 					<input class="xw-login-form-input" placeholder="请输入密码" name="password" :password="showPassword"
 						type="text" value="" />
 					<view class="login-form-icon login-form-seepass" @click="changePassword">
-						<image src="../../static/images/l03.png" mode="aspectFill" v-if="showPassword"></image>
-						<image src="../../static/images/l04.png" mode="aspectFill" v-else></image>
+            <image :src="showPassword ? '../../static/images/l03.png' : '../../static/images/l04.png'" mode="aspectFill"></image>
 					</view>
 				</view>
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">昵称</view>
-					<input class="xw-login-form-input" placeholder="请输入你的昵称" type="text" name="nickName" value="" />
+					<input class="xw-login-form-input" placeholder="请输入你的昵称" type="text" name="nickname" value="" />
 				</view>
 				<text class="xw-login-form-code" @click="goLogin">已注册，去登录</text>
 				<button class="wx-btn wx-btn-info xw-login-form-btn" form-type="submit">注册</button>
 				<view class="login-agree">
-					<view class="login-agree-checkd" @click="agree = !agree">
-						<label for="agree">
-							<checkbox id="agree" style="transform:scale(0.7)" :checked="agree" />
-							<text class="login-agree-btn">已阅读并同意</text>
-						</label>
+					<view class="login-agree-checked" @click="agree = !agree">
+            <view class="checkWrap"><text :class="['cuIcon-check',{isSelected: agree}]"></text></view>
+            <text class="login-agree-btn">已阅读并同意</text>
 					</view>
-					<view class="login-agree-text" @click="goagreement()">《隐私及服务协议》</view>
+					<view class="login-agree-text" @click="goAgreement()">《隐私及服务协议》</view>
 				</view>
 			</form>
 		</view>
@@ -47,131 +45,120 @@
 </template>
 
 <script>
+	import formChecker from '@/common/formChecker.js';
 	export default {
+    name: 'register',
 		data() {
 			return {
-				code:'',
+				captcha: '', // 验证码
 				loading: false,
 				timer: null,
 				time: 60,
-				logintype: 0,
-				phone: '',
-				cid: '',
+				mobile: '',
 				showPassword: true,
 				agree: false,
-			}
-		},
-		onLoad() {
+        rules: [
+           {
+            name: 'mobile',
+            checkType: 'required',
+            errorMsg: '请填写手机号码'
+          },
+          {
+            name: 'mobile',
+            checkType: 'phone',
+            checkRule: '11',
+            errorMsg: '请填写正确的手机号码'
+          },
+          {
+            name: 'captcha',
+            checkType: 'required',
+            errorMsg: '请输入验证码'
+            },
+          {
+            name: 'password',
+            checkType: 'required',
+           errorMsg: '请输入密码'
+            },
+           {
+            name: 'password',
+           checkType: 'string',
+           checkRule: '8,20',
+           errorMsg: '密码至少输入8-20位'
+            },
+            {
+            name: 'nickname',
+           checkType: 'required',
+            errorMsg: '请输入昵称'
+            },
+           {
+            name: 'nickname',
+           checkType: 'string',
+           checkRule: '1,20',
+            errorMsg: '昵称至少输入1-20位'
+            }
+        ]
+			};
 		},
 		methods: {
 			changePassword() {
 				this.showPassword = !this.showPassword;
 			},
-			goLogin(){
+			goLogin() {
 				uni.navigateTo({
-					url: '../login/index'
-				})
+					url: '/pages/login2/login3'
+				});
 			},
-			goagreement() {
+			goAgreement() {
 				// uni.navigateTo({//本地协议
 				// 	url: '../../pages/agreement/index?name=微聊'
 				// })
-				this.$http.request({//在线协议
+				this.$http.request({ //在线协议
 					url: '/common/getAgreement',
 					success: (res) => {
 						if (res.data.code == 200) {
 							// #ifdef H5
-							window.open(res.data.data)
+							window.open(res.data.data);
 							// #endif
 							// #ifdef APP-PLUS
-							this.$fc.openWebView(res.data.data)
+							this.$fc.openWebView(res.data.data);
 							// #endif
 						}
 					}
 				});
 			},
+      // 获取验证码
 			getMsgCode() {
 				var reg = /^1[0-9]{10,10}$/;
-				if(!this.phone||!reg.test(this.phone)){
+				if (!this.mobile || !reg.test(this.mobile)) {
 					uni.showToast({
-						title:'请输入正确的手机号',
-						icon:'none'
-					})
-					return
+						title: '请输入正确的手机号',
+						icon: 'none'
+					});
+					return;
 				}
-				this.loading = true
+				this.loading = true;
 				this.timer = setInterval(() => {
-					this.time--
+					this.time--;
 					if (this.time <= 0) {
-						clearInterval(this.timer)
-						this.loading = false
-						this.time = 60
+						clearInterval(this.timer);
+						this.loading = false;
+						this.time = 60;
 					}
-				}, 1000)
-				var formData={
-					phone:this.phone,
-					type:'1'//注册
-				}
-				this.$http.request({
-					url: '/auth/sendCode',
-					method: 'POST',
-					data:JSON.stringify(formData),
-					success: (res) => {
-						if (res.data.code == 200) {
-							// todo验证码
-							this.code=res.data.data.code
+				}, 1000);
+        this.$http.get('/sys/sharelifeSend', { params: { phone: this.mobile } }).then(res => {
+          if (res.data.success) {
+							this.captcha = res.data.result;
 							uni.showToast({
-								title:'验证码已发送至你的手机',
-								icon:'none'
-							})
+								title: '验证码已发送至你的手机',
+								icon: 'none'
+							});
 						}
-					}
-				});
+        });
 			},
-			rMathfloor(min, max) { //返回包括最大/小值
-				return Math.floor(Math.random() * (max - min + 1)) + min
-			},
-			sublogin(e) {
-				var rules = {
-					phone: {
-						rules: [{
-							checkType: "required",
-							errorMsg: "请填写手机号码"
-						}, {
-							checkType: "phone",
-							errorMsg: "请填写正确的手机号码"
-						}]
-					},
-					password: {
-						rules: [{
-							checkType: "required",
-							errorMsg: "请输入密码"
-						}, {
-							checkType: "string",
-							checkRule: "8,20",
-							errorMsg: "密码至少输入8-20位"
-						}]
-					},
-					nickName: {
-						rules: [{
-							checkType: "required",
-							errorMsg: "请输入昵称"
-						}, {
-							checkType: "string",
-							checkRule: "1,20",
-							errorMsg: "昵称至少输入1-20位"
-						}]
-					},
-					code: {
-						rules: [{
-							checkType: "required",
-							errorMsg: "请输入验证码"
-						}]
-					}
-				};
-				var formData = e.detail.value;
-				var checkRes = this.$zmmFormCheck.check(formData, rules);
-				formData.password=this.$md5.hex_md5(formData.password)
+      // 注册
+			register(e) {
+				const formData = e.detail.value;
+				const checkRes = formChecker.check(formData, this.rules);
 				if (checkRes) {
 					if (!this.agree) {
 						uni.showToast({
@@ -180,35 +167,35 @@
 						});
 						return;
 					}
-					this.$http.request({
-						url: '/auth/register',
-						method: 'POST',
-						data:JSON.stringify(formData),
-						success: (res) => {
-							if (res.data.code == 200) {
+          this.$http.post('/sys/sharelifeRegister', formData).then(res => {
+            if (res.data.success) {
 								uni.showToast({
-									title:'注册成功',
+									title: '注册成功',
 									complete() {
-										setTimeout(()=>{
+										setTimeout(() => {
 											uni.redirectTo({
-												url:'/wx/login/index'
-											})
-										},1500)
+												url: '/pages/login2/login3'
+											});
+										}, 1500);
 									}
-								})
-							}
-						}
-					});
+								});
+							} else {
+                uni.showToast({
+                  title: res.data.message,
+                  icon: 'none'
+                });
+              }
+          });
 				} else {
 					uni.showToast({
-						title: this.$zmmFormCheck.error,
-						icon: "none",
+						title: formChecker.error,
+						icon: 'none',
 						position: 'bottom'
 					});
 				}
-			},
+			}
 		}
-	}
+	};
 </script>
 
 <style lang="scss" scoped>
@@ -221,25 +208,21 @@
 
 	.xw-login-form {
 		padding: 34rpx;
+    .xw-login-form-item {
+      position: relative;
+      padding: 0 12rpx;
+      border-bottom: 1px #eee solid;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      line-height: 100rpx;
+      height: 100rpx;
+      .xw-login-form-label {
+        width: 160rpx;
+        min-width: 160rpx;
+      }
+    }
 	}
-
-	.xw-login-form-item {
-		position: relative;
-		padding: 0 12rpx;
-		border-bottom: 1px #eee solid;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		line-height: 100rpx;
-		height: 100rpx;
-	}
-
-	.xw-login-form-label {
-		width: 160rpx;
-		min-width: 160rpx;
-	}
-
-	.xw-login-form-input {}
 
 	.login-agree {
 		margin-top: 34rpx;
@@ -286,6 +269,7 @@
 		height: 100rpx;
 		line-height: 100rpx;
 		color: #8295a5;
+    cursor: pointer;
 	}
 
 	.wx-btn {
@@ -307,4 +291,31 @@
 		width: 300rpx;
 		margin-top: 120rpx;
 	}
+  .cuIcon-close {
+    color: #B9CCE0;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .wx-btn-grad {
+    background: #B9CCE0;
+    cursor: not-allowed;
+  }
+  .login-agree-checked {
+    display: flex;
+    align-items: center;
+  }
+  .checkWrap {
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    margin-right: 8px;
+  }
+  .cuIcon-check {
+    color: transparent;
+    font-size: 18px;
+  }
+  .isSelected {
+    color: #007AFF;
+  }
 </style>

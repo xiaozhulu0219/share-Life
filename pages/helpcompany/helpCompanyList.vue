@@ -1,11 +1,12 @@
 <template>
 	<view>
+		<!--这个页面将来做首页的助力公司列表页-->
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor">
 			<block slot="content">助力公司列表</block>
 		</cu-custom>
 
-		<navigator class="cu-item arrow animation-slide-bottom" url="/pages/helpcompany/helpCompanyForm" :style="[{animationDelay: '0.1s'}]">
+		<navigator class="cu-item arrow animation-slide-bottom" url="/pages/helpcompany/helpCompanyLikeQueryList" :style="[{animationDelay: '0.1s'}]">
 			<button  style="width: 120px; height: 30px;" class="cu-btn block bg-white margin-tb-sm lg" @click="clear">
 				<text class="cuIcon-settingsfill text-cyan"></text>
 				<text class="text-grey">助力公司</text>

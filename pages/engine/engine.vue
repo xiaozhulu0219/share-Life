@@ -1,4 +1,5 @@
 <template>
+	<!--这个日后要作为启动页-->
 	<view class="wx-index">
 		<image class="wx-bg" src="../../static/images/bg.jpg" mode="aspectFill"></image>
 		<view class="wx-btns">

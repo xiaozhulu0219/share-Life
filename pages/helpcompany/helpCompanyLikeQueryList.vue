@@ -1,5 +1,5 @@
 <template>
-	<!--表单区域-->
+	<!--助力公司模糊搜索页、表单区域-->
 	<view>
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
@@ -11,7 +11,8 @@
 			<form>
 				<view class="search padding">
 					<view class="iptbox">
-						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt text-df" @confirm="searchCompany" @input="searchCompany"/>
+						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt text-df"
+							@confirm="searchCompany" @input="searchCompany" />
 					</view>
 					<button class="cu-btn block bg-gray lg" @click="clear">
 						<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>取消
@@ -22,11 +23,13 @@
 			</form>
 			<!-- 模糊搜索列表 -->
 			<view class="cu-list bg-white">
-				<view class="flex align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index" @click="search(item.enterpriseName)">
+				<view class="align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index"
+					@click="search(item.enterpriseName)">
 					<!-- <checkbox style="transform:scale(0.7)" value="cb" checked="false" /> -->
 					<view class="padding-left">
 						{{item.enterpriseName}}
 					</view>
+					<view class="list-line"></view>
 					<!-- <view class="flex" style="width:600%">
 						<text class="">
 							<image src="../../static/images/weixuanze.png" mode="" @click="search"
@@ -36,9 +39,10 @@
 						</text>
 					</view> -->
 				</view>
+
 			</view>
 		</view>
-	    </view>
+	</view>
 
 </template>
 
@@ -63,8 +67,8 @@
 				NavBarColor: this.NavBarColor,
 				loading: false,
 				backRouteName: 'index',
-				listData:[],//模糊搜索列表
-				model:{
+				listData: [], //模糊搜索列表
+				model: {
 					enterpriseName: '',
 				},
 				url: {
@@ -72,6 +76,7 @@
 					add: "/member/add",
 					edit: "/member/edit",
 					findPageByEnterpriseName: "/enterprise/list", //助力新增页面模糊查询调用企查查
+					showResultPage: "/company/movements/showResultPage"
 				},
 			}
 		},
@@ -101,8 +106,8 @@
 				this.queryParam = {}
 				this.loadList(1)
 
-				this.model.listData = []   //模糊搜索列表
-				this.listData=[]
+				this.model.listData = [] //模糊搜索列表
+				this.listData = []
 			},
 			searchCompany() {
 				// 助力新增页面模糊查询调用企查查
@@ -117,27 +122,36 @@
 						if (res.data.success) {
 							console.log("表单数据", res);
 							console.log("过滤数据", res.data.result);
-							this.listData=res.data.result.records
+							this.listData = res.data.result.records
 							// this.model = res.data.result;
 						}
 					})
 				}
 			},
 			search(name) {
-				console.log(name)
-				this.$router.push(`helpCompanySelectForm?name=${name}`)
+				this.$http.get(this.url.showResultPage, {
+					params: {
+						companyName: name
+					}
+				}).then(res => {
+					if (res.data.success) {
+						this.$router.push(`helpCompanySelectForm?name=${name}`)
+					}
+				})
+
 			}
 		}
 	}
 </script>
 <style>
-	.search{
+	.search {
 		display: flex;
 		align-items: center;
 		background-color: #ffffff;
 		border-bottom: 1px solid #eee;
 	}
-	.iptbox{
+
+	.iptbox {
 		flex: 1;
 		/* background-color:#ccc; */
 		padding-left: 20px;
@@ -145,12 +159,20 @@
 		border: 1px solid #ccc;
 		border-radius: 10rpx;
 	}
-	.ipt{
+
+	.ipt {
 		display: block;
 		height: 100%;
 	}
-	.lg{
+
+	.lg {
 		height: 40px;
 	}
 
+	.list-line {
+		background-color: #eee;
+		width: 100%;
+		height: 1rpx;
+		margin-top: 5rpx;
+	}
 </style>

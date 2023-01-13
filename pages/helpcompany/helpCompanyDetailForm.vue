@@ -1,68 +1,60 @@
 <template>
 	<!--表单区域-->
-	<view>
+	<view class="container">
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
 			<block slot="backText">返回</block>
 			<block slot="content">助力公司详情</block>
 		</cu-custom>
-		<!--表单区域-->
-		<view>
-			<form>
-				<view class="search">
-					<view class="iptbox">
-						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt" @confirm="searchCompany" @input="searchCompany"/>
-					</view>
-					<button class="cu-btn block bg-gray margin-tb-sm lg" @click="clear">
-						<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>取消
-					</button>
-
-				</view>
-
-			</form>
-			<!-- 模糊搜索列表 -->
-			<view class="cu-list menu">
-				<view class="cu-item" v-for="(item,index) in listData" :key="index" @click="goHome">
-					<view class="flex" style="width:600%">
-						<text class="text-lg" style="font-size:220%;width: 500px; height: 200px; color: #000;padding-right: 200px">
-							<image src="../../static/images/weixuanze.png" mode="" @click="search"
-								   style="width: 15px ;height: 14px"></image>
-							<br>
-							{{item.enterpriseName}}
-						</text>
-					</view>
-				</view>
+		<!--详情区域-->
+		<view class="company">
+			<span class="companyName">{{companyName}}</span>
+			<view class="companyTag">
+				<span>#歧视女生</span> <span>#可接受残疾人</span> <span>#体恤员工</span> <span>#米面粮油</span>
 			</view>
 		</view>
-	    </view>
-
+		<view v-for="item in 7" :key="index" class="detail">
+			<view class="detail-title">有理有据</view>
+			<vie class="detail-content">
+				<image class="detail-avatar" src="../../static/avatar_girl.png"></image>
+				<view class="detail-info">
+					<view style="background-color: antiquewhite;">王五（在职）</view>
+					<view>确实还不错呢</view>
+					<view style="margin-right: 10rpx;">10min前 北京</view>
+				</view>
+				<view>
+					<image class="detail-icon" src="../../static/images/dianzan.png"></image>56
+					<br />
+					<image class="detail-icon" src="../../static/images/cai.png"></image>2
+				</view>
+			</vie>
+		</view>
+		<view style="width: 100%;height: 100rpx;"></view>
+		<view class="footer">
+			<input placeholder="评论"/>
+			<image style="width: 40rpx;height: 40rpx;" src="../../static/icon/user16.png"></image>
+			<button>发送</button>
+		</view>
+	</view>
 </template>
 
 <script>
-	import myDate from '@/components/my-componets/my-date.vue'
-
 	export default {
-		name: "informationForm",
+		name: "helpCompanyDetailForm",
 		components: {
-			myDate
+
 		},
 		props: {
-			formData: {
-				type: Object,
-				default: () => {},
-				required: false
-			}
+			// formData: {
+			// 	type: Object,
+			// 	default: () => {},
+			// 	required: false
+			// }
 		},
 		data() {
 			return {
-				CustomBar: this.CustomBar,
+				companyName: '',
 				NavBarColor: this.NavBarColor,
-				loading: false,
-				backRouteName: 'index',
-				listData:[],//模糊搜索列表
-				model:{
-					enterpriseName: '',
-				},
 				url: {
 					queryById: "/member/queryById",
 					add: "/member/add",
@@ -71,77 +63,68 @@
 				},
 			}
 		},
-		created() {
-			this.initFormData();
+		onLoad(params) {
+			this.companyName = params.companyName;
 		},
 		methods: {
-			initFormData() {
-				if (this.formData) {
-					let dataId = this.formData.dataId;
-					this.$http.get(this.url.queryById, {
-						params: {
-							id: dataId
-						}
-					}).then((res) => {
-						if (res.data.success) {
-							console.log("表单数据", res);
-							this.model = res.data.result;
-						}
-					})
-				}
-			},
-			clear() {
-				// 重置
-				this.model.enterpriseName = []
-				this.enterpriseName = null
-				this.queryParam = {}
-				this.loadList(1)
-
-				this.model.listData = []   //模糊搜索列表
-				this.listData=[]
-			},
-			searchCompany() {
-				// 助力新增页面模糊查询调用企查查
-				//表单项内容发生改变
-				if (this.model) {
-					let enterpriseName = this.model.enterpriseName;
-					this.$http.get(this.url.findPageByEnterpriseName, {
-						params: {
-							enterpriseName: enterpriseName
-						}
-					}).then((res) => {
-						if (res.data.success) {
-							console.log("表单数据", res);
-							console.log("过滤数据", res.data.result);
-							this.listData=res.data.result.records
-							// this.model = res.data.result;
-						}
-					})
-				}
-			},
 
 		}
 	}
 </script>
 <style>
-	.search{
-		display: flex;
+	.container{
 		background-color: #ffffff;
-		align-items: center;
 	}
-	.iptbox{
-		width: 80%;
-		background-color:#ccc;
-		height: 40px;
-		border-radius: 20rpx;
-		padding-left: 20px;
-	}
-	.ipt{
-		display: block;
-		height: 100%;
-	}
-	.lg{
-		height: 40px;
+	.company {
+		margin: 20rpx;
 	}
 
+	.companyName {
+		font-weight: bold;
+	}
+
+	.companyTag {
+		margin-top: 20rpx;
+	}
+
+	.detail {
+		padding: 30rpx;
+		border-bottom: #eee solid 1rpx;
+	}
+
+	.detail-content {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	.detail-avatar {
+		width: 100rpx;
+		height: 100rpx;
+	}
+
+	.detail-icon {
+		width: 40rpx;
+		height: 40rpx;
+	}
+
+	.detail-info {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.footer{
+		width: 100%;
+		background-color: #eee;
+		position: fixed;
+		bottom: 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding:10rpx;
+	}
+	.footer input{
+		border-top: #eee solid 1rpx;
+		width: 70%;
+		background: #ffffff;
+	}
 </style>
