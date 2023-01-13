@@ -2,7 +2,11 @@
 	<view class="wx-login">
 		<!--这个是找回密码页-->
 		<!-- <watermark></watermark> -->
-		<view class="wx-login-title">找回密码</view>
+		<!-- <view class="wx-login-title">找回密码</view> -->
+    <view class="text-center" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
+        <image src="../../static/images/touxiang.jpg" mode='aspectFit' class="logo"></image>
+				<view class="wx-register-title text-shadow"> SHARE LIFE </view>
+			</view>
 		<view class="xw-login-form">
 			<form @submit="forgetPassword">
 				<view class="xw-login-form-item">
@@ -14,10 +18,12 @@
 				</view>
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">验证码</view>
-					<input class="xw-login-form-input" placeholder="请填写验证码" v-model="captcha" name="captcha" type="text" />
-					<view class="wx-btn wx-btn-info" @click="getMsgCode()" v-if="!loading">获取验证码</view>
-					<view class="wx-btn wx-btn-grad" v-else>{{time}}秒后重试</view>
-				</view>
+          <view class="code-box">
+            <input class="xw-login-form-input" placeholder="请填写验证码" v-model="captcha" name="captcha" type="text" />
+            <view class="wx-btn wx-btn-info" @click="getMsgCode()" v-if="!loading">获取验证码</view>
+            <view class="wx-btn wx-btn-grad" v-else>{{time}}秒后重试</view>
+          </view>
+        </view>
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">新密码</view>
 					<input class="xw-login-form-input" placeholder="请输入密码" name="password" :password="showPassword"
@@ -200,6 +206,12 @@
 		align-items: center;
 		line-height: 100rpx;
 		height: 100rpx;
+    background-color: #ffffff;
+      padding: 1px 15px;
+      min-height: 50px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 5px rgba(0,0,0, 0.1);
+      border-radius: 4px;
 	}
 
 	.xw-login-form-label {
@@ -208,7 +220,12 @@
 	}
 
 	.xw-login-form-input {}
-
+  .code-box {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
+  }
 	.login-agree {
 		margin-top: 34rpx;
 		justify-content: center;
@@ -269,7 +286,7 @@
 	}
 
 	.wx-btn-info {
-		background-color: #05C160;
+		background-color: #007AFF;
 	}
   .wx-btn-grad {
     background-color: #ccc;
@@ -279,7 +296,7 @@
 
 	.xw-login-form-btn {
 		width: 300rpx;
-		margin-top: 120rpx;
+		margin-top: 10rpx;
 	}
   .login-agree-checked {
     display: flex;
@@ -299,4 +316,14 @@
   .isSelected {
     color: #007AFF;
   }
+  .wx-register-title {
+    text-align: center;
+		padding-top: 60rpx;
+		font-size: 42rpx;
+		padding-bottom: 24rpx;
+  }
+  .logo {
+  height: 90px;
+  margin-top: 20px;
+}
 </style>

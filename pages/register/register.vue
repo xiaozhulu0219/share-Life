@@ -1,8 +1,10 @@
 <template>
 	<view class="wx-login">
 		<!--这个要作为注册页-->
-		<!-- <watermark></watermark> -->
-		<view class="wx-login-title">手机号注册</view>
+    <view class="text-center" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
+        <image src="../../static/images/touxiang.jpg" mode='aspectFit' class="logo"></image>
+				<view class="wx-register-title text-shadow"> SHARE LIFE </view>
+			</view>
 		<view class="xw-login-form">
 			<form @submit="register" :rules="rules" ref="registerForm">
 				<view class="xw-login-form-item">
@@ -14,9 +16,11 @@
 				</view>
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">验证码</view>
-					<input class="xw-login-form-input" placeholder="请填写验证码" v-model="captcha" name="captcha" type="text" />
+          <view class="code-box">
+            <input class="xw-login-form-input" placeholder="请填写验证码" v-model="captcha" name="captcha" type="text" />
 					<view class="wx-btn wx-btn-info" @click="getMsgCode()" v-if="!loading">获取验证码</view>
 					<view class="wx-btn wx-btn-grad" v-else>{{time}}秒后重试</view>
+          </view>
 				</view>
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">密码</view>
@@ -213,10 +217,15 @@
       padding: 0 12rpx;
       border-bottom: 1px #eee solid;
       display: flex;
-      flex-direction: row;
       align-items: center;
       line-height: 100rpx;
       height: 100rpx;
+      background-color: #ffffff;
+      padding: 1px 15px;
+      min-height: 50px;
+      margin-bottom: 15px;
+      box-shadow: 0 0 5px rgba(0,0,0, 0.1);
+      border-radius: 4px;
       .xw-login-form-label {
         width: 160rpx;
         min-width: 160rpx;
@@ -257,7 +266,10 @@
 		align-items: center;
 		justify-content: center;
 	}
-
+.logo {
+  height: 90px;
+  margin-top: 20px;
+}
 	.login-form-icon image {
 		float: left;
 		width: 50rpx;
@@ -282,14 +294,19 @@
 		color: #fff;
 		font-size: 32rpx;
 	}
-
+  .code-box {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
+  }
 	.wx-btn-info {
-		background-color: #05C160;
+		background-color: #0081ff;
 	}
 
 	.xw-login-form-btn {
 		width: 300rpx;
-		margin-top: 120rpx;
+		margin-top: 10rpx;
 	}
   .cuIcon-close {
     color: #B9CCE0;
@@ -317,5 +334,11 @@
   }
   .isSelected {
     color: #007AFF;
+  }
+  .wx-register-title {
+    text-align: center;
+		padding-top: 60rpx;
+		font-size: 42rpx;
+		padding-bottom: 24rpx;
   }
 </style>
