@@ -3,7 +3,7 @@ import configService from '@/common/service/config.service.js';
 const apiService = {
 
 	 /**
-	  * 登录
+	  * 原app登录
 	  */
 	login(params) {
 		return http.post('/sys/mLogin', params);
