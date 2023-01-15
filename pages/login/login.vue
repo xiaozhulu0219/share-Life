@@ -1,6 +1,5 @@
 <template>
 	<view class="zai-box">
-		<!--这个login页面是按照login.vue复制而来、要改造为手机号、密码登录。测试成功后替代原login.vue页面-->
 		<scroll-view scroll-y class="page">
 			<view class="text-center" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
         <!--	<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" mode='aspectFit' class="zai-logo "></image>-->
@@ -86,8 +85,8 @@
 			return {
 				shape: '', //round 圆形
 				loading: false,
-				password: '15288888888',
-				phoneNo: '15288888888',
+				password: '',
+				phoneNo: '',
 				smsCode: '',
 				showPassword: false, //是否显示明文
 				loginWay: 1, //1: 账密，2：验证码
