@@ -13,7 +13,7 @@
 				</button>
 			</block>
         </cu-custom>
-		
+
 		<view class="">
 			<form>
 				<view class="main bg-white" :style="{backgroundColor:voteBc}" >
@@ -64,7 +64,7 @@
 				</view>
 			</form>
 		</view>
-       
+
     </view>
 </template>
 
@@ -122,7 +122,7 @@
                     })
                 }
             },
-			
+
 			//失焦
 			shijiao(){
 				if(this.text==''){
@@ -140,7 +140,7 @@
 					uni.createSelectorQuery().select('.default_text').boundingClientRect(()=>{
 						that.vBlock="none"
 					})
-					
+
 				}
 			},
 			//投票
@@ -170,7 +170,7 @@
             }
         }
     }
-</script>   
+</script>
 <style lang="scss" scoped>
 	.middle{
 		display:flex;
@@ -215,7 +215,7 @@
 			height: 30%;
 		}
 	}
-	
+
 	/* 图标大小 */
 	.lg{
 		width: 30px;
@@ -294,7 +294,7 @@
 					margin-left: 10px;
 				}
 			}
-			
+
 		}
-	} 
+	}
 </style>
