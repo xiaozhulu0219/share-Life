@@ -2,21 +2,7 @@ const routes = [{
 		path: '/pages/login/login',
 		name: 'login',
 		meta: {
-			title: '登录'
-		}
-	},
-	{
-		path: '/pages/login2/login2',
-		name: 'login2',
-		meta: {
 			title: '新登录'
-		}
-	},
-  {
-		path: '/pages/login2/login3',
-		name: 'login3',
-		meta: {
-			title: '新登录 '
 		}
 	},
 	{

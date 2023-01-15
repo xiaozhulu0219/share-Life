@@ -122,7 +122,7 @@
 			},
       // 发送验证码按钮文案
 			getSendBtnText() {
-				if (this.smsCountDown) {
+				if (this.smsCountDown) {8
 					return this.smsCountDown + '秒后发送';
 				} else {
 					return '发送验证码';

@@ -109,7 +109,7 @@
 			},
 			goLogin() {
 				uni.navigateTo({
-					url: '/pages/login2/login3'
+					url: '/pages/login/login'
 				});
 			},
 			goAgreement() {
@@ -178,7 +178,7 @@
 									complete() {
 										setTimeout(() => {
 											uni.redirectTo({
-												url: '/pages/login2/login3'
+												url: '/pages/login/login'
 											});
 										}, 1500);
 									}

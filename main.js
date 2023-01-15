@@ -18,7 +18,6 @@ import { http } from '@/common/service/service.js';
 import home from './pages/home/home.vue';
 
 //以下几个是将来的登录注册
-import login2 from './pages/login2/login2.vue';
 
 import register from './pages/register/register.vue';
 
@@ -73,7 +72,7 @@ Vue.prototype.$tip = tip;
 Vue.prototype.$config = configService;
 Vue.prototype.$http = http;
 Vue.component('home', home);
-Vue.component('login2', login2);
+//Vue.component('login', login);
 Vue.component('register', register);
 Vue.component('engine', engine);
 Vue.component('forgetPass', forgetPass);
