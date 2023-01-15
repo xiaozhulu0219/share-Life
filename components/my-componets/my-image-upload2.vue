@@ -17,7 +17,7 @@
 </template>
 
 <script>
-	
+
 	export default {
 		name: 'MyImageUpoad',
 		props: {
@@ -49,7 +49,7 @@
 					sourceType: ['album','camera'], //从相册选择
 					success: (res) => {
 						uni.uploadFile({
-							url: `${baseurl}systemController/filedeal.do?isup=1`,
+							url: `${staticDomainURL}systemController/filedeal.do?isup=1`,
 							filePath: res.tempFilePaths[0],
 							name: 'file',
 							success: (uploadFileRes) => {

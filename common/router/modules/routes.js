@@ -20,7 +20,7 @@ const routes = [{
 		}
 	},
 	{
-		path: '/pages/login2/forgetPass',
+		path: '/pages/login/forgetPass',
 		name: 'forgetPass',
 		meta: {
 			title: '忘记密码'

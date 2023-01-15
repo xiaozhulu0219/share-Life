@@ -24,7 +24,7 @@ import register from './pages/register/register.vue';
 
 import engine from './pages/engine/engine.vue';
 
-import forgetPass from './pages/login2/forgetPass.vue';
+import forgetPass from './pages/login/forgetPass.vue';
 
 //以下一个是将来的用户
 import member from './pages/member/member.vue';

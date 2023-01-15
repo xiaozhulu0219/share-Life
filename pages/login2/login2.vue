@@ -67,7 +67,7 @@
 		methods: {
 			goForgetPass(){
 				uni.navigateTo({
-					url:'../login2/forgetPass'
+					url:'../login/forgetPass'
 				})
 			},
 			changeLogintype() {

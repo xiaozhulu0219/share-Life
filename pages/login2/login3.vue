@@ -133,7 +133,7 @@
       // 忘记密码
       goForgetPass() {
 				uni.navigateTo({
-					url: '/pages/login2/forgetPass'
+					url: '/pages/login/forgetPass'
 				});
 			},
       // 勾选协议
