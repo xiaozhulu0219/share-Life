@@ -24,7 +24,7 @@
 			<!-- 模糊搜索列表 -->
 			<view class="cu-list bg-white">
 				<view class="align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index"
-					@click="search(item.enterpriseName)">
+					@click="search(item.id)">
 					<!-- <checkbox style="transform:scale(0.7)" value="cb" checked="false" /> -->
 					<view class="padding-left">
 						{{item.enterpriseName}}
@@ -128,17 +128,17 @@
 					})
 				}
 			},
-			search(name) {
+			search(companyId) {
 				this.$http.get(this.url.showResultPage, {
 					params: {
-						companyName: name
+						companyId: companyId
 					}
 				}).then(res => {
 					if (res.data.success) {
+						console.log(res.data);
 						this.$router.push(`helpCompanySelectForm?name=${name}`)
 					}
 				})
-
 			}
 		}
 	}
