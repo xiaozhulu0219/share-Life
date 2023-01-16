@@ -1,5 +1,5 @@
 <template>
-	<!--表单区域-->
+	<!--模糊查询后，被选择的企业的页面-->
 	<view>
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
@@ -92,7 +92,7 @@
 			this.initFormData();
 		},
 		methods: {
-			
+
 			initFormData() {
 				if (this.formData) {
 					let dataId = this.formData.dataId;
@@ -138,7 +138,7 @@
 				}
 			},
 			goHome(){
-				
+
 			},
 			showModal() {
 				this.$refs.popup.open();

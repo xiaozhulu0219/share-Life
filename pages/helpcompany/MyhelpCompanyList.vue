@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<!--这个页面将来做首页的助力公司列表页-->
+		<!--这个页面将来做个人页的我的助力列表页-->
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor">
 			<block slot="content">助力公司列表</block>

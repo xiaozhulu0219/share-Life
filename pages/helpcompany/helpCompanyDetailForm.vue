@@ -1,5 +1,5 @@
 <template>
-	<!--表单区域-->
+	<!--详情页面-->
 	<view class="container">
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
