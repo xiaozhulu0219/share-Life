@@ -10,7 +10,7 @@ if (process.env.NODE_ENV == 'development') {
 // } else {
 // 	BASE_URL = 'http://boot.jeecg.org:9090/jeecg-boot' // 生产环境
 // }
-let staticDomainURL = BASE_URL + '/sys/common/static';
+let staticDomainURL = BASE_URL + '/sys/common';
 
 const configService = {
 	apiUrl: BASE_URL,
