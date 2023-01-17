@@ -135,8 +135,7 @@
 					}
 				}).then(res => {
 					if (res.data.success) {
-						console.log(res.data);
-						this.$router.push(`helpCompanySelectForm?name=${companyName}&id=${companyId}`)
+						this.$router.push(`helpCompanySelectForm?name=${companyName}&id=${companyId}&result=${res.data.result}`)
 					}
 				})
 			}

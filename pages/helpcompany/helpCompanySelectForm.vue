@@ -28,10 +28,14 @@
 							style="width: 15px ;height: 15px"></image>
 						<view style="width: 60%;margin-left: 10rpx;">{{item.enterpriseName}}</view>
 						<view>
-							<button @click="showModal">拿捏此企业</button>
+							<button style="font-size: 18rpx;" v-if="model.result" @click="toDetail">此企业已被拿捏</button>
+							<button style="font-size: 18rpx;" v-else @click="showModal">拿捏此企业</button>
 						</view>
 					</view>
 				</view>
+			</view>
+			<view style="position: absolute;bottom: 0;width: 100%;">
+				<button v-if="model.result" @click="toDetail">此企业已被拿捏 可点击直接前往吐槽</button>
 			</view>
 		</view>
 
@@ -69,6 +73,7 @@
 		onLoad(option) {
 			this.model.enterpriseName = option.name;
 			this.model.enterpriseId = option.id;
+			this.model.result = option.result;
 			this.searchCompany()
 		},
 		data() {
@@ -147,6 +152,9 @@
 			},
 			closeModal() {
 				this.$refs.popup.close();
+			},
+			toDetail(){
+				this.$router.push(`helpCompanyDetailForm?companyName=${this.model.enterpriseName}`)
 			},
 			confirmHelp() {
 				this.$http.post(this.url.savePublish, {
