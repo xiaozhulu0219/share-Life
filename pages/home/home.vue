@@ -15,16 +15,10 @@
 		</view>
 
 		<view>
-			<view class="search-tab">
-				<view class="tab-title flex justify-between">
-					<view class="padding-sm" v-for="(item, index) in tabs" :key="index" @tap="clickTab(index)">
-						<text :class="activeTab === index ? 'active' : ''">{{ item.name }}</text>
-					</view>
-				</view>
-			</view>
+			<HomesignModal></HomesignModal>
 			<block v-for="(item, idx) in tabs" :key="idx">
 				<view v-if="idx === activeTab">
-					<view class="search-list" v-if="item.id === 2">
+					<view class="search-list" v-if="Number(item.value) === 2">
 						<view class="list-item bg-white padding" v-for="(item, index) in searchHistoryList" :key="index">
 							<view class="flex justify-between align-center">
 								<text class="text-blue">{{ item.nickName }}</text>
@@ -43,7 +37,7 @@
 			</block>
 			<block v-for="(item, idx) in tabs" :key="idx">
 				<view v-if="idx === activeTab">
-					<view class="search-list" v-if="item.id === 1">
+					<view class="search-list" v-if="Number(item.value) === 1">
 						<view class="list-item bg-white padding" v-for="(item, index) in searchHistoryList2" :key="index">
 							<view class="flex justify-between align-center">
 								<text class="text-blue">{{ item.nickName }}</text>
@@ -67,13 +61,15 @@
 <script>
 	import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
 	import Mixin from '@/common/mixin/Mixin.js';
+	import HomesignModal from './homesignModal.vue'
 
 	export default {
 		mixins: [MescrollMixin, Mixin],
+		components:{HomesignModal},
 		data() {
 			return {
 				activeTab: 0,
-				tabs: [{ id: 1, name: '推荐' }, { id: 2, name: '助力' }, { id: 3, name: '百科' }, { id: 4, name: '游戏' }, { id: 5, name: '关注' }],
+				tabs: [{ value: 1, title: '推荐' }, { value: 2, title: '助力' }, { value: 3, title: '百科' }, { value: 4, title: '游戏' }, { value: 5, title: '关注' }],
 				CustomBar: this.CustomBar,
 				NavBarColor: this.NavBarColor,
 				url: '/umsMember/list',
@@ -82,11 +78,9 @@
 				searchHistoryList2: [{nickName: '就是一个普通首页',createTime:'2022-12-12 10:00:00',createBy:'预科金融有限公司',status:1},{nickName: '斗战',createTime:'2022-12-12 10:00:00',createBy:'之乎者也有限公司',status:2}] //搜索出来的内容
 			};
 		},
+		
 		methods: {
-			clickTab(index) {
-				if (this.activeTab === index) return;
-				this.activeTab = index;
-			},
+			
 			handleStatus(status,type) {
 
 			},

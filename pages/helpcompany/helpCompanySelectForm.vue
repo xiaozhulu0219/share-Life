@@ -52,6 +52,7 @@
 
 <script>
 	import myDate from '@/components/my-componets/my-date.vue'
+	import { USER_INFO } from '@/common/util/constants';
 
 	export default {
 		name: "informationForm",
@@ -67,6 +68,7 @@
 		},
 		onLoad(option) {
 			this.model.enterpriseName = option.name;
+			this.model.enterpriseId = option.id;
 			this.searchCompany()
 		},
 		data() {
@@ -78,6 +80,7 @@
 				listData: [], //模糊搜索列表
 				model: {
 					enterpriseName: '',
+					
 				},
 				url: {
 					queryById: "/member/queryById",
@@ -149,12 +152,11 @@
 			confirmHelp() {
 				this.$http.post(this.url.savePublish, {
 					params: {
-						companyName: this.model.enterpriseName
+						companyId:Number(this.model.enterpriseId),
+						companyName: this.model.enterpriseName,
 					}
 				}).then(res => {
 					if (res.data.success) {
-						console.log("助力成功");
-					// }else{
 						this.$router.push(`helpCompanyDetailForm?companyName=${this.model.enterpriseName}`)
 					}
 				})
