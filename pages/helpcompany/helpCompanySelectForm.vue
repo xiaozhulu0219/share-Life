@@ -125,10 +125,9 @@
 				// 助力新增页面模糊查询调用企查查
 				//表单项内容发生改变
 				if (this.model) {
-					let enterpriseName = this.model.enterpriseName;
 					this.$http.get(this.url.findPageByEnterpriseName, {
 						params: {
-							enterpriseName: enterpriseName
+							enterpriseName: this.model.enterpriseName
 						}
 					}).then((res) => {
 						if (res.data.success) {
