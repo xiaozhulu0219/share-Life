@@ -48,7 +48,8 @@
 				</view>
 				<swiper :current="activeTab" class="padding">
 					<swiper-item v-for="(item,index) in tabs" :key="index">
-						<view class="swiper-item">{{item.name}}</view>
+						<MyHelpCompanyList v-if="index === 1" />
+						<view v-else class="swiper-item">{{item.name}}</view>
 					</swiper-item>
 				</swiper>
 			</view>
@@ -58,8 +59,12 @@
 
 <script>
 	import api from '@/api/api';
+	import MyHelpCompanyList from '../helpcompany/MyhelpCompanyList'
 	export default {
 		name: 'member',
+		components:{
+			MyHelpCompanyList
+		},
 		data() {
 			return {
 				activeTab: 0,
@@ -88,7 +93,6 @@
 				departUrl: '/sys/user/userDepartList',
 				userUrl: '/sys/user/queryById',
 				postUrl: '/sys/position/queryByCode',
-				findMemberPublishPageUrl: '/company/movements/findMemberPublishPage',
 				userId: '',
 				id: ''
 			};
@@ -163,20 +167,6 @@
 			clickTab(index) {
 				if (this.activeTab === index) return;
 				this.activeTab = index;
-				if (index === 1) {
-					this.$http.get(this.findMemberPublishPageUrl, {
-						params: {
-							page: 1,
-							pagesize: 20
-						}
-					}).then(res => {
-						if (res.data.success) {
-							console.log(res.data.result);
-						}
-					}).catch(err => {
-						console.log(err);
-					});
-				}
 			}
 		}
 	};

@@ -28,14 +28,14 @@
 							style="width: 15px ;height: 15px"></image>
 						<view style="width: 60%;margin-left: 10rpx;">{{item.enterpriseName}}</view>
 						<view>
-							<button style="font-size: 18rpx;" v-if="model.result" @click="toDetail">此企业已被拿捏</button>
+							<button style="font-size: 18rpx;" v-if="model.result === 'true'" @click="toDetail">此企业已被拿捏</button>
 							<button style="font-size: 18rpx;" v-else @click="showModal">拿捏此企业</button>
 						</view>
 					</view>
 				</view>
 			</view>
 			<view style="position: absolute;bottom: 0;width: 100%;">
-				<button v-if="model.result" @click="toDetail">此企业已被拿捏 可点击直接前往吐槽</button>
+				<button v-if="model.result === 'true'" @click="toDetail">此企业已被拿捏 可点击直接前往吐槽</button>
 			</view>
 		</view>
 
@@ -71,9 +71,11 @@
 			}
 		},
 		onLoad(option) {
+			console.log(option);
 			this.model.enterpriseName = option.name;
 			this.model.enterpriseId = option.id;
 			this.model.result = option.result;
+			console.log(this.model);
 			this.searchCompany()
 		},
 		data() {
@@ -85,7 +87,8 @@
 				listData: [], //模糊搜索列表
 				model: {
 					enterpriseName: '',
-					
+					enterpriseId:'',
+					result:false
 				},
 				url: {
 					queryById: "/member/queryById",
