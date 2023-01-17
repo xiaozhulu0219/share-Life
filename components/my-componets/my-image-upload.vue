@@ -25,7 +25,7 @@
 </template>
 
 <script>
-	
+	import configService from '../../common/service/config.service.js'
 	export default {
 		name: 'MyImageUpoad',
 		props: {
@@ -58,7 +58,8 @@
 					sourceType: ['album','camera'], //从相册选择
 					success: (res) => {
 						uni.uploadFile({
-							url: `${baseurl}systemController/filedeal.do?isup=1`,
+							//url: `${configService.staticDomainURL}systemController/filedeal.do?isup=1`,
+							url: `${configService.staticDomainURL}/sys/common/upload`,
 							filePath: res.tempFilePaths[0],
 							name: 'file',
 							success: (uploadFileRes) => {
