@@ -17,7 +17,7 @@
 				我的
 			</view>
 		</view>
-		<ToPublishPopup :showPopup="isShowPopup"></ToPublishPopup>
+		<ToPublishPopup ref='toPublishPopup'></ToPublishPopup>
 	</view>
 </template>
 
@@ -26,7 +26,6 @@
 export default {
 	data() {
 		return {
-			isShowPopup:false,
 			PageCur: 'home',
 			commponent1Key: 0,
 			commponent2Key: 0,
@@ -44,12 +43,9 @@ export default {
 		++this.commponent3Key;
 		++this.commponent4Key;
 	},
-	onShow() {
-		this.isShowPopup = false
-	},
 	methods: {
 		showModal(){
-			this.isShowPopup = true
+			this.$refs.toPublishPopup.showModal();
 		},
 		NavChange: function(e) {
 			this.PageCur = e.currentTarget.dataset.cur;

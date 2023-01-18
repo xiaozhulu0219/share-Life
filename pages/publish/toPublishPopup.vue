@@ -14,24 +14,12 @@
 	
 	export default {
 		name: 'toPublishPopup',
-		props:['showPopup'],
 		data() {
 			return {
 				
 			};
 		},
 		created() {
-			
-		},
-		watch:{
-			showPopup:{
-				immediate:true,
-				handler(val){
-					console.log(val);
-					if(val) this.showModal();
-					else this.closeModal();
-				}
-			}
 			
 		},
 		methods: {
