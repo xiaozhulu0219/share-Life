@@ -61,7 +61,7 @@
 <script>
 	import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
 	import Mixin from '@/common/mixin/Mixin.js';
-	import HomesignModal from './homesignModal.vue'
+	import HomesignModal from './homeSignModal.vue'
 
 	export default {
 		mixins: [MescrollMixin, Mixin],
@@ -78,9 +78,9 @@
 				searchHistoryList2: [{nickName: '就是一个普通首页',createTime:'2022-12-12 10:00:00',createBy:'预科金融有限公司',status:1},{nickName: '斗战',createTime:'2022-12-12 10:00:00',createBy:'之乎者也有限公司',status:2}] //搜索出来的内容
 			};
 		},
-		
+
 		methods: {
-			
+
 			handleStatus(status,type) {
 
 			},
