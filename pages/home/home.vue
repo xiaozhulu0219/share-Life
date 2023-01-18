@@ -15,7 +15,7 @@
 		</view>
 
 		<view>
-			<HomesignModal></HomesignModal>
+			<HomeSignModal></HomeSignModal>
 			<block v-for="(item, idx) in tabs" :key="idx">
 				<view v-if="idx === activeTab">
 					<view class="search-list" v-if="Number(item.value) === 2">
@@ -61,11 +61,11 @@
 <script>
 	import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
 	import Mixin from '@/common/mixin/Mixin.js';
-	import HomesignModal from './homeSignModal.vue'
+	import HomeSignModal from './homeSignModal.vue'
 
 	export default {
 		mixins: [MescrollMixin, Mixin],
-		components:{HomesignModal},
+		components:{HomeSignModal},
 		data() {
 			return {
 				activeTab: 0,
