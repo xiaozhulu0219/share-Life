@@ -59,7 +59,7 @@
 
 <script>
 	import api from '@/api/api';
-	import MyHelpCompanyList from '../helpcompany/MyhelpCompanyList'
+	import MyHelpCompanyList from './memberHelpCompanyList'
 	export default {
 		name: 'member',
 		components:{
