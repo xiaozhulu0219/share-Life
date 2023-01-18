@@ -50,9 +50,9 @@
 				<view class="cu-item" v-for="(item,index) in list" :key="index" @click="goHome">
 					<view class="flex" style="width:600%">
 						<text class="text-lg" style="font-size:220%;width: 500px; height: 200px; color: #000;padding-right: 200px">
-							{{ item.nickName}}
-							{{ item.createTime}}
-							{{ item.createBy}}
+							{{ item.enterpriseName}}
+							{{ item.registerTime}}
+							{{ item.legalPerson}}
 							<image src="../../static/images/dianzan.png" mode="" @click="search"
 								style="width: 15px ;height: 14px"></image>
 							<br>
