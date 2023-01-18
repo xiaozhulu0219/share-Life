@@ -22,7 +22,7 @@
 			return {
 				findMyPublishComPageUrl: '/company/movements/findMyPublishComPage',
 				myHelpList: []
-			};
+			}; 
 		},
 		created() {
 			this.getMyHelpCompanyList();
