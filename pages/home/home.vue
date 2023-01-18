@@ -1,7 +1,9 @@
 <template>
 	<view>
 		<!--标题和返回-->
-		<cu-custom :bgColor="NavBarColor"><block slot="content">首页</block></cu-custom>
+		<cu-custom :bgColor="NavBarColor">
+			<block slot="content">首页</block>
+		</cu-custom>
 
 		<!-- 搜索框 -->
 		<view class="search">
@@ -9,17 +11,19 @@
 				<!-- <image class="search-span" src="../../static/images/search.png" /> -->
 				<!-- @confirm="search" 点击 -->
 				<text class="padding-left text-gray iconfont icon-search"></text>
-				<input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10" type="text"/>
+				<input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10"
+					type="text" />
 				<button class="search-btn text-df">搜索</button>
 			</view>
 		</view>
 
 		<view>
-			<HomeSignModal></HomeSignModal>
+			<HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
 			<block v-for="(item, idx) in tabs" :key="idx">
 				<view v-if="idx === activeTab">
 					<view class="search-list" v-if="Number(item.value) === 2">
-						<view class="list-item bg-white padding" v-for="(item, index) in searchHistoryList" :key="index">
+						<view class="list-item bg-white padding" v-for="(item, index) in searchHistoryList"
+							:key="index">
 							<view class="flex justify-between align-center">
 								<text class="text-blue">{{ item.nickName }}</text>
 								<text class="text-xs text-gray">{{ item.createTime }}</text>
@@ -28,8 +32,11 @@
 								{{ item.createBy }}
 							</view>
 							<view class="text-gray">
-								<text class="margin-right iconfont" :class="item.status === 1 ? 'icon-like-fill' : 'icon-like'" @tap="handleStatus(item.status,'like')"></text>
-								<text class="iconfont" :class="item.status === 2 ? 'icon-unlike-fill' : 'icon-unlike'" @tap="handleStatus(item.status,'unlike')"></text>
+								<text class="margin-right iconfont"
+									:class="item.status === 1 ? 'icon-like-fill' : 'icon-like'"
+									@tap="handleStatus(item.status,'like')"></text>
+								<text class="iconfont" :class="item.status === 2 ? 'icon-unlike-fill' : 'icon-unlike'"
+									@tap="handleStatus(item.status,'unlike')"></text>
 							</view>
 						</view>
 					</view>
@@ -38,7 +45,8 @@
 			<block v-for="(item, idx) in tabs" :key="idx">
 				<view v-if="idx === activeTab">
 					<view class="search-list" v-if="Number(item.value) === 1">
-						<view class="list-item bg-white padding" v-for="(item, index) in searchHistoryList2" :key="index">
+						<view class="list-item bg-white padding" v-for="(item, index) in searchHistoryList2"
+							:key="index">
 							<view class="flex justify-between align-center">
 								<text class="text-blue">{{ item.nickName }}</text>
 								<text class="text-xs text-gray">{{ item.createTime }}</text>
@@ -47,8 +55,11 @@
 								{{ item.createBy }}
 							</view>
 							<view class="text-gray">
-								<text class="margin-right iconfont" :class="item.status === 1 ? 'icon-like-fill' : 'icon-like'" @tap="handleStatus(item.status,'like')"></text>
-								<text class="iconfont" :class="item.status === 2 ? 'icon-unlike-fill' : 'icon-unlike'" @tap="handleStatus(item.status,'unlike')"></text>
+								<text class="margin-right iconfont"
+									:class="item.status === 1 ? 'icon-like-fill' : 'icon-like'"
+									@tap="handleStatus(item.status,'like')"></text>
+								<text class="iconfont" :class="item.status === 2 ? 'icon-unlike-fill' : 'icon-unlike'"
+									@tap="handleStatus(item.status,'unlike')"></text>
 							</view>
 						</view>
 					</view>
@@ -65,23 +76,62 @@
 
 	export default {
 		mixins: [MescrollMixin, Mixin],
-		components:{HomeSignModal},
+		components: {
+			HomeSignModal
+		},
 		data() {
 			return {
 				activeTab: 0,
-				tabs: [{ value: 1, title: '推荐' }, { value: 2, title: '助力' }, { value: 3, title: '百科' }, { value: 4, title: '游戏' }, { value: 5, title: '关注' }],
+				tabs: [{
+					value: 1,
+					title: '推荐'
+				}, {
+					value: 2,
+					title: '助力'
+				}, {
+					value: 3,
+					title: '百科'
+				}, {
+					value: 4,
+					title: '游戏'
+				}, {
+					value: 5,
+					title: '关注'
+				}],
 				CustomBar: this.CustomBar,
 				NavBarColor: this.NavBarColor,
 				url: '/umsMember/list',
 				inputValue: '',
-				searchHistoryList: [{nickName: '反而可能',createTime:'2022-11-30 10:00:00',createBy:'本金额看见你有限公司',status:1},{nickName: '人家',createTime:'2022-11-30 10:00:00',createBy:'诶接耳机有限公司',status:2}], //搜索出来的内容
-				searchHistoryList2: [{nickName: '就是一个普通首页',createTime:'2022-12-12 10:00:00',createBy:'预科金融有限公司',status:1},{nickName: '斗战',createTime:'2022-12-12 10:00:00',createBy:'之乎者也有限公司',status:2}] //搜索出来的内容
+				searchHistoryList: [{
+					nickName: '反而可能',
+					createTime: '2022-11-30 10:00:00',
+					createBy: '本金额看见你有限公司',
+					status: 1
+				}, {
+					nickName: '人家',
+					createTime: '2022-11-30 10:00:00',
+					createBy: '诶接耳机有限公司',
+					status: 2
+				}], //搜索出来的内容
+				searchHistoryList2: [{
+					nickName: '就是一个普通首页',
+					createTime: '2022-12-12 10:00:00',
+					createBy: '预科金融有限公司',
+					status: 1
+				}, {
+					nickName: '斗战',
+					createTime: '2022-12-12 10:00:00',
+					createBy: '之乎者也有限公司',
+					status: 2
+				}] //搜索出来的内容
 			};
 		},
 
 		methods: {
-
-			handleStatus(status,type) {
+			getActiveTab(index) {
+				this.activeTab = index;
+			},
+			handleStatus(status, type) {
 
 			},
 			goHome() {
@@ -279,6 +329,7 @@
 			}
 		}
 	}
+
 	.tab-title {
 		color: #666;
 		width: 90%;
