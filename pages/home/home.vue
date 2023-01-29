@@ -22,49 +22,18 @@
 			<block v-for="(item, idx) in tabs" :key="idx">
 				<view v-if="idx === activeTab">
 					<view class="search-list" v-if="Number(item.value) === 2">
-						<view class="list-item bg-white padding" v-for="(item, index) in searchHistoryList"
-							:key="index">
-							<view class="flex justify-between align-center">
-								<text class="text-blue">{{ item.nickName }}</text>
-								<text class="text-xs text-gray">{{ item.createTime }}</text>
-							</view>
-							<view class="padding-top padding-bottom text-black">
-								{{ item.createBy }}
-							</view>
-							<view class="text-gray">
-								<text class="margin-right iconfont"
-									:class="item.status === 1 ? 'icon-like-fill' : 'icon-like'"
-									@tap="handleStatus(item.status,'like')"></text>
-								<text class="iconfont" :class="item.status === 2 ? 'icon-unlike-fill' : 'icon-unlike'"
-									@tap="handleStatus(item.status,'unlike')"></text>
-							</view>
-						</view>
+						<HomeHelpCompanyList></HomeHelpCompanyList>
+					</view>
+					<view class="search-list" v-if="Number(item.value) !== 2">
+						{{item.title}}
 					</view>
 				</view>
 			</block>
-			<block v-for="(item, idx) in tabs" :key="idx">
+			<!-- <block v-for="(item, idx) in tabs" :key="idx">
 				<view v-if="idx === activeTab">
-					<view class="search-list" v-if="Number(item.value) === 1">
-						<view class="list-item bg-white padding" v-for="(item, index) in searchHistoryList2"
-							:key="index">
-							<view class="flex justify-between align-center">
-								<text class="text-blue">{{ item.nickName }}</text>
-								<text class="text-xs text-gray">{{ item.createTime }}</text>
-							</view>
-							<view class="padding-top padding-bottom text-black">
-								{{ item.createBy }}
-							</view>
-							<view class="text-gray">
-								<text class="margin-right iconfont"
-									:class="item.status === 1 ? 'icon-like-fill' : 'icon-like'"
-									@tap="handleStatus(item.status,'like')"></text>
-								<text class="iconfont" :class="item.status === 2 ? 'icon-unlike-fill' : 'icon-unlike'"
-									@tap="handleStatus(item.status,'unlike')"></text>
-							</view>
-						</view>
-					</view>
+					
 				</view>
-			</block>
+			</block> -->
 		</view>
 	</view>
 </template>
@@ -73,11 +42,13 @@
 	import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
 	import Mixin from '@/common/mixin/Mixin.js';
 	import HomeSignModal from './homeSignModal.vue'
+	import HomeHelpCompanyList from './homeHelpCompanyList.vue'
 
 	export default {
 		mixins: [MescrollMixin, Mixin],
 		components: {
-			HomeSignModal
+			HomeSignModal,
+			HomeHelpCompanyList
 		},
 		data() {
 			return {
