@@ -1,5 +1,5 @@
 <template>
-	<view style="height: 800rpx">
+	<view style="overflow: scroll;height: 300rpx;background-color: red;">
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption"
 			:up="upOption">
 			<view v-for="(item,index) in homeHelpList" :key="index" class="card">
@@ -24,7 +24,7 @@
 				homeHelpList: [],
 				upOption: {
 					page: {
-						size: 1 // 每页数据的数量,默认10
+						size: 3 // 每页数据的数量,默认10
 					},
 					noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
 					empty: {
@@ -70,7 +70,6 @@
 		padding: 20rpx 20rpx;
 		border-radius: 20rpx;
 		margin-bottom: 20rpx;
-
 		.card-title {
 			font-weight: bold;
 		}

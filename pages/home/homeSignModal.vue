@@ -2,7 +2,7 @@
 	<view>
 		<scroll-view class="uni-swiper-tab" :scroll-x="true" @scroll="scroll">
 			<view class="tab-title flex justify-between">
-				<view class="padding-sm" v-for="(item, index) in tabs" :key="index" @tap="clickTab(index)">
+				<view class="padding-sm" v-for="(item, index) in tabs" :key="index" @tap="clickTab(item)">
 					<text :class="activeTab === index ? 'active' : ''">{{ item.title }}</text>
 				</view>
 			</view>
@@ -24,20 +24,20 @@
 			return {
 				activeTab: 0,
 				tabs: [{
-					id: 1,
-					name: '推荐'
+					value: 1,
+					title: '推荐'
 				}, {
-					id: 2,
-					name: '助力'
+					value: 2,
+					title: '助力'
 				}, {
-					id: 3,
-					name: '百科'
+					value: 3,
+					title: '百科'
 				}, {
-					id: 4,
-					name: '游戏'
+					value: 4,
+					title: '游戏'
 				}, {
-					id: 5,
-					name: '关注'
+					value: 5,
+					title: '关注'
 				}],
 			};
 		},
@@ -49,14 +49,15 @@
 			}).then(res => {
 				if (res.data.success) {
 					this.tabs = res.data.result.home_sign;
+					this.getActiveTab(this.tabs[0])
 				}
 			})
 		},
 		methods: {
-			clickTab(index) {
-				if (this.activeTab === index) return;
-				this.activeTab = index;
-				this.getActiveTab(index)
+			clickTab(item) {
+				if (this.activeTab === item.value- 1) return;
+				this.activeTab = item.value- 1;
+				this.getActiveTab(item)
 			},
 			scroll(e) {
 				console.log(e)
@@ -69,7 +70,20 @@
 	.uni-swiper-tab {
 		white-space: nowrap;
 		width: 100%;
-		background-color: rebeccapurple;
+		top: 180rpx;
+		position: fixed;
+	}
+	
+	.tab-title {
+		color: #666;
+		width: 90%;
+		margin-top: -30rpx;
+		font-size: 36rpx;
+	}
+	
+	.tab-title text.active {
+		color: #000;
+		font-weight: bold;
 	}
 </style>
 

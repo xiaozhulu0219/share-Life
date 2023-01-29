@@ -16,24 +16,12 @@
 				<button class="search-btn text-df">搜索</button>
 			</view>
 		</view>
-
-		<view>
-			<HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
-			<block v-for="(item, idx) in tabs" :key="idx">
-				<view v-if="idx === activeTab">
-					<view class="search-list" v-if="Number(item.value) === 2">
-						<HomeHelpCompanyList></HomeHelpCompanyList>
-					</view>
-					<view class="search-list" v-if="Number(item.value) !== 2">
-						{{item.title}}
-					</view>
-				</view>
-			</block>
-			<!-- <block v-for="(item, idx) in tabs" :key="idx">
-				<view v-if="idx === activeTab">
-					
-				</view>
-			</block> -->
+		<HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
+		<view class="tab-content">
+			<view class="search-list">
+				<HomeHelpCompanyList v-if="Number(activeTab.value) === 2"></HomeHelpCompanyList>
+				<view v-else>{{activeTab}}</view>
+			</view>
 		</view>
 	</view>
 </template>
@@ -52,23 +40,7 @@
 		},
 		data() {
 			return {
-				activeTab: 0,
-				tabs: [{
-					value: 1,
-					title: '推荐'
-				}, {
-					value: 2,
-					title: '助力'
-				}, {
-					value: 3,
-					title: '百科'
-				}, {
-					value: 4,
-					title: '游戏'
-				}, {
-					value: 5,
-					title: '关注'
-				}],
+				activeTab: {},
 				CustomBar: this.CustomBar,
 				NavBarColor: this.NavBarColor,
 				url: '/umsMember/list',
@@ -99,8 +71,8 @@
 		},
 
 		methods: {
-			getActiveTab(index) {
-				this.activeTab = index;
+			getActiveTab(item) {
+				this.activeTab = item;
 			},
 			handleStatus(status, type) {
 
@@ -192,6 +164,7 @@
 		width: 100%;
 		height: 100rpx;
 		margin: 0;
+		position: fixed;
 	}
 
 	.search-bar-box {
@@ -301,17 +274,12 @@
 		}
 	}
 
-	.tab-title {
-		color: #666;
-		width: 90%;
-		margin-left: 5%;
-		margin-top: -30rpx;
-		font-size: 40rpx;
-	}
-
-	.tab-title text.active {
-		color: #000;
-		font-weight: bold;
+	.tab-content {
+		background-color: #00a8cc;
+		position: fixed;
+		width: 100%;
+		height: 200rpx;
+		top: 260rpx;
 	}
 
 	.list-item {
