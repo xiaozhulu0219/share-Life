@@ -29,11 +29,13 @@
 <script>
 	import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
 	import Mixin from '@/common/mixin/Mixin.js';
+	import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
+
 	import HomeSignModal from './homeSignModal.vue'
 	import HomeHelpCompanyList from './homeHelpCompanyList.vue'
 
 	export default {
-		mixins: [MescrollMixin, Mixin],
+		mixins: [MescrollMixin, Mixin,MescrollMoreMixin],
 		components: {
 			HomeSignModal,
 			HomeHelpCompanyList
@@ -73,6 +75,7 @@
 		methods: {
 			getActiveTab(item) {
 				this.activeTab = item;
+				// this.mescroll.resetUpScroll()
 			},
 			handleStatus(status, type) {
 

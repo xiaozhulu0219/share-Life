@@ -8,7 +8,7 @@
             </block>
             <block slot="content">发动态</block>
             <block slot="right">
-                <button class="cu-btn block bg-gray margin-tb-sm " size="small">
+                <button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="submit">
                     发布
                 </button>
             </block>
@@ -29,7 +29,7 @@
                         <p>……</p>
                     </view>
                     <view class="bottom_bar">
-                        <my-image-upload2></my-image-upload2>
+                        <my-image-upload2 ref="imageUpload"></my-image-upload2>
                         <view class="middle">
                             <view class="huati">
                                 <p>#</p>
@@ -107,6 +107,7 @@
                     {id: 2, content: ''},
                     {id: 3, content: ''}
                 ],
+				submitUrl:'/information/movements/savePublish'
             }
         },
         created() {
@@ -170,7 +171,25 @@
                 this.sysOrgCode = null
                 this.queryParam = {}
                 this.loadList(1)
-            }
+            },
+			submit(){
+				this.$http.post(this.submitUrl, {
+					params: {
+						imageContent:this.$refs.imageUpload.imgList,
+						latitude:'latitude',
+						longitude:'longitude',
+						location:'location',
+						medias:'medias',
+						textContent:'textContent',
+						uuId:'uuId'
+					},
+				}).then(res => {
+					if (res.data.success) {
+						console.log('发布成功');
+					// 	this.$router.push(`helpCompanyDetailForm?companyName=${this.model.enterpriseName}`)
+					}
+				})
+			}
         }
     }
 </script>

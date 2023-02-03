@@ -48,8 +48,9 @@
 				</view>
 				<swiper :current="activeTab" class="padding">
 					<swiper-item v-for="(item,index) in tabs" :key="index">
+						<MyPublishList v-if="index === 0"/>
 						<MyHelpCompanyList v-if="index === 1" />
-						<view v-else class="swiper-item">{{item.name}}</view>
+						<view v-if="index !== 0 && index !== 1" class="swiper-item">{{item.name}}</view>
 					</swiper-item>
 				</swiper>
 			</view>
@@ -60,10 +61,12 @@
 <script>
 	import api from '@/api/api';
 	import MyHelpCompanyList from './memberHelpCompanyList'
+	import MyPublishList from './memberPublishList'
 	export default {
 		name: 'member',
 		components:{
-			MyHelpCompanyList
+			MyHelpCompanyList,
+			MyPublishList
 		},
 		data() {
 			return {

@@ -13,17 +13,19 @@
 
 <script>
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
+	import MescrollMoreItemMixin from "@/components/mescroll-uni/mixins/mescroll-more-item.js";
 	import Mixin from "@/common/mixin/Mixin.js";
 
 	export default {
 		name: 'HomeHelpCompanyList',
-		mixins: [MescrollMixin, Mixin],
+		mixins: [MescrollMixin, Mixin,MescrollMoreItemMixin],
 		data() {
 			return {
 				findHomePublishComPageUrl: '/company/movements/findHomePublishComPage',
 				homeHelpList: [],
 				upOption: {
 					page: {
+						num:0,
 						size: 3 // 每页数据的数量,默认10
 					},
 					noMoreSize: 5, // 配置列表的总数量要大于等于5条才显示'-- END --'的提示
@@ -70,6 +72,9 @@
 		padding: 20rpx 20rpx;
 		border-radius: 20rpx;
 		margin-bottom: 20rpx;
+		height: 100rpx;
+		
+		
 		.card-title {
 			font-weight: bold;
 		}

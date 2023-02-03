@@ -60,7 +60,7 @@
 				this.getActiveTab(item)
 			},
 			scroll(e) {
-				console.log(e)
+				// console.log(e)
 			},
 		}
 	};
