@@ -41,7 +41,7 @@
         },
         methods: {
             getMyPublishInforPage() {
-                this.$http.get(this.findMyPublishComPageUrl, {
+                this.$http.get(this.findMyPublishInforPage, {
                     params: {
                         page: 1,
                         pagesize: 20
