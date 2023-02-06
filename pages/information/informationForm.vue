@@ -21,12 +21,15 @@
                         <textarea name="" id="" cols="30" rows="10" v-model="text"
                                   style="{height: 100%,width:100%}"></textarea>
                     </view>
-                    <view class="default_text" :style="{display:vBlock}">
-                        <p>你可以在这里:</p>
-                        <p>1.爆料职场新鲜事</p>
-                        <p>2.分享面试跳槽经验</p>
-                        <p>3.与同行交流、吐槽解压</p>
-                        <p>……</p>
+<!--                    <view class="default_text" :style="{display:vBlock}">-->
+                    <view class="cu-form-group textarea">
+<!--                        <p>你可以在这里:</p>-->
+<!--                        <p>1.爆料职场新鲜事</p>-->
+<!--                        <p>2.分享面试跳槽经验</p>-->
+<!--                        <p>3.与同行交流、吐槽解压</p>-->
+<!--                        <p>……</p>-->
+                        <textarea placeholder="你可以在这里: 1.爆料职场新鲜事" style="width: 18px; height: 200px; " name="input"
+                                  v-model="myFormData.textContent"></textarea>
                     </view>
                     <view class="bottom_bar">
                         <my-image-upload2 ref="imageUpload"></my-image-upload2>
@@ -107,7 +110,15 @@
                     {id: 2, content: ''},
                     {id: 3, content: ''}
                 ],
-				submitUrl:'/information/movements/savePublish'
+				submitUrl:'/information/movements/savePublish',
+                myFormData: {
+                    latitude:'',
+                    longitude:'',
+                    location:'',
+                    medias:'',
+                    textContent:'',
+                    uuId:'',
+                },
             }
         },
         created() {
@@ -173,20 +184,34 @@
                 this.loadList(1)
             },
 			submit(){
+                console.log('myform', this.myFormData)
+                console.log('medias', this.$refs.imageUpload.imgList)
+                console.log('textContent', this.myFormData.textContent)
 				this.$http.post(this.submitUrl, {
-					params: {
-						imageContent:this.$refs.imageUpload.imgList,
-						latitude:'latitude',
-						longitude:'longitude',
-						location:'location',
-						medias:'medias',
-						textContent:'textContent',
-						uuId:'uuId'
+                    myFormData: {
+						//imageContent:this.$refs.imageUpload.imgList,
+						latitude:'123.564646',
+						longitude:'34.256356',
+						location:'北京',
+                        medias:this.$refs.imageUpload.imgList,
+						textContent:this.myFormData.textContent,
 					},
 				}).then(res => {
+                    console.log('myFormData', this.myFormData)
+                    console.log('res',res);
 					if (res.data.success) {
 						console.log('发布成功');
-					// 	this.$router.push(`helpCompanyDetailForm?companyName=${this.model.enterpriseName}`)
+						console.log('res.data',res.data);
+                        uni.showToast({
+                            title: '发布成功',
+                            complete() {
+                                setTimeout(() => {
+                                    uni.redirectTo({
+                                        url: '/pages/home/homeInformationList'
+                                    });
+                                }, 1500);
+                            }
+                        });
 					}
 				})
 			}
