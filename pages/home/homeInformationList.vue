@@ -2,7 +2,7 @@
     <view>
         <!--标题和返回-->
         <cu-custom :bgColor="NavBarColor">
-            <block slot="content">首页</block>
+            <block slot="content">首页-发布</block>
         </cu-custom>
 
         <!-- 搜索框 -->
