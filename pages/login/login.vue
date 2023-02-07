@@ -143,9 +143,6 @@
       },
       // 勾选协议
       goAgreement() {
-				// uni.navigateTo({//本地协议
-				// 	url: '../../pages/agreement/index?name=微聊'
-				// })
 				this.$http.request({ //在线协议
 					url: '/common/getAgreement',
 					success: (res) => {
