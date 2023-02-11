@@ -14,8 +14,8 @@
             </block>
         </cu-custom>
 
-        <view class="">
-            <form>
+        <view class="" >
+            <form :model="myFormData">
                 <view class="main bg-white" :style="{backgroundColor:voteBc}">
                     <view class="main_content">
                         <textarea name="" id="" cols="30" rows="10" v-model="text"
@@ -96,10 +96,11 @@
                 sysOrgCode: {},
                 backRouteName: 'index',
                 url: {
-                    queryById: "/member/queryById",
-                    add: "/member/add",
-                    edit: "/member/edit",
-                    findPageByCompanyName: "/company/movements/findPageByCompanyName",  //助力新增页面模糊查询调用企查查
+                    // queryById: "/member/queryById",
+                    // add: "/member/add",
+                    // edit: "/member/edit",
+                    // findPageByCompanyName: "/company/movements/findPageByCompanyName",  //助力新增页面模糊查询调用企查查
+                    submitUrl:'/information/movements/savePublish',
                 },
                 text: '',
                 vBlock: "block",
@@ -110,7 +111,6 @@
                     {id: 2, content: ''},
                     {id: 3, content: ''}
                 ],
-				submitUrl:'/information/movements/savePublish',
                 myFormData: {
                     latitude:'',
                     longitude:'',
@@ -187,15 +187,15 @@
                 console.log('myform', this.myFormData)
                 console.log('medias', this.$refs.imageUpload.imgList)
                 console.log('textContent', this.myFormData.textContent)
-				this.$http.post(this.submitUrl, {
-                    myFormData: {
-						//imageContent:this.$refs.imageUpload.imgList,
-						latitude:'123.564646',
-						longitude:'34.256356',
-						location:'北京',
-                        medias:this.$refs.imageUpload.imgList,
-						textContent:this.myFormData.textContent,
-					},
+				this.$http.post(this.url.submitUrl, this.myFormData,{
+                    // myFormData: {
+					// 	//imageContent:this.$refs.imageUpload.imgList,
+					// 	latitude:'123.564646',
+					// 	longitude:'34.256356',
+					// 	location:'北京',
+                    //     medias:this.$refs.imageUpload.imgList,
+					// 	textContent:this.myFormData.textContent,
+					// },
 				}).then(res => {
                     console.log('myFormData', this.myFormData)
                     console.log('res',res);
