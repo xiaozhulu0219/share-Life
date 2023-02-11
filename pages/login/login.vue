@@ -85,8 +85,8 @@
 			return {
 				shape: '', //round 圆形
 				loading: false,
-				password: '',
-				phoneNo: '',
+				password: '12345678',
+				phoneNo: '16600251650',
 				smsCode: '',
 				showPassword: false, //是否显示明文
 				loginWay: 1, //1: 账密，2：验证码
