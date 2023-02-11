@@ -94,7 +94,7 @@
 				smsCountInterval: null,
 				toggleDelay: false,
 				version: '',
-        agree: false,
+        agree: true,
 				//第三方登录相关信息
 				thirdType: '',
 				thirdLoginInfo: '',
