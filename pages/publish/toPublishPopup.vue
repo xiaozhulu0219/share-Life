@@ -6,21 +6,25 @@
 				<view class="card-item padding bg-gradual-green" @tap="goInformation">发动态</view>
 				<view class="card-item padding bg-gradual-blue" @tap="goHelpCom">助力公司</view>
 			</view>
+			<view class="flex popup-content">
+				<view class="card-item padding">分享健康美好生活</view>
+				<view class="card-item padding">给出有态度的评价</view>
+			</view>
 		</view>
 	</uni-popup>
 </template>
 
 <script>
-	
+
 	export default {
 		name: 'toPublishPopup',
 		data() {
 			return {
-				
+
 			};
 		},
 		created() {
-			
+
 		},
 		methods: {
 			showModal() {
