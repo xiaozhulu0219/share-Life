@@ -65,11 +65,7 @@
 					companyName: '',
 				},
 				url: {
-					queryById: "/member/queryById",
-					add: "/member/add",
-					edit: "/member/edit",
 					findPageByCompanyName: "/company/movements/findPageByCompanyName", //助力新增页面模糊查询调用天眼查
-					//showResultPage: "/company/movements/showResultPage"
 					toEvaluate: "/company/movements/toEvaluate"   //去拿捏-直接跳转到该企业详情
 				},
 			}
@@ -99,7 +95,6 @@
 				this.companyName = null
 				this.queryParam = {}
 				this.loadList(1)
-
 				this.model.listData = [] //模糊搜索列表
 				this.listData = []
 			},
@@ -114,10 +109,7 @@
 						}
 					}).then((res) => {
 						if (res.data.success) {
-							console.log("表单数据", res);
-							console.log("过滤数据", res.data.result);
 							this.listData = res.data.result.records
-							// this.model = res.data.result;
 						}
 					})
 				}
@@ -133,9 +125,6 @@
 					}
 				})
 			},
-			toDetail(){
-				this.$router.push(`helpCompanyDetailForm?companyName=${this.model.companyName}`)
-			},
 			confirmHelp() {
 				this.$http.post(this.url.toEvaluate, {
 					params: {
@@ -147,7 +136,10 @@
 						this.$router.push(`helpCompanyDetailForm?companyName=${this.model.companyName}`)
 					}
 				})
-			}
+			},
+			// toDetail(){
+			// 	this.$router.push(`helpCompanyDetailForm?companyName=${this.model.companyName}`)
+			// },
 		}
 	}
 </script>
