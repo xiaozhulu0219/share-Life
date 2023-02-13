@@ -65,24 +65,10 @@ const routes = [{
 		}
 	},
 	{
-		path: '/pages/helpcompany/helpCompanyList',
-		name: 'helpCompanyList',
-		meta: {
-			title: '助力公司列表'
-		}
-	},
-	{
 		path: '/pages/helpcompany/helpCompanyDetailForm',
 		name: 'helpCompanyDetailForm',
 		meta: {
 			title: '助力公司详情'
-		}
-	},
-	{
-		path: '/pages/helpcompany/helpCompanySelectForm',
-		name: 'helpCompanySelectForm',
-		meta: {
-			title: '助力公司新增时选择公司后的跳转页'
 		}
 	},
 	{

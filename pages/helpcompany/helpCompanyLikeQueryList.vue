@@ -11,7 +11,7 @@
 			<form>
 				<view class="search padding">
 					<view class="iptbox">
-						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.enterpriseName" class="ipt text-df"
+						<input placeholder="输入要助力的公司简称或者邮箱后缀" v-model="model.companyName" class="ipt text-df"
 							@confirm="searchCompany" @input="searchCompany" />
 					</view>
 					<button class="cu-btn block bg-gray lg" @click="clear">
@@ -24,20 +24,13 @@
 			<!-- 模糊搜索列表 -->
 			<view class="cu-list bg-white">
 				<view class="align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index"
-					@click="search(item.id,item.enterpriseName)">
+					@click="search(item.id,item.companyName)">
 					<!-- <checkbox style="transform:scale(0.7)" value="cb" checked="false" /> -->
 					<view class="padding-left">
-						{{item.enterpriseName}}
+						{{item.companyName}}
+						<button style="font-size: 18rpx;"  @click="confirmHelp">拿捏此企业</button>
 					</view>
 					<view class="list-line"></view>
-					<!-- <view class="flex" style="width:600%">
-						<text class="">
-							<image src="../../static/images/weixuanze.png" mode="" @click="search"
-								   style="width: 15px ;height: 14px"></image>
-							<br>
-							{{item.enterpriseName}}
-						</text>
-					</view> -->
 				</view>
 
 			</view>
@@ -69,14 +62,15 @@
 				backRouteName: 'index',
 				listData: [], //模糊搜索列表
 				model: {
-					enterpriseName: '',
+					companyName: '',
 				},
 				url: {
 					queryById: "/member/queryById",
 					add: "/member/add",
 					edit: "/member/edit",
-					findPageByEnterpriseName: "/enterprise/list", //助力新增页面模糊查询调用企查查
-					showResultPage: "/company/movements/showResultPage"
+					findPageByCompanyName: "/company/movements/findPageByCompanyName", //助力新增页面模糊查询调用天眼查
+					//showResultPage: "/company/movements/showResultPage"
+					toEvaluate: "/company/movements/toEvaluate"   //去拿捏-直接跳转到该企业详情
 				},
 			}
 		},
@@ -101,8 +95,8 @@
 			},
 			clear() {
 				// 重置
-				this.model.enterpriseName = []
-				this.enterpriseName = null
+				this.model.companyName = []
+				this.companyName = null
 				this.queryParam = {}
 				this.loadList(1)
 
@@ -113,10 +107,10 @@
 				// 助力新增页面模糊查询调用企查查
 				//表单项内容发生改变
 				if (this.model) {
-					let enterpriseName = this.model.enterpriseName;
-					this.$http.get(this.url.findPageByEnterpriseName, {
+					let companyName = this.model.companyName;
+					this.$http.get(this.url.findPageByCompanyName, {
 						params: {
-							enterpriseName: enterpriseName
+							companyName: companyName
 						}
 					}).then((res) => {
 						if (res.data.success) {
@@ -128,7 +122,7 @@
 					})
 				}
 			},
-			search(companyId,companyName) {
+			search(companyName) {
 				this.$http.get(this.url.showResultPage, {
 					params: {
 						companyId: companyId
@@ -136,6 +130,21 @@
 				}).then(res => {
 					if (res.data.success) {
 						this.$router.push(`helpCompanySelectForm?name=${companyName}&id=${companyId}&result=${res.data.result}`)
+					}
+				})
+			},
+			toDetail(){
+				this.$router.push(`helpCompanyDetailForm?companyName=${this.model.companyName}`)
+			},
+			confirmHelp() {
+				this.$http.post(this.url.toEvaluate, {
+					params: {
+						companyId:Number(this.model.enterpriseId),
+						companyName: this.model.companyName,
+					}
+				}).then(res => {
+					if (res.data.success) {
+						this.$router.push(`helpCompanyDetailForm?companyName=${this.model.companyName}`)
 					}
 				})
 			}

@@ -34,11 +34,8 @@ import information from './pages/information/informationList.vue';
 import informationForm from './pages/information/informationForm.vue';
 
 //以下两个是助力公司
-import helpCompanyList from './pages/helpcompany/helpCompanyList.vue';
 
 import helpCompanyLikeQueryList from './pages/helpcompany/helpCompanyLikeQueryList.vue';
-
-import helpCompanySelectForm from './pages/helpcompany/helpCompanySelectForm.vue';
 
 import helpCompanyDetailForm from './pages/helpcompany/helpCompanyDetailForm.vue';
 
@@ -79,9 +76,7 @@ Vue.component('forgetPass', forgetPass);
 Vue.component('member', member);
 Vue.component('information', information);
 Vue.component('informationForm', informationForm);
-Vue.component('helpCompanyList', helpCompanyList);
 Vue.component('helpCompanyLikeQueryList', helpCompanyLikeQueryList);
-Vue.component('helpCompanySelectForm', helpCompanySelectForm);
 Vue.component('helpCompanyDetailForm', helpCompanyDetailForm);
 Vue.component('people', people);
 Vue.component('mySelect', mySelect);
