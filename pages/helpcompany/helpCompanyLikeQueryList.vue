@@ -22,12 +22,14 @@
 			</form>
 			<!-- 模糊搜索列表 -->
 			<view class="cu-list bg-white">
-				<view class="align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index"
-					@click="search(item.tianyanchaId,item.companyName)">
+				<view class="align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index">
+<!--					@click="search(item.tianyanchaId,item.companyName)">-->
+
 					<!-- <checkbox style="transform:scale(0.7)" value="cb" checked="false" /> -->
 					<view class="padding-left">
 						{{item.companyName}}
-						<button style="font-size: 18rpx;"  @click="confirmHelp">拿捏此企业</button>
+						{{(item.tianyanchaId)}}
+						<button style="font-size: 18rpx;"  @click="confirmHelp(item.tianyanchaId)">拿捏此企业</button>
 					</view>
 					<view class="list-line"></view>
 				</view>
@@ -127,7 +129,9 @@
 			// 	})
 			// },
 			confirmHelp() {
-				console.log("this.model:"+this.model)
+
+				console.log("this.model.tianyanchaId:"+this.model.tianyanchaId)
+				console.log(this.model.tianyanchaId)
 				console.log(this.model)
 				this.$http.get(this.url.toEvaluate, {
 					params: {
