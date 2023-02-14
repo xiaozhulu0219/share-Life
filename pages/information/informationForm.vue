@@ -96,10 +96,6 @@
                 sysOrgCode: {},
                 backRouteName: 'index',
                 url: {
-                    // queryById: "/member/queryById",
-                    // add: "/member/add",
-                    // edit: "/member/edit",
-                    // findPageByCompanyName: "/company/movements/findPageByCompanyName",  //助力新增页面模糊查询调用企查查
                     submitUrl:'/information/movements/savePublish',
                 },
                 text: '',
