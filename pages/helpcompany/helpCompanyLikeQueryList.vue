@@ -17,14 +17,13 @@
 					<button class="cu-btn block bg-gray lg" @click="clear">
 						<text v-if="loading" class="cuIcon-loading2 cuIconfont-spin"></text>取消
 					</button>
-
 				</view>
 
 			</form>
 			<!-- 模糊搜索列表 -->
 			<view class="cu-list bg-white">
 				<view class="align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index"
-					@click="search(item.id,item.companyName)">
+					@click="search(item.tianyanchaId,item.companyName)">
 					<!-- <checkbox style="transform:scale(0.7)" value="cb" checked="false" /> -->
 					<view class="padding-left">
 						{{item.companyName}}
@@ -63,6 +62,8 @@
 				listData: [], //模糊搜索列表
 				model: {
 					companyName: '',
+					companyId: '',
+					tianyanchaId: '',
 				},
 				url: {
 					findPageByCompanyName: "/company/movements/findPageByCompanyName", //助力新增页面模糊查询调用天眼查
@@ -99,8 +100,8 @@
 				this.listData = []
 			},
 			searchCompany() {
-				// 助力新增页面模糊查询调用企查查
-				//表单项内容发生改变
+				// 助力新增页面模糊查询调用天眼查
+				// 表单项内容发生改变
 				if (this.model) {
 					let companyName = this.model.companyName;
 					this.$http.get(this.url.findPageByCompanyName, {
@@ -114,22 +115,24 @@
 					})
 				}
 			},
-			search(companyName) {
-				this.$http.get(this.url.showResultPage, {
-					params: {
-						companyId: companyId
-					}
-				}).then(res => {
-					if (res.data.success) {
-						this.$router.push(`helpCompanySelectForm?name=${companyName}&id=${companyId}&result=${res.data.result}`)
-					}
-				})
-			},
+			// search(companyName) {
+			// 	this.$http.get(this.url.showResultPage, {
+			// 		params: {
+			// 			companyId: companyId
+			// 		}
+			// 	}).then(res => {
+			// 		if (res.data.success) {
+			// 			this.$router.push(`helpCompanySelectForm?name=${companyName}&id=${companyId}&result=${res.data.result}`)
+			// 		}
+			// 	})
+			// },
 			confirmHelp() {
-				this.$http.post(this.url.toEvaluate, {
+				console.log("this.model:"+this.model)
+				console.log(this.model)
+				this.$http.get(this.url.toEvaluate, {
 					params: {
-						companyId:Number(this.model.enterpriseId),
-						companyName: this.model.companyName,
+						tianyanchaId:Number(this.model.tianyanchaId),
+						//companyName: this.model.companyName,
 					}
 				}).then(res => {
 					if (res.data.success) {
