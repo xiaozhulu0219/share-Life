@@ -23,17 +23,16 @@
 			<!-- 模糊搜索列表 -->
 			<view class="cu-list bg-white">
 				<view class="align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index">
-<!--					@click="search(item.tianyanchaId,item.companyName)">-->
-
-					<!-- <checkbox style="transform:scale(0.7)" value="cb" checked="false" /> -->
 					<view class="padding-left">
 						{{item.companyName}}
-						{{(item.tianyanchaId)}}
-						<button style="font-size: 18rpx;"  @click="confirmHelp(item.tianyanchaId)">拿捏此企业</button>
+						{{item.bussinessAddress}}
+						{{item.legalPerson}}
+						{{item.companyStatus}}
+						{{item.registeredCapital}}
+						<button style="font-size: 18rpx;"  @click="confirmHelp(item)">拿捏此企业</button>
 					</view>
 					<view class="list-line"></view>
 				</view>
-
 			</view>
 		</view>
 	</view>
@@ -65,7 +64,10 @@
 				model: {
 					companyName: '',
 					companyId: '',
-					tianyanchaId: '',
+					bussinessAddress: '',
+					legalPerson: '',
+					companyStatus: '',
+					registeredCapital: '',
 				},
 				url: {
 					findPageByCompanyName: "/company/movements/findPageByCompanyName", //助力新增页面模糊查询调用天眼查
@@ -117,36 +119,21 @@
 					})
 				}
 			},
-			// search(companyName) {
-			// 	this.$http.get(this.url.showResultPage, {
-			// 		params: {
-			// 			companyId: companyId
-			// 		}
-			// 	}).then(res => {
-			// 		if (res.data.success) {
-			// 			this.$router.push(`helpCompanySelectForm?name=${companyName}&id=${companyId}&result=${res.data.result}`)
-			// 		}
-			// 	})
-			// },
-			confirmHelp() {
-
-				console.log("this.model.tianyanchaId:"+this.model.tianyanchaId)
+			confirmHelp(item) {
 				console.log(this.model.tianyanchaId)
-				console.log(this.model)
+				console.log(item.tianyanchaId)
 				this.$http.get(this.url.toEvaluate, {
 					params: {
-						tianyanchaId:Number(this.model.tianyanchaId),
-						//companyName: this.model.companyName,
+						tianyanchaId:Number(item.tianyanchaId),
 					}
 				}).then(res => {
+					console.log(this.model)
+					console.log(res.data)
 					if (res.data.success) {
 						this.$router.push(`helpCompanyDetailForm?companyName=${this.model.companyName}`)
 					}
 				})
 			},
-			// toDetail(){
-			// 	this.$router.push(`helpCompanyDetailForm?companyName=${this.model.companyName}`)
-			// },
 		}
 	}
 </script>
