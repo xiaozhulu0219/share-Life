@@ -70,8 +70,8 @@
 					registeredCapital: '',
 				},
 				url: {
-					findPageByCompanyName: "/company/movements/findPageByCompanyName", //助力新增页面模糊查询调用天眼查
-					toEvaluate: "/company/movements/toEvaluate"   //去拿捏-直接跳转到该企业详情
+					findPageByCompanyName: "/company/findPageByCompanyName", //助力新增页面模糊查询调用天眼查
+					toEvaluate: "/company/toEvaluate"   //去拿捏-直接跳转到该企业详情
 				},
 			}
 		},
@@ -130,7 +130,7 @@
 					console.log(this.model)
 					console.log(res.data)
 					if (res.data.success) {
-						this.$router.push(`helpCompanyDetailForm?companyName=${this.model.companyName}`)
+						this.$router.push(`helpCompanyDetailForm?companyName=${res.data.companyName}`)
 					}
 				})
 			},
