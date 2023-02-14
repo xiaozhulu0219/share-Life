@@ -56,9 +56,6 @@
 				companyName: '',
 				NavBarColor: this.NavBarColor,
 				url: {
-					queryById: "/member/queryById",
-					add: "/member/add",
-					edit: "/member/edit",
 					findPageByEnterpriseName: "/enterprise/list", //助力新增页面模糊查询调用企查查
 				},
 			}
