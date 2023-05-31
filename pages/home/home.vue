@@ -17,7 +17,7 @@
                 <button class="search-btn text-df">搜索</button>
             </view>
         </view>
-<!--        <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>-->
+        <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
 <!--        <view class="tab-content">-->
 <!--            <view class="search-list">-->
 <!--                <HomeHelpCompanyList v-if="Number(activeTab.value) === 2"></HomeHelpCompanyList>-->
@@ -25,7 +25,7 @@
 <!--            </view>-->
 <!--        </view>-->
 
-        <!-- TODO 如何展示？？？？？？？ -->
+        <!-- TODO 如何展示？？？？？？？ 这个是助力 -->
             <view v-for="(item,index) in homePublishComList" :key="index" class="card">
                 <view>{{item.companyName}}</view>
                 <view>11111</view>
@@ -35,9 +35,11 @@
                 <view>33333</view>
             </view>
 
+        <!-- TODO 如何展示？？？？？？？ 这个是动态 -->
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card">
                 <view>{{item.nickname}}</view>
                 <view>{{item.textContent}}</view>
+                <view>{{item.medias}}</view>
                 <view>{{item.ipAddress}}</view>
             </view>
 
@@ -347,5 +349,29 @@
         margin: 20 rpx auto;
         width: 95%;
         border-radius: 20 rpx;
+    }
+
+    .card {
+        background-color: $uni-bg-color-grey;
+        padding: 20rpx 20rpx;
+        border-radius: 20rpx;
+        margin-bottom: 50rpx;
+        margin-top: 160rpx; /*盒子距离顶部的距离*/
+        line-height: 35px;  /*行高*/
+        //margin-bottom: 16px; /*内容和标题间的间距*/
+
+        .card-title {
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 20rpx;
+        }
+
+        .card-location {
+            position: absolute;
+            right: 20rpx;
+            font-size: 20rpx;
+        }
     }
 </style>

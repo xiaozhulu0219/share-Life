@@ -17,10 +17,10 @@
         <view class="" >
             <form :model="myFormData">
                 <view class="main bg-white" :style="{backgroundColor:voteBc}">
-                    <view class="main_content">
-                        <textarea name="" id="" cols="30" rows="10" v-model="text"
-                                  style="{height: 100%,width:100%}"></textarea>
-                    </view>
+<!--                    <view class="main_content">-->
+<!--                        <textarea name="" id="" cols="30" rows="10" v-model="text"-->
+<!--                                  style="{height: 100%,width:100%}"></textarea>-->
+<!--                    </view>-->
 <!--                    <view class="default_text" :style="{display:vBlock}">-->
                     <view class="cu-form-group textarea">
 <!--                        <p>你可以在这里:</p>-->
@@ -28,7 +28,7 @@
 <!--                        <p>2.分享面试跳槽经验</p>-->
 <!--                        <p>3.与同行交流、吐槽解压</p>-->
 <!--                        <p>……</p>-->
-                        <textarea placeholder="你可以在这里: 1.爆料职场新鲜事" style="width: 18px; height: 200px; " name="input"
+                        <textarea placeholder="你可以在这里: 1.爆料职场新鲜事" style="width: 18px; height: 400px; " name="input"
                                   v-model="myFormData.textContent"></textarea>
                     </view>
                     <view class="bottom_bar">
