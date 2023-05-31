@@ -110,10 +110,6 @@
       "style": {}
     },
     {
-      "path": "pages/information/informationList",
-      "style": {}
-    },
-    {
       "path": "pages/information/informationForm",
       "style": {}
     },
@@ -142,14 +138,6 @@
       "style": {}
     },
     {
-      "path": "pages/user/userdetail",
-      "style": {}
-    },
-    {
-      "path": "pages/user/useredit",
-      "style": {}
-    },
-    {
       "path": "pages/member/member",
       "style": {}
     },
@@ -171,10 +159,6 @@
     },
     {
       "path": "pages/member/sex",
-      "style": {}
-    },
-    {
-      "path": "pages/user/people",
       "style": {}
     },
     {

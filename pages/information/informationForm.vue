@@ -184,7 +184,7 @@
                 console.log('medias', this.$refs.imageUpload.imgList)
                 console.log('textContent', this.myFormData.textContent)
 				this.$http.post(this.url.submitUrl, this.myFormData,{
-                    // myFormData: {
+                    // myFormData: {  发布所需字段示例
 					// 	//imageContent:this.$refs.imageUpload.imgList,
 					// 	latitude:'123.564646',
 					// 	longitude:'34.256356',
@@ -203,7 +203,7 @@
                             complete() {
                                 setTimeout(() => {
                                     uni.redirectTo({
-                                        url: '/pages/home/homeInformationList'
+                                        url: '/pages/home/home'
                                     });
                                 }, 1500);
                             }

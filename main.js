@@ -18,7 +18,6 @@ import { http } from '@/common/service/service.js';
 import home from './pages/home/home.vue';
 
 //以下几个是将来的登录注册
-
 import register from './pages/register/register.vue';
 
 import engine from './pages/engine/engine.vue';
@@ -29,17 +28,12 @@ import forgetPass from './pages/login/forgetPass.vue';
 import member from './pages/member/member.vue';
 
 //以下两个是新首页
-import information from './pages/information/informationList.vue';
-
 import informationForm from './pages/information/informationForm.vue';
 
 //以下两个是助力公司
-
 import helpCompanyLikeQueryList from './pages/helpcompany/helpCompanyLikeQueryList.vue';
 
 import helpCompanyDetailForm from './pages/helpcompany/helpCompanyDetailForm.vue';
-
-import people from './pages/user/people.vue';
 
 // 自定义组件
 import mySelect from './components/my-componets/my-select.vue';
@@ -69,16 +63,13 @@ Vue.prototype.$tip = tip;
 Vue.prototype.$config = configService;
 Vue.prototype.$http = http;
 Vue.component('home', home);
-//Vue.component('login', login);
 Vue.component('register', register);
 Vue.component('engine', engine);
 Vue.component('forgetPass', forgetPass);
 Vue.component('member', member);
-Vue.component('information', information);
 Vue.component('informationForm', informationForm);
 Vue.component('helpCompanyLikeQueryList', helpCompanyLikeQueryList);
 Vue.component('helpCompanyDetailForm', helpCompanyDetailForm);
-Vue.component('people', people);
 Vue.component('mySelect', mySelect);
 Vue.component('myImageUpload', myImageUpload);
 Vue.component('myPage', myPage);
