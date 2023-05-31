@@ -1,12 +1,10 @@
 <template>
-	<!--个人页的一些页面--（我的动态)分页查询-->
+	<!--个人页的一些页面--（我的发布)分页查询-->
 	<view style="height: 800rpx">
 		<mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">
-			<view v-for="(item,index) in myHelpList" :key="index" class="card">
-				<view class="card-location">{{item.locationName}}</view>
-				<view class="card-title">{{item.companyName}}</view>
-				<view class="card-text">{{item.textContent}}</view>
+			<view v-for="(item,index) in myPublishInforList" :key="index" class="card">
+				<view>{{ item.textContent }}</view>
 			</view>
 		</mescroll-body>
 	</view>
@@ -22,7 +20,7 @@
 		data() {
 			return {
 				findMyPublishInforPageUrl: '/information/movements/findMyPublishInforPage',
-				myHelpList: [],
+				myPublishInforList: [],
 				upOption: {
 					auto: false, // 不自动加载
 					page: {
@@ -50,7 +48,7 @@
 				}).then(res => {
 					if (res.data.success) {
 						console.log(res.data.result);
-						this.myHelpList = res.data.result.items;
+						this.myPublishInforList = res.data.result.items;
 					}
 				}).catch(err => {
 					console.log(err);

@@ -1,5 +1,5 @@
 <template>
-	<!--个人页的一些页面--我的助力-->
+	<!--个人页的一些页面--（我的助力)分页查询-->
 	<view style="height: 800rpx">
 		<mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">
@@ -21,7 +21,7 @@
 		mixins: [MescrollMixin, Mixin],
 		data() {
 			return {
-				findMyPublishComPageUrl: '/company/movements/findMyPublishComPage',
+				findMyPublishComPageUrl: '/company/findMyPublishComPage',
 				myHelpList: [],
 				upOption: {
 					auto: false, // 不自动加载
