@@ -1,4 +1,5 @@
 <template>
+	<!--个人页的一些页面--憧憬公司标签页-->
     <view>
       <view @tap="saveTags">
         <cu-custom bgColor="bg-gradual-pink" :isBack="true">

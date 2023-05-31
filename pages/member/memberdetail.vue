@@ -1,4 +1,5 @@
 <template>
+	<!--个人页的一些页面--人员详情-->
 	<view>
 		<scroll-view scroll-y class="page">
 			<cu-custom bgColor="bg-gradual-pink" :isBack="true">

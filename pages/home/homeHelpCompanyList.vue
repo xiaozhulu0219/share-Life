@@ -1,4 +1,5 @@
 <template>
+	<!--首页的助力公司列表页-->
 	<view style="overflow: scroll;height: 300rpx;background-color: red;">
 		<mescroll-body ref="mescrollRef" @init="mescrollInit" @down="downCallback" @up="upCallback" :down="downOption"
 			:up="upOption">
@@ -73,8 +74,8 @@
 		border-radius: 20rpx;
 		margin-bottom: 20rpx;
 		height: 100rpx;
-		
-		
+
+
 		.card-title {
 			font-weight: bold;
 		}

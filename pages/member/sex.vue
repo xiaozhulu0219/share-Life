@@ -1,4 +1,5 @@
 <template>
+	<!--个人页的一些页面--性别修改页-->
 	<view class="sex-container">
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 			<view slot="backText">返回</view>

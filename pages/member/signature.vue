@@ -1,4 +1,5 @@
 <template>
+	<!--个人页的一些页面--简介修改页-->
 	<view>
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true">
 			<view slot="backText">返回</view>

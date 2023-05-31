@@ -1,5 +1,6 @@
 <template>
 	<view>
+		<!--首页-->
 		<!--标题和返回-->
 		<cu-custom :bgColor="NavBarColor">
 			<block slot="content">首页</block>

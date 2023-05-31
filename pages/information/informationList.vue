@@ -1,4 +1,5 @@
 <template>
+    <!--发布功能的列表页、可能已经是无用页面、无用可删除-->
     <view>
         <!--标题和返回-->
         <cu-custom :bgColor="NavBarColor">

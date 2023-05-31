@@ -1,4 +1,5 @@
 <template>
+	<!--个人页的一些页面--（我的动态)分页查询-->
 	<view style="height: 800rpx">
 		<mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">

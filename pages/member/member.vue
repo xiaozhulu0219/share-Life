@@ -1,4 +1,5 @@
 <template>
+	<!--个人页的一些页面--个人页主页-->
 	<view>
 		<scroll-view scroll-y class="page">
 			<!-- 头部logo-->

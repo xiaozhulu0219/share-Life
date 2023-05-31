@@ -1,4 +1,5 @@
 <template>
+	<!--app页面中间的加号页-->
 	<uni-popup ref="popup" type="bottom">
 		<view class="popup-card bg-white">
 			<view class="padding text-right cuIcon-close" @tap="closeModal"></view>

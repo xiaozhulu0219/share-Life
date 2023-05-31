@@ -1,4 +1,5 @@
 <template>
+	<!--首页的所有标签页-->
 	<view>
 		<scroll-view class="uni-swiper-tab" :scroll-x="true" @scroll="scroll">
 			<view class="tab-title flex justify-between">
@@ -13,12 +14,12 @@
 <script>
 	import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
 	import Mixin from '@/common/mixin/Mixin.js';
-	
+
 	export default {
 		mixins: [MescrollMixin, Mixin],
 		props: ["getActiveTab"],
 		components:{
-			
+
 		},
 		data() {
 			return {
@@ -31,12 +32,6 @@
 					title: '助力'
 				}, {
 					value: 3,
-					title: '百科'
-				}, {
-					value: 4,
-					title: '游戏'
-				}, {
-					value: 5,
 					title: '关注'
 				}],
 			};
@@ -73,14 +68,14 @@
 		top: 180rpx;
 		position: fixed;
 	}
-	
+
 	.tab-title {
 		color: #666;
 		width: 90%;
 		margin-top: -30rpx;
 		font-size: 36rpx;
 	}
-	
+
 	.tab-title text.active {
 		color: #000;
 		font-weight: bold;
