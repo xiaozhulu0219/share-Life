@@ -1,5 +1,6 @@
 import configService from '@/common/service/config.service.js';
 import store from '@/store/index.js';
+import {ACCESS_TOKEN} from '@/common/util/constants.js'
 class socket {
 	constructor(options) {
 		this.socketUrl = configService.apiUrl;
@@ -17,11 +18,15 @@ class socket {
 				let userid=store.state.userid?store.state.userid:store.getters.userid;
 				let url=this.socketUrl.replace("https://","wss://").replace("http://","ws://")+"/"+socket_type+"/"+userid+"_app";
 				console.log("启动this.socketUrl连接地址:",url);
-				
+				// update-begin-author:lsq date:20230506 for:[issues/497]websocket连接打开失败
+				let token = uni.getStorageSync(ACCESS_TOKEN)
 				uni.connectSocket({
 					url: url,
-					method: 'GET'
+					method: 'GET',
+					protocols:[token]
 				});
+				// update-end-author:lsq date:20230506 for:[issues/497]websocket连接打开失败
+
 				uni.onSocketOpen((res) => {
 					this.socketStart = true;
 					callback && callback();
@@ -76,7 +81,7 @@ class socket {
 			_this.socketStart = false;
 			setTimeout(function() {
 				//_this.init();
-			}, 3000); 
+			}, 3000);
 		});
 	}
 	//监听Socket错误
