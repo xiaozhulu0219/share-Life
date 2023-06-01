@@ -111,9 +111,9 @@
                     	latitude:'123.564646',
                     	longitude:'34.256356',
                     	location:'北京',
-                    medias:'',
-                    textContent:'',
-                    uuId:'',
+                        medias:'',
+                        textContent:'',
+                        uuId:'',
                 },
             }
         },
