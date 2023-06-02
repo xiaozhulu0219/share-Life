@@ -28,19 +28,15 @@
         <!-- TODO 如何展示？？？？？？？ 这个是助力 -->
             <view v-for="(item,index) in homePublishComList" :key="index" class="card">
                 <view>{{item.companyName}}</view>
-                <view>11111</view>
                 <view>{{item.bussinessAddress}}</view>
-                <view>22222</view>
                 <view>{{item.legalPerson}}</view>
-                <view>33333</view>
             </view>
 
         <!-- TODO 如何展示？？？？？？？ 这个是动态 -->
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card">
-                <view>{{item.nickname}}</view>
                 <view>{{item.textContent}}</view>
                 <img class="medias_size" :src="fileUrl+item.medias" alt="">
-                <view>  <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
+                <view> {{item.nickname}}  <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
             </view>
 
     </view>
