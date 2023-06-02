@@ -18,7 +18,6 @@ const getTokenStorage = () => {
 }
 
 
-
 const http = new Request()
 http.setConfig((config) => { /* 设置全局配置 */
   config.baseUrl = apiUrl /* 根域名不同 */
@@ -75,7 +74,7 @@ http.interceptor.response(async (response) => { /* 请求之后拦截器 */
             store.dispatch('Logout').then(() => {
 				clearTimeout(timeout)
                 window.location.reload()
-            }) 
+            })
           }
           break
         case 404:

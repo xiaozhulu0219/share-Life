@@ -17,11 +17,6 @@
         <view class="" >
             <form :model="myFormData">
                 <view class="main bg-white" :style="{backgroundColor:voteBc}">
-<!--                    <view class="main_content">-->
-<!--                        <textarea name="" id="" cols="30" rows="10" v-model="text"-->
-<!--                                  style="{height: 100%,width:100%}"></textarea>-->
-<!--                    </view>-->
-<!--                    <view class="default_text" :style="{display:vBlock}">-->
                     <view class="cu-form-group textarea">
 <!--                        <p>你可以在这里:</p>-->
 <!--                        <p>1.爆料职场新鲜事</p>-->
@@ -29,10 +24,11 @@
 <!--                        <p>3.与同行交流、吐槽解压</p>-->
 <!--                        <p>……</p>-->
                         <textarea placeholder="你可以在这里: 1.爆料职场新鲜事" style="width: 18px; height: 400px; " name="input"
-                                  v-model="myFormData.textContent"></textarea>
+                                  v-model="myFormData.textContent">
+                        </textarea>
                     </view>
                     <view class="bottom_bar">
-                        <my-image-upload2 ref="imageUpload"></my-image-upload2>
+                        <my-image-upload ref="imageUpload" v-model="myFormData.medias"></my-image-upload>
                         <view class="middle">
                             <view class="huati">
                                 <p>#</p>
@@ -74,11 +70,11 @@
 
 <script>
     import myDate from '@/components/my-componets/my-date.vue'
-    import myImageUpload2 from '@/components/my-componets/my-image-upload2.vue'
+    import myImageUpload from '@/components/my-componets/my-image-upload.vue'
 
     export default {
         name: "informationForm",
-        components: {myDate, myImageUpload2},
+        components: {myDate, myImageUpload},
         props: {
             formData: {
                 type: Object,
@@ -180,18 +176,8 @@
                 this.loadList(1)
             },
 			submit(){
-                console.log('myform', this.myFormData)
-                console.log('medias', this.$refs.imageUpload.imgList)
-                console.log('textContent', this.myFormData.textContent)
+                console.log('medias2', this.myFormData.medias)
 				this.$http.post(this.url.submitUrl, this.myFormData,{
-                    // myFormData: {  发布所需字段示例
-					// 	//imageContent:this.$refs.imageUpload.imgList,
-					// 	latitude:'123.564646',
-					// 	longitude:'34.256356',
-					// 	location:'北京',
-                    //     medias:this.$refs.imageUpload.imgList,
-					// 	textContent:this.myFormData.textContent,
-					// },
 				}).then(res => {
                     console.log('myFormData', this.myFormData)
                     console.log('res',res);

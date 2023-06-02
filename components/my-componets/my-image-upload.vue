@@ -33,7 +33,7 @@
 			label:{type:String,default:'图片上传'},
 			maxImg: {
 				type: Number,
-				default: 3
+				default: 9
 			},
 
 		},
@@ -58,12 +58,11 @@
 					sourceType: ['album','camera'], //从相册选择
 					success: (res) => {
 						uni.uploadFile({
-							//url: `${configService.staticDomainURL}systemController/filedeal.do?isup=1`,
-							url: `${configService.staticDomainURL}/sys/common/upload`,
+							url: `${configService.fileUploadURL}`,
 							filePath: res.tempFilePaths[0],
 							name: 'file',
 							success: (uploadFileRes) => {
-								let path = JSON.parse(uploadFileRes.data).obj
+								let path = JSON.parse(uploadFileRes.data).message
 								this.pathlist.push(path);
 								this.$emit('input',this.pathlist.join(','))
 								if (this.imgList.length != 0) {
@@ -73,7 +72,6 @@
 								}
 							}
 						})
-
 					}
 				});
 			},

@@ -39,8 +39,8 @@
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card">
                 <view>{{item.nickname}}</view>
                 <view>{{item.textContent}}</view>
-                <view>{{item.medias}}</view>
-                <view>{{item.ipAddress}}</view>
+                <img class="medias_size" :src="fileUrl+item.medias" alt="">
+                <view>  <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
             </view>
 
     </view>
@@ -50,9 +50,9 @@
     import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
     import Mixin from '@/common/mixin/Mixin.js';
     import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
-
     import HomeSignModal from './homeSignModal.vue'
     import HomeHelpCompanyList from './homeHelpCompanyList.vue'
+    import configService from '@/common/service/config.service.js'
 
     export default {
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
@@ -71,6 +71,7 @@
                 homePublishComList: [],
                 homePublishInforList: [],
                 inputValue: '',
+                fileUrl: configService.fileSaveURL ,
                 searchHistoryList: [{
                     locationName: '反而可能',
                     createTime: '2022-11-30 10:00:00',
@@ -92,7 +93,7 @@
                     createTime: '2022-12-12 10:00:00',
                     createBy: '之乎者也有限公司',
                     status: 2
-                }] //搜索出来的内容
+                }] //搜索出来的内容(假数据)
             };
         },
         created() {
@@ -132,7 +133,7 @@
                     }
                 }).then(res => {
                     if (res.data.success) {
-                        console.log(res.data.result);
+                        console.log("res.data.result.items！！",res.data.result.items);
                         this.homePublishInforList = res.data.result.items;
                     }
                 }).catch(err => {
@@ -208,11 +209,11 @@
                     key: 'searchList'
                 });
 
-                console.log(list[1].data);
+               // console.log(list[1].data);
 
-                if (list[1].data) {
-                    this.searchHistoryList = JSON.parse(list[1].data);
-                }
+                // if (list[1].data) {
+                //     this.searchHistoryList = JSON.parse(list[1].data);
+                // }
             }
         }
     };
@@ -373,5 +374,25 @@
             right: 20rpx;
             font-size: 20rpx;
         }
+    }
+
+    .medias_size {
+        max-width: 180px;
+        width: 180px;
+        width:expression(this.width > 180 ? "180px" : this.width);
+        height: 180px;
+        height:expression(this.height > 180 ? "180px" : this.height);
+        overflow:hidden;
+        /*text-align:center;*/
+        /*width: 21rpx;*/
+        /*height: 21rpx;*/
+        /*border-radius: 8rpx;*/
+    }
+
+
+    .icon {
+        width: 36rpx;
+        height: 36rpx;
+        margin-right: 14rpx;
     }
 </style>
