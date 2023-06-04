@@ -55,11 +55,11 @@
 				// if (!this.myFormData.birthday) {
 				// 	this.myFormData.birthday = '无'
 				// }
-				if (this.myFormData.identity == '普通成员') {
-					this.myFormData.identity = 1
-				} else if (this.myFormData.identity == '上级') {
-					this.myFormData.identity = 2
-				}
+				// if (this.myFormData.identity == '普通成员') {
+				// 	this.myFormData.identity = 1
+				// } else if (this.myFormData.identity == '上级') {
+				// 	this.myFormData.identity = 2
+				// }
 				if (this.myFormData.status == '正常') {
 					this.myFormData.status = 1
 				} else if (this.myFormData.status == '冻结') {

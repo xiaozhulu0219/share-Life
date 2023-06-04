@@ -62,9 +62,12 @@
 							filePath: res.tempFilePaths[0],
 							name: 'file',
 							success: (uploadFileRes) => {
+								console.log('filePath:',res.tempFilePaths[0] );
 								let path = JSON.parse(uploadFileRes.data).message
 								this.pathlist.push(path);
+								console.log('path:',path);
 								this.$emit('input',this.pathlist.join(','))
+								//console.log('res.tempFilePaths:',res.tempFilePaths);
 								if (this.imgList.length != 0) {
 									this.imgList = this.imgList.concat(res.tempFilePaths)
 								} else {
