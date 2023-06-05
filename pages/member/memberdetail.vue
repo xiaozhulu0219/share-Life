@@ -256,37 +256,29 @@
                         console.log('filePath:',tempFilePaths );
                         let path = JSON.parse(uploadFileRes.data).message
                         this.pathlist.push(path);
-                        console.log('path:',path);
-                        //this.$emit('input',this.pathlist.join(','))
-                        //console.log('res.tempFilePaths:',res.tempFilePaths);
-                        //TODO 这里拿到 path 当作参数 avatar的值  然后再拿到id 然后请求 /editAvatar 进行更换用户的头像
-                        // TODO 这里没有对后台发起请求！！！！
-                        if (this.imgList.length != 0) {
-                            this.$http.get('/sys/editAvatar', {
-                                params: {
-                                    id: this.$store.getters.userid,
-                                    avatar: JSON.parse(uploadFileRes.data).message
-                                }
-                            }).then(res => {
-                                console.log(res)
-                                this.$tip.loaded();
-                                if (res.data.success) {
-                                    this.$tip.toast('提交成功')
-                                    // this.$Router.replace({
-                                    //     name: 'memberdetail'
-                                    // })
-                                    /* uni.navigateTo({
-                                        url: '/pages/user/userdetail'
-                                    }) */
-                                }
-                            }).catch(() => {
-                                this.$tip.loaded();
-                                this.$tip.error('提交失败')
-                            });
+                        if (this.pathlist.length != 0) {
+                            this.editAvatar(path);
                         }
                     }
                 });
             },
+            editAvatar(path){
+                this.$http.get('/sys/editAvatar', {
+                    params: {
+                        id: this.$store.getters.userid,
+                        avatar: path
+                    }
+                }).then(res => {
+                    console.log(res)
+                    this.$tip.loaded();
+                    if (res.data.success) {
+                        this.$tip.toast('提交成功')
+                    }
+                }).catch(() => {
+                    this.$tip.loaded();
+                    this.$tip.error('提交失败')
+                });
+                },
             // 修改时间
             editDate(graduationDate, url) {
                 const params = {
