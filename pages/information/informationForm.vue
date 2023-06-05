@@ -23,7 +23,8 @@
 <!--                        <p>2.分享面试跳槽经验</p>-->
 <!--                        <p>3.与同行交流、吐槽解压</p>-->
 <!--                        <p>……</p>-->
-                        <textarea placeholder="你可以在这里: 1.爆料职场新鲜事" style="width: 18px; height: 400px; " name="input"
+                        <textarea placeholder="你可以在这里: 1.爆料职场新鲜事 /r/n 2.分享面试跳槽经验"
+                                  style="width: 18px; height: 400px;" name="input"
                                   v-model="myFormData.textContent">
                         </textarea>
                     </view>
