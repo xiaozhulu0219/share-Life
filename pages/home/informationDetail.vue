@@ -1,5 +1,5 @@
 <template>
-    <!--这个是首页点击动态跳转的动态详情页-->
+    <!--这个是首页点击动态后跳转的动态详情页-->
     <view>
 
 
@@ -42,9 +42,9 @@
                     {id: 3, content: ''}
                 ],
                 myFormData: {
-                    	latitude:'123.564646',
-                    	longitude:'34.256356',
-                    	location:'北京',
+                    	latitude:'',
+                    	longitude:'',
+                    	location:'',
                         medias:'',
                         textContent:'',
                         uuId:'',
