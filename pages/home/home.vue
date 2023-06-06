@@ -33,14 +33,11 @@
     import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
     import HomeSignModal from './homeSignModal.vue'
     import homeModal from './homeModal.vue'
-    import HomeHelpCompanyList from './homeHelpCompanyList.vue'
-    import configService from '@/common/service/config.service.js'
 
     export default {
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
             HomeSignModal,
-            HomeHelpCompanyList,
             homeModal
         },
         data() {
