@@ -23,10 +23,15 @@
 <!--                        <p>2.分享面试跳槽经验</p>-->
 <!--                        <p>3.与同行交流、吐槽解压</p>-->
 <!--                        <p>……</p>-->
-                        <textarea placeholder="你可以在这里: 1.爆料职场新鲜事 /r/n 2.分享面试跳槽经验"
+
+<!--    <textarea placeholder="你可以在这里: 1.爆料职场新鲜事 /r/n 2.分享面试跳槽经验"
                                   style="width: 18px; height: 400px;" name="input"
-                                  v-model="myFormData.textContent">
-                        </textarea>
+                                  v-model="myFormData.textContent" maxlength="-1">
+                        </textarea> -->
+                        <textarea :placeholder="'你可以在这里:\n1.爆料职场新鲜事 \n2.分享面试跳槽经验 \n3.与同行交流、吐槽解压'"
+                                  style="width: 18px; height: 400px;" name="input"
+                                  v-model="myFormData.textContent" maxlength="-1">
+                        </textarea> 
                     </view>
                     <view class="bottom_bar">
                         <my-image-upload ref="imageUpload" v-model="myFormData.medias"></my-image-upload>

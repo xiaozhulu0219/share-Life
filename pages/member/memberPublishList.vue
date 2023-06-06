@@ -1,7 +1,7 @@
 <template>
 	<!--个人页的一些页面--（我的发布)分页查询-->
 <!--	<view style="height: 800px">-->
-		<mescroll-body ref="mescrollRef"  @init="mescrollInit" :up="upOption" :down="downOption"
+		<mescroll-body ref="mescrollRef" style="height: 100%;"  @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">
 			<view v-for="(item,index) in myPublishInforList" :key="index" class="card">
 				<view>{{ item.textContent }}</view>

@@ -66,7 +66,7 @@
                         <text :class="activeTab === index ? 'active' : ''">{{item.name}}</text>
                     </view>
                 </view>
-                <swiper :current="activeTab" class="padding">
+                <swiper :current="activeTab" class="padding" style="height: 100%;">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
                         <MyPublishList v-if="index === 0"/>
                         <MyHelpCompanyList v-if="index === 1"/>
