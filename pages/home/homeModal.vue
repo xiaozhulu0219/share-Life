@@ -1,28 +1,14 @@
 <template>
     <view>
-        <!--首页-->
-        <!--关于首页的规划，首页将来还是做框架、HomeSignModal从后台拿回多少个标签 home就插多少个modal
-        至于modal的命名无所谓， 比如第一个modal是心理方面的 在返回的标签中 心理是1 那就将1作为参数获取列表
-        所有标签页获取数据公用一个接口，根据传的标签值（类型）后台返回不同的领域的数据
-        -->
-        <cu-custom :bgColor="NavBarColor">
-            <block slot="content">首页</block>
-        </cu-custom>
-
-        <!-- 搜索框 -->
-        <view class="search">
-            <view class="search-bar-box">
-                <!-- <image class="search-span" src="../../static/images/search.png" /> -->
-                <!-- @confirm="search" 点击 -->
-                <text class="padding-left text-gray iconfont icon-search"></text>
-                <input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10"
-                       type="text"/>
-                <button class="search-btn text-df">搜索</button>
+        <!--首页引用的modal-->
+        <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
+        <mescroll-body ref="mescrollRef"  @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
+            <view v-for="(item,index) in homePublishInforList" :key="index" class="card">
+                <view>{{item.textContent}}</view>
+                <img class="medias_size" :src="fileUrl+item.medias" alt="">
+                <view> {{item.nickname}}  <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
             </view>
-        </view>
-        <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
-
-        <homeModal ></homeModal>
+        </mescroll-body>
 
     </view>
 </template>
@@ -32,7 +18,6 @@
     import Mixin from '@/common/mixin/Mixin.js';
     import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
     import HomeSignModal from './homeSignModal.vue'
-    import homeModal from './homeModal.vue'
     import HomeHelpCompanyList from './homeHelpCompanyList.vue'
     import configService from '@/common/service/config.service.js'
 
@@ -40,8 +25,7 @@
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
             HomeSignModal,
-            HomeHelpCompanyList,
-            homeModal
+            HomeHelpCompanyList
         },
         data() {
             return {

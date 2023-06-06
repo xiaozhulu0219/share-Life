@@ -1,65 +1,7 @@
 <template>
-    <!--发布功能的表单页-->
+    <!--这个是首页点击动态跳转的动态详情页-->
     <view>
-        <!--标题和返回-->
-        <cu-custom :bgColor="NavBarColor" isBack="t" :backRouterName="backRouteName">
-            <block slot="backText">
-                <view class="cuIcon-roundclose"></view>
-            </block>
-            <block slot="content">发动态</block>
-            <block slot="right">
-                <button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="submit">
-                    发布
-                </button>
-            </block>
-        </cu-custom>
 
-        <view class="">
-            <form :model="myFormData">
-                <view class="main bg-white" :style="{backgroundColor:voteBc}">
-                    <view class="cu-form-group textarea">
-                        <textarea :placeholder="'你可以在这里:\n1.爆料职场新鲜事 \n2.分享面试跳槽经验 \n3.与同行交流、吐槽解压'"
-                                  style="width: 18px; height: 400px;" name="input"
-                                  v-model="myFormData.textContent" maxlength="-1">
-                        </textarea>
-                    </view>
-                    <view class="bottom_bar">
-                        <my-image-upload ref="imageUpload" v-model="myFormData.medias"></my-image-upload>
-                        <view class="middle">
-                            <view class="huati">
-                                <p>#</p>
-                                <p>话题</p>
-                            </view>
-                            <view class="cuIcon-rankfill lg" @click="vote()"></view>
-                            <view class="vote_window" v-show="toupiao">
-                                <view class="vote_top_bar">
-                                    <p>投票</p>
-                                    <view class="cuIcon-close vote_close" @click="closeVote()"></view>
-                                </view>
-                                <view class="vote_content">
-                                    <view class="cuIcon-mark"></view>
-                                    <input type="text" placeholder="请填写投票标题,不超过15个字">
-                                    <view class="idea_list" v-for="(item,index) in voteList" :key="index">
-                                        <p>观点{{item.id}}</p>
-                                        <input type="text" placeholder="请填写选项,不超过14个字">
-                                    </view>
-                                    <view class="add" @click="addIdea()">
-                                        <view class="cuIcon-roundadd"></view>
-                                        <p>添加观点</p>
-                                    </view>
-                                    <button @click="submitVote()">完成编辑</button>
-                                </view>
-                            </view>
-                            <view class="cuIcon-emojifill lg"></view>
-                        </view>
-                        <view class="location">
-                            <view class="cuIcon-location"></view>
-                            <p>添加地点</p>
-                        </view>
-                    </view>
-                </view>
-            </form>
-        </view>
 
     </view>
 </template>
@@ -69,7 +11,7 @@
     import myImageUpload from '@/components/my-componets/my-image-upload.vue'
 
     export default {
-        name: "informationForm",
+        name: "informationDetail",
         components: {myDate, myImageUpload},
         props: {
             formData: {
@@ -88,7 +30,7 @@
                 sysOrgCode: {},
                 backRouteName: 'index',
                 url: {
-                    submitUrl: '/information/movements/savePublish',
+                    //submitUrl:'/information/movements/savePublish',
                 },
                 text: '',
                 vBlock: "block",
@@ -100,12 +42,13 @@
                     {id: 3, content: ''}
                 ],
                 myFormData: {
-                    latitude: '',
-                    longitude: '',
-                    location: '',
-                    medias: '',
-                    textContent: '',
-                    uuId: '',
+                    	latitude:'123.564646',
+                    	longitude:'34.256356',
+                    	location:'北京',
+                        medias:'',
+                        textContent:'',
+                        uuId:'',
+                        ipAddress,
                 },
             }
         },
@@ -171,14 +114,15 @@
                 this.queryParam = {}
                 this.loadList(1)
             },
-            submit() {
+			submit(){
                 console.log('medias2', this.myFormData.medias)
-                this.$http.post(this.url.submitUrl, this.myFormData, {}).then(res => {
+				this.$http.post(this.url.submitUrl, this.myFormData,{
+				}).then(res => {
                     console.log('myFormData', this.myFormData)
-                    console.log('res', res);
-                    if (res.data.success) {
-                        console.log('发布成功');
-                        console.log('res.data', res.data);
+                    console.log('res',res);
+					if (res.data.success) {
+						console.log('发布成功');
+						console.log('res.data',res.data);
                         uni.showToast({
                             title: '发布成功',
                             complete() {
@@ -189,9 +133,9 @@
                                 }, 1500);
                             }
                         });
-                    }
-                })
-            }
+					}
+				})
+			}
         }
     }
 </script>
