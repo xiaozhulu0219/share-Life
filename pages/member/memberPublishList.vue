@@ -1,9 +1,10 @@
 <template>
 	<!--个人页的一些页面--（我的发布)分页查询-->
 <!--	<view style="height: 800px">-->
-		<mescroll-body ref="mescrollRef" style="height: 100%;"  @init="mescrollInit" :up="upOption" :down="downOption"
+		<mescroll-body ref="mescrollRef"   @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">
 			<view v-for="(item,index) in myPublishInforList" :key="index" class="card">
+				<img class="medias_size" :src="fileUrl+item.medias" alt="">
 				<view>{{ item.textContent }}</view>
 			</view>
 		</mescroll-body>
@@ -13,6 +14,7 @@
 <script>
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import Mixin from "@/common/mixin/Mixin.js";
+	import configService from '@/common/service/config.service.js'
 
 	export default {
 		name: 'MyPublishList',
@@ -21,6 +23,7 @@
 			return {
 				findMyPublishInforPageUrl: '/information/movements/findMyPublishInforPage',
 				myPublishInforList: [],
+				fileUrl: configService.fileSaveURL ,
 				downOption: {
 					use: true, // 是否启用下拉刷新; 默认true
 					auto: true, // 是否在初始化完毕之后自动执行下拉刷新的回调; 默认true
@@ -96,6 +99,7 @@
 </script>
 
 <style lang='scss'>
+
 	.card {
 		background-color: $uni-bg-color-grey;
 		padding: 20rpx 20rpx;
@@ -116,4 +120,18 @@
 			font-size: 20rpx;
 		}
 	}
+
+	.medias_size {
+		max-width: 180px;
+		width: 180px;
+		width:expression(this.width > 180 ? "180px" : this.width);
+		height: 180px;
+		height:expression(this.height > 180 ? "180px" : this.height);
+		overflow:hidden;
+		/*text-align:center;*/
+		/*width: 21rpx;*/
+		/*height: 21rpx;*/
+		/*border-radius: 8rpx;*/
+	}
+
 </style>
