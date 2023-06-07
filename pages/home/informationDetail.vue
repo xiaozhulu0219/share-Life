@@ -129,6 +129,7 @@
 
         .card-text {
             font-size: 32rpx;
+            margin-bottom: 20rpx; /*盒子间的距离*/
         }
 
         .card-location {
@@ -184,6 +185,7 @@
         /*width: 21rpx;*/
         /*height: 21rpx;*/
         /*border-radius: 8rpx;*/
+        margin-bottom: 30rpx; /*盒子间的距离*/
     }
 
     .location {

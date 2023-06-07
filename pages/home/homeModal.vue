@@ -127,7 +127,7 @@
                 this.$http.get(this.findHomePublishComListUrl, {
                     params: {
                         page: 1,
-                        pagesize: 20
+                        pagesize: 100
                     }
                 }).then(res => {
                     if (res.data.success) {
@@ -143,7 +143,7 @@
                 this.$http.get(this.findHomePublishInforListUrl, {
                     params: {
                         page: 1,
-                        pagesize: 20
+                        pagesize: 100
                     }
                 }).then(res => {
                     if (res.data.success) {
@@ -378,6 +378,7 @@
 
         .card-text {
             font-size: 36rpx;
+            margin-bottom: 10rpx; /*盒子间的距离*/
         }
 
         .card-location {
@@ -405,6 +406,7 @@
         /*width: 21rpx;*/
         /*height: 21rpx;*/
         /*border-radius: 8rpx;*/
+        margin-bottom: 20rpx; /*盒子间的距离*/
     }
 
 
