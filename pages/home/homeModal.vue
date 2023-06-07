@@ -5,8 +5,8 @@
         <mescroll-body ref="mescrollRef"  @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item.id)">
                 <img class="medias_size" :src="fileUrl+item.medias" alt="">
-                <view>{{item.textContent}}</view>
-                <view> {{item.nickname}}  <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
+                <view class="card-text">{{item.textContent}}</view>
+                <view class="card-nickname">{{item.nickname}}  <img class="card-icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
             </view>
         </mescroll-body>
     </view>
@@ -31,7 +31,6 @@
                 activeTab: {},
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
-                //url: '/umsMember/list',
                 findHomePublishComListUrl: '/company/findHomePublishComList',
                 findHomePublishInforListUrl: '/information/movements/findHomePublishInforList',
                 homePublishComList: [],
@@ -358,7 +357,8 @@
     }
 
     .card {
-        background-color: $uni-bg-color-grey;
+        background-color:  #fff;
+        //background-color: $uni-bg-color-grey;
         padding: 20rpx 20rpx;
         border-radius: 20rpx;
         margin-bottom: 10rpx;/*盒子间的距离*/
@@ -370,14 +370,25 @@
             font-weight: bold;
         }
 
+        .card-nickname {
+            font-weight: bold;
+        }
+
         .card-text {
-            font-size: 20rpx;
+            font-size: 36rpx;
         }
 
         .card-location {
             position: absolute;
             right: 20rpx;
             font-size: 20rpx;
+        }
+
+        .card-icon {
+            width: 36rpx;
+            height: 36rpx;
+            margin-right: 10rpx;
+            margin-left: 120rpx;
         }
     }
 
@@ -395,9 +406,4 @@
     }
 
 
-    .icon {
-        width: 36rpx;
-        height: 36rpx;
-        margin-right: 14rpx;
-    }
 </style>
