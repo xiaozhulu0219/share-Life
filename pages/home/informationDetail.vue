@@ -5,16 +5,13 @@
             <block slot="backText">
             </block>
             <block slot="content">动态详情</block>
-
         </cu-custom>
         <view class="search padding">
             <view class="iptbox">
                 <img class="medias_size" :src="fileUrl+myFormData.medias" alt="">
                {{myFormData.textContent}}
             </view>
-
         </view>
-
     </view>
 </template>
 

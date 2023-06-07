@@ -9,7 +9,6 @@
                 <view> {{item.nickname}}  <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
             </view>
         </mescroll-body>
-
     </view>
 </template>
 
@@ -155,41 +154,15 @@
                 });
             },
             toInformationDetail(id) {
-                // console.log("id",id)
-                // uni.navigateTo({
-                //     url: './informationDetail?id='+id
-                // });
                 uni.navigateTo({
                     url:'/pages/home/informationDetail?item='+ encodeURIComponent(JSON.stringify(id))
                 })
-                //this.$Router.push({name: 'informationDetail', params: idData});
-               // console.log("id2",id)
             },
-            // toInformationDetail(id) {
-            //     console.log("id",id)
-            //     var idData = JSON.stringify(id)
-            //     console.log("idData1",idData)
-            //     //this.$router.push(`informationDetail?id=item.id`)
-            //     this.$Router.push({name: 'informationDetail', params: idData});
-            //     console.log("id2",id)
-            // },
             goHome() {
                 this.$Router.push({
                     name: 'index'
                 });
             },
-            /*	search() {
-                        //表单项内容发生改变-- - 助力详情页
-                        uni.request({
-                            url: "company/movements/findPagePublishByRecommend",
-                            success(res) {
-                                console.log(res)
-                            }
-                        })
-
-
-
-                    },*/
             model(item, index) {
                 this.inputValue = item;
             },
