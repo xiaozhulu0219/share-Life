@@ -3,9 +3,9 @@
         <!--首页引用的modal-->
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
         <mescroll-body ref="mescrollRef"  @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
-            <view v-for="(item,index) in homePublishInforList" :key="index" class="card">
-                <view @click="toInformationDetail(item.id)">{{item.textContent}}</view>
+            <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item.id)">
                 <img class="medias_size" :src="fileUrl+item.medias" alt="">
+                <view>{{item.textContent}}</view>
                 <view> {{item.nickname}}  <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
             </view>
         </mescroll-body>

@@ -9,7 +9,7 @@
         <view class="search padding">
             <view class="iptbox">
                 <img class="medias_size" :src="fileUrl+myFormData.medias" alt="">
-               {{myFormData.textContent}}
+                {{myFormData.textContent}}
             </view>
         </view>
     </view>
