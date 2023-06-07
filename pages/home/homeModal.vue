@@ -2,7 +2,8 @@
     <view>
         <!--首页引用的modal-->
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
-        <mescroll-body ref="mescrollRef"  @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
+        <mescroll-body  ref="mescrollRef"  @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
+
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item.id)">
                 <image class="medias_size" :src="fileUrl+item.medias" mode="aspectFit" alt=""></image>
                 <view class="card-text">{{item.textContent.substr(0, 35) }}</view>
@@ -10,6 +11,7 @@
                     <img class="card-icon" src="@/static/icon/ipAddress.png" mode="aspectFill">
                     {{item.ipAddress}}</view>
             </view>
+
         </mescroll-body>
     </view>
 </template>
@@ -364,7 +366,7 @@
         padding: 20rpx 20rpx;
         border-radius: 20rpx;
         margin-bottom: 10rpx;/*盒子间的距离*/
-        margin-top: 100rpx; /*盒子距离顶部的距离*/
+        margin-top: 10rpx; /*盒子距离顶部的距离*/
         line-height: 35rpx;  /*行高*/
         //margin-bottom: 16px; /*内容和标题间的间距*/
 
