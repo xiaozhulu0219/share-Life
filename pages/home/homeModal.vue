@@ -5,7 +5,7 @@
         <mescroll-body ref="mescrollRef"  @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item.id)">
                 <img class="medias_size" :src="fileUrl+item.medias" alt="">
-                <view class="card-text">{{item.textContent}}</view>
+                <view class="card-text">{{item.textContent.substr(0, 35) }}</view>
                 <view class="card-nickname">{{item.nickname}}
                     <img class="card-icon" src="@/static/icon/zuobiao.png" mode="aspectFill">
                     {{item.ipAddress}}</view>
