@@ -162,6 +162,10 @@
       "style": {}
     },
     {
+      "path": "pages/home/informationDetail",
+      "style": {}
+    },
+    {
       "path": "pages/common/exit",
       "style": {}
     },

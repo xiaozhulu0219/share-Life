@@ -4,7 +4,7 @@
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
         <mescroll-body ref="mescrollRef"  @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card">
-                <view>{{item.textContent}}</view>
+                <view @click="toInformationDetail(item.id)">{{item.textContent}}</view>
                 <img class="medias_size" :src="fileUrl+item.medias" alt="">
                 <view> {{item.nickname}}  <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
             </view>
@@ -32,7 +32,7 @@
                 activeTab: {},
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
-                url: '/umsMember/list',
+                //url: '/umsMember/list',
                 findHomePublishComListUrl: '/company/findHomePublishComList',
                 findHomePublishInforListUrl: '/information/movements/findHomePublishInforList',
                 homePublishComList: [],
@@ -154,7 +154,25 @@
                     console.log(err);
                 });
             },
-
+            toInformationDetail(id) {
+                // console.log("id",id)
+                // uni.navigateTo({
+                //     url: './informationDetail?id='+id
+                // });
+                uni.navigateTo({
+                    url:'/pages/home/informationDetail?item='+ encodeURIComponent(JSON.stringify(id))
+                })
+                //this.$Router.push({name: 'informationDetail', params: idData});
+               // console.log("id2",id)
+            },
+            // toInformationDetail(id) {
+            //     console.log("id",id)
+            //     var idData = JSON.stringify(id)
+            //     console.log("idData1",idData)
+            //     //this.$router.push(`informationDetail?id=item.id`)
+            //     this.$Router.push({name: 'informationDetail', params: idData});
+            //     console.log("id2",id)
+            // },
             goHome() {
                 this.$Router.push({
                     name: 'index'

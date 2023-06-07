@@ -4,7 +4,7 @@
         <!--标题和返回-->
         <cu-custom :bgColor="NavBarColor" isBack="t" :backRouterName="backRouteName">
             <block slot="backText">
-                <view class="cuIcon-roundclose"></view>
+<!--                <view class="cuIcon-roundclose"></view>-->
             </block>
             <block slot="content">发动态</block>
             <block slot="right">
@@ -110,21 +110,21 @@
             }
         },
         created() {
-            this.initFormData();
+            //this.initFormData();
             this.shijiao();
         },
         methods: {
-            initFormData() {
-                if (this.formData) {
-                    let dataId = this.formData.dataId;
-                    this.$http.get(this.url.queryById, {params: {id: dataId}}).then((res) => {
-                        if (res.data.success) {
-                            console.log("表单数据", res);
-                            this.model = res.data.result;
-                        }
-                    })
-                }
-            },
+            // initFormData() {
+            //     if (this.formData) {
+            //         let dataId = this.formData.dataId;
+            //         this.$http.get(this.url.queryById, {params: {id: dataId}}).then((res) => {
+            //             if (res.data.success) {
+            //                 console.log("表单数据", res);
+            //                 this.model = res.data.result;
+            //             }
+            //         })
+            //     }
+            // },
 
             //失焦
             shijiao() {
