@@ -4,8 +4,8 @@
 		<mescroll-body ref="mescrollRef" style="height: 100%;"  @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">
 			<view v-for="(item,index) in myPublishInforList" :key="index" class="card">
-				<img class="medias_size" :src="fileUrl+item.medias" alt="">
-				<view>{{ item.textContent }}</view>
+				<image class="medias_size" :src="fileUrl+item.medias" mode="widthFix" alt=""></image>
+				<view>{{ item.textContent.substr(0, 35) }}</view>
 			</view>
 		</mescroll-body>
 <!--	</view>-->

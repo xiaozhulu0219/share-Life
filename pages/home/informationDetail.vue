@@ -3,26 +3,30 @@
     <view>
         <scroll-view scroll-y class="page">
             <view class="card">
-                <cu-custom :bgColor="NavBarColor" isBack="t" :backRouterName="backRouteName">
+                <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
                     <block slot="backText">
                     </block>
                     <block slot="content">动态详情</block>
                 </cu-custom>
                 <view class="search padding">
                     <view class="iptbox">
-                        <img class="medias_size" :src="fileUrl+myFormData.medias" alt="">
+                        <image  class="medias_size" :src="fileUrl+myFormData.medias" mode="widthFix"  alt=""></image>
                         <view class="card-text">{{myFormData.textContent}}</view>
-                        <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill">{{myFormData.ipAddress}}
-                        <view class="card-title">{{myFormData.createDate}}</view>
-                        <view class="card-title">{{myFormData.publishTime}}</view>
-                    </view>
+                        <view class="card-time">
+                            {{myFormData.publishTime}}
+                            <img class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill">
+                            {{myFormData.ipAddress}}
+                        </view>
+<!--                        <view class="card-title">{{myFormData.publishTime}}</view>-->
+<!--                        <view class="card-title">{{myFormData.createDate}}-->
+                        </view>
                 </view>
             </view>
             <view class="">
                    <view class="card-title">
-                        <img class="icon" src="@/static/icon/like.png" >{{myFormData.hasLiked}}
-                        <img class="icon" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.hasLoved}}
-                        <img class="icon" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}
+                        <img class="icon-like" src="@/static/icon/like.png" >{{myFormData.hasLiked}}
+                        <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.hasLoved}}
+                        <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}
                    </view>
             </view>
         </scroll-view>
@@ -113,13 +117,18 @@
         .card-title {
             font-weight: bold;
         }
+        .card-time {
+            font-weight: bold;
+            margin-right: 100rpx;
+            margin-left: 25rpx;
+        }
 
         .card-nickname {
             font-weight: bold;
         }
 
         .card-text {
-            font-size: 20rpx;
+            font-size: 32rpx;
         }
 
         .card-location {
@@ -136,22 +145,42 @@
         }
     }
 
-    .icon {
+    .icon-ipAddress {
         width: 36rpx;
         height: 36rpx;
         margin-right: 10rpx;
-        margin-left: 120rpx;
+        margin-left: 200rpx;
+    }
+    .icon-like {
+        width: 36rpx;
+        height: 36rpx;
+        margin-right: 10rpx;
+        margin-left: 60rpx;
+    }
+    .icon-love {
+        width: 36rpx;
+        height: 36rpx;
+        margin-right: 10rpx;
+        margin-left: 240rpx;
+    }
+    .icon-comment {
+        width: 36rpx;
+        height: 36rpx;
+        margin-right: 10rpx;
+        margin-left: 200rpx;
     }
 
 
     .medias_size {
-        max-width: 180px;
-        width: 180px;
-        width: expression(this.width > 180 ? "180px" : this.width);
-        height: 180px;
-        height: expression(this.height > 180 ? "180px" : this.height);
+        max-width: 300px;
+        width: 300px;
+        width: expression(this.width > 300 ? "300px" : this.width);
+        height: 300px;
+        height: expression(this.height > 300 ? "300px" : this.height);
         overflow: hidden;
-        /*text-align:center;*/
+        text-align:center;
+        display: block;
+        margin: 0 auto;
         /*width: 21rpx;*/
         /*height: 21rpx;*/
         /*border-radius: 8rpx;*/
