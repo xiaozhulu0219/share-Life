@@ -6,7 +6,9 @@
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item.id)">
                 <img class="medias_size" :src="fileUrl+item.medias" alt="">
                 <view class="card-text">{{item.textContent}}</view>
-                <view class="card-nickname">{{item.nickname}}  <img class="card-icon" src="@/static/icon/zuobiao.png" mode="aspectFill"></img>{{item.ipAddress}}</view>
+                <view class="card-nickname">{{item.nickname}}
+                    <img class="card-icon" src="@/static/icon/zuobiao.png" mode="aspectFill">
+                    {{item.ipAddress}}</view>
             </view>
         </mescroll-body>
     </view>

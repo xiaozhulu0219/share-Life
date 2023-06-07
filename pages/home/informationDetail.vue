@@ -12,16 +12,18 @@
                     <view class="iptbox">
                         <img class="medias_size" :src="fileUrl+myFormData.medias" alt="">
                         <view class="card-text">{{myFormData.textContent}}</view>
+                        <img class="icon" src="@/static/icon/zuobiao.png" mode="aspectFill">{{myFormData.ipAddress}}
+                        <view class="card-title">{{myFormData.createDate}}</view>
+                        <view class="card-title">{{myFormData.publishTime}}</view>
                     </view>
                 </view>
             </view>
-            <view class="card">
-                        <view class="card-title"><img class="card-icon" src="@/static/icon/like.png" >{{myFormData.hasLiked}}</view>
-                        <view class="card-title"><img class="card-icon" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.hasLoved}}</view>
-                        <view class="card-title"><img class="card-icon" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}</view>
-                        <view class="card-title"><img class="card-icon" src="@/static/icon/zuobiao.png" mode="aspectFill">{{myFormData.ipAddress}}</view>
-                        <view class="card-title">{{myFormData.createDate}}</view>
-                        <view class="card-title">{{myFormData.publishTime}}</view>
+            <view class="">
+                   <view class="card-title">
+                        <img class="icon" src="@/static/icon/like.png" >{{myFormData.hasLiked}}
+                        <img class="icon" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.hasLoved}}
+                        <img class="icon" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}
+                   </view>
             </view>
         </scroll-view>
     </view>
@@ -132,6 +134,13 @@
             margin-right: 10rpx;
             margin-left: 120rpx;
         }
+    }
+
+    .icon {
+        width: 36rpx;
+        height: 36rpx;
+        margin-right: 10rpx;
+        margin-left: 120rpx;
     }
 
 
