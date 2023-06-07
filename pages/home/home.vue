@@ -94,17 +94,37 @@
                 this.searchHistoryList.splice(0, 1);
             },
             search() {
-                if (this.inputValue == '') {
-                    uni.showModal({
-                        title: '搜索内容不能为空'
-                    });
-                } else {
-
-
-
-
-                }
-                this.inputValue = '';
+                // if (this.inputValue == '') {
+                //     uni.showModal({
+                //         title: '搜索内容不能为空'
+                //     });
+                // } else {
+                //     let myForm = this.myFormData
+                //     console.log("myForm", myForm)
+                //     this.$tip.loading();
+                //     this.$http.get('/sys/editNickName', {
+                //         params: {
+                //             id: this.$store.getters.userid,
+                //             nickName: myForm.nickName
+                //         }
+                //     }).then(res => {
+                //         console.log(res)
+                //         this.$tip.loaded();
+                //         if (res.data.success) {
+                //             this.$tip.toast('提交成功')
+                //             this.$Router.replace({
+                //                 name: 'memberdetail'
+                //             })
+                //             /* uni.navigateTo({
+                //                 url: '/pages/user/userdetail'
+                //             }) */
+                //         }
+                //     }).catch(() => {
+                //         this.$tip.loaded();
+                //         this.$tip.error('提交失败')
+                //     });
+                // }
+                // this.inputValue = '';
             },
             // search() {
             //     if (this.inputValue == '') {
