@@ -76,11 +76,6 @@
             onSubmit() {
                 let myForm = this.myFormData
                 console.log("myForm", myForm)
-                // if (this.switchC) {
-                //     this.myFormData.sex = 1
-                // } else {
-                //     this.myFormData.sex = 2
-                // }
                 this.$tip.loading();
                 this.$http.get('/sys/editNickName', {
                     params: {

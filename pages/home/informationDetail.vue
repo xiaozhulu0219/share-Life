@@ -2,32 +2,30 @@
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view>
         <scroll-view scroll-y class="page">
+            <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+                <block slot="backText">
+                </block>
+                <block slot="content"> <image  class="medias_avatar" :src="fileUrl+myFormData.avatar"  alt=""></image>动态详情</block>
+            </cu-custom>
             <view class="card">
-                <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
-                    <block slot="backText">
-                    </block>
-                    <block slot="content">动态详情</block>
-                </cu-custom>
-                <view class="search padding">
-                    <view class="iptbox">
-                        <image  class="medias_size" :src="fileUrl+myFormData.medias" mode="widthFix"  alt=""></image>
-                        <view class="card-text">{{myFormData.textContent}}</view>
-                        <view class="card-time">
-                            {{myFormData.publishTime}}
-                            <img class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill">
-                            {{myFormData.ipAddress}}
-                        </view>
-<!--                        <view class="card-title">{{myFormData.publishTime}}</view>-->
-<!--                        <view class="card-title">{{myFormData.createDate}}-->
-                        </view>
+                <view class="iptbox">
+                    <image  class="medias_size" :src="fileUrl+myFormData.medias" mode="widthFix"  alt=""></image>
+                    <view class="card-text">{{myFormData.textContent}}</view>
+                    <view class="card-time">
+                        {{myFormData.publishTime}}
+                        <img class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill">
+                        {{myFormData.ipAddress}}
+                    </view>
+                    <!--    <view class="card-title">{{myFormData.publishTime}}</view>-->
+                    <!--    <view class="card-title">{{myFormData.createDate}}-->
                 </view>
             </view>
             <view class="">
-                   <view class="card-title">
-                        <img class="icon-like" src="@/static/icon/like.png" >{{myFormData.hasLiked}}
-                        <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.hasLoved}}
-                        <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}
-                   </view>
+                <view class="card-title">
+                    <img class="icon-like" src="@/static/icon/like.png" >{{myFormData.hasLiked}}
+                    <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.hasLoved}}
+                    <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}
+                </view>
             </view>
         </scroll-view>
     </view>
@@ -75,6 +73,7 @@
                     medias: '',
                     textContent: '',
                     uuId: '',
+                    avatar:'',
                 },
                 fileUrl: configService.fileSaveURL,
             }
@@ -84,11 +83,13 @@
             //this.findPublishInfor();
         },
         onLoad(option) {
-            const pubId = JSON.parse(decodeURIComponent(option.item));
-            this.publishId = pubId
+            console.log("option.item", option.item)
+            const item = JSON.parse(decodeURIComponent(option.item));
+            console.log("item", item)
+            this.myFormData = item
             //console.log("pubId", pubId)
             //console.log("this.publishId", this.publishId)
-            this.findPublishInfor(this.publishId);
+            //this.findPublishInfor(this.publishId); 这是传参后继续调用方法的示例
         },
         methods: {
             findPublishInfor(publishId) {
@@ -179,13 +180,26 @@
         height: 300px;
         height: expression(this.height > 300 ? "300px" : this.height);
         overflow: hidden;
-        text-align:center;
+        //text-align:center;
         display: block;
         margin: 0 auto;
         /*width: 21rpx;*/
         /*height: 21rpx;*/
         /*border-radius: 8rpx;*/
         margin-bottom: 30rpx; /*盒子间的距离*/
+    }
+
+    .medias_avatar {
+        max-width: 30px;
+        width: 30px;
+        width: expression(this.width > 30 ? "30px" : this.width);
+        height: 30px;
+        height: expression(this.height > 30 ? "30px" : this.height);
+        overflow: hidden;
+        //margin-right: 10rpx;
+       // margin-left: 2rpx;
+        display: inline;
+        float: left;
     }
 
     .location {
@@ -195,5 +209,24 @@
         margin: 5px;
         justify-content: flex-start;
         align-items: center;
+    }
+
+    //居左
+    .alignleft {
+        display: inline;
+        float: left;
+    }
+
+    //居右
+    .alignright {
+        display: inline;
+        float: right;
+    }
+
+    //居中
+    .aligncenter {
+        clear: both;
+        display: block;
+        margin:auto;
     }
 </style>

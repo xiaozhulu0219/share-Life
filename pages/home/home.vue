@@ -17,7 +17,7 @@
                 <text class="padding-left text-gray iconfont icon-search"></text>
                 <input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10"
                        type="text"/>
-                <button class="search-btn text-df">搜索</button>
+                <button class="search-btn text-df" @click="search">搜索</button>
             </view>
         </view>
         <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
@@ -99,28 +99,41 @@
                         title: '搜索内容不能为空'
                     });
                 } else {
-                    if (!this.searchHistoryList.includes(this.inputValue)) {
-                        this.searchHistoryList.unshift(this.inputValue);
-                        uni.setStorage({
-                            key: 'searchList',
-                            data: JSON.stringify(this.searchHistoryList)
-                        });
-                    } else {
-                        //有搜索记录，删除之前的旧记录，将新搜索值重新push到数组首位
-                        let i = this.searchHistoryList.indexOf(this.inputValue);
-                        this.searchHistoryList.splice(i, 1);
-                        this.searchHistoryList.unshift(this.inputValue);
-                        uni.showToast({
-                            title: '不能重复添加'
-                        });
-                        uni.setStorage({
-                            key: 'searchList',
-                            data: JSON.stringify(this.searchHistoryList)
-                        });
-                    }
+
+
+
+
                 }
                 this.inputValue = '';
             },
+            // search() {
+            //     if (this.inputValue == '') {
+            //         uni.showModal({
+            //             title: '搜索内容不能为空'
+            //         });
+            //     } else {
+            //         if (!this.searchHistoryList.includes(this.inputValue)) {
+            //             this.searchHistoryList.unshift(this.inputValue);
+            //             uni.setStorage({
+            //                 key: 'searchList',
+            //                 data: JSON.stringify(this.searchHistoryList)
+            //             });
+            //         } else {
+            //             //有搜索记录，删除之前的旧记录，将新搜索值重新push到数组首位
+            //             let i = this.searchHistoryList.indexOf(this.inputValue);
+            //             this.searchHistoryList.splice(i, 1);
+            //             this.searchHistoryList.unshift(this.inputValue);
+            //             uni.showToast({
+            //                 title: '不能重复添加'
+            //             });
+            //             uni.setStorage({
+            //                 key: 'searchList',
+            //                 data: JSON.stringify(this.searchHistoryList)
+            //             });
+            //         }
+            //     }
+            //     this.inputValue = '';
+            // },
             //清空历史记录
             empty() {
                 uni.showToast({
