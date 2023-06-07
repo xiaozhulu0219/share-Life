@@ -129,7 +129,7 @@
                     }
                 }).then(res => {
                     if (res.data.success) {
-                        console.log(res.data.result);
+                        //console.log(res.data.result);
                         this.homePublishComList = res.data.result.items;
                     }
                 }).catch(err => {
@@ -145,7 +145,7 @@
                     }
                 }).then(res => {
                     if (res.data.success) {
-                        console.log("res.data.result.items！！",res.data.result.items);
+                        //console.log("res.data.result.items！！",res.data.result.items);
                         this.homePublishInforList = res.data.result.items;
                     }
                 }).catch(err => {

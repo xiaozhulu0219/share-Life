@@ -80,16 +80,16 @@
         onLoad(option) {
             const pubId = JSON.parse(decodeURIComponent(option.item));
             this.publishId = pubId
-            console.log("pubId", pubId)
-            console.log("this.publishId", this.publishId)
+            //console.log("pubId", pubId)
+            //console.log("this.publishId", this.publishId)
             this.findPublishInfor(this.publishId);
         },
         methods: {
             findPublishInfor(publishId) {
-                console.log("进来了方法", publishId)
+                //console.log("进来了方法", publishId)
                 this.$http.get(this.url.findPublishInforByIdUrl, {params: {id: publishId}}).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        //console.log("表单数据", res);
                         this.myFormData = res.data.result;
                     }
                 })

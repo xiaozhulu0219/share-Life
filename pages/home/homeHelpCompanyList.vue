@@ -38,11 +38,11 @@
 		},
 		methods: {
 			downCallback(){
-				console.log('down');
+				//console.log('down');
 			},
 			upCallback(page) {
 				//联网加载数据
-				console.log('up');
+				//console.log('up');
 				this.$http.get(this.findHomePublishComPageUrl, {
 					params: {
 						page: page.num,
