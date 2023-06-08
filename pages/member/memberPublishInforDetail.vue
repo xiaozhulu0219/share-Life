@@ -5,7 +5,17 @@
 			<cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
 				<block slot="backText">
 				</block>
-				<block slot="content"> <image  class="medias_avatar" :src="fileUrl+myFormData.avatar"  alt=""></image>动态详情</block>
+				<block slot="content">我的动态</block>
+				<block slot="right">
+					<button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="submit">
+						编辑  <!--跳新页面还是到informationForm.vue 而且可编辑 还可设置可见状态-->
+					</button>
+				</block>
+				<block slot="right">
+					<button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="submit">
+						删除
+					</button>
+				</block>
 			</cu-custom>
 			<view class="card">
 				<view class="iptbox">

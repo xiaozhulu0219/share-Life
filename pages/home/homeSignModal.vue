@@ -44,7 +44,7 @@
 			}).then(res => {
 				if (res.data.success) {
 					this.tabs = res.data.result.home_sign;
-					console.log("tabs:",this.tabs)
+					//console.log("tabs:",this.tabs)
 					this.getActiveTab(this.tabs[0])
 				}
 			})

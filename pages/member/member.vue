@@ -162,7 +162,7 @@
                     if (res.data.success) {
                         //const {avatar: originalAvatar, departIds, post} = res.data.result;
                         this.personalList = res.data.result;
-                        console.log("头像", res.data.result)
+                        //console.log("头像", res.data.result)
                         // const avatar = (originalAvatar && originalAvatar.length > 0)
                         //     ? api.getFileAccessHttpUrl(originalAvatar)
                         //     : '/static/avatar_boy.png';
