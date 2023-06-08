@@ -14,7 +14,7 @@
                         <!--<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" class="png round" mode="aspectFit"></image>-->
                         <!-- <img src="../../static/images/touxiang.jpg" mode="" @click="updateHeadPic" class="png round"></img>-->
 
-                        <img class="png_avatar round" :src="fileUrl+personalList.avatar" alt="">
+                        <image class="png_avatar round" :src="fileUrl+personalList.avatar" alt=""></image>
                         <!-- <image :src="personalList.avatar" class="png round" mode="scaleToFill"></image>	 -->
                         <!-- <image src="https://static.jeecg.com/upload/test/wave_1595818053612.gif" mode="scaleToFill" class="gif-wave"></image> -->
                         <view class="margin-left-xl flex flex-sub flex-direction justify-around">

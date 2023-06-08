@@ -2,14 +2,16 @@
     <view>
         <!--首页引用的modal-->
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
-        <mescroll-body  ref="mescrollRef"  @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
-
-            <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item)">
-                <image class="medias_size" :src="fileUrl+item.medias" mode="aspectFit" alt=""></image>
+        <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback"
+                       @up="upCallback">
+            <view v-for="(item,index) in homePublishInforList" :key="index" class="card"
+                  @click="toInformationDetail(item)">
+                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""></image>
                 <view class="card-text">{{item.textContent.substr(0, 35) }}</view>
                 <view class="card-nickname">{{item.nickname}}
                     <img class="card-icon" src="@/static/icon/ipAddress.png" mode="aspectFill">
-                    {{item.ipAddress}}</view>
+                    {{item.ipAddress}}
+                </view>
             </view>
 
         </mescroll-body>
@@ -39,8 +41,10 @@
                 findHomePublishInforListUrl: '/information/movements/findHomePublishInforList',
                 homePublishComList: [],
                 homePublishInforList: [],
+                arr: [],
+                arr2: [],
                 inputValue: '',
-                fileUrl: configService.fileSaveURL ,
+                fileUrl: configService.fileSaveURL,
                 searchHistoryList: [{
                     locationName: '反而可能',
                     createTime: '2022-11-30 10:00:00',
@@ -149,17 +153,25 @@
                     }
                 }).then(res => {
                     if (res.data.success) {
-                        //console.log("res.data.result.items！！",res.data.result.items);
                         this.homePublishInforList = res.data.result.items;
+                        for (let d of this.homePublishInforList) {
+                            let arr = d.medias.split(',')
+                            let arr2 = []
+                            for (let e of arr) {
+                                e = this.fileUrl+e
+                                arr2.push(e)
+                            }
+                             d.medias = arr2
+                        }
                     }
                 }).catch(err => {
                     console.log(err);
                 });
             },
             toInformationDetail(item) {
-                console.log("进来了111",item)
+                //console.log("进来了111", item)
                 uni.navigateTo({
-                    url:'/pages/home/informationDetail?item='+ encodeURIComponent(JSON.stringify(item))
+                    url: '/pages/home/informationDetail?item=' + encodeURIComponent(JSON.stringify(item))
                 })
             },
             goHome() {
@@ -218,7 +230,7 @@
                     key: 'searchList'
                 });
 
-               // console.log(list[1].data);
+                // console.log(list[1].data);
 
                 // if (list[1].data) {
                 //     this.searchHistoryList = JSON.parse(list[1].data);

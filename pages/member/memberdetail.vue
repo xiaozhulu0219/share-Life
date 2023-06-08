@@ -14,7 +14,7 @@
                 <view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
                     <view class="img" @tap="changeAvatar">
                         <!--	<img src="../../static/images/touxiang.jpg" mode="" class="png round" style="width: 90px;height: 90px;top: 20%;left: 50%;"></img>-->
-                        <img class="cu-avatar round sm" :src="fileUrl+personalMsg.avatar" alt="" style="width: 90px;height: 90px;top: 20%;left: 50%;">
+                        <image class="cu-avatar round sm" :src="fileUrl+personalMsg.avatar" alt="" style="width: 90px;height: 90px;top: 20%;left: 50%;"></image>
                     </view>
                     <!--					<view class="content">-->
                     <!--						<text class="text-grey">头像</text>-->

@@ -9,11 +9,17 @@
             </cu-custom>
             <view class="card">
                 <view class="iptbox">
-                    <image  class="medias_size" :src="fileUrl+myFormData.medias" mode="widthFix"  alt=""></image>
+
+<!--                    <image  class="medias_size" :src="myFormData.medias[0]" mode="widthFix"  alt=""></image>-->
+
+                    <view class="uni-list" v-for="(item, index) in myFormData.medias" :index="index" :key="index">
+                        <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
+                    </view>
+
                     <view class="card-text">{{myFormData.textContent}}</view>
                     <view class="card-time">
                         {{myFormData.publishTime}}
-                        <img class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill">
+                        <image class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill"></image>
                         {{myFormData.ipAddress}}
                     </view>
                     <!--    <view class="card-title">{{myFormData.publishTime}}</view>-->
@@ -22,7 +28,7 @@
             </view>
             <view class="">
                 <view class="card-title">
-                    <img class="icon-like" src="@/static/icon/like.png" >{{myFormData.hasLiked}}
+                    <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myFormData.hasLiked}}
                     <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.hasLoved}}
                     <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}
                 </view>
@@ -53,6 +59,7 @@
                 NavBarColor: this.NavBarColor,
                 loading: false,
                 backRouteName: 'index',
+                arr: [],
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                 },
@@ -83,15 +90,44 @@
             //this.findPublishInfor();
         },
         onLoad(option) {
-            console.log("option.item", option.item)
+            //console.log("option.item", option.item)
             const item = JSON.parse(decodeURIComponent(option.item));
-            console.log("item", item)
             this.myFormData = item
-            //console.log("pubId", pubId)
-            //console.log("this.publishId", this.publishId)
             //this.findPublishInfor(this.publishId); 这是传参后继续调用方法的示例
         },
         methods: {
+            //点击图片进入函数，传入当前列表的索引index
+            TanPreviewImage(indexa) {
+                uni.previewImage({ // 预览图片  图片路径必须是一个数组 => ["http://21111889:8970/6_1597822634094.png"]
+                    current: indexa,//这里是判断到点击列表上的某个图片，就读取索引的图片
+                    urls: this.myFormData.medias,//这是整个内容的图片数组，放一个数组里，就可以左右切换了
+                    longPressActions: { //长按保存图片到相册
+                        itemList: ['保存图片'],
+                        success: (data) => {
+                            console.log(data);
+                            uni.saveImageToPhotosAlbum({ //保存图片到相册
+                                filePath: payUrl,
+                                success: function() {
+                                    uni.showToast({
+                                        icon: 'success',
+                                        title: '保存成功'
+                                    })
+                                },
+                                fail: (err) => {
+                                    uni.showToast({
+                                        icon: 'none',
+                                        title: '保存失败，请重新尝试'
+                                    })
+                                }
+                            });
+                        },
+                        fail: (err) => {
+                            console.log(err.errMsg);
+                        }
+                    }
+                });
+            },
+
             findPublishInfor(publishId) {
                 //console.log("进来了方法", publishId)
                 this.$http.get(this.url.findPublishInforByIdUrl, {params: {id: publishId}}).then((res) => {
