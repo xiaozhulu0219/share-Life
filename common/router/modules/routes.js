@@ -114,6 +114,13 @@ const routes = [{
         }
     },
     {
+        path: '/pages/member/memberPublishInforDetail',
+        name: 'memberPublishInforDetail',
+        meta: {
+            title: '我的发布动态详情页'
+        }
+    },
+    {
         path: '/pages/user/userexit',
         name: 'userexit',
         meta: {

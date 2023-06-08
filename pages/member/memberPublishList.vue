@@ -3,8 +3,8 @@
 <!--	<view style="height: 800px">-->
 		<mescroll-body ref="mescrollRef" style="height: 100%;"  @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">
-			<view v-for="(item,index) in myPublishInforList" :key="index" class="card">
-				<image class="medias_size" :src="fileUrl+item.medias" mode="widthFix" alt=""></image>
+			<view v-for="(item,index) in myPublishInforList" :key="index" class="card" @click="toMemInformationDetail(item)">
+				<image class="medias_size" :src="item.medias[0]" mode="widthFix" alt=""></image>
 				<view>{{ item.textContent.substr(0, 35) }}</view>
 			</view>
 		</mescroll-body>
@@ -15,10 +15,11 @@
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import Mixin from "@/common/mixin/Mixin.js";
 	import configService from '@/common/service/config.service.js'
+	import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
 
 	export default {
 		name: 'MyPublishList',
-		mixins: [MescrollMixin, Mixin],
+		mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
 		data() {
 			return {
 				findMyPublishInforPageUrl: '/information/movements/findMyPublishInforPage',
@@ -85,15 +86,30 @@
 					}
 				}).then(res => {
 					if (res.data.success) {
-						console.log("res.data.result:",res.data.result);
-						console.log("数据条数:",res.data.result.items.length);
+						//console.log("res.data.result:",res.data.result);
+						//console.log("数据条数:",res.data.result.items.length);
 						this.myPublishInforList = res.data.result.items;
-						console.log("数据条数222:",this.myPublishInforList.length);
+						for (let d of this.myPublishInforList) {
+							let arr = d.medias.split(',')
+							let arr2 = []
+							for (let e of arr) {
+								e = this.fileUrl+e
+								arr2.push(e)
+							}
+							d.medias = arr2
+						}
+						//console.log("数据条数222:",this.myPublishInforList.length);
 					}
 				}).catch(err => {
 					console.log(err);
 				});
-			}
+			},
+			toMemInformationDetail(item) {
+				console.log("进来了111", item)
+				uni.navigateTo({
+					url: '/pages/member/memberPublishInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
+				})
+			},
 		}
 	}
 </script>

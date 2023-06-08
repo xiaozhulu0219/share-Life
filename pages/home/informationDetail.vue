@@ -10,8 +10,7 @@
             <view class="card">
                 <view class="iptbox">
 
-<!--                    <image  class="medias_size" :src="myFormData.medias[0]" mode="widthFix"  alt=""></image>-->
-
+                    <!-- <image  class="medias_size" :src="myFormData.medias[0]" mode="widthFix"  alt=""></image>-->
                     <view class="uni-list" v-for="(item, index) in myFormData.medias" :index="index" :key="index">
                         <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
                     </view>
@@ -90,7 +89,6 @@
             //this.findPublishInfor();
         },
         onLoad(option) {
-            //console.log("option.item", option.item)
             const item = JSON.parse(decodeURIComponent(option.item));
             this.myFormData = item
             //this.findPublishInfor(this.publishId); 这是传参后继续调用方法的示例
@@ -233,7 +231,7 @@
         height: expression(this.height > 30 ? "30px" : this.height);
         overflow: hidden;
         //margin-right: 10rpx;
-       // margin-left: 2rpx;
+        // margin-left: 2rpx;
         display: inline;
         float: left;
     }
