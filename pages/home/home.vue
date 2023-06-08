@@ -17,7 +17,7 @@
                 <text class="padding-left text-gray iconfont icon-search"></text>
                 <input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10"
                        type="text"/>
-                <button class="search-btn text-df" @click="search">搜索</button>
+                <button class="search-btn text-df" @click="search(inputValue)">搜索</button>
             </view>
         </view>
         <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
@@ -93,38 +93,39 @@
             del(item, index) {
                 this.searchHistoryList.splice(0, 1);
             },
-            search() {
-                // if (this.inputValue == '') {
-                //     uni.showModal({
-                //         title: '搜索内容不能为空'
-                //     });
-                // } else {
-                //     let myForm = this.myFormData
-                //     console.log("myForm", myForm)
-                //     this.$tip.loading();
-                //     this.$http.get('/sys/editNickName', {
-                //         params: {
-                //             id: this.$store.getters.userid,
-                //             nickName: myForm.nickName
-                //         }
-                //     }).then(res => {
-                //         console.log(res)
-                //         this.$tip.loaded();
-                //         if (res.data.success) {
-                //             this.$tip.toast('提交成功')
-                //             this.$Router.replace({
-                //                 name: 'memberdetail'
-                //             })
-                //             /* uni.navigateTo({
-                //                 url: '/pages/user/userdetail'
-                //             }) */
-                //         }
-                //     }).catch(() => {
-                //         this.$tip.loaded();
-                //         this.$tip.error('提交失败')
-                //     });
-                // }
-                // this.inputValue = '';
+            search(inputValue) {
+                console.log("进来了",inputValue)
+                if (this.inputValue == '') {
+                    uni.showModal({
+                        title: '搜索内容不能为空'
+                    });
+                } else {
+                    //let myForm = this.myFormData
+                    //console.log("myForm", myForm)
+                    //this.$tip.loading();
+                    // this.$http.get('/sys/editNickName', {
+                    //     params: {
+                    //         id: this.$store.getters.userid,
+                    //         nickName: myForm.nickName
+                    //     }
+                    // }).then(res => {
+                    //     console.log(res)
+                    //     this.$tip.loaded();
+                    //     if (res.data.success) {
+                    //         this.$tip.toast('提交成功')
+                    //         this.$Router.replace({
+                    //             name: 'memberdetail'
+                    //         })
+                    //         /* uni.navigateTo({
+                    //             url: '/pages/user/userdetail'
+                    //         }) */
+                    //     }
+                    // }).catch(() => {
+                    //     this.$tip.loaded();
+                    //     this.$tip.error('提交失败')
+                    // });
+                }
+               // this.inputValue = '';
             },
             // search() {
             //     if (this.inputValue == '') {

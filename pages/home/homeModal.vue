@@ -119,6 +119,8 @@
         created() {
             this.getHomePublishComList();
             this.getHomePublishInforList();
+            console.log("进来了2222")
+            //inputValue
         },
         methods: {
             getActiveTab(item) {
