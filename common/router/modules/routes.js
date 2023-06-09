@@ -107,15 +107,22 @@ const routes = [{
         }
     },
     {
-        path: '/pages/home/informationDetail',
-        name: 'informationDetail',
+        path: '/pages/home/homeInforDetail',
+        name: 'homeInforDetail',
         meta: {
             title: '动态详情页'
         }
     },
     {
-        path: '/pages/member/memberPublishInforDetail',
-        name: 'memberPublishInforDetail',
+        path: '/pages/home/homeSearch',
+        name: 'homeSearch',
+        meta: {
+            title: '动态搜索页'
+        }
+    },
+    {
+        path: '/pages/member/memberInforDetail',
+        name: 'memberInforDetail',
         meta: {
             title: '我的发布动态详情页'
         }

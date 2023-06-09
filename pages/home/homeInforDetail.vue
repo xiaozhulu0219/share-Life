@@ -2,10 +2,10 @@
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view>
         <scroll-view scroll-y class="page">
-            <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+            <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName" >
                 <block slot="backText">
                 </block>
-                <block slot="content"> <image  class="medias_avatar" :src="fileUrl+myFormData.avatar"  alt=""></image>动态详情</block>
+                <view slot="content"> <image class="medias_avatar" :src="fileUrl+myFormData.avatar" alt="" ></image>ShareLife</view>
             </cu-custom>
             <view class="card">
                 <view class="iptbox">
@@ -15,7 +15,7 @@
                         <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
                     </view>
 
-                    <view class="card-text">{{myFormData.textContent}}</view>
+                    <view class="card-text" @click="toMemberdetail(myFormData)">{{myFormData.textContent}}</view>
                     <view class="card-time">
                         {{myFormData.publishTime}}
                         <image class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill"></image>
@@ -42,7 +42,7 @@
     import configService from '@/common/service/config.service.js'
 
     export default {
-        name: "informationDetail",
+        name: "homeInformationDetail",
         components: {myDate},
         props: {
             formData: {
@@ -133,6 +133,12 @@
                         //console.log("表单数据", res);
                         this.myFormData = res.data.result;
                     }
+                })
+            },
+            toMemberdetail(myFormData) {
+                console.log("进来了666", myFormData)
+                uni.navigateTo({
+                    url: '/pages/member/member?item=' + encodeURIComponent(JSON.stringify(myFormData))
                 })
             },
         }

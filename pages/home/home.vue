@@ -6,21 +6,22 @@
         所有标签页获取数据公用一个接口，根据传的标签值（类型）后台返回不同的领域的数据
         -->
         <cu-custom :bgColor="NavBarColor">
-            <block slot="content">首页</block>
+<!--            <block slot="content">ShareLife</block>-->
+            <view slot="right"> ShareLife <img class="icon-search" src="@/static/icon/search.png" mode="aspectFill" @click="toSearch()"></view>
         </cu-custom>
 
         <!-- 搜索框 -->
-        <view class="search">
-            <view class="search-bar-box">
-                <!-- <image class="search-span" src="../../static/images/search.png" /> -->
-                <!-- @confirm="search" 点击 -->
-                <text class="padding-left text-gray iconfont icon-search"></text>
-                <input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10"
-                       type="text"/>
-                <button class="search-btn text-df" @click="search(inputValue)">搜索</button>
-            </view>
-        </view>
-        <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
+<!--        <view class="search">-->
+<!--            <view class="search-bar-box">-->
+<!--                &lt;!&ndash; <image class="search-span" src="../../static/images/search.png" /> &ndash;&gt;-->
+<!--                &lt;!&ndash; @confirm="search" 点击 &ndash;&gt;-->
+<!--                <text class="padding-left text-gray iconfont icon-search"></text>-->
+<!--                <input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10"-->
+<!--                       type="text"/>-->
+<!--                <button class="search-btn text-df" @click="search(inputValue)">搜索</button>-->
+<!--            </view>-->
+<!--        </view>-->
+        <HomeSignModal :getActiveTab="getActiveTab" class="home-sign"></HomeSignModal>
 
         <homeModal class="home-infor"></homeModal>
 
@@ -92,6 +93,12 @@
             },
             del(item, index) {
                 this.searchHistoryList.splice(0, 1);
+            },
+            toSearch() {
+                console.log("进来了666")
+                uni.navigateTo({
+                    url: '/pages/home/homeSearch'
+                })
             },
             search(inputValue) {
                 console.log("进来了",inputValue)
@@ -238,8 +245,23 @@
         //padding: 20rpx 20rpx;
         //border-radius: 20rpx;
         //margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 150rpx; /*盒子距离顶部的距离*/
+        margin-top: 100rpx; /*盒子距离顶部的距离*/
         //line-height: 35rpx; /*行高*/
         //margin-bottom: 16px; /*内容和标题间的间距*/
+    }
+
+    .home-sign {
+        background-color: $uni-bg-color-grey;
+        margin-bottom: 10rpx; /*盒子间的距离*/
+        margin-top: 5rpx; /*盒子距离顶部的距离*/
+        line-height: 60rpx; /*行高*/
+        //margin-bottom: 16px; /*内容和标题间的间距*/
+    }
+
+    .icon-search {
+        width: 36rpx;
+        height: 36rpx;
+        margin-right: 10rpx;
+        margin-left: 240rpx;
     }
 </style>

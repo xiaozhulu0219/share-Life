@@ -146,7 +146,7 @@
       "style": {}
     },
     {
-      "path": "pages/member/memberPublishInforDetail",
+      "path": "pages/member/memberInforDetail",
       "style": {}
     },
     {
@@ -166,7 +166,11 @@
       "style": {}
     },
     {
-      "path": "pages/home/informationDetail",
+      "path": "pages/home/homeInforDetail",
+      "style": {}
+    },
+    {
+      "path": "pages/home/homeSearch",
       "style": {}
     },
     {

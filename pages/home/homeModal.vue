@@ -4,8 +4,7 @@
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
         <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback"
                        @up="upCallback">
-            <view v-for="(item,index) in homePublishInforList" :key="index" class="card"
-                  @click="toInformationDetail(item)">
+            <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item)">
                 <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""></image>
                 <view class="card-text">{{item.textContent.substr(0, 35) }}</view>
                 <view class="card-nickname">{{item.nickname}}
@@ -13,7 +12,6 @@
                     {{item.ipAddress}}
                 </view>
             </view>
-
         </mescroll-body>
     </view>
 </template>
@@ -119,7 +117,7 @@
         created() {
             this.getHomePublishComList();
             this.getHomePublishInforList();
-            console.log("进来了2222")
+            //console.log("进来了2222")
             //inputValue
         },
         methods: {
@@ -173,7 +171,7 @@
             toInformationDetail(item) {
                 //console.log("进来了111", item)
                 uni.navigateTo({
-                    url: '/pages/home/informationDetail?item=' + encodeURIComponent(JSON.stringify(item))
+                    url: '/pages/home/homeInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
                 })
             },
             goHome() {

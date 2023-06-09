@@ -107,7 +107,7 @@
 			toMemInformationDetail(item) {
 				console.log("进来了111", item)
 				uni.navigateTo({
-					url: '/pages/member/memberPublishInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
+					url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
 				})
 			},
 		}

@@ -5,7 +5,7 @@
 			<cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
 				<block slot="backText">
 				</block>
-				<block slot="content">我的动态</block>
+<!--				<block slot="content">我的动态</block>-->
 				<block slot="right">
 					<button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="submit">
 						编辑  <!--跳新页面还是到informationForm.vue 而且可编辑 还可设置可见状态-->
@@ -52,7 +52,7 @@
 	import configService from '@/common/service/config.service.js'
 
 	export default {
-		name: "memberPublishInforDetail",
+		name: "memberInforDetail",
 		components: {myDate},
 		props: {
 			formData: {
