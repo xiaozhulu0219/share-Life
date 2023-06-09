@@ -37,7 +37,7 @@
 			goInformation() {
 				this.$refs.popup.close();
 				uni.navigateTo({
-					url:'/pages/information/informationForm'
+					url:'/pages/information/inforPublishForm'
 				})
 			},
 			goHelpCom() {

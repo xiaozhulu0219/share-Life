@@ -7,20 +7,9 @@
         -->
         <cu-custom :bgColor="NavBarColor">
 <!--            <block slot="content">ShareLife</block>-->
-            <view slot="right"> ShareLife <img class="icon-search" src="@/static/icon/search.png" mode="aspectFill" @click="toSearch()"></view>
+            <block slot="right"> ShareLife <img class="icon-search" src="@/static/icon/search.png" mode="aspectFill" @click="toSearch()"></block>
         </cu-custom>
 
-        <!-- 搜索框 -->
-<!--        <view class="search">-->
-<!--            <view class="search-bar-box">-->
-<!--                &lt;!&ndash; <image class="search-span" src="../../static/images/search.png" /> &ndash;&gt;-->
-<!--                &lt;!&ndash; @confirm="search" 点击 &ndash;&gt;-->
-<!--                <text class="padding-left text-gray iconfont icon-search"></text>-->
-<!--                <input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10"-->
-<!--                       type="text"/>-->
-<!--                <button class="search-btn text-df" @click="search(inputValue)">搜索</button>-->
-<!--            </view>-->
-<!--        </view>-->
         <HomeSignModal :getActiveTab="getActiveTab" class="home-sign"></HomeSignModal>
 
         <homeModal class="home-infor"></homeModal>

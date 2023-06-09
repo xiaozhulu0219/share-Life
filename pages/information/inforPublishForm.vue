@@ -69,7 +69,7 @@
     import myImageUpload from '@/components/my-componets/my-image-upload.vue'
 
     export default {
-        name: "informationForm",
+        name: "inforPublishForm",
         components: {myDate, myImageUpload},
         props: {
             formData: {

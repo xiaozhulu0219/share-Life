@@ -105,7 +105,7 @@
 				});
 			},
 			toMemInformationDetail(item) {
-				console.log("进来了111", item)
+				//console.log("进来了111", item)
 				uni.navigateTo({
 					url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
 				})

@@ -1,25 +1,23 @@
 <template>
 	<!--这个是首页点击动态后跳转的动态详情页-->
 	<view>
-		<scroll-view scroll-y class="page">
 			<cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
 				<block slot="backText">
 				</block>
 <!--				<block slot="content">我的动态</block>-->
 				<block slot="right">
-					<button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="submit">
+					<button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="toInforPublishForm(myFormData)">
 						编辑  <!--跳新页面还是到informationForm.vue 而且可编辑 还可设置可见状态-->
 					</button>
 				</block>
 				<block slot="right">
-					<button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="submit">
+					<button class="cu-btn block bg-gray margin-tb-sm" type="warn" size="mini" @click="deleteInfor(myFormData.id)">
 						删除
 					</button>
 				</block>
 			</cu-custom>
 			<view class="card">
 				<view class="iptbox">
-
 					<!-- <image  class="medias_size" :src="myFormData.medias[0]" mode="widthFix"  alt=""></image>-->
 					<view class="uni-list" v-for="(item, index) in myFormData.medias" :index="index" :key="index">
 						<image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
@@ -42,7 +40,6 @@
 					<img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}
 				</view>
 			</view>
-		</scroll-view>
 	</view>
 
 </template>
@@ -71,6 +68,7 @@
 				arr: [],
 				url: {
 					findPublishInforByIdUrl: '/information/movements/findPublishInforById',
+					deleteInforUrl: '/information/movements/deleteInfor',
 				},
 				text: '',
 				vBlock: "block",
@@ -90,6 +88,7 @@
 					textContent: '',
 					uuId: '',
 					avatar:'',
+					id: '',
 				},
 				fileUrl: configService.fileSaveURL,
 			}
@@ -140,10 +139,35 @@
 				//console.log("进来了方法", publishId)
 				this.$http.get(this.url.findPublishInforByIdUrl, {params: {id: publishId}}).then((res) => {
 					if (res.data.success) {
-						//console.log("表单数据", res);
+						console.log("表单数据", res);
 						this.myFormData = res.data.result;
 					}
 				})
+			},
+			toInforPublishForm(publishId) {
+				//console.log("进来了111", item)
+				uni.navigateTo({
+					url: '/pages/information/inforPublishForm?item=' + encodeURIComponent(JSON.stringify(item))
+				})
+			},
+			deleteInfor(publishId) {
+				console.log("进来了方法", publishId)
+				        uni.showModal({
+				            title: '确认删除吗？',
+							success: res=> {
+								if (res.confirm) {
+									console.log('用户点击确定',res);
+									this.$http.delete(this.url.deleteInforUrl, {params: {id: publishId}}).then((res) => {
+										if (res.data.success) {
+											console.log("删除成功", res);
+											//this.myFormData = res.data.result;
+										}
+									})
+								} else if (res.cancel) {
+									//console.log('用户点击取消');
+								}
+							}
+				        });
 			},
 		}
 	}

@@ -44,8 +44,8 @@ const routes = [{
         }
     },
     {
-        path: '/pages/information/informationForm',
-        name: 'informationForm',
+        path: '/pages/information/inforPublishForm',
+        name: 'inforPublishForm',
         meta: {
             title: '动态新增页'
         }
