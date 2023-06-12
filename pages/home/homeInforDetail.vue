@@ -27,8 +27,8 @@
             </view>
             <view class="">
                 <view class="card-title">
-                    <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myFormData.hasLiked}}
-                    <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.hasLoved}}
+                    <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myFormData.likeCount}}
+                    <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.loveCount}}
                     <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}
                 </view>
             </view>
