@@ -2,10 +2,12 @@
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view>
         <scroll-view scroll-y class="page">
-            <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName" >
+            <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
                 <block slot="backText">
                 </block>
-                <view slot="content"> <image class="medias_avatar" :src="fileUrl+myFormData.avatar" alt="" ></image>ShareLife</view>
+                <view slot="content">
+                    <image class="medias_avatar" :src="fileUrl+myFormData.avatar" alt=""></image>ShareLife
+                </view>
             </cu-custom>
             <view class="card">
                 <view class="iptbox">
@@ -33,14 +35,26 @@
                 </view>
             </view>
 
+<!--            <form @submit="formSubmit" @reset="formReset">-->
+            <form>
+                <view class="uni-form-item uni-column">
+                    <input class="uni-input" v-model="inputValue" maxlength="100" placeholder="最大输入长度为200"/>
+                    <button form-type="submit" @click="saveComment(inputValue)">评论</button>
+<!--                    <button type="default" form-type="reset">重置</button>-->
+                </view>
+            </form>
+
             <view class="card">
                 <view class="iptbox">
                     <view v-for="(item,index) in inforCommentsList" :key="index" class="card">
-                        <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{ item.likeCount }}{{ item.createDate }}</view>
-                        <img class="icon-like" src="@/static/icon/pulldown.png" mode="aspectFill"  @click="getSonCommentsList(item)">
-
+                        <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">
+                            {{ item.likeCount }}{{ item.createDate }}
+                        </view>
+                        <img class="icon-like" src="@/static/icon/pulldown.png" mode="aspectFill" @click="getSonCommentsList(item)">
                         <view v-for="(item,index) in inforSonCommentsList" :key="index" class="card">
-                            <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{ item.likeCount }}{{ item.createDate }}</view>
+                            <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">
+                                {{ item.likeCount }}{{ item.createDate }}
+                            </view>
                         </view>
 
                     </view>
@@ -77,6 +91,8 @@
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                     findInforCommentsPageUrl: '/information/comments/list',
                     findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
+                    saveCommentUrl: '/information/comments/saveCommentForInfor',
+
                 },
                 text: '',
                 vBlock: "block",
@@ -95,7 +111,7 @@
                     medias: '',
                     textContent: '',
                     uuId: '',
-                    avatar:'',
+                    avatar: '',
                 },
                 myCommentForm: {
                     latitude: '',
@@ -104,10 +120,12 @@
                     medias: '',
                     textContent: '',
                     uuId: '',
-                    avatar:'',
-                    likeCount:'',
-                    createDate:'',
-                    nickname:'',
+                    avatar: '',
+                    likeCount: '',
+                    createDate: '',
+                    nickname: '',
+                    id: '',
+
 
                 },
                 fileUrl: configService.fileSaveURL,
@@ -138,7 +156,7 @@
                             console.log(data);
                             uni.saveImageToPhotosAlbum({ //保存图片到相册
                                 filePath: payUrl,
-                                success: function() {
+                                success: function () {
                                     uni.showToast({
                                         icon: 'success',
                                         title: '保存成功'
@@ -175,7 +193,7 @@
                     params: {
                         page: 1,
                         pagesize: 20,
-                        id:inforId
+                        id: inforId
                     }
                 }).then(res => {
                     if (res.data.success) {
@@ -193,7 +211,7 @@
                 //console.log("进来了方法33333", item)
                 this.$http.get(this.url.findSonCommentListPageUrl, {
                     params: {
-                        id:item.id
+                        id: item.id
                     }
                 }).then(res => {
                     if (res.data.success) {
@@ -206,15 +224,35 @@
                     console.log(err);
                 });
             },
+            //头像跳转用户详情
             toMemberdetail(myFormData) {
-                console.log("进来了666", myFormData)
+                //console.log("进来了666", myFormData)
                 uni.navigateTo({
                     url: '/pages/member/member?item=' + encodeURIComponent(JSON.stringify(myFormData))
                 })
             },
+            //保存评论 这里有两种评论、一种是对动态 一种是对评论
+            saveComment(inputValue) {
+                const InforCommentDto = {};
+                InforCommentDto.publishId = this.myCommentForm.id;
+                InforCommentDto.comment = inputValue;
+                this.$http.post(this.url.saveCommentUrl, InforCommentDto).then(res => {
+                    //刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
+                    if (res.data.success) {
+                        //console.log("33333res:",res.data.result);
+                        //回显最新评论数
+                        this.myCommentForm.commentCount = res.data.result
+                        //刷新评论列表
+                        this.getInforCommentsList(this.myFormData.inforId);
+                        //置空输入框
+                        this.setinputValue = '';
+                    }
+                });
+            },
         }
     }
 </script>
+
 <style lang="scss" scoped>
 
     .card {
