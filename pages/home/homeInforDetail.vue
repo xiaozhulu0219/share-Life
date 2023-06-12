@@ -27,9 +27,23 @@
             </view>
             <view class="">
                 <view class="card-title">
-                    <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myFormData.likeCount}}
-                    <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myFormData.loveCount}}
-                    <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myFormData.commentCount}}
+                    <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myCommentForm.likeCount}}
+                    <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myCommentForm.loveCount}}
+                    <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myCommentForm.commentCount}}
+                </view>
+            </view>
+
+            <view class="card">
+                <view class="iptbox">
+                    <view v-for="(item,index) in inforCommentsList" :key="index" class="card">
+                        <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{ item.likeCount }}{{ item.createDate }}</view>
+                        <img class="icon-like" src="@/static/icon/pulldown.png" mode="aspectFill"  @click="getSonCommentsList(item)">
+
+                        <view v-for="(item,index) in inforSonCommentsList" :key="index" class="card">
+                            <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{ item.likeCount }}{{ item.createDate }}</view>
+                        </view>
+
+                    </view>
                 </view>
             </view>
         </scroll-view>
@@ -61,6 +75,8 @@
                 arr: [],
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
+                    findInforCommentsPageUrl: '/information/comments/list',
+                    findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
                 },
                 text: '',
                 vBlock: "block",
@@ -81,17 +97,34 @@
                     uuId: '',
                     avatar:'',
                 },
+                myCommentForm: {
+                    latitude: '',
+                    longitude: '',
+                    location: '',
+                    medias: '',
+                    textContent: '',
+                    uuId: '',
+                    avatar:'',
+                    likeCount:'',
+                    createDate:'',
+                    nickname:'',
+
+                },
                 fileUrl: configService.fileSaveURL,
+                inforCommentsList: [],
+                inforSonCommentsList: [],
             }
         },
         created() {
             //this.initFormData();
-            //this.findPublishInfor();
+            this.getInforCommentsList(this.myFormData.inforId);
+            this.findPublishInfor(this.myFormData.inforId);
         },
         onLoad(option) {
             const item = JSON.parse(decodeURIComponent(option.item));
             this.myFormData = item
-            //this.findPublishInfor(this.publishId); 这是传参后继续调用方法的示例
+            //console.log("输出item", item)
+            //this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {
             //点击图片进入函数，传入当前列表的索引index
@@ -125,15 +158,53 @@
                     }
                 });
             },
-
-            findPublishInfor(publishId) {
-                //console.log("进来了方法", publishId)
-                this.$http.get(this.url.findPublishInforByIdUrl, {params: {id: publishId}}).then((res) => {
+            //根据inforId查询详情
+            findPublishInfor(inforId) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.url.findPublishInforByIdUrl, {params: {id: inforId}}).then((res) => {
                     if (res.data.success) {
-                        //console.log("表单数据", res);
-                        this.myFormData = res.data.result;
+                        console.log("表单数据", res);
+                        this.myCommentForm = res.data.result;
                     }
                 })
+            },
+            //获取评论列表
+            getInforCommentsList(inforId) {
+                //console.log("进来了方法2222", inforId)
+                this.$http.get(this.url.findInforCommentsPageUrl, {
+                    params: {
+                        page: 1,
+                        pagesize: 20,
+                        id:inforId
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        //console.log("res.data.result:",res.data.result);
+                        //console.log("数据条数:",res.data.result);
+                        this.inforCommentsList = res.data.result.items;
+                        //console.log("数据条数222:",this.inforCommentsList.length);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            //获取评论的评论列表
+            getSonCommentsList(item) {
+                //console.log("进来了方法33333", item)
+                this.$http.get(this.url.findSonCommentListPageUrl, {
+                    params: {
+                        id:item.id
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        //console.log("33333res:",res.data.result);
+                        this.inforSonCommentsList = res.data.result;
+                        //console.log("数据:",this.inforSonCommentsList);
+                        //console.log("数据条数222:",this.inforSonCommentsList.length);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
             },
             toMemberdetail(myFormData) {
                 console.log("进来了666", myFormData)
