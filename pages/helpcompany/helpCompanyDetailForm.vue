@@ -61,6 +61,7 @@
 			}
 		},
 		onLoad(params) {
+			console.log("params过来了", params)
 			this.companyName = params.companyName;
 		},
 		methods: {

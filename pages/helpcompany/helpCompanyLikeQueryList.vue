@@ -120,15 +120,15 @@
 				}
 			},
 			confirmHelp(item) {
-				console.log(this.model.tianyanchaId)
-				console.log(item.tianyanchaId)
+				console.log("11111：",this.model.tianyanchaId)
+				console.log("22222：",item.tianyanchaId)
 				this.$http.get(this.url.toEvaluate, {
 					params: {
 						tianyanchaId:Number(item.tianyanchaId),
 					}
 				}).then(res => {
-					console.log(this.model)
-					console.log(res.data)
+					console.log("33333：",this.model)
+					console.log("444444：",res.data)
 					if (res.data.success) {
 						this.$router.push(`helpCompanyDetailForm?companyName=${res.data.companyName}`)
 					}

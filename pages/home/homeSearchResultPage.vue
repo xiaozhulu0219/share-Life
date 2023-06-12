@@ -155,6 +155,7 @@
         /*width: 21rpx;*/
         /*height: 21rpx;*/
         /*border-radius: 8rpx;*/
+        margin-top: 100rpx; /*盒子距离顶部的距离*/
         margin-bottom: 20rpx; /*盒子间的距离*/
     }
 
