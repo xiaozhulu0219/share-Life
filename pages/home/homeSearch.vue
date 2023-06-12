@@ -2,34 +2,19 @@
     <view>
         <!--首页引用的modal-->
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
-        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" >
             <block slot="backText">
             </block>
             <view slot="content">搜索</view>
         </cu-custom>
 
-        <view class="search">
-            <view class="search-bar-box">
+        <form class="search">
+            <view class="uni-form-item uni-column">
                 <text class="padding-left text-gray iconfont icon-search"></text>
-                <input class="text-df flex-sub" v-model="inputValue" @confirm="search" placeholder="搜索内容" maxlength="10"
-                       type="text"/>
-                <button class="search-btn text-df" @click="search(inputValue)">搜索</button>
+                <input class="uni-input" v-model="inputValue" maxlength="100" placeholder="请输入搜索内容"/>
+                <button form-type="submit" @click="searchInforList(inputValue)">搜索</button>
             </view>
-        </view>
-
-        <homeModal class="home-infor"></homeModal>
-<!--        <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback"-->
-<!--                       @up="upCallback">-->
-<!--            <view v-for="(item,index) in homePublishInforList" :key="index" class="card"-->
-<!--                  @click="toInformationDetail(item)">-->
-<!--                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""></image>-->
-<!--                <view class="card-text">{{item.textContent.substr(0, 35) }}</view>-->
-<!--                <view class="card-nickname">{{item.nickname}}-->
-<!--                    <img class="card-icon" src="@/static/icon/ipAddress.png" mode="aspectFill">-->
-<!--                    {{item.ipAddress}}-->
-<!--                </view>-->
-<!--            </view>-->
-<!--        </mescroll-body>-->
+        </form>
 
     </view>
 </template>
@@ -38,27 +23,13 @@
     import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
     import Mixin from '@/common/mixin/Mixin.js';
     import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
-    import HomeSignModal from './homeSignModal.vue'
-    import HomeHelpCompanyList from './homeHelpCompanyList.vue'
     import configService from '@/common/service/config.service.js'
-    import homeModal from './homeModal.vue'
+
 
     export default {
         name: "homeSearch",
-        // props: {
-        //     formData: {
-        //         type: Object,
-        //         default: () => {
-        //         },
-        //         required: false
-        //     }
-        // },
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
-        components: {
-            HomeSignModal,
-            HomeHelpCompanyList,
-            homeModal
-        },
+        components: {},
         data() {
             return {
                 activeTab: {},
@@ -90,76 +61,19 @@
             };
         },
         created() {
-            this.getHomePublishComList();
-            this.getHomePublishInforList();
-            //console.log("进来了2222")
-            //inputValue
+            //this.getHomePublishComList();
+            //this.getHomePublishInforList();
         },
         methods: {
-            getActiveTab(item) {
-                this.activeTab = item;
-                // this.mescroll.resetUpScroll()
-            },
-            handleStatus(status, type) {
-
-            },
-            //标签为"助力"时展示的特殊数据
-            getHomePublishComList() {
-                this.$http.get(this.findHomePublishComListUrl, {
-                    params: {
-                        page: 1,
-                        pagesize: 100
-                    }
-                }).then(res => {
-                    if (res.data.success) {
-                        //console.log(res.data.result);
-                        this.homePublishComList = res.data.result.items;
-                    }
-                }).catch(err => {
-                    console.log(err);
-                });
-            },
-            //标签为"助力"之外的标签展示的数据--以后将考虑根据类型type来区分调用不同类型的接口，展示在不同标签的列表页
-            getHomePublishInforList() {
-                this.$http.get(this.findHomePublishInforListUrl, {
-                    params: {
-                        page: 1,
-                        pagesize: 100
-                    }
-                }).then(res => {
-                    if (res.data.success) {
-                        this.homePublishInforList = res.data.result.items;
-                        for (let d of this.homePublishInforList) {
-                            let arr = d.medias.split(',')
-                            let arr2 = []
-                            for (let e of arr) {
-                                e = this.fileUrl + e
-                                arr2.push(e)
-                            }
-                            d.medias = arr2
-                        }
-                    }
-                }).catch(err => {
-                    console.log(err);
-                });
-            },
-            toInformationDetail(item) {
-                //console.log("进来了111", item)
+            //搜索点击接口
+            searchInforList(inputValue) {
+                //拿到值传递给查询列表的接口，然后查询结果出来以后，跳转到对应界面
+                console.log("进来了111", inputValue)
                 uni.navigateTo({
-                    url: '/pages/home/homeInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
+                    url: '/pages/home/homeSearchResultPage?item=' + encodeURIComponent(JSON.stringify(inputValue))
                 })
             },
-            goHome() {
-                this.$Router.push({
-                    name: 'index'
-                });
-            },
-            model(item, index) {
-                this.inputValue = item;
-            },
-            del(item, index) {
-                this.searchHistoryList.splice(0, 1);
-            },
+            //这是之前关于搜索页面的一些方法、包括展示历史搜索记录、清空等 以后还得用、现在技术不行 暂时搁置
             search() {
                 if (this.inputValue == '') {
                     uni.showModal({
@@ -199,23 +113,18 @@
 
                 this.searchHistoryList = [];
             },
-
             async onLoad() {
                 let list = await uni.getStorage({
                     key: 'searchList'
                 });
-
-                // console.log(list[1].data);
-
-                // if (list[1].data) {
-                //     this.searchHistoryList = JSON.parse(list[1].data);
-                // }
             }
         }
     };
 </script>
 
+
 <style lang="scss" scoped>
+
     // 搜索框
     .search {
         display: flex;
@@ -225,57 +134,7 @@
         height: 100rpx;
         margin: 0;
         position: fixed;
-    }
-
-    .search-bar-box {
-        display: flex;
-        align-items: center;
-        width: 60%;
-        height: 70rpx;
-        border: 5rpx solid #00a8cc;
-        border-radius: 50rpx;
-        margin-top: -20rpx;
-    }
-
-    .search-btn {
-        width: 120rpx;
-        height: 70rpx;
-        background-color: #00a8cc;
-        color: white;
-        line-height: 70rpx;
-        text-align: center;
-        border-radius: 35rpx;
-        letter-spacing: 3rpx;
-    }
-
-    .searchHistory {
-        width: 100%;
-        margin-top: 16rpx;
-
-        .searchHistoryItem {
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-
-            view {
-                /* width: 50px; */
-                height: 20rpx;
-                background: #f0f0f0;
-                padding: 4rpx;
-                margin: 6rpx 5rpx;
-            }
-        }
-    }
-
-    .home-infor {
-        //background-color: #fff;
-        background-color: $uni-bg-color-grey;
-        //padding: 20rpx 20rpx;
-        //border-radius: 20rpx;
-        //margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 400rpx; /*盒子距离顶部的距离*/
-        //line-height: 35rpx; /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
+        margin-top: 150rpx; /*盒子距离顶部的距离*/
     }
 
 </style>

@@ -121,6 +121,13 @@ const routes = [{
         }
     },
     {
+        path: '/pages/home/homeSearchResultPage',
+        name: 'homeSearchResultPage',
+        meta: {
+            title: '动态搜索结果展示页'
+        }
+    },
+    {
         path: '/pages/member/memberInforDetail',
         name: 'memberInforDetail',
         meta: {
