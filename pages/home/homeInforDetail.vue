@@ -87,6 +87,7 @@
                 loading: false,
                 backRouteName: 'index',
                 arr: [],
+                inputValue: '',
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                     findInforCommentsPageUrl: '/information/comments/list',

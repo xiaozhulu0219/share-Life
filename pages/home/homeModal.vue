@@ -8,7 +8,17 @@
                 <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""></image>
                 <view class="card-text">{{item.textContent.substr(0, 35) }}</view>
                 <view class="card-nickname">{{item.nickname}}
-                    <img class="card-icon" src="@/static/icon/ipAddress.png" mode="aspectFill">
+<!--                    <img class="card-icon" src="@/static/icon/ipAddress.png" mode="aspectFill">-->
+                    <svg t="1686705754421" class="card-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                         p-id="3429" width="200" height="200">
+                        <path d="M512 1024a512 512 0 1 1 512-512 512 512 0 0 1-512 512z
+                         m0-435.2a128 128 0 1 0-128-128 128 128 0 0 0 128 128z m0-51.2a76.8 76.8 0 1 1 76.8-76.8 76.8 76.8
+                         0 0 1-76.8 76.8z m17.664 302.848q94.08-89.6 157.696-148.48C763.264 618.752 806.4 540.416 806.4 454.4a288
+                         288 0 0 0-576 0c0 83.2 45.312 169.216 110.592 236.8q53.888 58.88 153.6 149.504L512 856.832zM378.368
+                         656.384C320.896 596.736 281.6 522.112 281.6 454.4a236.8 236.8 0 0 1 473.6 0c0 69.888-36.608 136.32-102.4
+                         200.32q-57.344 53.376-140.8 132.224-85.76-78.08-133.632-130.56z" fill="#CB894D" p-id="3430">
+                        </path>
+                    </svg>
                     {{item.ipAddress}}
                 </view>
             </view>
