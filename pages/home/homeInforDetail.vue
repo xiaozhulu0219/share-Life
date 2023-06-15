@@ -6,7 +6,7 @@
                 <block slot="backText">
                 </block>
                 <view slot="content">
-                    <image class="medias_avatar" :src="fileUrl+myFormData.avatar" alt=""></image>ShareLife
+                        <image class="medias_avatar" :src="fileUrl+myFormData.avatar" alt=""></image>ShareLife
                 </view>
             </cu-custom>
             <view class="card">
