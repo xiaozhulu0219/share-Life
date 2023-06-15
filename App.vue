@@ -5,7 +5,7 @@
 		onLaunch: function() {
 			uni.getSystemInfo({
 				success: function(e) {
-					
+
 					// #ifdef APP-PLUS
 					// 检测升级
 					appUpdate()
@@ -24,17 +24,17 @@
 					let custom = wx.getMenuButtonBoundingClientRect();
 					Vue.prototype.Custom = custom;
 					Vue.prototype.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
-					// #endif		
+					// #endif
 
 					// #ifdef MP-ALIPAY
 					Vue.prototype.StatusBar = e.statusBarHeight;
 					Vue.prototype.CustomBar = e.statusBarHeight + e.titleBarHeight;
 					// #endif
-					
+
 					// #ifdef APP-PLUS
 					//Vue.prototype.$api.listenTranMsg()
 			// 		var info = plus.push.getClientInfo();
-			
+
 			// 		/* 5+  push 消息推送 ps:使用:H5+的方式监听，实现推送*/
 			// 		plus.push.addEventListener("click", function(msg) {
 			// 			console.log("click:" + JSON.stringify(msg));
@@ -42,16 +42,16 @@
 			// 			console.log(JSON.stringify(msg));
 			// 			//这里可以写跳转业务代码
 			// 		}, false);
-			// 		// 监听在线消息事件    
+			// 		// 监听在线消息事件
 			// 		plus.push.addEventListener("receive", function(msg) {
-			// 			// plus.ui.alert(2);  
+			// 			// plus.ui.alert(2);
 			// 			//这里可以写跳转业务代码
 			// 			console.log("recevice:" + JSON.stringify(msg))
 			// 		}, false);
 					// #endif
-					
+
 					//Vue.prototype.$api.initLogin()
-					
+
 				}
 			})
             Vue.prototype.NavBarColor='bg-gradual-blue'
@@ -61,7 +61,7 @@
            		  {id:2,type: 'image',url: 'https://static.jeecg.com/upload/test/banner2_1595818081327.jpg', link: ''},
            		  {id:3,type: 'image',url: 'https://static.jeecg.com/upload/test/oabanner-2_1595648520760.png', link: ''},
            		  {id:4,type: 'image',url: 'https://static.jeecg.com/upload/test/banner5_1595818089013.jpeg', link: ''},
-           	]	
+           	]
 			Vue.prototype.ColorList = [{
 					title: '嫣红',
 					name: 'red',
@@ -155,6 +155,7 @@
 	@import "plugin/colorui/icon.css";
     @import "plugin/colorui/animation.css";
 	@import "plugin/iconfont/iconfont.css";
+
 	.nav-list {
 		display: flex;
 		flex-wrap: wrap;

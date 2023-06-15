@@ -11,17 +11,14 @@
             </cu-custom>
             <view class="card">
                 <view class="iptbox">
-
                     <!-- <image  class="medias_size" :src="myFormData.medias[0]" mode="widthFix"  alt=""></image>-->
                     <view class="uni-list" v-for="(item, index) in myFormData.medias" :index="index" :key="index">
                         <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
                     </view>
-
                     <view class="card-text" @click="toMemberdetail(myFormData)">{{myFormData.textContent}}</view>
                     <view class="card-time">
-                        {{myFormData.publishTime}}
-                        <image class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill"></image>
-                        {{myFormData.ipAddress}}
+                        <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;"> {{myFormData.publishTime}} &#xe636 {{myFormData.ipAddress}}</view>
+<!--                        <image class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill"></image>-->
                     </view>
                     <!--    <view class="card-title">{{myFormData.publishTime}}</view>-->
                     <!--    <view class="card-title">{{myFormData.createDate}}-->
@@ -29,9 +26,10 @@
             </view>
             <view class="">
                 <view class="card-title">
-                    <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myCommentForm.likeCount}}
-                    <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myCommentForm.loveCount}}
-                    <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myCommentForm.commentCount}}
+                    <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;">&#xe60f {{myCommentForm.likeCount}} &#xe617 {{myCommentForm.loveCount}} &#xe601 {{myCommentForm.commentCount}} </view>
+<!--                    <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myCommentForm.likeCount}}-->
+<!--                    <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myCommentForm.loveCount}}-->
+<!--                    <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myCommentForm.commentCount}}-->
                 </view>
             </view>
 
@@ -47,13 +45,16 @@
             <view class="card">
                 <view class="iptbox">
                     <view v-for="(item,index) in inforCommentsList" :key="index" class="card">
-                        <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">
-                            {{ item.likeCount }}{{ item.createDate }}
+                        <view>{{ item.nickname }} {{ item.content }}
+                            <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;">&#xe60f {{ item.likeCount }}{{ item.createDate }}</view>
+                            <!-- <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">-->
                         </view>
-                        <img class="icon-like" src="@/static/icon/pulldown.png" mode="aspectFill" @click="getSonCommentsList(item)">
+                        <view class="iconfont ml-1" style="font-size: 50rpx;"  @click="getSonCommentsList(item)">&#xe631</view>
                         <view v-for="(item,index) in inforSonCommentsList" :key="index" class="card">
-                            <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">
-                                {{ item.likeCount }}{{ item.createDate }}
+                            <view>{{ item.nickname }} {{ item.content }}
+                                <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;">&#xe60f {{ item.likeCount }}{{ item.createDate }}</view>
+<!--                                <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">-->
+
                             </view>
                         </view>
 

@@ -1,34 +1,55 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 3812591 */
-  src: url('static/iconfont.woff2?t=1670330405036') format('woff2'),
-       url('static/iconfont.woff?t=1670330405036') format('woff'),
-       url('static/iconfont.ttf?t=1670330405036') format('truetype');
+  font-family: "iconfont"; /* Project id 4122076 */
+  src: url('~@/plugin/iconfont/iconfont.woff2?t=1686796326916') format('woff2'),
+       url('~@/plugin/iconfont/iconfont.woff?t=1686796326916') format('woff'),
+       url('~@/plugin/iconfont/iconfont.ttf?t=1686796326916') format('truetype');
 }
 
 .iconfont {
   font-family: "iconfont" !important;
-  font-size: 16px;
+  /*font-size: 16px;*/
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-like:before {
-  content: "\e7c8";
-}
-
-.icon-unlike:before {
-  content: "\e7c9";
-}
-
-.icon-like-fill:before {
-  content: "\e869";
-}
-.icon-unlike-fill:before {
-  content: "\e86a";
-}
-
 .icon-search:before {
-  content: "\e741";
+  content: "\e600";
+}
+
+.icon-logout:before {
+  content: "\e66a";
+}
+
+.icon-love:before {
+  content: "\e617";
+}
+
+.icon-shezhi:before {
+  content: "\e8b8";
+}
+
+.icon-like:before {
+  content: "\e60f";
+}
+
+.icon-ipAddress:before {
+  content: "\e60b";
+}
+
+.icon-totop:before {
+  content: "\e610";
+}
+
+.icon-dingwei:before {
+  content: "\e636";
+}
+
+.icon-comment:before {
+  content: "\e601";
+}
+
+.icon-pulldown:before {
+  content: "\e631";
 }
 

@@ -7,7 +7,7 @@
         -->
         <cu-custom :bgColor="NavBarColor">
 <!--            <block slot="content">ShareLife</block>-->
-            <block slot="right"> ShareLife <img class="icon-search" src="@/static/icon/search.png" mode="aspectFill" @click="toSearch()"></block>
+            <block slot="right"> ShareLife <view class="iconfont ml-1" style="color: #6e6e6e" @click="toSearch()">&#xe600 </view></block>
         </cu-custom>
 
         <HomeSignModal :getActiveTab="getActiveTab" class="home-sign"></HomeSignModal>
