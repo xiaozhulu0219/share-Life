@@ -26,9 +26,10 @@
 
                 <view class="card-text">{{myFormData.textContent}}</view>
                 <view class="card-time">
-                    {{myFormData.publishTime}}
-                    <img class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill"></img>
-                    {{myFormData.ipAddress}}
+                    <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;"> {{myFormData.publishTime}} &#xe636 {{myFormData.ipAddress}}</view>
+                    <!--                    {{myFormData.publishTime}}-->
+<!--                    <img class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill"></img>-->
+<!--                    {{myFormData.ipAddress}}-->
                 </view>
                 <!--    <view class="card-title">{{myFormData.publishTime}}</view>-->
                 <!--    <view class="card-title">{{myFormData.createDate}}-->
@@ -36,27 +37,35 @@
         </view>
         <view class="">
             <view class="card-title">
-                <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myCommentForm.likeCount}}
-                <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myCommentForm.loveCount}}
-                <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myCommentForm.commentCount}}
+                <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;">&#xe60f {{myCommentForm.likeCount}} &#xe617 {{myCommentForm.loveCount}} &#xe601 {{myCommentForm.commentCount}} </view>
+                <!--                <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myCommentForm.likeCount}}-->
+<!--                <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myCommentForm.loveCount}}-->
+<!--                <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myCommentForm.commentCount}}-->
             </view>
         </view>
         <view class="card">
             <view class="iptbox">
                 <view v-for="(item,index) in inforCommentsList" :key="index" class="card">
-                    <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{ item.likeCount }}{{ item.createDate }}</view>
-                    <img class="icon-like" src="@/static/icon/pulldown.png" mode="aspectFill"  @click="getSonCommentsList(item)">
+                    <view>{{ item.nickname }} {{ item.content }}
+                        <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;">&#xe60f
+                            {{ item.likeCount }}{{ item.createDate }}
+                        </view>
+                    </view>
+                    <view class="iconfont ml-1" style="font-size: 50rpx;" @click="getSonCommentsList(item)">&#xe631</view>
 
                     <view v-for="(item,index) in inforSonCommentsList" :key="index" class="card">
-                        <view>{{ item.nickname }} {{ item.content }}<img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{ item.likeCount }}{{ item.createDate }}</view>
-                    </view>
+                        <view>{{ item.nickname }} {{ item.content }}
+                            <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;">&#xe60f
+                                {{ item.likeCount }}{{ item.createDate }}
+                            </view>
+                        </view>
 
+                    </view>
                 </view>
             </view>
+
         </view>
-
     </view>
-
 </template>
 
 <script>
@@ -114,7 +123,7 @@
                     medias: '',
                     textContent: '',
                     uuId: '',
-                    avatar:'',
+                    avatar: '',
                 },
                 fileUrl: configService.fileSaveURL,
                 inforCommentsList: [],
@@ -215,12 +224,12 @@
                     params: {
                         page: 1,
                         pagesize: 20,
-                        id:inforId
+                        id: inforId
                     }
                 }).then(res => {
                     if (res.data.success) {
                         //console.log("res.data.result:",res.data.result);
-                        console.log("数据条数:",res.data.result);
+                        console.log("数据条数:", res.data.result);
                         this.inforCommentsList = res.data.result.items;
                         //console.log("数据条数222:",this.inforCommentsList.length);
                     }
@@ -233,7 +242,7 @@
                 //console.log("进来了方法33333", item)
                 this.$http.get(this.url.findSonCommentListPageUrl, {
                     params: {
-                        id:item.id
+                        id: item.id
                     }
                 }).then(res => {
                     if (res.data.success) {
@@ -249,6 +258,7 @@
         }
     }
 </script>
+
 
 <style lang="scss" scoped>
 
