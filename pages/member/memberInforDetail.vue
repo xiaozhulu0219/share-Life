@@ -23,47 +23,54 @@
                 <view class="uni-list" v-for="(item, index) in myFormData.medias" :index="index" :key="index">
                     <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
                 </view>
-
                 <view class="card-text">{{myFormData.textContent}}</view>
-                <view class="card-time">
-                    <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;"> {{myFormData.publishTime}} &#xe636 {{myFormData.ipAddress}}</view>
-                    <!--                    {{myFormData.publishTime}}-->
-<!--                    <img class="icon-ipAddress" src="@/static/icon/ipAddress.png" mode="aspectFill"></img>-->
-<!--                    {{myFormData.ipAddress}}-->
-                </view>
-                <!--    <view class="card-title">{{myFormData.publishTime}}</view>-->
-                <!--    <view class="card-title">{{myFormData.createDate}}-->
-            </view>
-        </view>
-        <view class="">
-            <view class="card-title">
-                <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;">&#xe60f {{myCommentForm.likeCount}} &#xe617 {{myCommentForm.loveCount}} &#xe601 {{myCommentForm.commentCount}} </view>
-                <!--                <img class="icon-like" src="@/static/icon/like.png" mode="aspectFill">{{myCommentForm.likeCount}}-->
-<!--                <img class="icon-love" src="@/static/icon/love.png" mode="aspectFill">{{myCommentForm.loveCount}}-->
-<!--                <img class="icon-comment" src="@/static/icon/comment.png" mode="aspectFill">{{myCommentForm.commentCount}}-->
-            </view>
-        </view>
-        <view class="card">
-            <view class="iptbox">
-                <view v-for="(item,index) in inforCommentsList" :key="index" class="card">
-                    <view>{{ item.nickname }} {{ item.content }}
-                        <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;">&#xe60f
-                            {{ item.likeCount }}{{ item.createDate }}
-                        </view>
-                    </view>
-                    <view class="iconfont ml-1" style="font-size: 50rpx;" @click="getSonCommentsList(item)">&#xe631</view>
 
-                    <view v-for="(item,index) in inforSonCommentsList" :key="index" class="card">
-                        <view>{{ item.nickname }} {{ item.content }}
-                            <view class="iconfont ml-1" style="font-size: 50rpx; color: #dd524d;">&#xe60f
-                                {{ item.likeCount }}{{ item.createDate }}
-                            </view>
-                        </view>
-
-                    </view>
+                <view class="card-line">
+                    <view class="card-createDate">{{myFormData.createDate}}</view>
+                    <view class="iconfont ml-1" style="color: #dd524d;"> &#xe636</view>
+                    <view class="card-ipAddress">{{myFormData.ipAddress}}</view>
                 </view>
             </view>
 
+        <view class="card-line">
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe60f</view>
+            <view class="card-likeCount">{{myCommentForm.likeCount}}</view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe617</view>
+            <view class="card-loveCount">{{myCommentForm.loveCount}}</view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
+            <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
+        </view>
+
+            <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
+                <view class="comment-parent">
+                    <image class="comment-avatar round sm" :src="item.avatar" alt=""></image>
+                    <view class="comment-nickcon">
+                        <view class="comment-nickname">{{ item.nickname }}</view>
+                        <view class="comment-content">{{ item.content }}</view>
+                        <view class="comment-createDate">{{item.createDate}}</view>
+                    </view>
+                    <view class="comment-iconlikeCount">
+                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;">&#xe617</view>
+                        <view class="comment-likeCount">{{item.likeCount}}</view>
+                    </view>
+                </view>
+                <view class="iconfont ml-1" style="font-size: 40rpx;  margin-left: 200rpx" @click="getSonCommentsList(item)">&#xe631</view>
+                <!--                    <view>展开{{}}条回复</view>-->
+                <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
+                    <view class="comment-son">
+                        <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""></image>
+                        <view class="comment-nickcon">
+                            <view class="comment-nickname">{{ sonitem.nickname }}</view>
+                            <view class="comment-content">{{ sonitem.content }}</view>
+                            <view class="comment-createDate">{{sonitem.createDate}}</view>
+                        </view>
+                        <view class="comment-iconlikeCount">
+                            <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;">&#xe617</view>
+                            <view class="comment-likeCount">{{sonitem.likeCount}}</view>
+                        </view>
+                    </view>
+                </view>
+            </view>
         </view>
     </view>
 </template>
@@ -231,7 +238,9 @@
                         //console.log("res.data.result:",res.data.result);
                         console.log("数据条数:", res.data.result);
                         this.inforCommentsList = res.data.result.items;
-                        //console.log("数据条数222:",this.inforCommentsList.length);
+                        for (let d of this.inforCommentsList) {
+                            d.avatar = this.fileUrl + d.avatar
+                        }
                     }
                 }).catch(err => {
                     console.log(err);
@@ -248,8 +257,9 @@
                     if (res.data.success) {
                         //console.log("33333res:",res.data.result);
                         this.inforSonCommentsList = res.data.result;
-                        //console.log("数据:",this.inforSonCommentsList);
-                        //console.log("数据条数222:",this.inforSonCommentsList.length);
+                        for (let d of this.inforSonCommentsList) {
+                            d.avatar = this.fileUrl + d.avatar
+                        }
                     }
                 }).catch(err => {
                     console.log(err);
@@ -271,17 +281,46 @@
         line-height: 35rpx; /*行高*/
         //margin-bottom: 16px; /*内容和标题间的间距*/
 
-        .card-title {
+        .card-line {
             font-weight: bold;
-        }
-        .card-time {
-            font-weight: bold;
-            margin-right: 100rpx;
-            margin-left: 25rpx;
+            display: flex;
+            margin-bottom: 30rpx; /*盒子间的距离*/
         }
 
-        .card-nickname {
+        .card-createDate {
             font-weight: bold;
+            margin-right: 400rpx;
+            margin-left: 10rpx;
+        }
+
+        .card-ipAddress {
+            font-weight: bold;
+            margin-left: 15rpx;
+        }
+
+        .card-likeCount {
+            font-weight: bold;
+            margin-right: 200rpx;
+            margin-left: 20rpx;
+        }
+
+        .card-loveCount {
+            font-weight: bold;
+            margin-right: 200rpx;
+            margin-left: 20rpx;
+        }
+
+        .card-commentCount {
+            font-weight: bold;
+            margin-right: 80rpx;
+            margin-left: 20rpx;
+        }
+
+        .card-text {
+            width: 95%;
+            font-size: 38rpx;
+            margin-bottom: 20rpx; /*盒子间的距离*/
+            line-height: 50rpx; /*行高*/
         }
 
         .card-text {
@@ -289,44 +328,156 @@
             margin-bottom: 20rpx; /*盒子间的距离*/
         }
 
-        .card-location {
-            position: absolute;
-            right: 20rpx;
-            font-size: 20rpx;
-        }
+        .comment {
+            background-color: #fff;
+            //padding: 20rpx 20rpx;
+            //border-radius: 20rpx;
+            margin-bottom: 10rpx; /*盒子间的距离*/
+            margin-top: 30rpx; /*盒子距离顶部的距离*/
+            //line-height: 35rpx; /*行高*/
+            //margin-bottom: 16px; /*内容和标题间的间距*/
 
-        .card-icon {
-            width: 36rpx;
-            height: 36rpx;
-            margin-right: 10rpx;
-            margin-left: 120rpx;
+            //这个虽然目前没用但是要留下来、这个是绝对位置的样式
+            .comment-parent {
+                /*position: absolute; 绝对定位*/
+                /*left: 20rpx;*/
+                /*font-size: 20rpx;*/
+                display: flex;
+                justify-content: space-between;
+
+                /*.card-line {*/
+                /*    font-weight: bold;*/
+                /*    display: flex;*/
+                /*    margin-bottom: 30rpx; !*盒子间的距离*!*/
+                /*}*/
+                .comment-avatar {
+                    max-width: 25px;
+                    width: 25px;
+                    width: expression(this.width > 25 ? "25px" : this.width);
+                    height: 25px;
+                    height: expression(this.height > 25 ? "25px" : this.height);
+                    position: absolute;
+                    left: 20rpx;
+                    font-size: 20rpx;
+                    margin-top: 15rpx;
+                }
+
+                .comment-nickcon {
+                    //font-weight: bold;
+                    //margin-right: 80rpx;
+                    margin-left: 70rpx;
+                    //display: flex;
+                    //justify-content: space-between;
+
+                    .comment-nickname {
+                        font-size: 30rpx;
+                        color: #6e6e6e;
+                        //font-weight: bold;
+                        //margin-right: 80rpx;
+                        //margin-left: 40rpx;
+                    }
+
+                    .comment-content {
+                        font-size: 35rpx;
+                        color: #2c2c2c;
+                        //font-weight: bold;
+                        //margin-right: 10rpx;
+                        //margin-left: 40rpx;
+                    }
+                    .comment-createDate {
+                        //margin-right: 80rpx;
+                        margin-left: 10rpx;
+                        display: flex;
+                    }
+                }
+                .comment-iconlikeCount {
+                    //font-weight: bold;
+                    margin-right: 25rpx;
+                    //margin-left: 35rpx;
+                    margin-top: 30rpx;
+                    display: flex;
+                    //justify-content: space-between;
+
+                    .comment-likeCount {
+                        //font-weight: bold;
+                        //margin-right: 80rpx;
+                        margin-left: 10rpx;
+                    }
+                }
+
+            }
+
+            .comment-son {
+                /*position: absolute; 绝对定位*/
+                /*left: 20rpx;*/
+                /*font-size: 20rpx;*/
+                display: flex;
+                justify-content: space-between;
+                margin-left: 85rpx;
+
+                /*.card-line {*/
+                /*    font-weight: bold;*/
+                /*    display: flex;*/
+                /*    margin-bottom: 30rpx; !*盒子间的距离*!*/
+                /*}*/
+                .comment-avatar {
+                    max-width: 25px;
+                    width: 25px;
+                    width: expression(this.width > 25 ? "25px" : this.width);
+                    height: 25px;
+                    height: expression(this.height > 25 ? "25px" : this.height);
+                    position: absolute;
+                    left: 80rpx;
+                    font-size: 20rpx;
+                    margin-top: 15rpx;
+                }
+
+                .comment-nickcon {
+                    //font-weight: bold;
+                    margin-right: 80rpx;
+                    margin-left: 40rpx;
+
+                    .comment-nickname {
+                        font-size: 30rpx;
+                        color: #6e6e6e;
+                        //font-weight: bold;
+                        //margin-right: 80rpx;
+                        //margin-left: 40rpx;
+                    }
+
+                    .comment-content {
+                        font-size: 35rpx;
+                        color: #2c2c2c;
+                        //font-weight: bold;
+                        margin-right: 10rpx;
+                        //margin-left: 40rpx;
+                    }
+                    .comment-createDate {
+                        //margin-right: 80rpx;
+                        margin-left: 60rpx;
+                        //display: flex;
+                        //justify-content: space-between;
+                    }
+                }
+
+                .comment-iconlikeCount {
+                    //font-weight: bold;
+                    margin-right: 25rpx;
+                    margin-top: 30rpx;
+                    //margin-left: 35rpx;
+                    display: flex;
+                    //justify-content: space-between;
+
+                    .comment-likeCount {
+                        //font-weight: bold;
+                        //margin-right: 80rpx;
+                        margin-left: 10rpx;
+                    }
+                }
+            }
         }
     }
 
-    .icon-ipAddress {
-        width: 36rpx;
-        height: 36rpx;
-        margin-right: 10rpx;
-        margin-left: 200rpx;
-    }
-    .icon-like {
-        width: 36rpx;
-        height: 36rpx;
-        margin-right: 10rpx;
-        margin-left: 60rpx;
-    }
-    .icon-love {
-        width: 36rpx;
-        height: 36rpx;
-        margin-right: 10rpx;
-        margin-left: 240rpx;
-    }
-    .icon-comment {
-        width: 36rpx;
-        height: 36rpx;
-        margin-right: 10rpx;
-        margin-left: 200rpx;
-    }
 
 
     .medias_size {
