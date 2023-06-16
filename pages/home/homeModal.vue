@@ -7,8 +7,11 @@
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item)">
                 <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""></image>
                 <view class="card-text">{{item.textContent.substr(0, 35) }}</view>
-                <view class="card-nickname">
-                    <view class="iconfont ml-1" style="color: #dd524d;">{{item.nickname}} &#xe60b {{item.ipAddress}}</view>
+                <view class="card-line">
+                    <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt=""></image>
+                    <view class="card-nickname" >{{item.nickname}}</view>
+                    <view class="iconfont ml-1" style="color: #dd524d;">&#xe60b</view>
+                    <view class="card-ipAddress">{{item.ipAddress}}</view>
                 </view>
             </view>
         </mescroll-body>
@@ -161,6 +164,7 @@
                                 e = this.fileUrl+e
                                 arr2.push(e)
                             }
+                            d.avatar = this.fileUrl+d.avatar
                              d.medias = arr2
                         }
                     }
@@ -383,12 +387,21 @@
         line-height: 35rpx;  /*行高*/
         //margin-bottom: 16px; /*内容和标题间的间距*/
 
-        .card-title {
+        .card-line {
             font-weight: bold;
+            display: flex;
         }
 
         .card-nickname {
             font-weight: bold;
+            margin-right: 80rpx;
+            margin-left: 10rpx;
+        }
+
+        .card-ipAddress {
+            font-weight: bold;
+            //margin-right: 80rpx;
+            margin-left: 10rpx;
         }
 
         .card-text {
@@ -402,12 +415,14 @@
             font-size: 20rpx;
         }
 
-        .card-icon {
-            width: 36rpx;
-            height: 36rpx;
-            margin-right: 10rpx;
-            margin-left: 120rpx;
+        .card-avatar {
+            max-width: 20px;
+            width: 20px;
+            width: expression(this.width > 20 ? "20px" : this.width);
+            height: 20px;
+            height: expression(this.height > 20 ? "20px" : this.height);
         }
+
     }
 
     .medias_size {
