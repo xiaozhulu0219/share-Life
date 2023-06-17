@@ -5,25 +5,26 @@
             <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
                 <block slot="backText">
                 </block>
-                <view slot="content">
-                    <image class="medias_avatar" :src="myFormData.avatar" alt=""></image>
-                    ShareLife
-                </view>
+                <block slot="right">
+                    <image class="medias_avatar" :src="myFormData.avatar" alt=""
+                           @click="toMemberdetail(myFormData)"></image>
+                    ShareLifeShareLifeShareLifeShareLifeShareLife
+                </block>
+
             </cu-custom>
             <view class="card">
-                <view class="iptbox">
-                    <!-- <image  class="medias_size" :src="myFormData.medias[0]" mode="widthFix"  alt=""></image>-->
-                    <view class="uni-list" v-for="(item, index) in myFormData.medias" :index="index" :key="index">
+                <swiper indicator-dots indicator-color="#008c8c" indicator-active-color="red">
+                    <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
                         <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
-                    </view>
-                    <view class="card-text" @click="toMemberdetail(myFormData)">{{myFormData.textContent}}</view>
+                    </swiper-item>
+                </swiper>
+
+                <view class="card-text">{{myFormData.textContent}}</view>
 
                 <view class="card-line">
                     <view class="card-createDate">{{myFormData.createDate}}</view>
                     <view class="iconfont ml-1" style="color: #dd524d;"> &#xe636</view>
                     <view class="card-ipAddress">{{myFormData.ipAddress}}</view>
-                </view>
-
                 </view>
 
                 <view class="card-line">
@@ -35,13 +36,11 @@
                     <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
                 </view>
 
-
-                <form>
-                    <view>
-                        <input class="uni-input" v-model="inputValue" maxlength="100" placeholder="最多输入200评论"/>
-                        <button form-type="submit" @click="saveComment(inputValue)">评论</button>
-                    </view>
-                </form>
+                <view class="input-comment">
+                    <input class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论"
+                           @input="onInput(inputValue)"/>
+                    <button class="input-button" form-type="submit" @click="saveComment(inputValue)">评论</button>
+                </view>
 
                 <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
                     <view class="comment-parent">
@@ -111,7 +110,6 @@
                     findInforCommentsPageUrl: '/information/comments/list',
                     findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
                     saveCommentUrl: '/information/comments/saveCommentForInfor',
-
                 },
                 text: '',
                 vBlock: "block",
@@ -144,12 +142,20 @@
                     createDate: '',
                     nickname: '',
                     id: '',
-
-
                 },
                 fileUrl: configService.fileSaveURL,
                 inforCommentsList: [],
                 inforSonCommentsList: [],
+                keyWords: [
+                    '尼玛', '我操你妈', '我草泥马', '操', '草', '我擦', '尼玛批', 'nm', 'wocaonima', 'cao', 'ca', 'woca', 'nmp', 'nimapi', 'fuck',
+                    '傻逼', '沙北', '傻杯', '鸡巴', '鸡毛', 'sb', 'jb', 'jiba',
+                    '习近平', '军队', '国家领导人', '党', '领袖', '政府', 'zf', 'zhengfu', 'xijinping', 'xjp', 'gjldr', 'guojialingdaoren', 'guojia', 'lingdaoren', 'dang', 'lingxiu',
+                    '毒品', '黄赌毒', '色情', '迷药', '杀', '强奸', '诱奸', '死', 'dupin', 'hdd', 'huangdudu', 'seqing', 'sese', 'se', 'miyao', 'qj', 'qiangjian', 'youjian', 'si',
+                    '尼格', '黑鬼', 'nige', 'heigui',
+                    '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人',
+                    '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人',
+                    '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人',
+                ],
             }
         },
         created() {
@@ -164,6 +170,27 @@
             //this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {
+            onInput(value) {
+                const word = this.keyWords
+                if (value !== null) {
+                    for (const i in word) {
+                        const reg = new RegExp(word[i], 'g')
+                        //console.log("reg:",reg)
+                        if (value.indexOf(word[i]) != -1) {
+                            //console.log("value.indexOf(word[i]):",value.indexOf(word[i]))
+                            //const result = value.replace(reg, `<span style="color:#f03b2c">${word[i]}</span>`)
+                            const result = value.replace(reg, '*')
+                            //console.log("result:",result)
+                            value = result
+                            //console.log("value:",value)
+                        }
+                    }
+                }
+                this.inputValue = value
+                //console.log("置换后value:",value)
+            },
+
+
             //点击图片进入函数，传入当前列表的索引index
             TanPreviewImage(indexa) {
                 uni.previewImage({ // 预览图片  图片路径必须是一个数组 => ["http://21111889:8970/6_1597822634094.png"]
@@ -272,21 +299,27 @@
             },
             //保存评论 这里有两种评论、一种是对动态 一种是对评论
             saveComment(inputValue) {
-                const InforCommentDto = {};
-                InforCommentDto.publishId = this.myCommentForm.id;
-                InforCommentDto.comment = inputValue;
-                this.$http.post(this.url.saveCommentUrl, InforCommentDto).then(res => {
-                    //刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
-                    if (res.data.success) {
-                        //console.log("33333res:",res.data.result);
-                        //回显最新评论数
-                        this.myCommentForm.commentCount = res.data.result
-                        //刷新评论列表
-                        this.getInforCommentsList(this.myFormData.inforId);
-                        //置空输入框
-                        this.inputValue = '';
-                    }
-                });
+                //若评论中包含 “*” 或者为空 不允许保存
+                //console.log("inputValue值为空1：", inputValue);
+                if (inputValue === "" || inputValue.indexOf("*") != -1) {
+                    console.log("评论出现了违规词语、已被拦截：", inputValue);
+                } else {
+                    const InforCommentDto = {};
+                    InforCommentDto.publishId = this.myCommentForm.id;
+                    InforCommentDto.comment = inputValue;
+                    this.$http.post(this.url.saveCommentUrl, InforCommentDto).then(res => {
+                        //刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
+                        if (res.data.success) {
+                            //console.log("33333res:",res.data.result);
+                            //回显最新评论数
+                            this.myCommentForm.commentCount = res.data.result
+                            //刷新评论列表
+                            this.getInforCommentsList(this.myFormData.inforId);
+                            //置空输入框
+                            this.inputValue = '';
+                        }
+                    });
+                }
             },
         }
     }
@@ -566,4 +599,5 @@
         margin:auto;
     }
 </style>
+
 
