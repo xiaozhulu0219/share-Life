@@ -26,7 +26,7 @@
                 <view class="card-text">{{myFormData.textContent}}</view>
 
                 <view class="card-line">
-                    <view class="card-createDate">{{myFormData.createDate}}</view>
+                    <view class="card-createDate">{{myCommentForm.createDate}}</view>
                     <view class="iconfont ml-1" style="color: #dd524d;"> &#xe636</view>
                     <view class="card-ipAddress">{{myFormData.ipAddress}}</view>
                 </view>
