@@ -174,24 +174,6 @@
                     console.log(err);
                 });
             },
-            // getpost(code) {
-            //     if (!code || code.length == 0) {
-            //         this.personalList.post = '员工';
-            //         return false;
-            //     }
-            //     this.$http.get(this.postUrl, {
-            //         params: {
-            //             code: code
-            //         }
-            //     }).then(res => {
-            //         console.log('postUrl', res);
-            //         if (res.data.success) {
-            //             this.personalList.post = res.data.result.name;
-            //         }
-            //     }).catch(err => {
-            //         console.log(err);
-            //     });
-            // },
             clickTab(index) {
                 if (this.activeTab === index) return;
                 this.activeTab = index;

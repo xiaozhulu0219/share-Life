@@ -10,7 +10,7 @@
                 <view class="card-line">
                     <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt=""></image>
                     <view class="card-nickname" >{{item.nickname}}</view>
-                    <view class="iconfont ml-1" style="color: #dd524d;">&#xe60b</view>
+                    <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx">&#xe60b</view>
                     <view class="card-ipAddress">{{item.ipAddress}}</view>
                 </view>
             </view>
@@ -396,17 +396,21 @@
             font-weight: bold;
             margin-right: 80rpx;
             margin-left: 10rpx;
+            margin-top: 8rpx;
         }
 
         .card-ipAddress {
             font-weight: bold;
             //margin-right: 80rpx;
             margin-left: 10rpx;
+            margin-top: 8rpx;
         }
 
         .card-text {
             font-size: 36rpx;
             margin-bottom: 10rpx; /*盒子间的距离*/
+            line-height: 55rpx;  /*行高*/
+            //margin-bottom: 16px; /*内容和标题间的间距*/
         }
 
         .card-location {

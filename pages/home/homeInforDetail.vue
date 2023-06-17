@@ -18,11 +18,11 @@
                     </view>
                     <view class="card-text" @click="toMemberdetail(myFormData)">{{myFormData.textContent}}</view>
 
-                    <view class="card-line">
-                        <view class="card-createDate">{{myFormData.createDate}}</view>
-                        <view class="iconfont ml-1" style="color: #dd524d;"> &#xe636</view>
-                        <view class="card-ipAddress">{{myFormData.ipAddress}}</view>
-                    </view>
+                <view class="card-line">
+                    <view class="card-createDate">{{myFormData.createDate}}</view>
+                    <view class="iconfont ml-1" style="color: #dd524d;"> &#xe636</view>
+                    <view class="card-ipAddress">{{myFormData.ipAddress}}</view>
+                </view>
 
                 </view>
 
@@ -45,7 +45,8 @@
 
                 <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
                     <view class="comment-parent">
-                        <image class="comment-avatar round sm" :src="item.avatar" alt=""></image>
+                        <image class="comment-avatar round sm" :src="item.avatar" alt=""
+                               @click="toMemberdetail(myFormData)"></image>
                         <view class="comment-nickcon">
                             <view class="comment-nickname">{{ item.nickname }}</view>
                             <view class="comment-content">{{ item.content }}</view>
@@ -56,11 +57,14 @@
                             <view class="comment-likeCount">{{item.likeCount}}</view>
                         </view>
                     </view>
-                    <view class="iconfont ml-1" style="font-size: 40rpx;  margin-left: 200rpx" @click="getSonCommentsList(item)">&#xe631</view>
-<!--                    <view>展开{{}}条回复</view>-->
+                    <view class="iconfont ml-1" style="font-size: 40rpx;  margin-left: 200rpx"
+                          @click="getSonCommentsList(item)">&#xe631
+                    </view>
+                    <!--  <view>展开{{}}条回复</view>-->
                     <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
                         <view class="comment-son">
-                            <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""></image>
+                            <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
+                                   @click="toMemberdetail(myFormData)"></image>
                             <view class="comment-nickcon">
                                 <view class="comment-nickname">{{ sonitem.nickname }}</view>
                                 <view class="comment-content">{{ sonitem.content }}</view>
@@ -280,7 +284,7 @@
                         //刷新评论列表
                         this.getInforCommentsList(this.myFormData.inforId);
                         //置空输入框
-                        this.setinputValue = '';
+                        this.inputValue = '';
                     }
                 });
             },
@@ -339,6 +343,7 @@
             font-size: 38rpx;
             margin-bottom: 20rpx; /*盒子间的距离*/
             line-height: 50rpx; /*行高*/
+            margin-top: 30rpx;
         }
 
         .comment {
@@ -519,6 +524,27 @@
         // margin-left: 2rpx;
         display: inline;
         float: left;
+    }
+
+    .input-comment{
+        display: flex;
+
+        .input-form{
+            //display: flex;
+            width: 250px;
+            height: 40px;
+        }
+        .input-button{
+            //display: flex;
+            //display: inline;
+            //float: right;
+            width: 65px;
+            height: 40px;
+            //display: block;
+            margin-right: 15rpx;
+            //margin-left: 40rpx;
+        }
+
     }
 
     //居左
