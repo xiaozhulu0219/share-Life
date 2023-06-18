@@ -4,14 +4,16 @@
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
         <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback"
                        @up="upCallback">
-            <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item)">
-                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""></image>
-                <view class="card-text">{{item.textContent.substr(0, 35) }}</view>
+            <view v-for="(item,index) in homePublishInforList" :key="index" class="card" >
+                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
+                <view class="card-text" @click="toInformationDetail(item)">{{item.textContent.substr(0, 35) }}</view>
                 <view class="card-line">
                     <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt=""></image>
                     <view class="card-nickname" >{{item.nickname}}</view>
                     <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx">&#xe60b</view>
                     <view class="card-ipAddress">{{item.ipAddress}}</view>
+                    <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx" @click="loveInfor(item.inforId,index)">&#xe617</view>
+                    <view class="card-loveCount">{{item.loveCount}}</view>
                 </view>
             </view>
         </mescroll-body>
@@ -39,6 +41,8 @@
                 NavBarColor: this.NavBarColor,
                 findHomePublishComListUrl: '/company/findHomePublishComList',
                 findHomePublishInforListUrl: '/information/movements/findHomePublishInforList',
+                loveInforUrl: '/information/movements/love',
+                unloveInforUrl: '/information/movements/unlove',
                 homePublishComList: [],
                 homePublishInforList: [],
                 arr: [],
@@ -119,8 +123,6 @@
         created() {
             this.getHomePublishComList();
             this.getHomePublishInforList();
-            //console.log("进来了2222")
-            //inputValue
         },
         methods: {
             getActiveTab(item) {
@@ -239,7 +241,35 @@
                 // if (list[1].data) {
                 //     this.searchHistoryList = JSON.parse(list[1].data);
                 // }
-            }
+            },
+            //喜欢动态
+            loveInfor(id,index) {
+                console.log("进来了方法", id)
+                console.log("顺序是", index)
+                this.$http.get(this.loveInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+
+                        //this.myCommentForm.loveCount = res.data.result;
+                        console.log("this.homePublishInforList.indexOf(index)：", this.homePublishInforList[index]);
+                        console.log("11111", this.homePublishInforList);
+
+                        for (let d of this.homePublishInforList) {
+                            console.log("2222", d );
+                        }
+                        //this.homePublishInforList.indexOf(index).loveCount = res.data.result;
+                    }
+                })
+            },
+            //取消喜欢动态
+            unloveInfor(id) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.unloveInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        //this.myCommentForm.loveCount = res.data.result;
+                    }
+                })
+            },
         }
     };
 </script>
@@ -400,6 +430,13 @@
         }
 
         .card-ipAddress {
+            font-weight: bold;
+            margin-right: 100rpx;
+            margin-left: 10rpx;
+            margin-top: 8rpx;
+        }
+
+        .card-loveCount {
             font-weight: bold;
             //margin-right: 80rpx;
             margin-left: 10rpx;

@@ -2,13 +2,13 @@
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view>
         <scroll-view scroll-y class="page">
-            <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
-                <block slot="backText">
-                </block>
-                <block slot="right">
+            <cu-custom  style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+                <block slot="backText"></block>
+
+                <block slot="content" style="margin-right: 200rpx">
                     <image class="medias_avatar" :src="myFormData.avatar" alt=""
-                           @click="toMemberdetail(myFormData)"></image>
-                    ShareLifeShareLifeShareLifeShareLifeShareLife
+                               @click="toMemberdetail(myFormData)"></image>
+                    {{myCommentForm.nickname}}
                 </block>
 
             </cu-custom>
@@ -28,9 +28,9 @@
                 </view>
 
                 <view class="card-line">
-                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe60f</view>
+                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="likeInfor(myCommentForm.id)">&#xe60f</view>
                     <view class="card-likeCount">{{myCommentForm.likeCount}}</view>
-                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe617</view>
+                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="loveInfor(myCommentForm.inforId)">&#xe617</view>
                     <view class="card-loveCount">{{myCommentForm.loveCount}}</view>
                     <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
                     <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
@@ -52,7 +52,7 @@
                             <view class="comment-createDate">{{item.createDate}}</view>
                         </view>
                         <view class="comment-iconlikeCount">
-                            <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;">&#xe617</view>
+                            <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" @click="likeComment(item.id)">&#xe60f</view>
                             <view class="comment-likeCount">{{item.likeCount}}</view>
                         </view>
                     </view>
@@ -70,7 +70,7 @@
                                 <view class="comment-createDate">{{sonitem.createDate}}</view>
                             </view>
                             <view class="comment-iconlikeCount">
-                                <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;">&#xe617</view>
+                                <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" @click="likeSonComment(sonitem.id)">&#xe60f</view>
                                 <view class="comment-likeCount">{{sonitem.likeCount}}</view>
                             </view>
                         </view>
@@ -110,6 +110,14 @@
                     findInforCommentsPageUrl: '/information/comments/list',
                     findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
                     saveCommentUrl: '/information/comments/saveCommentForInfor',
+                    likeCommentUrl: '/information/comments/like',
+                    dislikeCommentUrl: '/information/comments/dislike',
+                    likeSonCommentUrl: '/information/comments/like',
+                    deleteCommentUrl: '/information/comments/deleteComment',
+                    likeInforUrl: '/information/movements/like',
+                    dislikeInforUrl: '/information/movements/dislike',
+                    loveInforUrl: '/information/movements/love',
+                    unloveInforUrl: '/information/movements/unlove',
                 },
                 text: '',
                 vBlock: "block",
@@ -139,9 +147,11 @@
                     uuId: '',
                     avatar: '',
                     likeCount: '',
+                    loveCount: '',
                     createDate: '',
                     nickname: '',
                     id: '',
+                    inforId: '',
                 },
                 fileUrl: configService.fileSaveURL,
                 inforCommentsList: [],
@@ -320,6 +330,66 @@
                         }
                     });
                 }
+            },
+            //点赞动态
+            likeInfor(id) {
+                console.log("进来了点赞动态方法", id)
+                this.$http.get(this.url.likeInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        this.myCommentForm.likeCount = res.data.result;
+                    }
+                })
+            },
+            //取消点赞动态
+            dislikeInfor(id) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.url.dislikeInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        this.myCommentForm.likeCount = res.data.result;
+                    }
+                })
+            },
+            //喜欢动态
+            loveInfor(id) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.url.loveInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        this.myCommentForm.loveCount = res.data.result;
+                    }
+                })
+            },
+            //取消喜欢动态
+            unloveInfor(id) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.url.unloveInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        this.myCommentForm.loveCount = res.data.result;
+                    }
+                })
+            },
+            //点赞评论
+            likeComment(id) {
+                console.log("进来了点赞评论方法", id)
+                this.$http.get(this.url.likeCommentUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        //this.myCommentForm.likeCount = res.data.result;
+                    }
+                })
+            },
+            //取消点赞评论
+            dislikeComment(id) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.url.dislikeInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        //this.myCommentForm.likeCount = res.data.result;
+                    }
+                })
             },
         }
     }
