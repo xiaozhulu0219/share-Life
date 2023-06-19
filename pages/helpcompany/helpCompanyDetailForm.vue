@@ -172,7 +172,7 @@
             //console.log("this.model.tianyanchaId", this.model.tianyanchaId)
             this.findHelpComById(this.model.tianyanchaId);
             //查询评论列表时用助力公司的id、但不是从列表跳过来的（那个经过json转化已经变了。需要的是查询单条的接口返回的id）
-            this.findPageCommentById(this.comModel.id);
+            this.findPageCommentById(this.model.tianyanchaId);//临时传 tianyanchaId 到了后台再转为id去查询
         },
         onLoad(option) {
             console.log("params过来了", option)
@@ -211,7 +211,7 @@
                     params: {
                         page: 1,
                         pagesize: 20,
-                        id: id
+                        id: Number(id),
                     }
                 }).then(res => {
                     if (res.data.success) {
