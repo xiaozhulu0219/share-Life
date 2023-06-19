@@ -17,7 +17,8 @@
 				<view class="xw-login-form-item">
 					<view class="xw-login-form-label">验证码</view>
           <view class="code-box">
-            <input class="xw-login-form-input" placeholder="请填写验证码" v-model="captcha" name="captcha" type="text" />
+<!--            <input class="xw-login-form-input" placeholder="请填写验证码" v-model="captcha" name="captcha" type="text" />-->
+            <input class="xw-login-form-input" placeholder="不用获取随便输入4位字母" v-model="captcha" name="captcha" type="text" />
 					<view class="wx-btn wx-btn-info" @click="getMsgCode()" v-if="!loading">获取验证码</view>
 					<view class="wx-btn wx-btn-grad" v-else>{{time}}秒后重试</view>
           </view>
