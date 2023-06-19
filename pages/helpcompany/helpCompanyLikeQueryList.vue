@@ -2,7 +2,7 @@
 	<!--助力公司模糊搜索页、表单区域-->
 	<view>
 		<!--标题和返回-->
-		<cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
+		<cu-custom  isBack :backRouterName="backRouteName">
 			<block slot="backText">返回</block>
 			<block slot="content">助力公司</block>
 		</cu-custom>
@@ -120,17 +120,20 @@
 				}
 			},
 			confirmHelp(item) {
-				console.log("11111：",this.model.tianyanchaId)
+				//console.log("11111：",this.model.tianyanchaId)
 				console.log("22222：",item.tianyanchaId)
 				this.$http.get(this.url.toEvaluate, {
 					params: {
 						tianyanchaId:Number(item.tianyanchaId),
 					}
 				}).then(res => {
-					console.log("33333：",this.model)
-					console.log("444444：",res.data)
+					//console.log("33333：",this.model)
+					console.log("444444：",res.data.result)
 					if (res.data.success) {
-						this.$router.push(`helpCompanyDetailForm?companyName=${res.data.companyName}`)
+						uni.navigateTo({//pages/helpcompany/helpCompanyDetailForm.vue
+							//url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
+							url: '/pages/helpcompany/helpCompanyDetailForm?item=' + encodeURIComponent(JSON.stringify(res.data.result))
+						})
 					}
 				})
 			},
