@@ -4,74 +4,57 @@
         <!--标题和返回-->
         <cu-custom :bgColor="NavBarColor" isBack :backRouterName="backRouteName">
             <block slot="backText">返回</block>
-            <block slot="content">助力公司详情</block>
+            <block slot="content">{{model.title}}详情</block>
         </cu-custom>
         <!--详情区域-->
         <view class="company">
-            <span class="companyName">{{model.companyName}}</span>
-            <span class="legalPerson">{{model.legalPerson}}</span>
+            <view class="companyName">{{model.companyName}}</view>
+            <view class="legalPerson">{{model.legalPerson}}</view>
         </view>
         <view class="company">
-            <span class="registerTime">{{model.registerTime.substr(0, 10)}}</span>
-            <span class="registeredCapital">{{model.registeredCapital}}</span>
+            <view class="registerTime">{{model.registerTime.substr(0, 15)}}</view>
+            <view class="registeredCapital">{{model.registeredCapital}}</view>
         </view>
         <view class="company">
-            <span class="companyStatus">{{model.companyStatus}}</span>
-            <span class="bussinessAddress">{{model.bussinessAddress}}</span>
-            <span class="organizationCode">{{model.organizationCode}}</span>
+            <view class="companyStatus">{{model.companyStatus}}</view>
+            <view class="bussinessAddress">{{model.bussinessAddress}}</view>
+            <view class="organizationCode">{{model.organizationCode}}</view>
         </view>
         <view class="company">
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe8ad</view>
-            <span class="upLikeCount">{{comModel.upLikeCount}}</span>
+            <view class="upLikeCount">{{comModel.upLikeCount}}</view>
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe614</view>
-            <span class="downLikeCount">{{comModel.downLikeCount}}</span>
+            <view class="downLikeCount">{{comModel.downLikeCount}}</view>
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
             <span class="commentCount">{{comModel.commentCount}}</span>
         </view>
+
         <view class="companyTag">
             <span>#歧视女生</span> <span>#可接受残疾人</span> <span>#体恤员工</span> <span>#米面粮油</span>
         </view>
 
-<!--        <view v-for="item in 7" :key="index" class="detail">-->
-<!--            <view class="detail-title">有理有据</view>-->
-<!--            <vie class="detail-content">-->
-<!--                <image class="detail-avatar" src="../../static/avatar_girl.png"></image>-->
-<!--                <view class="detail-info">-->
-<!--                    <view style="background-color: antiquewhite;">王五（在职）</view>-->
-<!--                    <view>确实还不错呢</view>-->
-<!--                    <view style="margin-right: 10rpx;">10min前 北京</view>-->
-<!--                </view>-->
-<!--                <view>-->
-<!--                    <image class="detail-icon" src="../../static/images/dianzan.png"></image>-->
-<!--                    56-->
-<!--                    <br/>-->
-<!--                    <image class="detail-icon" src="../../static/images/cai.png"></image>-->
-<!--                    2-->
-<!--                </view>-->
-<!--            </vie>-->
-<!--        </view>-->
         <view v-for="item in commentsList" :key="index" class="detail">
-            <view class="detail-title">有理有据</view>
-            <vie class="detail-content">
+            <view class="detail-title">
+                <view>有理有据</view>
                 <image class="comment-avatar round sm" :src="item.avatar" alt=""></image>
+            </view>
+
+            <view class="detail-content">
                 <view class="detail-info">
-                    <view style="background-color: antiquewhite;">{{item.nickname}}}（在职）</view>
+                    <view style="background-color: antiquewhite;">{{item.nickname}}（在职）</view>
                     <view>{{item.content}}</view>
                     <view style="margin-right: 10rpx;">{{item.createDate}} 北京</view>
                 </view>
-                <view>
+                <view class="comment-iconlikeCount">
                     <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe8ad</view>
-                    <span class="upLikeCount">{{item.likeCount}}</span>
-                    <br/>
-                    <image class="detail-icon" src="../../static/images/cai.png"></image>
-                    2
+                    <span class="comment-likeCount">{{item.likeCount}}</span>
                 </view>
-            </vie>
+            </view>
         </view>
         <view style="width: 100%;height: 100rpx;"></view>
         <view class="footer">
             <input class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论" @input="onInput(inputValue)"/>
-            <image class="comment-avatar round sm" :src="comModel.avatar" alt=""></image>
+            <image class="avatar round sm" :src="comModel.avatar" alt=""></image>
             <button class="input-button" form-type="submit" @click="saveComment(inputValue)">发送</button>
         </view>
     </view>
@@ -84,11 +67,7 @@
         name: "helpCompanyDetailForm",
         components: {},
         props: {
-            // formData: {
-            // 	type: Object,
-            // 	default: () => {},
-            // 	required: false
-            // }
+
         },
         data() {
             return {
@@ -127,6 +106,7 @@
                     avatar: '',
                     nickname: '',
                     gender: '',
+                    title: '',
 
                 },
                 //通过 tianyanchaId 查到的详情表单
@@ -198,6 +178,7 @@
             console.log("params过来了", option)
             const item = JSON.parse(decodeURIComponent(option.item));
             this.model = item
+            this.model.title = item.companyName
             this.model.companyName = "公司名称：" + item.companyName
             this.model.legalPerson = "法人：" + item.legalPerson
             this.model.registerTime = "注册时间：" + item.registerTime
@@ -235,7 +216,7 @@
                 }).then(res => {
                     if (res.data.success) {
                         //console.log("res.data.result:",res.data.result);
-                        //console.log("数据条数:",res.data.result);
+                        console.log("数据条数:",res.data.result);
 
                         this.commentsList = res.data.result.items;
                         for (let d of this.commentsList) {
@@ -324,7 +305,7 @@
         .registerTime {
             font-weight: bold;
             margin-left: 10rpx;
-            margin-right: 180rpx;
+            margin-right: 150rpx;
         }
 
         .registeredCapital {
@@ -368,11 +349,7 @@
             margin-left: 20rpx;
             margin-top: 10rpx;
         }
-
-
     }
-
-
 
     .companyTag {
         margin-top: 20rpx;
@@ -383,19 +360,16 @@
         border-bottom: #eee solid 1rpx;
     }
 
+    .detail-title {
+        //display: flex;
+        margin-right: 100rpx;
+    // justify-content: space-between;
+    }
+
     .detail-content {
         display: flex;
         justify-content: space-between;
-    }
-
-    .detail-avatar {
-        width: 100rpx;
-        height: 100rpx;
-    }
-
-    .detail-icon {
-        width: 40rpx;
-        height: 40rpx;
+        margin-left: 80rpx;
     }
 
     .detail-info {
@@ -403,6 +377,42 @@
         flex-direction: column;
         align-items: flex-start;
     }
+
+
+    .detail-icon {
+        width: 40rpx;
+        height: 40rpx;
+    }
+
+    .comment-iconlikeCount {
+    //font-weight: bold;
+        margin-right: 25rpx;
+    //margin-left: 35rpx;
+        margin-top: 30rpx;
+        display: flex;
+    //justify-content: space-between;
+
+        .comment-likeCount {
+        font-weight: bold;
+        //margin-right: 80rpx;
+            margin-left: 10rpx;
+            margin-top: 10rpx;
+        }
+    }
+
+    .comment-avatar {
+        max-width: 25px;
+        width: 25px;
+        width: expression(this.width > 25 ? "25px" : this.width);
+        height: 25px;
+        height: expression(this.height > 25 ? "25px" : this.height);
+        position: absolute;
+        font-size: 20rpx;
+        margin-top: 15rpx;
+        //margin-right: 10rpx;
+        margin-left: 20rpx;
+    }
+
     .footer{
         width: 100%;
         background-color: #eee;
@@ -413,20 +423,24 @@
         align-items: center;
         padding:10rpx;
     }
-    .footer input{
-        border-top: #eee solid 1rpx;
-        width: 70%;
-        background: #ffffff;
-    }
-    .comment-avatar {
+
+
+    .avatar {
         max-width: 25px;
         width: 25px;
         width: expression(this.width > 25 ? "25px" : this.width);
         height: 25px;
         height: expression(this.height > 25 ? "25px" : this.height);
         position: absolute;
-        left: 20rpx;
         font-size: 20rpx;
         margin-top: 15rpx;
+    //margin-right: 10rpx;
+        margin-left: 520rpx;
     }
+    .input-button{
+        width: 75px;
+        height: 40px;
+        margin-right: 6rpx;
+    }
+
 </style>
