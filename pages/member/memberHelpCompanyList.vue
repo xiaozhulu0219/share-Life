@@ -1,20 +1,19 @@
 <template>
 	<!--个人页的一些页面--（我的助力)分页查询-->
-	<view style="height: 800rpx">
 		<mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">
 			<view v-for="(item,index) in myHelpList" :key="index" class="card">
-				<view class="card-location">{{item.locationName}}</view>
+				<view class="card-location">{{item.commentCreateDate}}</view>
 				<view class="card-title">{{item.companyName}}</view>
-				<view class="card-text">{{item.textContent}}</view>
+				<view class="card-text">{{item.content}}</view>
 			</view>
 		</mescroll-body>
-	</view>
 </template>
 
 <script>
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import Mixin from "@/common/mixin/Mixin.js";
+	import configService from '@/common/service/config.service.js'
 
 	export default {
 		name: 'MyHelpCompanyList',

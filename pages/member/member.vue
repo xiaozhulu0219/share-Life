@@ -115,10 +115,10 @@
                     post: '',
                     signature: ''
                 },
-                positionUrl: '/sys/position/list',
-                departUrl: '/sys/user/userDepartList',
+                //positionUrl: '/sys/position/list',
+                //departUrl: '/sys/user/userDepartList',
                 userUrl: '/sys/user/queryById',
-                postUrl: '/sys/position/queryByCode',
+                //postUrl: '/sys/position/queryByCode',
                 userId: '',
                 id: '',
                 fileUrl: configService.fileSaveURL,
