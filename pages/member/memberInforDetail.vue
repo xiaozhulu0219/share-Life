@@ -1,7 +1,7 @@
 <template>
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view>
-        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+        <cu-custom  style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
             <block slot="backText">
             </block>
             <!--				<block slot="content">我的动态</block>-->

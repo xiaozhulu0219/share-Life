@@ -2,7 +2,7 @@
     <!--发布功能的表单页-->
     <view>
         <!--标题和返回-->
-        <cu-custom :bgColor="NavBarColor" isBack="t" :backRouterName="backRouteName">
+        <cu-custom isBack="t" :backRouterName="backRouteName">
             <block slot="backText">
 <!--                <view class="cuIcon-roundclose"></view>-->
             </block>
