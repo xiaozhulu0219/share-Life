@@ -384,7 +384,7 @@
             //取消点赞评论
             dislikeComment(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.dislikeInforUrl, {params: {id: id}}).then((res) => {
+                this.$http.get(this.url.dislikeCommentUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log("表单数据", res);
                         //this.myCommentForm.likeCount = res.data.result;

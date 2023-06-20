@@ -21,9 +21,9 @@
             <view class="organizationCode">{{model.organizationCode}}</view>
         </view>
         <view class="company">
-            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe8ad</view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="likeCom(comModel.id)">&#xe8ad</view>
             <view class="upLikeCount">{{comModel.upLikeCount}}</view>
-            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe614</view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="downLikeCom(comModel.id)">&#xe614</view>
             <view class="downLikeCount">{{comModel.downLikeCount}}</view>
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
             <span class="commentCount">{{comModel.commentCount}}</span>
@@ -75,8 +75,14 @@
                 NavBarColor: this.NavBarColor,
                 url: {
                     findHelpComByIdUrl: "/company/findHelpComById", //根据助力公司的tianyanchaId拿到详情
+                    likeComUrl: "/company/upLike", //向上点赞公司
+                    upDislikeComUrl: "/company/upDislike", //取消向上点赞公司
+                    downLikeComUrl: "/company/downLike", //向下点赞公司
+                    downDislikeComUrl: "/company/downDislike", //取消向下点赞公司
                     findPageCommentByIdUrl: "/company/comments/list", //根据助力公司的id拿到所有评论
                     saveCommentUrl: '/company/comments/saveCommentForCom', //助力详情发布接口
+                    likeCommentUrl: '/company/comments/like', //点赞评论
+                    dislikeCommentUrl: '/company/comments/dislike', //取消点赞评论
                 },
                 //点击跳转后直接传过来的表单、但是id已经变了不能用id进行详情查询
                 model: {
@@ -175,7 +181,7 @@
             this.findPageCommentById(this.model.tianyanchaId);//临时传 tianyanchaId 到了后台再转为id去查询
         },
         onLoad(option) {
-            console.log("params过来了", option)
+            //console.log("params过来了", option)
             const item = JSON.parse(decodeURIComponent(option.item));
             this.model = item
             this.model.title = item.companyName
@@ -191,14 +197,14 @@
         methods: {
             //根据 tianyanchaId 查询详情
             findHelpComById(tianyanchaId) {
-                console.log("进来了查询详情方法", tianyanchaId)
+                //console.log("进来了查询详情方法", tianyanchaId)
                 this.$http.get(this.url.findHelpComByIdUrl, {
                     params: {
                         id: Number(tianyanchaId),
                     }
                 }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        //console.log("表单数据", res);
                         this.comModel = res.data.result;
                         this.comModel.avatar = this.fileUrl + res.data.result.avatar
                     }
@@ -206,7 +212,7 @@
             },
             //获取评论列表
             findPageCommentById(id) {
-                console.log("进来了获取评论列表方法", id)
+                //console.log("进来了获取评论列表方法", id)
                 this.$http.get(this.url.findPageCommentByIdUrl, {
                     params: {
                         page: 1,
@@ -216,13 +222,11 @@
                 }).then(res => {
                     if (res.data.success) {
                         //console.log("res.data.result:",res.data.result);
-                        console.log("数据条数:",res.data.result);
-
+                        //console.log("数据条数:",res.data.result);
                         this.commentsList = res.data.result.items;
                         for (let d of this.commentsList) {
                             d.avatar = this.fileUrl + d.avatar
                         }
-
                         //console.log("数据条数222:",this.inforCommentsList.length);
                     }
                 }).catch(err => {
@@ -266,13 +270,76 @@
                             //console.log("33333res:",res.data);
                             //回显最新评论数
                             this.comModel.commentCount = res.data.result
+                            //console.log("保存了评论、重新调用评论列表方法11:",this.comModel.id);
+                            //console.log("保存了评论、重新调用评论列表方法22:",this.model.tianyanchaId);
                             //刷新评论列表
-                            this.findPageCommentById(this.comModel.id);
+                            //this.findPageCommentById(this.comModel.id);
+                            this.findPageCommentById(this.model.tianyanchaId);
                             //置空输入框
                             this.inputValue = '';
                         }
                     });
                 }
+            },
+            //向上点赞公司
+            likeCom(id) {
+                console.log("进来向上点赞公司方法", id)
+                this.$http.get(this.url.likeComUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        this.comModel.upLikeCount = res.data.result;
+                    }
+                })
+            },
+            //取消向上点赞公司
+            dislikeCom(id) {
+                console.log("进来了取消向上点赞公司方法", id)
+                this.$http.get(this.url.upDislikeComUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        this.comModel.upLikeCount = res.data.result;
+                    }
+                })
+            },
+            //向下点赞公司
+            downLikeCom(id) {
+                console.log("进来了向下点赞公司方法", id)
+                this.$http.get(this.url.downLikeComUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        this.comModel.downLikeCount = res.data.result;
+                    }
+                })
+            },
+            //取消向下点赞公司
+            downDisLikeCom(id) {
+                console.log("进来了取消向下点赞公司方法", id)
+                this.$http.get(this.url.downDislikeComUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        this.comModel.downLikeCount = res.data.result;
+                    }
+                })
+            },
+            //点赞评论
+            likeComment(id) {
+                console.log("进来了点赞评论方法", id)
+                this.$http.get(this.url.likeCommentUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        //this.myCommentForm.likeCount = res.data.result;
+                    }
+                })
+            },
+            //取消点赞评论
+            dislikeComment(id) {
+                console.log("进来了取消点赞评论方法", id)
+                this.$http.get(this.url.dislikeCommentUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据", res);
+                        //this.myCommentForm.likeCount = res.data.result;
+                    }
+                })
             },
         }
     }
