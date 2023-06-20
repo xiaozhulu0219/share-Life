@@ -1,83 +1,87 @@
 <template>
     <!--这个是首页点击动态后跳转的动态详情页-->
-    <view>
-        <scroll-view scroll-y class="page">
-            <cu-custom  style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
-                <block slot="backText"></block>
+    <view class="container">
+        <cu-custom style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+            <block slot="backText"></block>
+            <block slot="content" style="margin-right: 200rpx">
+                <image class="medias_avatar" :src="myFormData.avatar" alt=""
+                       @click="toMemberdetail(myFormData)"></image>
+                {{myCommentForm.nickname}}
+            </block>
+        </cu-custom>
+        <view class="card">
+            <swiper indicator-dots indicator-color="#008c8c" indicator-active-color="red">
+                <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
+                    <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
+                </swiper-item>
+            </swiper>
 
-                <block slot="content" style="margin-right: 200rpx">
-                    <image class="medias_avatar" :src="myFormData.avatar" alt=""
-                               @click="toMemberdetail(myFormData)"></image>
-                    {{myCommentForm.nickname}}
-                </block>
+            <view class="card-text">{{myFormData.textContent}}</view>
 
-            </cu-custom>
-            <view class="card">
-                <swiper indicator-dots indicator-color="#008c8c" indicator-active-color="red">
-                    <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
-                        <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
-                    </swiper-item>
-                </swiper>
+            <view class="card-line">
+                <view class="card-createDate">{{myCommentForm.createDate}}</view>
+                <view class="iconfont ml-1" style="color: #dd524d;"> &#xe636</view>
+                <view class="card-ipAddress">{{myFormData.ipAddress}}</view>
+            </view>
 
-                <view class="card-text">{{myFormData.textContent}}</view>
-
-                <view class="card-line">
-                    <view class="card-createDate">{{myCommentForm.createDate}}</view>
-                    <view class="iconfont ml-1" style="color: #dd524d;"> &#xe636</view>
-                    <view class="card-ipAddress">{{myFormData.ipAddress}}</view>
+            <view class="card-line">
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;"
+                      @click="likeInfor(myCommentForm.id)">&#xe60f
                 </view>
-
-                <view class="card-line">
-                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="likeInfor(myCommentForm.id)">&#xe60f</view>
-                    <view class="card-likeCount">{{myCommentForm.likeCount}}</view>
-                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="loveInfor(myCommentForm.inforId)">&#xe617</view>
-                    <view class="card-loveCount">{{myCommentForm.loveCount}}</view>
-                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
-                    <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
+                <view class="card-likeCount">{{myCommentForm.likeCount}}</view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;"
+                      @click="loveInfor(myCommentForm.inforId)">&#xe617
                 </view>
+                <view class="card-loveCount">{{myCommentForm.loveCount}}</view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
+                <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
+            </view>
 
-                <view class="input-comment">
-                    <input class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论"
-                           @input="onInput(inputValue)"/>
-                    <button class="input-button" form-type="submit" @click="saveComment(inputValue)">评论</button>
+
+            <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
+                <view class="comment-parent">
+                    <image class="comment-avatar round sm" :src="item.avatar" alt=""
+                           @click="toMemberdetail(myFormData)"></image>
+                    <view class="comment-nickcon">
+                        <view class="comment-nickname">{{ item.nickname }}</view>
+                        <view class="comment-content">{{ item.content }}</view>
+                        <view class="comment-createDate">{{item.createDate}}</view>
+                    </view>
+                    <view class="comment-iconlikeCount">
+                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
+                              @click="likeComment(item.id)">&#xe60f
+                        </view>
+                        <view class="comment-likeCount">{{item.likeCount}}</view>
+                    </view>
                 </view>
-
-                <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
-                    <view class="comment-parent">
-                        <image class="comment-avatar round sm" :src="item.avatar" alt=""
+                <view class="iconfont ml-1" style="font-size: 40rpx;  margin-left: 200rpx"
+                      @click="getSonCommentsList(item)">&#xe631
+                </view>
+                <!--  <view>展开{{}}条回复</view>-->
+                <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
+                    <view class="comment-son">
+                        <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
                                @click="toMemberdetail(myFormData)"></image>
                         <view class="comment-nickcon">
-                            <view class="comment-nickname">{{ item.nickname }}</view>
-                            <view class="comment-content">{{ item.content }}</view>
-                            <view class="comment-createDate">{{item.createDate}}</view>
+                            <view class="comment-nickname">{{ sonitem.nickname }}</view>
+                            <view class="comment-content">{{ sonitem.content }}</view>
+                            <view class="comment-createDate">{{sonitem.createDate}}</view>
                         </view>
                         <view class="comment-iconlikeCount">
-                            <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" @click="likeComment(item.id)">&#xe60f</view>
-                            <view class="comment-likeCount">{{item.likeCount}}</view>
-                        </view>
-                    </view>
-                    <view class="iconfont ml-1" style="font-size: 40rpx;  margin-left: 200rpx"
-                          @click="getSonCommentsList(item)">&#xe631
-                    </view>
-                    <!--  <view>展开{{}}条回复</view>-->
-                    <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
-                        <view class="comment-son">
-                            <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
-                                   @click="toMemberdetail(myFormData)"></image>
-                            <view class="comment-nickcon">
-                                <view class="comment-nickname">{{ sonitem.nickname }}</view>
-                                <view class="comment-content">{{ sonitem.content }}</view>
-                                <view class="comment-createDate">{{sonitem.createDate}}</view>
+                            <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
+                                  @click="likeSonComment(sonitem.id)">&#xe60f
                             </view>
-                            <view class="comment-iconlikeCount">
-                                <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" @click="likeSonComment(sonitem.id)">&#xe60f</view>
-                                <view class="comment-likeCount">{{sonitem.likeCount}}</view>
-                            </view>
+                            <view class="comment-likeCount">{{sonitem.likeCount}}</view>
                         </view>
                     </view>
                 </view>
             </view>
-        </scroll-view>
+        </view>
+        <view class="footer">
+            <input class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论"
+                   @input="onInput(inputValue)"/>
+            <button class="input-button" form-type="submit" @click="saveComment(inputValue)">发送</button>
+        </view>
     </view>
 
 </template>
@@ -396,6 +400,9 @@
 </script>
 
 <style lang="scss" scoped>
+    .container{
+        background-color: #ffffff;
+    }
 
     .card {
         background-color:  #fff;
@@ -629,27 +636,27 @@
         float: left;
     }
 
-    .input-comment{
+    .footer{
+        width: 100%;
+        background-color: #eee;
+        position: fixed;
+        bottom: 0;
         display: flex;
-
-        .input-form{
-            //display: flex;
-            width: 250px;
-            height: 40px;
-        }
-        .input-button{
-            //display: flex;
-            //display: inline;
-            //float: right;
-            width: 65px;
-            height: 40px;
-            //display: block;
-            margin-right: 15rpx;
-            //margin-left: 40rpx;
-        }
-
+        justify-content: space-between;
+        align-items: center;
+        //padding:0rpx;
+    }
+    .input-form{
+        //display: flex;
+        width: 250px;
+        height: 40px;
     }
 
+    .input-button{
+        width: 75px;
+        height: 40px;
+        margin-right: 6rpx;
+    }
     //居左
     .alignleft {
         display: inline;

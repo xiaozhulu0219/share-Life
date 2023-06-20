@@ -185,13 +185,13 @@
             const item = JSON.parse(decodeURIComponent(option.item));
             this.model = item
             this.model.title = item.companyName
-            this.model.companyName = "公司名称：" + item.companyName
-            this.model.legalPerson = "法人：" + item.legalPerson
-            this.model.registerTime = "注册时间：" + item.registerTime
-            this.model.registeredCapital = "注册资金：" + item.registeredCapital
-            this.model.companyStatus = "经营状态：" + item.companyStatus
-            this.model.bussinessAddress = "经营地：" + item.bussinessAddress
-            this.model.organizationCode = "组织编码：" + item.organizationCode
+            // this.model.companyName = "公司名称：" + item.companyName
+            // this.model.legalPerson = "法人：" + item.legalPerson
+            // this.model.registerTime = "注册时间：" + item.registerTime
+            // this.model.registeredCapital = "注册资金：" + item.registeredCapital
+            // this.model.companyStatus = "经营状态：" + item.companyStatus
+            // this.model.bussinessAddress = "经营地：" + item.bussinessAddress
+            // this.model.organizationCode = "组织编码：" + item.organizationCode
 
         },
         methods: {
@@ -488,7 +488,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding:10rpx;
+        //padding:10rpx;
     }
 
 

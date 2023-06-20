@@ -23,8 +23,6 @@
     import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
     import Mixin from '@/common/mixin/Mixin.js';
     import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
-    import configService from '@/common/service/config.service.js'
-
 
     export default {
         name: "homeSearch",
@@ -61,8 +59,11 @@
             };
         },
         created() {
-            //this.getHomePublishComList();
             //this.getHomePublishInforList();
+        },
+        onLoad(option) {
+            console.log("params过来了", option)
+            //const item = JSON.parse(decodeURIComponent(option.item));
         },
         methods: {
             //搜索点击接口

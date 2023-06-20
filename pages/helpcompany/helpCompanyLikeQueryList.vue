@@ -115,27 +115,43 @@
 					}).then((res) => {
 						if (res.data.success) {
 							this.listData = res.data.result.records
+							for (let d of this.listData) {
+								d.companyName = "公司名称：" + d.companyName
+								d.legalPerson = "法人：" + d.legalPerson
+								d.registerTime = "注册时间：" + d.registerTime
+								d.registeredCapital = "注册资金：" + d.registeredCapital
+								d.companyStatus = "经营状态：" + d.companyStatus
+								d.bussinessAddress = "经营地：" + d.bussinessAddress
+								d.organizationCode = "组织编码：" + d.organizationCode
+							}
 						}
 					})
 				}
 			},
+			//临时不再从数据库查，默认这是第一次搜索到这个公司、以后这里模糊查就是从数据库，所以传过来就是最全的结果
 			confirmHelp(item) {
-				//console.log("11111：",this.model.tianyanchaId)
-				console.log("22222：",item.tianyanchaId)
-				this.$http.get(this.url.toEvaluate, {
-					params: {
-						tianyanchaId:Number(item.tianyanchaId),
-					}
-				}).then(res => {
-					//console.log("33333：",this.model)
-					console.log("444444：",res.data.result)
-					if (res.data.success) {
-						uni.navigateTo({//pages/helpcompany/homeHelpCompanyDetail.vue
-							url: '/pages/home/homeHelpCompanyDetail?item=' + encodeURIComponent(JSON.stringify(res.data.result))
+				console.log("11111：",item)
+						uni.navigateTo({
+							url: '/pages/home/homeHelpCompanyDetail?item=' + encodeURIComponent(JSON.stringify(item))
 						})
-					}
-				})
 			},
+			// confirmHelp(item) {
+			// 	console.log("11111：",item)
+			// 	console.log("22222：",item.tianyanchaId)
+			// 	this.$http.get(this.url.toEvaluate, {
+			// 		params: {
+			// 			tianyanchaId:Number(item.tianyanchaId),
+			// 		}
+			// 	}).then(res => {
+			// 		//console.log("33333：",this.model)
+			// 		console.log("444444：",res.data.result)
+			// 		if (res.data.success) {
+			// 			uni.navigateTo({
+			// 				url: '/pages/home/homeHelpCompanyDetail?item=' + encodeURIComponent(JSON.stringify(res.data.result))
+			// 			})
+			// 		}
+			// 	})
+			// },
 		}
 	}
 </script>

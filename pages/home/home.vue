@@ -7,7 +7,7 @@
         -->
         <cu-custom :bgColor="NavBarColor">
 <!--            <block slot="content">ShareLife</block>-->
-            <block slot="right"> ShareLife <view class="iconfont ml-1" style="color: #2C405A" @click="toSearch()">&#xe600</view></block>
+            <block slot="right"> ShareLife <view class="iconfont ml-1" style="color: #2C405A" @click="toSearch(activeTab.value)">&#xe600</view></block>
         </cu-custom>
 
         <HomeSignModal :getActiveTab="getActiveTab" class="home-sign"></HomeSignModal>
@@ -76,12 +76,14 @@
         methods: {
             getActiveTab(item) {
                 this.activeTab = item;
-                console.log("切换tab1",item)
-                console.log("切换tab2",item.value)
-                console.log("切换tab3",this.activeTab.value)
-                //console.log("this.activeTab.valve()",this.activeTab.valve)
-                //console.log("this.activeTab.valve()",this.activeTab.valve())
-                // this.mescroll.resetUpScroll()
+                console.log("切换tab1",item.value)
+                console.log("切换tab2",this.activeTab.value)
+            },
+            toSearch(item) {
+                console.log("首页的activeTab.value进来了",item)
+                uni.navigateTo({
+                    url: '/pages/home/homeSearch?item=' + item
+                })
             },
             handleStatus(status, type) {
 
@@ -97,12 +99,7 @@
             del(item, index) {
                 this.searchHistoryList.splice(0, 1);
             },
-            toSearch() {
-                console.log("进来了666")
-                uni.navigateTo({
-                    url: '/pages/home/homeSearch'
-                })
-            },
+
             search(inputValue) {
                 console.log("进来了",inputValue)
                 if (this.inputValue == '') {
