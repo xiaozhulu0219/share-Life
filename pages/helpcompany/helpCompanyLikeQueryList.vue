@@ -22,13 +22,13 @@
 			</form>
 			<!-- 模糊搜索列表 -->
 			<view class="cu-list bg-white">
-				<view class="align-center padding text-black text-lg" v-for="(item,index) in listData" :key="index">
+				<view class="card" v-for="(item,index) in listData" :key="index" >
 					<view class="padding-left">
-						{{item.companyName}}
-						{{item.bussinessAddress}}
-						{{item.legalPerson}}
-						{{item.companyStatus}}
-						{{item.registeredCapital}}
+						<view class="card-title">{{item.companyName}}</view>
+						<view class="card-text">{{item.bussinessAddress}}</view>
+						<view class="card-text">{{item.legalPerson}}</view>
+						<view class="card-text">{{item.companyStatus}}</view>
+						<view class="card-text">{{item.registeredCapital}}</view>
 						<button style="font-size: 18rpx;"  @click="confirmHelp(item)">拿捏此企业</button>
 					</view>
 					<view class="list-line"></view>
@@ -186,5 +186,25 @@
 		width: 100%;
 		height: 1rpx;
 		margin-top: 5rpx;
+	}
+
+
+	.card {
+		background-color:  $uni-bg-color-grey;
+		border-radius: 20rpx;
+		margin-bottom: 10rpx;/*盒子间的距离*/
+		margin-top: 25rpx; /*盒子距离顶部的距离*/
+		line-height: 65rpx;  /*行高*/
+		margin-left: 20rpx;
+
+		.card-title {
+			font-weight: bold;
+			font-size: 38rpx;
+		//margin-top: 100rpx; /*盒子距离顶部的距离*/
+		}
+
+		.card-text {
+			font-size: 32rpx;
+		}
 	}
 </style>

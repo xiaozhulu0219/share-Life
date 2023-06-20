@@ -184,7 +184,7 @@
             //console.log("params过来了", option)
             const item = JSON.parse(decodeURIComponent(option.item));
             this.model = item
-            this.model.title = item.companyName
+            this.model.title = item.companyName.substr(5)
             // this.model.companyName = "公司名称：" + item.companyName
             // this.model.legalPerson = "法人：" + item.legalPerson
             // this.model.registerTime = "注册时间：" + item.registerTime
@@ -267,7 +267,6 @@
                         //刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
                         if (res.data.success) {
                             //console.log("33333res:",res.data.result);
-                            //console.log("33333res:",res.data);
                             //回显最新评论数
                             this.comModel.commentCount = res.data.result
                             //console.log("保存了评论、重新调用评论列表方法11:",this.comModel.id);
