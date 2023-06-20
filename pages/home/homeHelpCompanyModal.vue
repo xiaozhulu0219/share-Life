@@ -15,7 +15,6 @@
 <script>
 	import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
 	import Mixin from "@/common/mixin/Mixin.js";
-	import configService from '@/common/service/config.service.js'
 
 	export default {
 		name: 'homeHelpCompanyModal',

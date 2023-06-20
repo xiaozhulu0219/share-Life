@@ -12,10 +12,13 @@
             <view class="uni-form-item uni-column">
                 <text class="padding-left text-gray iconfont icon-search"></text>
                 <input class="uni-input" v-model="inputValue" maxlength="100" placeholder="请输入搜索内容"/>
-                <button form-type="submit" @click="searchInforList(inputValue)">搜索</button>
+                <button form-type="submit" @click="searchList(inputValue)">搜索</button>
             </view>
         </form>
 
+        <view v-for="item in 5" :key="index" class="detail">
+            <view class="detail-content">这个搜索页以后看看做一些什么样的数据展示、可以是自己的搜索记录、热搜、红黑榜等等</view>
+        </view>
     </view>
 </template>
 
@@ -67,7 +70,7 @@
         },
         methods: {
             //搜索点击接口
-            searchInforList(inputValue) {
+            searchList(inputValue) {
                 //拿到值传递给查询列表的接口，然后查询结果出来以后，跳转到对应界面
                 console.log("进来了111", inputValue)
                 uni.navigateTo({
@@ -137,5 +140,17 @@
         position: fixed;
         margin-top: 150rpx; /*盒子距离顶部的距离*/
     }
+
+    .detail {
+        //padding: 30rpx;
+        border-bottom: #eee solid 1rpx;
+        margin-top: 300rpx;
+    }
+
+    .detail-content {
+        display: flex;
+        justify-content: space-between;
+    }
+
 
 </style>

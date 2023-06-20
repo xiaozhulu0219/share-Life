@@ -12,7 +12,7 @@
                 <view class="padding">
                     <view class="margin-bottom-xl flex personInfo">
                         <!--<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" class="png round" mode="aspectFit"></image>-->
-                        <!-- <img src="../../static/images/touxiang.jpg" mode="" @click="updateHeadPic" class="png round"></img>-->
+                        <!-- <img src="../../static/avatar_boy.png" mode="" @click="updateHeadPic" class="png round"></img>-->
 
                         <image class="png_avatar round" :src="fileUrl+personalList.avatar" alt=""></image>
                         <!-- <image :src="personalList.avatar" class="png round" mode="scaleToFill"></image>	 -->

@@ -9,12 +9,16 @@
 
         <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback"
                        @up="upCallback">
-            <view v-for="(item,index) in homePublishInforList" :key="index" class="card" @click="toInformationDetail(item)">
-                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""></image>
-                <view class="card-text">{{item.textContent.substr(0, 35) }}</view>
-                <view class="card-nickname">{{item.nickname}}
-                    <img class="card-icon" src="@/static/icon/ipAddress.png" mode="aspectFill">
-                    {{item.ipAddress}}
+            <view v-for="(item,index) in homePublishInforList" :key="index" class="card" >
+                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
+                <view class="card-text" @click="toInformationDetail(item)">{{item.textContent.substr(0, 35) }}</view>
+                <view class="card-line">
+                    <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt=""></image>
+                    <view class="card-nickname" >{{item.nickname}}</view>
+                    <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx">&#xe60b</view>
+                    <view class="card-ipAddress">{{item.ipAddress}}</view>
+                    <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx" @click="loveInfor(item.inforId,index)">&#xe617</view>
+                    <view class="card-loveCount">{{item.loveCount}}</view>
                 </view>
             </view>
         </mescroll-body>
@@ -119,14 +123,8 @@
 <style lang="scss" scoped>
 
     .home-infor {
-        //background-color: #fff;
         background-color: $uni-bg-color-grey;
-        //padding: 20rpx 20rpx;
-        //border-radius: 20rpx;
-        //margin-bottom: 10rpx; /*盒子间的距离*/
         margin-top: 100rpx; /*盒子距离顶部的距离*/
-        //line-height: 35rpx; /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
     }
 
     .home-sign {
@@ -134,7 +132,6 @@
         margin-bottom: 10rpx; /*盒子间的距离*/
         margin-top: 5rpx; /*盒子距离顶部的距离*/
         line-height: 60rpx; /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
     }
 
     .icon-search {
@@ -151,35 +148,48 @@
         height: 180px;
         height:expression(this.height > 180 ? "180px" : this.height);
         overflow:hidden;
-        /*text-align:center;*/
-        /*width: 21rpx;*/
-        /*height: 21rpx;*/
-        /*border-radius: 8rpx;*/
         margin-top: 100rpx; /*盒子距离顶部的距离*/
         margin-bottom: 20rpx; /*盒子间的距离*/
     }
 
+
     .card {
         background-color:  #fff;
-        //background-color: $uni-bg-color-grey;
         padding: 20rpx 20rpx;
         border-radius: 20rpx;
         margin-bottom: 10rpx;/*盒子间的距离*/
         margin-top: 10rpx; /*盒子距离顶部的距离*/
         line-height: 35rpx;  /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
 
-        .card-title {
+        .card-line {
             font-weight: bold;
+            display: flex;
         }
 
         .card-nickname {
             font-weight: bold;
+            margin-right: 80rpx;
+            margin-left: 10rpx;
+            margin-top: 8rpx;
+        }
+
+        .card-ipAddress {
+            font-weight: bold;
+            margin-right: 100rpx;
+            margin-left: 10rpx;
+            margin-top: 8rpx;
+        }
+
+        .card-loveCount {
+            font-weight: bold;
+            margin-left: 10rpx;
+            margin-top: 8rpx;
         }
 
         .card-text {
             font-size: 36rpx;
             margin-bottom: 10rpx; /*盒子间的距离*/
+            line-height: 55rpx;  /*行高*/
         }
 
         .card-location {
@@ -188,49 +198,14 @@
             font-size: 20rpx;
         }
 
-        .card-icon {
-            width: 36rpx;
-            height: 36rpx;
-            margin-right: 10rpx;
-            margin-left: 120rpx;
+        .card-avatar {
+            max-width: 20px;
+            width: 20px;
+            width: expression(this.width > 20 ? "20px" : this.width);
+            height: 20px;
+            height: expression(this.height > 20 ? "20px" : this.height);
         }
+
     }
-    .card {
-        background-color:  #fff;
-        //background-color: $uni-bg-color-grey;
-        padding: 20rpx 20rpx;
-        border-radius: 20rpx;
-        margin-bottom: 10rpx;/*盒子间的距离*/
-        margin-top: 10rpx; /*盒子距离顶部的距离*/
-        line-height: 35rpx;  /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
-
-        .card-title {
-            font-weight: bold;
-        }
-
-        .card-nickname {
-            font-weight: bold;
-        }
-
-        .card-text {
-            font-size: 36rpx;
-            margin-bottom: 10rpx; /*盒子间的距离*/
-        }
-
-        .card-location {
-            position: absolute;
-            right: 20rpx;
-            font-size: 20rpx;
-        }
-
-        .card-icon {
-            width: 36rpx;
-            height: 36rpx;
-            margin-right: 10rpx;
-            margin-left: 120rpx;
-        }
-    }
-
 
 </style>

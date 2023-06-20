@@ -1,7 +1,7 @@
 <template>
 	<!--这个日后要作为启动页-->
 	<view class="wx-index">
-		<image class="wx-bg" src="../../static/images/bg.jpg" mode="aspectFill"></image>
+		<image class="wx-bg" src="../../static/blue.png" mode="aspectFill"></image>
 		<view class="wx-btns">
 			<view class="wx-btn wx-btn-info" @click="goLogin">登录</view>
 			<view class="wx-btn wx-btn-normal" @click="goRegister">注册</view>
