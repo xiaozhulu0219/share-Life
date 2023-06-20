@@ -7,12 +7,14 @@
         -->
         <cu-custom :bgColor="NavBarColor">
 <!--            <block slot="content">ShareLife</block>-->
-            <block slot="right"> ShareLife <view class="iconfont ml-1" style="color: #2C405A" @click="toSearch()">&#xe600 </view></block>
+            <block slot="right"> ShareLife <view class="iconfont ml-1" style="color: #2C405A" @click="toSearch()">&#xe600</view></block>
         </cu-custom>
 
         <HomeSignModal :getActiveTab="getActiveTab" class="home-sign"></HomeSignModal>
 
-        <homeModal class="home-infor"></homeModal>
+        <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
+
+        <homeModal class="home-infor" v-else="activeTab.value!=2"></homeModal>
 
     </view>
 </template>
@@ -22,17 +24,24 @@
     import Mixin from '@/common/mixin/Mixin.js';
     import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
     import HomeSignModal from './homeSignModal.vue'
-    import homeModal from './homeModal.vue'
+    import homeHelpCompanyModal from './homeHelpCompanyModal.vue'
+    import homeModal from './homeInforModal.vue'
 
     export default {
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
             HomeSignModal,
-            homeModal
+            homeModal,
+            homeHelpCompanyModal
         },
         data() {
             return {
-                activeTab: {},
+                activeTab: {
+                    label:"",
+                    text:"",
+                    title:"",
+                    value:"",
+                },
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
                 inputValue: '',
@@ -67,6 +76,11 @@
         methods: {
             getActiveTab(item) {
                 this.activeTab = item;
+                console.log("切换tab1",item)
+                console.log("切换tab2",item.value)
+                console.log("切换tab3",this.activeTab.value)
+                //console.log("this.activeTab.valve()",this.activeTab.valve)
+                //console.log("this.activeTab.valve()",this.activeTab.valve())
                 // this.mescroll.resetUpScroll()
             },
             handleStatus(status, type) {
@@ -238,12 +252,23 @@
         //line-height: 35rpx; /*行高*/
         //margin-bottom: 16px; /*内容和标题间的间距*/
     }
+    .home-helpCompany {
+       //background-color: #fff;
+        background-color: $uni-bg-color-grey;
+        //padding: 20rpx 20rpx;
+        //border-radius: 20rpx;
+        //margin-bottom: 10rpx; /*盒子间的距离*/
+        margin-top: 100rpx; /*盒子距离顶部的距离*/
+        //line-height: 35rpx; /*行高*/
+        //margin-bottom: 16px; /*内容和标题间的间距*/
+    }
 
     .home-sign {
         background-color: $uni-bg-color-grey;
         margin-bottom: 10rpx; /*盒子间的距离*/
         margin-top: 5rpx; /*盒子距离顶部的距离*/
         line-height: 60rpx; /*行高*/
+        height: 100%;
         //margin-bottom: 16px; /*内容和标题间的间距*/
     }
 

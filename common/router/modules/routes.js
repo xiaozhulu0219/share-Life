@@ -58,8 +58,8 @@ const routes = [{
         }
     },
     {
-        path: '/pages/helpcompany/helpCompanyDetailForm',
-        name: 'helpCompanyDetailForm',
+        path: '/pages/home/homeHelpCompanyDetail',
+        name: 'homeHelpCompanyDetail',
         meta: {
             title: '助力公司详情'
         }

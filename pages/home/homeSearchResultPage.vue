@@ -27,7 +27,7 @@
     import Mixin from '@/common/mixin/Mixin.js';
     import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
     import HomeSignModal from './homeSignModal.vue'
-    import homeModal from './homeModal.vue'
+    import homeModal from './homeInforModal.vue'
     import configService from '@/common/service/config.service.js'
 
     export default {

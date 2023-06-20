@@ -130,9 +130,8 @@
 					//console.log("33333：",this.model)
 					console.log("444444：",res.data.result)
 					if (res.data.success) {
-						uni.navigateTo({//pages/helpcompany/helpCompanyDetailForm.vue
-							//url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
-							url: '/pages/helpcompany/helpCompanyDetailForm?item=' + encodeURIComponent(JSON.stringify(res.data.result))
+						uni.navigateTo({//pages/helpcompany/homeHelpCompanyDetail.vue
+							url: '/pages/home/homeHelpCompanyDetail?item=' + encodeURIComponent(JSON.stringify(res.data.result))
 						})
 					}
 				})

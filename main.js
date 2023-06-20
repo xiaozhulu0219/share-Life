@@ -33,7 +33,7 @@ import inforPublishForm from './pages/information/inforPublishForm.vue';
 //以下两个是助力公司
 import helpCompanyLikeQueryList from './pages/helpcompany/helpCompanyLikeQueryList.vue';
 
-import helpCompanyDetailForm from './pages/helpcompany/helpCompanyDetailForm.vue';
+import homeHelpCompanyDetail from './pages/home/homeHelpCompanyDetail.vue';
 
 // 自定义组件
 import mySelect from './components/my-componets/my-select.vue';
@@ -69,7 +69,7 @@ Vue.component('forgetPass', forgetPass);
 Vue.component('member', member);
 Vue.component('inforPublishForm', inforPublishForm);
 Vue.component('helpCompanyLikeQueryList', helpCompanyLikeQueryList);
-Vue.component('helpCompanyDetailForm', helpCompanyDetailForm);
+Vue.component('homeHelpCompanyDetail', homeHelpCompanyDetail);
 Vue.component('mySelect', mySelect);
 Vue.component('myImageUpload', myImageUpload);
 Vue.component('myPage', myPage);
