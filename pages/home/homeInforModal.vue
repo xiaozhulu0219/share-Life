@@ -151,10 +151,10 @@
                 this.$http.get(this.findHomePublishInforListUrl, {
                     params: {
                         page: 1,
-                        pagesize: 20
+                        pagesize: 10
                     }
                 }).then(res => {
-                    console.log("查看条数：",res.data.result.items);
+                    console.log("查看条数999：",res.data.result.items);
                     if (res.data.success) {
                         this.homePublishInforList = res.data.result.items;
                         for (let d of this.homePublishInforList) {

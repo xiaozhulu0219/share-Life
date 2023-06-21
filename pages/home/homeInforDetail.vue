@@ -12,7 +12,7 @@
         <view class="card">
             <swiper indicator-dots indicator-color="#008c8c" indicator-active-color="red">
                 <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
-                    <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
+                    <image :src="item" @click="TanPreviewImage(index)" mode="aspectFit"></image>
                 </swiper-item>
             </swiper>
 

@@ -205,8 +205,9 @@
                     }
                 }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据9999", res);
+                        console.log("查询详情返回的数据", res);
                         this.comModel = res.data.result;
+                        console.log("赋值以后的数据", this.comModel);
                         this.comModel.avatar = this.fileUrl + res.data.result.avatar
                     }
                 })
