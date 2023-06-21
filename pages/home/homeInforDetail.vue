@@ -25,10 +25,10 @@
             </view>
 
             <view class="card-line">
-                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-if="myCommentForm.hasLiked == 0" @click="likeInfor(myCommentForm.id)">&#xe8ad</view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLiked == 0" @click="likeInfor(myCommentForm.id)">&#xe8ad</view>
                 <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else="myCommentForm.hasLiked == 1" @click="dislikeInfor(myCommentForm.id)">&#xe60f</view>
                 <view class="card-likeCount">{{myCommentForm.likeCount}}</view>
-                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-if="myCommentForm.hasLoved == 0" @click="loveInfor(myCommentForm.inforId)">&#xe62b</view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLoved == 0" @click="loveInfor(myCommentForm.inforId)">&#xe62b</view>
                 <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else="myCommentForm.hasLoved == 1" @click="unloveInfor(myCommentForm.inforId)">&#xe617</view>
                 <view class="card-loveCount">{{myCommentForm.loveCount}}</view>
                 <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
@@ -46,9 +46,8 @@
                         <view class="comment-createDate">{{item.createDate}}</view>
                     </view>
                     <view class="comment-iconlikeCount">
-                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
-                              @click="likeComment(item.id)">&#xe60f
-                        </view>
+                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;" v-if="item.hasLiked == 0" @click="likeComment(item.id)">&#xe8ad</view>
+                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else="item.hasLiked == 1" @click="dislikeComment(item.id)">&#xe60f</view>
                         <view class="comment-likeCount">{{item.likeCount}}</view>
                     </view>
                 </view>

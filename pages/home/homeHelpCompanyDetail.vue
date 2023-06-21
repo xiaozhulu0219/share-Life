@@ -21,10 +21,10 @@
             <view class="company-organizationCode">{{model.organizationCode}}</view>
         </view>
         <view class="company">
-            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-if="comModel.hasUpLiked == 0" @click="likeCom(comModel.id)">&#xe8ad</view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="comModel.hasUpLiked == 0" @click="likeCom(comModel.id)">&#xe8ad</view>
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else="comModel.hasUpLiked == 1" @click="dislikeCom(comModel.id)">&#xe60f</view>
             <view class="company-upLikeCount">{{comModel.upLikeCount}}</view>
-            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-if="comModel.hasDownLiked == 0" @click="downLikeCom(comModel.id)">&#xe614</view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08" v-if="comModel.hasDownLiked == 0" @click="downLikeCom(comModel.id)">&#xe614</view>
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else="comModel.hasDownLiked == 1" @click="downDisLikeCom(comModel.id)">&#xe644</view>
             <view class="company-downLikeCount">{{comModel.downLikeCount}}</view>
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
@@ -48,7 +48,7 @@
                     <view style="margin-right: 10rpx;">{{item.createDate}} 北京</view>
                 </view>
                 <view class="comment-iconlikeCount">
-                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-if="item.hasUpLiked == 0" @click="likeComment(item.id)">&#xe8ad</view>
+                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="item.hasUpLiked == 0" @click="likeComment(item.id)">&#xe8ad</view>
                     <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else="item.hasUpLiked == 1" @click="dislikeComment(item.id)">&#xe60f</view>
                     <span class="comment-likeCount">{{item.likeCount}}</span>
                 </view>
