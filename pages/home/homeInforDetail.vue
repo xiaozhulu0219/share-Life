@@ -25,11 +25,11 @@
             </view>
 
             <view class="card-line">
-                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="likeInfor(myCommentForm.id)">&#xe60f</view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-if="myCommentForm.hasLiked == 0" @click="likeInfor(myCommentForm.id)">&#xe8ad</view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else="myCommentForm.hasLiked == 1" @click="dislikeInfor(myCommentForm.id)">&#xe60f</view>
                 <view class="card-likeCount">{{myCommentForm.likeCount}}</view>
-                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;"
-                      @click="loveInfor(myCommentForm.inforId)">&#xe617
-                </view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-if="myCommentForm.hasLoved == 0" @click="loveInfor(myCommentForm.inforId)">&#xe62b</view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else="myCommentForm.hasLoved == 1" @click="unloveInfor(myCommentForm.inforId)">&#xe617</view>
                 <view class="card-loveCount">{{myCommentForm.loveCount}}</view>
                 <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
                 <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
@@ -340,6 +340,8 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.myCommentForm.likeCount = res.data.result;
+                        //刷新页面
+                        this.findPublishInfor(this.myFormData.inforId);
                     }
                 })
             },
@@ -350,6 +352,8 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.myCommentForm.likeCount = res.data.result;
+                        //刷新页面
+                        this.findPublishInfor(this.myFormData.inforId);
                     }
                 })
             },
@@ -360,6 +364,8 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.myCommentForm.loveCount = res.data.result;
+                        //刷新页面
+                        this.findPublishInfor(this.myFormData.inforId);
                     }
                 })
             },
@@ -370,6 +376,8 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.myCommentForm.loveCount = res.data.result;
+                        //刷新页面
+                        this.findPublishInfor(this.myFormData.inforId);
                     }
                 })
             },
@@ -380,6 +388,8 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         //this.myCommentForm.likeCount = res.data.result;
+                        //刷新评论列表
+                        this.getInforCommentsList(this.myFormData.inforId);
                     }
                 })
             },
@@ -390,6 +400,8 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         //this.myCommentForm.likeCount = res.data.result;
+                        //刷新评论列表
+                        this.getInforCommentsList(this.myFormData.inforId);
                     }
                 })
             },

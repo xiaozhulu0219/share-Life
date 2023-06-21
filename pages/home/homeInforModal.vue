@@ -4,15 +4,17 @@
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
         <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback"
                        @up="upCallback">
-            <view v-for="(item,index) in homePublishInforList" :key="index" class="card" >
-                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
+            <view v-for="(item,index) in homePublishInforList" :key="index" class="card">
+                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""
+                       @click="toInformationDetail(item)"></image>
                 <view class="card-text" @click="toInformationDetail(item)">{{item.textContent.substr(0, 35) }}</view>
                 <view class="card-line">
                     <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt=""></image>
-                    <view class="card-nickname" >{{item.nickname}}</view>
+                    <view class="card-nickname">{{item.nickname}}</view>
                     <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx">&#xe60b</view>
                     <view class="card-ipAddress">{{item.ipAddress}}</view>
-                    <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx" @click="loveInfor(item.inforId,index)">&#xe617</view>
+                    <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)">&#xe62b</view>
+                    <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx" v-else="item.hasLoved == 1" @click="unloveInfor(item.inforId,index)">&#xe617</view>
                     <view class="card-loveCount">{{item.loveCount}}</view>
                 </view>
             </view>
@@ -119,7 +121,7 @@
             };
         },
         created() {
-            this.getHomePublishComList();
+            //this.getHomePublishComList();
             this.getHomePublishInforList();
         },
         methods: {
@@ -130,22 +132,6 @@
             handleStatus(status, type) {
 
             },
-            //标签为"助力"时展示的特殊数据
-            getHomePublishComList() {
-                this.$http.get(this.findHomePublishComListUrl, {
-                    params: {
-                        page: 1,
-                        pagesize: 100
-                    }
-                }).then(res => {
-                    if (res.data.success) {
-                        //console.log(res.data.result);
-                        this.homePublishComList = res.data.result.items;
-                    }
-                }).catch(err => {
-                    console.log(err);
-                });
-            },
             //标签为"助力"之外的标签展示的数据--以后将考虑根据类型type来区分调用不同类型的接口，展示在不同标签的列表页
             getHomePublishInforList() {
                 this.$http.get(this.findHomePublishInforListUrl, {
@@ -154,18 +140,18 @@
                         pagesize: 10
                     }
                 }).then(res => {
-                    console.log("查看条数999：",res.data.result.items);
+                    console.log("查看条数999：", res.data.result.items);
                     if (res.data.success) {
                         this.homePublishInforList = res.data.result.items;
                         for (let d of this.homePublishInforList) {
                             let arr = d.medias.split(',')
                             let arr2 = []
                             for (let e of arr) {
-                                e = this.fileUrl+e
+                                e = this.fileUrl + e
                                 arr2.push(e)
                             }
-                            d.avatar = this.fileUrl+d.avatar
-                             d.medias = arr2
+                            d.avatar = this.fileUrl + d.avatar
+                            d.medias = arr2
                         }
                     }
                 }).catch(err => {
@@ -241,7 +227,7 @@
                 // }
             },
             //喜欢动态
-            loveInfor(id,index) {
+            loveInfor(id, index) {
                 console.log("进来了方法", id)
                 console.log("顺序是", index)
                 this.$http.get(this.loveInforUrl, {params: {id: id}}).then((res) => {
@@ -252,9 +238,11 @@
                         console.log("11111", this.homePublishInforList);
 
                         for (let d of this.homePublishInforList) {
-                            console.log("2222", d );
+                            console.log("2222", d);
                         }
                         //this.homePublishInforList.indexOf(index).loveCount = res.data.result;
+                        //刷新列表
+                        this.getHomePublishInforList();
                     }
                 })
             },
@@ -265,6 +253,8 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         //this.myCommentForm.loveCount = res.data.result;
+                        //刷新列表
+                        this.getHomePublishInforList();
                     }
                 })
             },
