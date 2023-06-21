@@ -87,6 +87,7 @@
 		line-height: 65rpx;  /*行高*/
 		//margin-bottom: 16px; /*内容和标题间的间距*/
 		margin-left: 20rpx;
+		border-bottom: #eee solid 5rpx;
 		//background-color: $uni-bg-color-grey;
 		//padding: 20rpx 20rpx;
 		//border-radius: 20rpx;

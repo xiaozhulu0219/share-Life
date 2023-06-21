@@ -25,9 +25,7 @@
             </view>
 
             <view class="card-line">
-                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;"
-                      @click="likeInfor(myCommentForm.id)">&#xe60f
-                </view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="likeInfor(myCommentForm.id)">&#xe60f</view>
                 <view class="card-likeCount">{{myCommentForm.likeCount}}</view>
                 <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;"
                       @click="loveInfor(myCommentForm.inforId)">&#xe617
@@ -646,6 +644,7 @@
         align-items: center;
         //padding:0rpx;
     }
+
     .input-form{
         //display: flex;
         width: 250px;

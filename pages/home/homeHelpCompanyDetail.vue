@@ -8,25 +8,25 @@
         </cu-custom>
         <!--详情区域-->
         <view class="company">
-            <view class="companyName">{{model.companyName}}</view>
-            <view class="legalPerson">{{model.legalPerson}}</view>
+            <view class="company-companyName">{{model.companyName}}</view>
+            <view class="company-legalPerson">{{model.legalPerson}}</view>
         </view>
         <view class="company">
-            <view class="registerTime">{{model.registerTime.substr(0, 15)}}</view>
-            <view class="registeredCapital">{{model.registeredCapital}}</view>
+            <view class="company-registerTime">{{model.registerTime.substr(0, 15)}}</view>
+            <view class="company-registeredCapital">{{model.registeredCapital}}</view>
         </view>
         <view class="company">
-            <view class="companyStatus">{{model.companyStatus}}</view>
-            <view class="bussinessAddress">{{model.bussinessAddress}}</view>
-            <view class="organizationCode">{{model.organizationCode}}</view>
+            <view class="company-companyStatus">{{model.companyStatus}}</view>
+            <view class="company-bussinessAddress">{{model.bussinessAddress}}</view>
+            <view class="company-organizationCode">{{model.organizationCode}}</view>
         </view>
         <view class="company">
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="likeCom(comModel.id)">&#xe8ad</view>
-            <view class="upLikeCount">{{comModel.upLikeCount}}</view>
+            <view class="company-upLikeCount">{{comModel.upLikeCount}}</view>
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" @click="downLikeCom(comModel.id)">&#xe614</view>
-            <view class="downLikeCount">{{comModel.downLikeCount}}</view>
+            <view class="company-downLikeCount">{{comModel.downLikeCount}}</view>
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
-            <span class="commentCount">{{comModel.commentCount}}</span>
+            <span class="company-commentCount">{{comModel.commentCount}}</span>
         </view>
 
         <view class="companyTag">
@@ -73,6 +73,7 @@
             return {
                 companyName: '',
                 NavBarColor: this.NavBarColor,
+                backRouteName: 'index',
                 url: {
                     findHelpComByIdUrl: "/company/findHelpComById", //根据助力公司的tianyanchaId拿到详情
                     likeComUrl: "/company/upLike", //向上点赞公司
@@ -204,7 +205,7 @@
                     }
                 }).then((res) => {
                     if (res.data.success) {
-                        //console.log("表单数据", res);
+                        console.log("表单数据9999", res);
                         this.comModel = res.data.result;
                         this.comModel.avatar = this.fileUrl + res.data.result.avatar
                     }
@@ -356,65 +357,65 @@
         margin-bottom: 30rpx; /*盒子间的距离*/
         font-weight: bold;
         margin-top: 20rpx; /*盒子距离顶部的距离*/
+    }
 
-        .companyName {
-            font-weight: bold;
-            margin-left: 10rpx;
-            margin-right: 180rpx;
+    .company-companyName {
+        font-weight: bold;
+        margin-left: 10rpx;
+        margin-right: 180rpx;
 
-        }
+    }
 
-        .legalPerson {
-            font-weight: bold;
-        }
+    .company-legalPerson {
+        font-weight: bold;
+    }
 
-        .registerTime {
-            font-weight: bold;
-            margin-left: 10rpx;
-            margin-right: 150rpx;
-        }
+    .company-registerTime {
+        font-weight: bold;
+        margin-left: 10rpx;
+        margin-right: 150rpx;
+    }
 
-        .registeredCapital {
-            font-weight: bold;
-        }
+    .company-registeredCapital {
+        font-weight: bold;
+    }
 
-        .companyStatus {
-            font-weight: bold;
-            margin-left: 10rpx;
-            margin-right: 40rpx;
-        }
+    .company-companyStatus {
+        font-weight: bold;
+        margin-left: 10rpx;
+        margin-right: 40rpx;
+    }
 
-        .bussinessAddress {
-            font-weight: bold;
-            //margin-left: 10rpx;
-            margin-right: 40rpx;
-        }
+    .company-bussinessAddress {
+        font-weight: bold;
+    //margin-left: 10rpx;
+        margin-right: 40rpx;
+    }
 
-        .organizationCode {
-            font-weight: bold;
-        }
+    .company-organizationCode {
+        font-weight: bold;
+    }
 
-        .upLikeCount {
-            font-weight: bold;
-            margin-right: 220rpx;
-            margin-left: 20rpx;
-            margin-top: 10rpx;
+    .company-upLikeCount {
+        font-weight: bold;
+        margin-right: 220rpx;
+        margin-left: 20rpx;
+        margin-top: 10rpx;
 
-        }
+    }
 
-        .downLikeCount {
-            font-weight: bold;
-            margin-right: 220rpx;
-            margin-left: 20rpx;
-            margin-top: 10rpx;
-        }
+    .company-downLikeCount {
+        font-weight: bold;
+        margin-right: 220rpx;
+        margin-left: 20rpx;
+        margin-top: 10rpx;
+    }
 
-        .commentCount {
-            font-weight: bold;
-            margin-right: 60rpx;
-            margin-left: 20rpx;
-            margin-top: 10rpx;
-        }
+    .company-commentCount {
+        font-weight: bold;
+        margin-right: 60rpx;
+        margin-left: 20rpx;
+        margin-top: 10rpx;
     }
 
     .companyTag {
@@ -490,7 +491,17 @@
         //padding:10rpx;
     }
 
+    .input-form{
+    //display: flex;
+        width: 250px;
+        height: 40px;
+    }
 
+    .input-button{
+        width: 75px;
+        height: 40px;
+        margin-right: 6rpx;
+    }
     .avatar {
         max-width: 25px;
         width: 25px;
@@ -503,10 +514,6 @@
     //margin-right: 10rpx;
         margin-left: 520rpx;
     }
-    .input-button{
-        width: 75px;
-        height: 40px;
-        margin-right: 6rpx;
-    }
+
 
 </style>

@@ -15,7 +15,6 @@
                         <!-- <img src="../../static/avatar_boy.png" mode="" @click="updateHeadPic" class="png round"></img>-->
 
                         <image class="png_avatar round" :src="fileUrl+personalList.avatar" alt=""></image>
-                        <!-- <image :src="personalList.avatar" class="png round" mode="scaleToFill"></image>	 -->
                         <!-- <image src="https://static.jeecg.com/upload/test/wave_1595818053612.gif" mode="scaleToFill" class="gif-wave"></image> -->
                         <view class="margin-left-xl flex flex-sub flex-direction justify-around">
                             <text class="text-bold">{{personalList.nickName}}</text>
@@ -162,6 +161,13 @@
                     if (res.data.success) {
                         //const {avatar: originalAvatar, departIds, post} = res.data.result;
                         this.personalList = res.data.result;
+                        console.log("this.personalList.avatar",this.personalList.avatar);
+                        console.log("res.data.result.avatar",res.data.result.avatar);
+                        if(res.data.result.avatar === ""){
+                            console.log("头像不存在")
+                        }else{
+                            console.log("有头像",res.data.result.avatar)
+                        }
                         //console.log("头像", res.data.result)
                         // const avatar = (originalAvatar && originalAvatar.length > 0)
                         //     ? api.getFileAccessHttpUrl(originalAvatar)
@@ -292,11 +298,11 @@
     }
 
     .png_avatar {
-        max-width: 140px;
-        width: 140px;
-        width: expression(this.width > 140 ? "140px" : this.width);
-        height: 140px;
-        height: expression(this.height > 140 ? "140px" : this.height);
+        max-width: 120px;
+        width: 120px;
+        width: expression(this.width > 120 ? "120px" : this.width);
+        height: 120px;
+        height: expression(this.height > 120 ? "120px" : this.height);
     }
 
 </style>
