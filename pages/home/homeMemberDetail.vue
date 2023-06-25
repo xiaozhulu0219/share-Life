@@ -1,21 +1,16 @@
 <template>
-    <!--个人页的一些页面--个人页主页-->
+    <!--点击用户头像跳转的用户页（区别于用户自己看自己的个人页）-->
     <view>
         <scroll-view scroll-y class="page">
-            <!-- 头部logo-->
+            <cu-custom style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+                <block slot="backText"></block>
+            </cu-custom>
             <view class="UCenter-bg">
-                <view class="padding text-right text-xl text-exit">
-                    <navigator url="/pages/user/userexit">
-                        <text class="cuIcon-exit"></text>
-                    </navigator>
-                </view>
+                <block slot="backText"></block>
+
                 <view class="padding">
                     <view class="margin-bottom-xl flex personInfo">
-                        <!--<image src="https://static.jeecg.com/upload/test/login4_1595818039175.png" class="png round" mode="aspectFit"></image>-->
-                        <!-- <img src="../../static/avatar_boy.png" mode="" @click="updateHeadPic" class="png round"></img>-->
-
                         <image class="png_avatar round" :src="fileUrl+personalList.avatar" alt=""></image>
-                        <!-- <image src="https://static.jeecg.com/upload/test/wave_1595818053612.gif" mode="scaleToFill" class="gif-wave"></image> -->
                         <view class="margin-left-xl flex flex-sub flex-direction justify-around">
                             <text class="text-bold">{{personalList.nickName}}</text>
                             <text :class="[{'cuIcon-male text-blue': personalList.sex === 1},{'cuIcon-female text-pink': personalList.sex === 2}]"></text>
@@ -24,34 +19,34 @@
                     <text class="flex flex-sub flex-direction signature">{{personalList.signature}}</text>
                     <view class="flex justify-between align-center personData">
                         <view class="flex text-sm">
-                            <view class="flex flex-direction align-center margin-right-xl" @click="toFocus(personalList.uuId)">
-                                <text>23</text>
+                            <view class="flex flex-direction align-center margin-right-xl">
+                                <text>12</text>
                                 <text
                                         :style="{color:'#ddd'}">关注
                                 </text>
                             </view>
-                            <view class="flex flex-direction align-center margin-right-xl" @click="toFans(personalList.uuId)">
-                                <text>366</text>
+                            <view class="flex flex-direction align-center margin-right-xl">
+                                <text>16</text>
                                 <text
                                         :style="{color:'#ddd'}">粉丝
                                 </text>
                             </view>
-                            <view class="flex flex-direction align-center margin-right-xl" @click="likeNum(personalList.uuId)">
-                                <text>999</text>
+                            <view class="flex flex-direction align-center margin-right-xl" @click="tomemberLikeCountModal()">
+                                <text>85</text>
                                 <text
                                         :style="{color:'#ddd'}">获赞与收藏
                                 </text>
                             </view>
-                            <view class="flex flex-direction align-center margin-right-xl" @click="toHelpCom(personalList.uuId)">
-                                <text>6</text>
+                            <view class="flex flex-direction align-center margin-right-xl">
+                                <text>2</text>
                                 <text
                                         :style="{color:'#ddd'}">助力
                                 </text>
                             </view>
                         </view>
-                        <navigator url="/pages/member/memberdetail">
+                        <navigator>
                             <view class="edit text-sm">
-                                编辑资料
+                                关注
                             </view>
                         </navigator>
                     </view>
@@ -67,8 +62,8 @@
                 </view>
                 <swiper :current="activeTab" class="padding" style="height: 100%;">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
-                        <MyPublishList v-if="index === 0"/>
-                        <MyHelpCompanyList v-if="index === 1"/>
+                        <MemberPublishListModal v-if="index === 0"/>
+                        <MemberHelpCompanyListModal v-if="index === 1"/>
                         <view v-if="index !== 0 && index !== 1" class="swiper-item">{{item.name}}</view>
                     </swiper-item>
                 </swiper>
@@ -79,32 +74,26 @@
 
 <script>
     import api from '@/api/api';
-    import MyHelpCompanyList from './memberHelpCompanyList'
-    import MyPublishList from './memberPublishList'
+    import MemberHelpCompanyListModal from './homeMemberHelpCompanyListModal'
+    import MemberPublishListModal from './homeMemberPublishListModal'
     import configService from '@/common/service/config.service.js'
 
 
     export default {
-        name: 'member',
+        name: 'homeMemberDetail',
         components: {
-            MyHelpCompanyList,
-            MyPublishList
+            MemberHelpCompanyListModal,
+            MemberPublishListModal
         },
         data() {
             return {
                 activeTab: 0,
                 tabs: [{
                     id: 1,
-                    name: '我的发布'
+                    name: '动态'
                 }, {
                     id: 2,
-                    name: '我的助力'
-                }, {
-                    id: 3,
-                    name: '收藏'
-                }, {
-                    id: 4,
-                    name: '赞过'
+                    name: '助力'
                 }],
                 personalList: {
                     avatar: '',
@@ -112,8 +101,7 @@
                     username: '',
                     nickName: '',
                     post: '',
-                    signature: '',
-                    uuId: '',
+                    signature: ''
                 },
                 userUrl: '/sys/user/queryById',
                 userId: '',
@@ -159,20 +147,13 @@
                     if (res.data.success) {
                         //const {avatar: originalAvatar, departIds, post} = res.data.result;
                         this.personalList = res.data.result;
-                        console.log("this.personalList.avatar",this.personalList.avatar);
-                        console.log("res.data.result.avatar",res.data.result.avatar);
-                        if(res.data.result.avatar === ""){
+                        console.log("this.personalList.avatar", this.personalList.avatar);
+                        console.log("res.data.result.avatar", res.data.result.avatar);
+                        if (res.data.result.avatar === "") {
                             console.log("头像不存在")
-                        }else{
-                            console.log("有头像",res.data.result.avatar)
+                        } else {
+                            console.log("有头像", res.data.result.avatar)
                         }
-                        //console.log("头像", res.data.result)
-                        // const avatar = (originalAvatar && originalAvatar.length > 0)
-                        //     ? api.getFileAccessHttpUrl(originalAvatar)
-                        //     : '/static/avatar_boy.png';
-                        //this.personalList.avatar = avatar;
-                        //this.personalList.depart = departIds;
-                        //this.getpost(post);
                     }
                 }).catch(err => {
                     console.log(err);
@@ -182,79 +163,47 @@
                 if (this.activeTab === index) return;
                 this.activeTab = index;
             },
-            //点击"关注"
-            toFocus(uuID) {
-                //console.log("进来了666", myFormData)
+            tomemberLikeCountModal() {
+                console.log("点击了跳转modal");
                 uni.navigateTo({
-                    url: '/pages/member/focusModal?item=' + uuID
+                    url: './memberLikeCountModal'
                 })
-            },
-            //点击"粉丝"
-            toFans(uuID) {
-                //console.log("进来了666", myFormData)
-                uni.navigateTo({
-                    url: '/pages/member/fansModal?item=' + uuID
-                })
-            },
+
+            }
+
         }
     };
 </script>
 
 <style>
     .UCenter-bg {
-        /* #ifdef MP-WEIXIN */
-        /* background-image: url('https://static.jeecg.com/upload/test/blue_1595818030310.png'); */
-        /* #endif */
-        /* #ifndef MP-WEIXIN */
-        /* background-image: url('/static/blue.png'); */
-        /* #endif */
-        /* background-size: cover; */
         background-color: rgba(0, 0, 0, .5);
-        height: 500 rpx;
-        /* display: flex; */
-        /* justify-content: center; */
-        /* padding-top: 40rpx; */
+        height: 500rpx;
         overflow: hidden;
-        /* position: relative; */
-        /* flex-direction: column; */
-        /* align-items: center; */
         color: #fff;
-        /* font-weight: 300; */
-        /* text-shadow: 0 0 3px rgba(0, 0, 0, 0.3); */
-    }
 
-    /* .UCenter-bg text {
-        opacity: 0.8;
-    } */
-
-    .text-exit {
-        margin-top: 30 rpx;
-        position: absolute;
-        top: 10px;
-        right: 0;
-        bottom: 0;
     }
 
     .UCenter-bg .edit {
-        padding: 10 rpx 20 rpx;
-        border: 2 rpx solid #fff;
-        border-radius: 30 rpx;
+        padding: 10rpx 20rpx;
+        border: 2rpx solid #fff;
+        border-radius: 30rpx;
     }
 
     .UCenter-bg image {
-        width: 160 rpx;
-        height: 160 rpx;
+        width: 160rpx;
+        height: 160rpx;
     }
 
     .UCenter-bg .personInfo {
         /* background-color: aquamarine; */
-        margin-top: 30 rpx;
+        margin-top: 30rpx;
     }
 
     .UCenter-bg .signature {
-        margin-top: -30 rpx;
+        margin-top: -30rpx;
         width: 100%;
-        height: 110 rpx;
+        height: 110rpx;
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
@@ -263,7 +212,7 @@
     }
 
     .UCenter-bg .personData {
-        margin-top: 30 rpx;
+        margin-top: 30rpx;
     }
 
     .UCenter-bg .gif-wave {
@@ -273,7 +222,7 @@
         left: 0;
         z-index: 99;
         mix-blend-mode: screen;
-        height: 100 rpx;
+        height: 100rpx;
     }
 
     map,
@@ -281,21 +230,21 @@
         left: 0;
         z-index: 99;
         mix-blend-mode: screen;
-        height: 100 rpx;
+        height: 100rpx;
     }
 
     map,
     .mapBox {
-        width: 750 rpx;
-        height: 300 rpx;
+        width: 750rpx;
+        height: 300rpx;
     }
 
     .mine-tab {
         position: relative;
-        top: -50 rpx;
+        top: -50rpx;
         height: calc(100vh - 200rpx - env(safe-area-inset-bottom) / 2);
         background-color: #fff;
-        border-radius: 30 rpx 30 rpx 0 0;
+        border-radius: 30rpx 30rpx 0 0;
     }
 
     .tab-title {
@@ -318,3 +267,4 @@
     }
 
 </style>
+

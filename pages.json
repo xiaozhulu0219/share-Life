@@ -122,6 +122,28 @@
       "style": {}
     },
     {
+      "path": "pages/home/homeMemberDetail",
+      "style": {}
+    },
+    {
+      "path" : "pages/home/memberLikeCountModal",
+      "style" :
+      {
+        "navigationBarTitleText": "",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom",
+        "app-plus": {
+          "animationType": "fade-in", // 设置fade-in淡入动画，为最合理的动画类型
+          "background": "transparent", // 背景透明
+          "backgroundColor": "transparent", // 背景透明
+          "webviewBGTransparent":true,
+          "mask":"none",
+          "popGesture": "none" // 关闭IOS屏幕左边滑动关闭当前页面的功能
+        }
+      }
+    },
+
+    {
       "path": "pages/home/home",
       "style": {}
     },
@@ -166,6 +188,14 @@
       "style": {}
     },
     {
+      "path": "pages/member/focusModal",
+      "style": {}
+    },
+    {
+      "path": "pages/member/fansModal",
+      "style": {}
+    },
+    {
       "path": "pages/home/homeInforDetail",
       "style": {}
     },
@@ -185,6 +215,9 @@
       "path": "pages/common/success",
       "style": {}
     },
+
+
+
     {
       "path": "pages/user/location",
       "style": {},

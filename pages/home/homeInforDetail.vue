@@ -16,7 +16,7 @@
                 </swiper-item>
             </swiper>
 
-            <view class="card-text">{{myFormData.textContent}}</view>
+            <view class="card-text" @click="toMemberdetail(myFormData)">{{myFormData.textContent}}</view>
 
             <view class="card-line">
                 <view class="card-createDate">{{myCommentForm.createDate}}</view>
@@ -301,11 +301,11 @@
                     console.log(err);
                 });
             },
-            //头像跳转用户详情
+            //点击头像跳转用户详情
             toMemberdetail(myFormData) {
                 //console.log("进来了666", myFormData)
                 uni.navigateTo({
-                    url: '/pages/member/member?item=' + encodeURIComponent(JSON.stringify(myFormData))
+                    url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
                 })
             },
             //保存评论 这里有两种评论、一种是对动态 一种是对评论

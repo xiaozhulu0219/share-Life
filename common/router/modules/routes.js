@@ -72,6 +72,20 @@ const routes = [{
         }
     },
     {
+        path: '/pages/home/homeMemberDetail',
+        name: 'homeMemberDetail',
+        meta: {
+            title: '点击用户头像跳转的可见个人页'
+        }
+    },
+    {
+        path: '/pages/home/memberLikeCountModal',
+        name: 'memberLikeCountModal',
+        meta: {
+            title: '点击用户头像跳转后的可见个人页中点击获赞和收藏弹出的modal'
+        }
+    },
+    {
         path: '/pages/member/memberdetail',
         name: 'memberdetail',
         meta: {
@@ -104,6 +118,20 @@ const routes = [{
         name: 'sex',
         meta: {
             title: '性别编辑'
+        }
+    },
+    {
+        path: '/pages/member/fansModal',
+        name: 'fansModal',
+        meta: {
+            title: '粉丝页'
+        }
+    },
+    {
+        path: '/pages/member/focusModal',
+        name: 'focusModal',
+        meta: {
+            title: '关注页'
         }
     },
     {
