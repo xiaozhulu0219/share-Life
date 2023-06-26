@@ -14,6 +14,9 @@ export default new Vuex.Store({
     realname: '',
     welcome: '',
     avatar: '',
+    uuId: '',
+    nickname: '',
+    avatar: '',
 	placeholdertext:'你可以在这里:1.爆料职场新鲜事 2.分享面试跳槽经验 3.与同行交流、吐槽解压'
   },
   mutations: {
@@ -111,9 +114,10 @@ export default new Vuex.Store({
   },
   getters: {
     token: state => state.token,
-	username: state => {state.userid = uni.getStorageSync(USER_INFO).username; return state.username;},
-	nickname: state => {state.userid = uni.getStorageSync(USER_INFO).realname; return state.user.realname;},
-	avatar: state => {state.userid = uni.getStorageSync(USER_INFO).avatar; return state.user.avatar;},
-	userid: state => {state.userid = uni.getStorageSync(USER_INFO).id; return state.userid;}
+	username: state => {state.username = uni.getStorageSync(USER_INFO).username; return state.username;},
+	nickname: state => {state.nickname = uni.getStorageSync(USER_INFO).realname; return state.user.realname;},
+	avatar: state => {state.avatar = uni.getStorageSync(USER_INFO).avatar; return state.user.avatar;},
+	userid: state => {state.userid = uni.getStorageSync(USER_INFO).id; return state.userid;},
+    uuId: state => {state.uuId = uni.getStorageSync(USER_INFO).uuId; return state.uuId;}
   }
 });

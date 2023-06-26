@@ -19,13 +19,13 @@
                     <text class="flex flex-sub flex-direction signature">{{personalList.signature}}</text>
                     <view class="flex justify-between align-center personData">
                         <view class="flex text-sm">
-                            <view class="flex flex-direction align-center margin-right-xl">
+                            <view class="flex flex-direction align-center margin-right-xl" @click="toFocus(personalList.uuId)">
                                 <text>12</text>
                                 <text
                                         :style="{color:'#ddd'}">关注
                                 </text>
                             </view>
-                            <view class="flex flex-direction align-center margin-right-xl">
+                            <view class="flex flex-direction align-center margin-right-xl" @click="toFans(personalList.uuId)">
                                 <text>16</text>
                                 <text
                                         :style="{color:'#ddd'}">粉丝
@@ -44,11 +44,20 @@
                                 </text>
                             </view>
                         </view>
-                        <navigator>
-                            <view class="edit text-sm">
+                        <view>
+                            <button class="edit text-sm" @click="focusUser(personalList.uuId)" v-if="iffocus == 0">
                                 关注
-                            </view>
-                        </navigator>
+                            </button>
+                            <button class="edit text-sm" @click="unFocusUser(personalList.uuId)" v-else-if="iffocus == 1">
+                                取消关注
+                            </button>
+                            <button class="edit text-sm" @click="focusUser(personalList.uuId)" v-else-if="iffocus == 2">
+                                回关
+                            </button>
+                            <button class="edit text-sm" @click="unFocusUser(personalList.uuId)" v-else="iffocus == 3">
+                                互相关注
+                            </button>
+                        </view>
                     </view>
                 </view>
             </view>
@@ -95,6 +104,7 @@
         },
         data() {
             return {
+                iffocus: '',//0未关注对方、 1、我的关注、2、我的粉丝、3、互相关注
                 activeTab: 0,
                 tabs: [{
                     id: 1,
@@ -114,7 +124,10 @@
                 userUrl: '/sys/user/queryById',
                 queryByUuIdUrl: '/sys/user/queryByUuId',
                 findFocusOrFansPublishInforPageUrl: '/information/movements/findFocusOrFansPublishInforPage',
-                findFocusOrFansPublishComPageUrl: '/company/findFocusOrFansPublishComPage',
+                findFocusOrFansPublishComPageUrl: '/company/findFocusOrFansPublishComPage',//用户信息页公开可见助力返回列表
+                userFocusUrl: '/information/followuser/userFocus',
+                userUnFocusUrl: '/information/followuser/userUnFocus',
+                FocusORFansUrl: '/information/followuser/FocusORFans',
                 userId: '',
                 uuId: '',
                 id: '',
@@ -122,22 +135,26 @@
                 backRouteName: 'index',
                 focusOrFansPublishInforList: [],
                 focusOrFansHelpList: [],
+
             };
         },
-        // watch: {
-        //     cur: {
-        //         immediate: true,
-        //         handler() {
-        //             console.log('watch', this.cur);
-        //             this.userId = this.$store.getters.userid;
-        //             this.load();
-        //         }
-        //     }
-        // },
+        watch: {
+            cur: {
+                immediate: true,
+                handler() {
+                    console.log('watch2222', this.$store.getters);
+                    this.userId = this.$store.getters.userid;
+                    this.uuId = this.$store.getters.uuId;
+
+                   // this.initFocusORFans();
+                }
+            }
+        },
         created() {
             //this.initFormData();
             //this.findPersonInfor(this.myFormData.inforId);
             //this.findPublishInfor(this.myFormData.inforId);
+            //this.getFocusORFans(item); //判断两个用户的关注关系
         },
         onLoad(option) {
             const item = JSON.parse(decodeURIComponent(option.item));
@@ -146,6 +163,7 @@
             this.findPersonInfor(item); //这是传参后继续调用方法的示例
             this.getFocusOrFansPublishInforList(item); //获取动态列表
             this.getFocusOrFansHelpCompanyList(item); //获取助力列表
+            this.getFocusORFans(item); //判断两个用户的关注关系
 
         },
         methods: {
@@ -181,6 +199,7 @@
                     }
                 })
             },
+            //获取用户公开的动态列表
             getFocusOrFansPublishInforList(item) {
                 this.$http.get(this.findFocusOrFansPublishInforPageUrl, {
                     params: {
@@ -208,6 +227,7 @@
                     console.log(err);
                 });
             },
+            //获取用户助力列表
             getFocusOrFansHelpCompanyList(item) {
                 this.$http.get(this.findFocusOrFansPublishComPageUrl, {
                     params: {
@@ -223,6 +243,78 @@
                 }).catch(err => {
                     console.log(err);
                 });
+            },
+            //获取用户"关注"modal
+            toFocus(uuID) {
+                //console.log("进来了666", myFormData)
+                uni.navigateTo({
+                    url: '/pages/member/focusModal?item=' + uuID
+                })
+            },
+            //获取用户"粉丝"modal
+            toFans(uuID) {
+                //console.log("进来了666", myFormData)
+                uni.navigateTo({
+                    url: '/pages/member/fansModal?item=' + uuID
+                })
+            },
+            //点击关注按钮、关注用户
+            focusUser(item) {
+                console.log("点击了关注方法：",item);
+                this.$http.get(this.userFocusUrl, {
+                    params: {
+                        uuId:item
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        //关注成功后将 iffocus 置为 true 然后页面根据  iffocus 属性改变按钮的显示
+                        //this.iffocus = false;
+                        console.log("关注方法返回的提示信息为：",res.data.result);
+                        //重新调用接口判断两个用户之间的关系
+                        this.getFocusORFans(item);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            //点击取消关注按钮、不再关注用户
+            unFocusUser(item) {
+                console.log("点击了取消关注方法：",item);
+                this.$http.get(this.userUnFocusUrl, {
+                    params: {
+                        uuId:item
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        //关注成功后将 iffocus 置为 true 然后页面根据  iffocus 属性改变按钮的显示
+                        //this.iffocus = true;
+                        console.log("取消关注方法返回的提示信息为：",res.data.result);
+                        //重新调用接口判断两个用户之间的关系
+                        this.getFocusORFans(item);
+
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            //判断两个用户的关注关系
+            getFocusORFans(uuId) {
+                console.log("进来了方法", uuId)
+                this.$http.get(this.FocusORFansUrl, {params: {uuId: uuId}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("两个用户的关注关系是：", res.data.result);
+                        this.iffocus=res.data.result;
+                        //this.personalList = res.data.result;
+                        //console.log("this.personalList.avatar", this.personalList.avatar);
+                        //console.log("res.data.result.avatar", res.data.result.avatar);
+                        //console.log("查询个人信息返回的数据是：", res.data.result);
+                        // if (res.data.result.avatar === "") {
+                        //     console.log("头像不存在")
+                        // } else {
+                        //     console.log("有头像", res.data.result.avatar)
+                        // }
+                    }
+                })
             },
             // load() {
             //     if (!this.userId) {
@@ -336,6 +428,7 @@
         height: calc(100vh - 200rpx - env(safe-area-inset-bottom) / 2);
         background-color: #fff;
         border-radius: 30rpx 30rpx 0 0;
+        margin-top: 50rpx;
     }
 
     .tab-title {
