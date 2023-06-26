@@ -1,8 +1,8 @@
 {
-    "name" : "sharelife",
+    "name" : "look",
     "appid" : "__UNI__9615CA0",
-    "description" : "",
-    "versionName" : "0.001",
+    "description" : "评价公司、分享生活",
+    "versionName" : "1.0",
     "versionCode" : 1,
     "transformPx" : false,
     "app-plus" : {
