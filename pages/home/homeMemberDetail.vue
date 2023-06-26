@@ -63,11 +63,20 @@
                 <swiper :current="activeTab" class="padding" style="height: 100%;">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
 
+                        <view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde" class="card-PublishInfor" v-if="index === 0" @click="toMemInformationDetail(ite)">
+                            <image class="medias_size" :src="ite.medias[0]" mode="widthFix" alt=""></image>
+                            <view>{{ ite.textContent.substr(0, 35) }}</view>
+                        </view>
+<!--                        <MemberPublishListModal v-if="index === 0"/>-->
 
-
-                        <MemberPublishListModal v-if="index === 0"/>
-                        <MemberHelpCompanyListModal v-if="index === 1"/>
+<!--                        <MemberHelpCompanyListModal v-if="index === 1"/>-->
+                        <view v-for="(ite,inde) in focusOrFansHelpList" :key="inde" class="card-Help" v-if="index === 1">
+                            <view class="card-location">{{ite.commentCreateDate}}</view>
+                            <view class="card-title">{{ite.companyName}}</view>
+                            <view class="card-text">{{ite.content}}</view>
+                        </view>
                         <view v-if="index !== 0 && index !== 1" class="swiper-item">{{item.name}}</view>
+
                     </swiper-item>
                 </swiper>
             </view>
@@ -77,15 +86,12 @@
 
 <script>
     import api from '@/api/api';
-    import MemberHelpCompanyListModal from './homeMemberHelpCompanyListModal'
-    import MemberPublishListModal from './homeMemberPublishListModal'
     import configService from '@/common/service/config.service.js'
 
     export default {
         name: 'homeMemberDetail',
         components: {
-            MemberHelpCompanyListModal,
-            MemberPublishListModal
+
         },
         data() {
             return {
@@ -107,11 +113,15 @@
                 },
                 userUrl: '/sys/user/queryById',
                 queryByUuIdUrl: '/sys/user/queryByUuId',
+                findFocusOrFansPublishInforPageUrl: '/information/movements/findFocusOrFansPublishInforPage',
+                findFocusOrFansPublishComPageUrl: '/company/findFocusOrFansPublishComPage',
                 userId: '',
                 uuId: '',
                 id: '',
                 fileUrl: configService.fileSaveURL,
                 backRouteName: 'index',
+                focusOrFansPublishInforList: [],
+                focusOrFansHelpList: [],
             };
         },
         // watch: {
@@ -134,6 +144,9 @@
             //this.myFormData = item
             console.log("个人页拿到了uuid准备大干一番", item)
             this.findPersonInfor(item); //这是传参后继续调用方法的示例
+            this.getFocusOrFansPublishInforList(item); //获取动态列表
+            this.getFocusOrFansHelpCompanyList(item); //获取助力列表
+
         },
         methods: {
             scan() {
@@ -168,7 +181,49 @@
                     }
                 })
             },
-
+            getFocusOrFansPublishInforList(item) {
+                this.$http.get(this.findFocusOrFansPublishInforPageUrl, {
+                    params: {
+                        page: 1,
+                        pagesize: 20,
+                        uuId:item
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        //console.log("res.data.result:",res.data.result);
+                        //console.log("数据条数:",res.data.result.items.length);
+                        this.focusOrFansPublishInforList = res.data.result.items;
+                        for (let d of this.focusOrFansPublishInforList) {
+                            let arr = d.medias.split(',')
+                            let arr2 = []
+                            for (let e of arr) {
+                                e = this.fileUrl+e
+                                arr2.push(e)
+                            }
+                            d.medias = arr2
+                        }
+                        //console.log("数据条数222:",this.myPublishInforList.length);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            getFocusOrFansHelpCompanyList(item) {
+                this.$http.get(this.findFocusOrFansPublishComPageUrl, {
+                    params: {
+                        page: 1,
+                        pagesize: 20,
+                        uuId:item
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        console.log(res.data.result);
+                        this.focusOrFansHelpList = res.data.result.items;
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
             // load() {
             //     if (!this.userId) {
             //         return;
@@ -302,5 +357,59 @@
         height: expression(this.height > 120 ? "120px" : this.height);
     }
 
+    .card-PublishInfor {
+        background-color: $uni-bg-color-grey;
+        padding: 20rpx 20rpx;
+        border-radius: 20rpx;
+        margin-bottom: 20rpx;
+
+        .card-title {
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 20rpx;
+        }
+
+        .card-location {
+            position: absolute;
+            right: 20rpx;
+            font-size: 20rpx;
+        }
+    }
+
+    .medias_size {
+        max-width: 180px;
+        width: 180px;
+        width:expression(this.width > 180 ? "180px" : this.width);
+        height: 180px;
+        height:expression(this.height > 180 ? "180px" : this.height);
+        overflow:hidden;
+        /*text-align:center;*/
+        /*width: 21rpx;*/
+        /*height: 21rpx;*/
+        /*border-radius: 8rpx;*/
+    }
+
+    .card-Help {
+        background-color: $uni-bg-color-grey;
+        padding: 20rpx 20rpx;
+        border-radius: 20rpx;
+        margin-bottom: 20rpx;
+
+        .card-title {
+            font-weight: bold;
+        }
+
+        .card-text {
+            font-size: 20rpx;
+        }
+
+        .card-location {
+            position: absolute;
+            right: 20rpx;
+            font-size: 20rpx;
+        }
+    }
 </style>
 
