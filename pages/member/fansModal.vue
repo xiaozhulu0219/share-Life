@@ -3,14 +3,17 @@
     <scroll-view scroll-y class="page">
         <cu-custom bgColor="bg-gradual-pink" :isBack="true">
             <block slot="backText">返回</block>
+            <block slot="content">我的粉丝</block>
         </cu-custom>
         <mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
                        @down="downCallback" @up="upCallback">
-            <view v-for="(item,index) in myFansList" :key="index" class="card">
-                <image class="comment-avatar round sm" :src="fileUrl+item.avatar" alt=""
-                       @click="toMemberdetail(item)"></image>
-                <view class="card-location">{{item.nickname}}</view>
-                <view class="card-title">{{item.createDate}}</view>
+            <view v-for="item in myFansList" :key="index" class="card">
+                <image class="fans-avatar round sm" :src="fileUrl+item.avatar" alt=""  @click="toMemberdetail(item.uuId)"></image>
+                <view class="card-info">
+                    <view class="card-nickname">{{item.nickname}}</view>
+                    <view class="card-signature">{{item.signature}}</view>
+                    <view class="card-createDate">{{item.createDate}}</view>
+                </view>
             </view>
         </mescroll-body>
     </scroll-view>
@@ -61,41 +64,72 @@
                 }).catch(err => {
                     console.log(err);
                 });
-            }
+            },
+            //点击头像跳转用户详情
+            toMemberdetail(myFormData) {
+                //console.log("进来了666", myFormData)
+                uni.navigateTo({
+                    url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
+                })
+            },
         }
     }
 </script>
 
+
 <style lang='scss'>
+
     .card {
+        padding: 30rpx;
+        border-bottom: #eee solid 1rpx;
         background-color: $uni-bg-color-grey;
-        padding: 20rpx 20rpx;
+        //padding: 20rpx 20rpx;
         border-radius: 20rpx;
         margin-bottom: 20rpx;
-
-        .card-title {
-            font-weight: bold;
-        }
-
-        .card-text {
-            font-size: 20rpx;
-        }
-
-        .card-location {
-            position: absolute;
-            right: 20rpx;
-            font-size: 20rpx;
-        }
-        .comment-avatar {
-            max-width: 25px;
-            width: 25px;
-            width: expression(this.width > 25 ? "25px" : this.width);
-            height: 25px;
-            height: expression(this.height > 25 ? "25px" : this.height);
-            position: absolute;
-            left: 20rpx;
-            font-size: 20rpx;
-            margin-top: 15rpx;
-        }
+        display: flex;
     }
+
+    .card-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 150rpx;
+    }
+
+    .card-createDate {
+        //font-weight: bold;
+        font-size: 20rpx;
+        //right: 20rpx;
+        //margin-left: 550rpx;
+    }
+
+    .card-nickname {
+        font-weight: bold;
+        //position: absolute;
+        //right: 20rpx;
+        font-size: 35rpx;
+        //margin-left: 100rpx;
+    }
+    .card-signature {
+        //font-weight: bold;
+        //position: absolute;
+        //right: 20rpx;
+        font-size: 28rpx;
+        //margin-left: 100rpx;
+    }
+    .fans-avatar {
+        max-width: 50px;
+        width: 50px;
+        width: expression(this.width > 50 ? "50px" : this.width);
+        height: 50px;
+        height: expression(this.height > 50 ? "50px" : this.height);
+        position: absolute;
+        font-size: 20rpx;
+        //margin-top: 5rpx;
+        //margin-right: 10rpx;
+        margin-left: 20rpx;
+    }
+
+
+
 </style>

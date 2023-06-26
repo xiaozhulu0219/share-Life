@@ -5,7 +5,7 @@
             <block slot="backText"></block>
             <block slot="content" style="margin-right: 200rpx">
                 <image class="medias_avatar" :src="myFormData.avatar" alt=""
-                       @click="toMemberdetail(myFormData)"></image>
+                       @click="toMemberdetail(myFormData.uuId)"></image>
                 {{myCommentForm.nickname}}
             </block>
         </cu-custom>
@@ -16,7 +16,7 @@
                 </swiper-item>
             </swiper>
 
-            <view class="card-text" @click="toMemberdetail(myFormData)">{{myFormData.textContent}}</view>
+            <view class="card-text" @click="toMemberdetail(myFormData.uuId)">{{myFormData.textContent}}</view>
 
             <view class="card-line">
                 <view class="card-createDate">{{myCommentForm.createDate}}</view>
@@ -39,7 +39,7 @@
             <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
                 <view class="comment-parent">
                     <image class="comment-avatar round sm" :src="item.avatar" alt=""
-                           @click="toMemberdetail(myFormData)"></image>
+                           @click="toMemberdetail(myFormData.uuId)"></image>
                     <view class="comment-nickcon">
                         <view class="comment-nickname">{{ item.nickname }}</view>
                         <view class="comment-content">{{ item.content }}</view>
@@ -58,7 +58,7 @@
                 <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
                     <view class="comment-son">
                         <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
-                               @click="toMemberdetail(myFormData)"></image>
+                               @click="toMemberdetail(myFormData.uuId)"></image>
                         <view class="comment-nickcon">
                             <view class="comment-nickname">{{ sonitem.nickname }}</view>
                             <view class="comment-content">{{ sonitem.content }}</view>
@@ -303,7 +303,7 @@
             },
             //点击头像跳转用户详情
             toMemberdetail(myFormData) {
-                //console.log("进来了666", myFormData)
+                console.log("进来了666应该是uuid", myFormData)
                 uni.navigateTo({
                     url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
                 })

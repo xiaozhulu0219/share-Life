@@ -62,6 +62,9 @@
                 </view>
                 <swiper :current="activeTab" class="padding" style="height: 100%;">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
+
+
+
                         <MemberPublishListModal v-if="index === 0"/>
                         <MemberHelpCompanyListModal v-if="index === 1"/>
                         <view v-if="index !== 0 && index !== 1" class="swiper-item">{{item.name}}</view>
@@ -77,7 +80,6 @@
     import MemberHelpCompanyListModal from './homeMemberHelpCompanyListModal'
     import MemberPublishListModal from './homeMemberPublishListModal'
     import configService from '@/common/service/config.service.js'
-
 
     export default {
         name: 'homeMemberDetail',
@@ -104,20 +106,34 @@
                     signature: ''
                 },
                 userUrl: '/sys/user/queryById',
+                queryByUuIdUrl: '/sys/user/queryByUuId',
                 userId: '',
+                uuId: '',
                 id: '',
                 fileUrl: configService.fileSaveURL,
+                backRouteName: 'index',
             };
         },
-        watch: {
-            cur: {
-                immediate: true,
-                handler() {
-                    console.log('watch', this.cur);
-                    this.userId = this.$store.getters.userid;
-                    this.load();
-                }
-            }
+        // watch: {
+        //     cur: {
+        //         immediate: true,
+        //         handler() {
+        //             console.log('watch', this.cur);
+        //             this.userId = this.$store.getters.userid;
+        //             this.load();
+        //         }
+        //     }
+        // },
+        created() {
+            //this.initFormData();
+            //this.findPersonInfor(this.myFormData.inforId);
+            //this.findPublishInfor(this.myFormData.inforId);
+        },
+        onLoad(option) {
+            const item = JSON.parse(decodeURIComponent(option.item));
+            //this.myFormData = item
+            console.log("个人页拿到了uuid准备大干一番", item)
+            this.findPersonInfor(item); //这是传参后继续调用方法的示例
         },
         methods: {
             scan() {
@@ -135,30 +151,50 @@
                 this.$tip.alert('暂不支持');
                 // #endif
             },
-            load() {
-                if (!this.userId) {
-                    return;
-                }
-                this.$http.get(this.userUrl, {
-                    params: {
-                        id: this.userId
-                    }
-                }).then(res => {
+            //根据uuId查询详情
+            findPersonInfor(uuId) {
+                console.log("进来了方法", uuId)
+                this.$http.get(this.queryByUuIdUrl, {params: {uuId: uuId}}).then((res) => {
                     if (res.data.success) {
-                        //const {avatar: originalAvatar, departIds, post} = res.data.result;
                         this.personalList = res.data.result;
-                        console.log("this.personalList.avatar", this.personalList.avatar);
-                        console.log("res.data.result.avatar", res.data.result.avatar);
+                        //console.log("this.personalList.avatar", this.personalList.avatar);
+                        //console.log("res.data.result.avatar", res.data.result.avatar);
+                        console.log("查询个人信息返回的数据是：", res.data.result);
                         if (res.data.result.avatar === "") {
                             console.log("头像不存在")
                         } else {
                             console.log("有头像", res.data.result.avatar)
                         }
                     }
-                }).catch(err => {
-                    console.log(err);
-                });
+                })
             },
+
+            // load() {
+            //     if (!this.userId) {
+            //         return;
+            //     }
+            //     this.$http.get(this.userUrl, {
+            //         params: {
+            //             id: this.userId
+            //         }
+            //     }).then(res => {
+            //         console.log("this.userId：", this.userId);
+            //         if (res.data.success) {
+            //             //const {avatar: originalAvatar, departIds, post} = res.data.result;
+            //             this.personalList = res.data.result;
+            //             //console.log("this.personalList.avatar", this.personalList.avatar);
+            //             //console.log("res.data.result.avatar", res.data.result.avatar);
+            //             console.log("查询个人信息返回的数据是：", res.data.result);
+            //             if (res.data.result.avatar === "") {
+            //                 console.log("头像不存在")
+            //             } else {
+            //                 console.log("有头像", res.data.result.avatar)
+            //             }
+            //         }
+            //     }).catch(err => {
+            //         console.log(err);
+            //     });
+            // },
             clickTab(index) {
                 if (this.activeTab === index) return;
                 this.activeTab = index;

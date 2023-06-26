@@ -3,7 +3,7 @@
 <!--	<view style="height: 800px">-->
 		<mescroll-body ref="mescrollRef" style="height: 100%;"  @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">
-			<view v-for="(item,index) in myPublishInforList" :key="index" class="card" @click="toMemInformationDetail(item)">
+			<view v-for="(item,index) in focusOrFansPublishInforList" :key="index" class="card" @click="toMemInformationDetail(item)">
 				<image class="medias_size" :src="item.medias[0]" mode="widthFix" alt=""></image>
 				<view>{{ item.textContent.substr(0, 35) }}</view>
 			</view>
@@ -22,8 +22,8 @@
 		mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
 		data() {
 			return {
-				findMyPublishInforPageUrl: '/information/movements/findMyPublishInforPage',
-				myPublishInforList: [],
+				findFocusOrFansPublishInforPageUrl: '/information/movements/findFocusOrFansPublishInforPage',
+				focusOrFansPublishInforList: [],
 				fileUrl: configService.fileSaveURL ,
 				downOption: {
 					use: true, // 是否启用下拉刷新; 默认true
@@ -75,21 +75,28 @@
 			};
 		},
 		created() {
-			this.getMyPublishInforList();
+			//this.getFocusOrFansPublishInforList();
+		},
+		onLoad(option) {
+			const item = JSON.parse(decodeURIComponent(option.item));
+			//this.myFormData = item
+			console.log("传进来了uuid222", item)
+			this.getFocusOrFansPublishInforList(item); //这是传参后继续调用方法的示例
 		},
 		methods: {
-			getMyPublishInforList() {
-				this.$http.get(this.findMyPublishInforPageUrl, {
+			getFocusOrFansPublishInforList(item) {
+				this.$http.get(this.findFocusOrFansPublishInforPageUrl, {
 					params: {
 						page: 1,
-						pagesize: 20
+						pagesize: 20,
+						uuId:item
 					}
 				}).then(res => {
 					if (res.data.success) {
 						//console.log("res.data.result:",res.data.result);
 						//console.log("数据条数:",res.data.result.items.length);
-						this.myPublishInforList = res.data.result.items;
-						for (let d of this.myPublishInforList) {
+						this.focusOrFansPublishInforList = res.data.result.items;
+						for (let d of this.focusOrFansPublishInforList) {
 							let arr = d.medias.split(',')
 							let arr2 = []
 							for (let e of arr) {

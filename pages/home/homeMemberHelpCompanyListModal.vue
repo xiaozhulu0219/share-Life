@@ -2,7 +2,7 @@
 	<!--点击用户头像跳转的用户页（区别于用户自己看自己的个人页）中的“助力”-->
 		<mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
 			@down="downCallback" @up="upCallback">
-			<view v-for="(item,index) in myHelpList" :key="index" class="card">
+			<view v-for="(item,index) in focusOrFansHelpList" :key="index" class="card">
 				<view class="card-location">{{item.commentCreateDate}}</view>
 				<view class="card-title">{{item.companyName}}</view>
 				<view class="card-text">{{item.content}}</view>
@@ -20,8 +20,8 @@
 		mixins: [MescrollMixin, Mixin],
 		data() {
 			return {
-				findMyPublishComPageUrl: '/company/findMyPublishComPage',
-				myHelpList: [],
+				findFocusOrFansPublishComPageUrl: '/company/findFocusOrFansPublishComPage',
+				focusOrFansHelpList: [],
 				upOption: {
 					auto: false, // 不自动加载
 					page: {
@@ -37,19 +37,26 @@
 			};
 		},
 		created() {
-			this.getMyHelpCompanyList();
+			//this.getFocusOrFansHelpCompanyList();
+		},
+		onLoad(option) {
+			const item = JSON.parse(decodeURIComponent(option.item));
+			//this.myFormData = item
+			console.log("传进来了uuid", item)
+			this.getFocusOrFansHelpCompanyList(item); //这是传参后继续调用方法的示例
 		},
 		methods: {
-			getMyHelpCompanyList() {
-				this.$http.get(this.findMyPublishComPageUrl, {
+			getFocusOrFansHelpCompanyList(item) {
+				this.$http.get(this.findFocusOrFansPublishComPageUrl, {
 					params: {
 						page: 1,
-						pagesize: 20
+						pagesize: 20,
+						uuId:item
 					}
 				}).then(res => {
 					if (res.data.success) {
 						console.log(res.data.result);
-						this.myHelpList = res.data.result.items;
+						this.focusOrFansHelpList = res.data.result.items;
 					}
 				}).catch(err => {
 					console.log(err);
