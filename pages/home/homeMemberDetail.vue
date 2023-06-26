@@ -19,26 +19,29 @@
                     <text class="flex flex-sub flex-direction signature">{{personalList.signature}}</text>
                     <view class="flex justify-between align-center personData">
                         <view class="flex text-sm">
-                            <view class="flex flex-direction align-center margin-right-xl" @click="toFocus(personalList.uuId)">
-                                <text>12</text>
+                            <view class="flex flex-direction align-center margin-right-xl"
+                                  @click="toFocus(personalList.uuId)">
+                                <text>{{FocusFansNumVo.focusCount}}</text>
                                 <text
                                         :style="{color:'#ddd'}">关注
                                 </text>
                             </view>
-                            <view class="flex flex-direction align-center margin-right-xl" @click="toFans(personalList.uuId)">
-                                <text>16</text>
+                            <view class="flex flex-direction align-center margin-right-xl"
+                                  @click="toFans(personalList.uuId)">
+                                <text>{{FocusFansNumVo.fansCount}}</text>
                                 <text
                                         :style="{color:'#ddd'}">粉丝
                                 </text>
                             </view>
-                            <view class="flex flex-direction align-center margin-right-xl" @click="tomemberLikeCountModal()">
-                                <text>85</text>
+                            <view class="flex flex-direction align-center margin-right-xl"
+                                  @click="tomemberLikeCountModal()">
+                                <text>{{FocusFansNumVo.loveCollectCount}}</text>
                                 <text
                                         :style="{color:'#ddd'}">获赞与收藏
                                 </text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl">
-                                <text>2</text>
+                                <text>{{HelpCompanyNumVo.helpComCount}}</text>
                                 <text
                                         :style="{color:'#ddd'}">助力
                                 </text>
@@ -48,15 +51,17 @@
                             <button class="edit text-sm" @click="focusUser(personalList.uuId)" v-if="iffocus == 0">
                                 关注
                             </button>
-                            <button class="edit text-sm" @click="unFocusUser(personalList.uuId)" v-else-if="iffocus == 1">
+                            <button class="edit text-sm" @click="unFocusUser(personalList.uuId)"
+                                    v-else-if="iffocus == 1">
                                 取消关注
                             </button>
                             <button class="edit text-sm" @click="focusUser(personalList.uuId)" v-else-if="iffocus == 2">
                                 回关
                             </button>
-                            <button class="edit text-sm" @click="unFocusUser(personalList.uuId)" v-else="iffocus == 3">
+                            <button class="edit text-sm" @click="unFocusUser(personalList.uuId)" v-else-if="iffocus == 3">
                                 互相关注
                             </button>
+
                         </view>
                     </view>
                 </view>
@@ -72,14 +77,16 @@
                 <swiper :current="activeTab" class="padding" style="height: 100%;">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
 
-                        <view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde" class="card-PublishInfor" v-if="index === 0" @click="toMemInformationDetail(ite)">
+                        <view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde" class="card-PublishInfor"
+                              v-if="index === 0" @click="toMemInformationDetail(ite)">
                             <image class="medias_size" :src="ite.medias[0]" mode="widthFix" alt=""></image>
                             <view>{{ ite.textContent.substr(0, 35) }}</view>
                         </view>
-<!--                        <MemberPublishListModal v-if="index === 0"/>-->
+                        <!--                        <MemberPublishListModal v-if="index === 0"/>-->
 
-<!--                        <MemberHelpCompanyListModal v-if="index === 1"/>-->
-                        <view v-for="(ite,inde) in focusOrFansHelpList" :key="inde" class="card-Help" v-if="index === 1">
+                        <!--                        <MemberHelpCompanyListModal v-if="index === 1"/>-->
+                        <view v-for="(ite,inde) in focusOrFansHelpList" :key="inde" class="card-Help"
+                              v-if="index === 1">
                             <view class="card-location">{{ite.commentCreateDate}}</view>
                             <view class="card-title">{{ite.companyName}}</view>
                             <view class="card-text">{{ite.content}}</view>
@@ -99,12 +106,10 @@
 
     export default {
         name: 'homeMemberDetail',
-        components: {
-
-        },
+        components: {},
         data() {
             return {
-                iffocus: '',//0未关注对方、 1、我的关注、2、我的粉丝、3、互相关注
+                iffocus: '',//0未关注对方、 1、我的关注、2、我的粉丝、3、互相关注 4、就是当前用户
                 activeTab: 0,
                 tabs: [{
                     id: 1,
@@ -121,6 +126,16 @@
                     post: '',
                     signature: ''
                 },
+                FocusFansNumVo: {
+                    focusCount: '',
+                    fansCount: '',
+                    loveCount: '',
+                    collectCount: '',
+                    loveCollectCount: '',
+                },
+                HelpCompanyNumVo: {
+                    helpComCount: '',
+                },
                 userUrl: '/sys/user/queryById',
                 queryByUuIdUrl: '/sys/user/queryByUuId',
                 findFocusOrFansPublishInforPageUrl: '/information/movements/findFocusOrFansPublishInforPage',
@@ -128,6 +143,8 @@
                 userFocusUrl: '/information/followuser/userFocus',
                 userUnFocusUrl: '/information/followuser/userUnFocus',
                 FocusORFansUrl: '/information/followuser/FocusORFans',
+                queryfocusFansByUuIdUrl: '/inforcommon/queryfocusFansByUuId',
+                queryHelpComNumByUuIdUrl: '/comcommon/queryHelpComNumByUuId',
                 userId: '',
                 uuId: '',
                 id: '',
@@ -145,16 +162,12 @@
                     console.log('watch2222', this.$store.getters);
                     this.userId = this.$store.getters.userid;
                     this.uuId = this.$store.getters.uuId;
-
-                   // this.initFocusORFans();
                 }
             }
         },
         created() {
-            //this.initFormData();
-            //this.findPersonInfor(this.myFormData.inforId);
-            //this.findPublishInfor(this.myFormData.inforId);
-            //this.getFocusORFans(item); //判断两个用户的关注关系
+            this.queryfocusFansByUuId();
+            this.queryHelpComNumByUuId();
         },
         onLoad(option) {
             const item = JSON.parse(decodeURIComponent(option.item));
@@ -164,7 +177,6 @@
             this.getFocusOrFansPublishInforList(item); //获取动态列表
             this.getFocusOrFansHelpCompanyList(item); //获取助力列表
             this.getFocusORFans(item); //判断两个用户的关注关系
-
         },
         methods: {
             scan() {
@@ -182,6 +194,7 @@
                 this.$tip.alert('暂不支持');
                 // #endif
             },
+
             //根据uuId查询详情
             findPersonInfor(uuId) {
                 console.log("进来了方法", uuId)
@@ -205,7 +218,7 @@
                     params: {
                         page: 1,
                         pagesize: 20,
-                        uuId:item
+                        uuId: item
                     }
                 }).then(res => {
                     if (res.data.success) {
@@ -216,7 +229,7 @@
                             let arr = d.medias.split(',')
                             let arr2 = []
                             for (let e of arr) {
-                                e = this.fileUrl+e
+                                e = this.fileUrl + e
                                 arr2.push(e)
                             }
                             d.medias = arr2
@@ -233,7 +246,7 @@
                     params: {
                         page: 1,
                         pagesize: 20,
-                        uuId:item
+                        uuId: item
                     }
                 }).then(res => {
                     if (res.data.success) {
@@ -260,16 +273,16 @@
             },
             //点击关注按钮、关注用户
             focusUser(item) {
-                console.log("点击了关注方法：",item);
+                console.log("点击了关注方法：", item);
                 this.$http.get(this.userFocusUrl, {
                     params: {
-                        uuId:item
+                        uuId: item
                     }
                 }).then(res => {
                     if (res.data.success) {
                         //关注成功后将 iffocus 置为 true 然后页面根据  iffocus 属性改变按钮的显示
                         //this.iffocus = false;
-                        console.log("关注方法返回的提示信息为：",res.data.result);
+                        console.log("关注方法返回的提示信息为：", res.data.result);
                         //重新调用接口判断两个用户之间的关系
                         this.getFocusORFans(item);
                     }
@@ -279,16 +292,16 @@
             },
             //点击取消关注按钮、不再关注用户
             unFocusUser(item) {
-                console.log("点击了取消关注方法：",item);
+                console.log("点击了取消关注方法：", item);
                 this.$http.get(this.userUnFocusUrl, {
                     params: {
-                        uuId:item
+                        uuId: item
                     }
                 }).then(res => {
                     if (res.data.success) {
                         //关注成功后将 iffocus 置为 true 然后页面根据  iffocus 属性改变按钮的显示
                         //this.iffocus = true;
-                        console.log("取消关注方法返回的提示信息为：",res.data.result);
+                        console.log("取消关注方法返回的提示信息为：", res.data.result);
                         //重新调用接口判断两个用户之间的关系
                         this.getFocusORFans(item);
 
@@ -302,57 +315,51 @@
                 console.log("进来了方法", uuId)
                 this.$http.get(this.FocusORFansUrl, {params: {uuId: uuId}}).then((res) => {
                     if (res.data.success) {
-                        console.log("两个用户的关注关系是：", res.data.result);
-                        this.iffocus=res.data.result;
-                        //this.personalList = res.data.result;
-                        //console.log("this.personalList.avatar", this.personalList.avatar);
-                        //console.log("res.data.result.avatar", res.data.result.avatar);
-                        //console.log("查询个人信息返回的数据是：", res.data.result);
-                        // if (res.data.result.avatar === "") {
-                        //     console.log("头像不存在")
-                        // } else {
-                        //     console.log("有头像", res.data.result.avatar)
+                        //console.log("两个用户的关注关系是：", res.data.result);
+                        this.iffocus = res.data.result;
+
+                        //初始化判断这个页面是不是自己的  是自己的就把“关注”按钮去掉
+                        // if (this.uuId === uuId) {
+                        //     this.iffocus = "4"
                         // }
+                        console.log("两个用户的关注关系是：", this.iffocus);
                     }
                 })
             },
-            // load() {
-            //     if (!this.userId) {
-            //         return;
-            //     }
-            //     this.$http.get(this.userUrl, {
-            //         params: {
-            //             id: this.userId
-            //         }
-            //     }).then(res => {
-            //         console.log("this.userId：", this.userId);
-            //         if (res.data.success) {
-            //             //const {avatar: originalAvatar, departIds, post} = res.data.result;
-            //             this.personalList = res.data.result;
-            //             //console.log("this.personalList.avatar", this.personalList.avatar);
-            //             //console.log("res.data.result.avatar", res.data.result.avatar);
-            //             console.log("查询个人信息返回的数据是：", res.data.result);
-            //             if (res.data.result.avatar === "") {
-            //                 console.log("头像不存在")
-            //             } else {
-            //                 console.log("有头像", res.data.result.avatar)
-            //             }
-            //         }
-            //     }).catch(err => {
-            //         console.log(err);
-            //     });
-            // },
+
             clickTab(index) {
                 if (this.activeTab === index) return;
                 this.activeTab = index;
             },
+            //点击“获赞与收藏”
             tomemberLikeCountModal() {
                 console.log("点击了跳转modal");
                 uni.navigateTo({
                     url: './memberLikeCountModal'
                 })
-
-            }
+            },
+            //获取用户的粉丝和关注和获赞与收藏数量
+            queryfocusFansByUuId() {
+                let a = this.uuId;
+                console.log("获取用户的粉丝和关注和获赞与收藏数量", this.uuId)
+                this.$http.get(this.queryfocusFansByUuIdUrl, {params: {uuId: a}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据2222", res);
+                        this.FocusFansNumVo = res.data.result;
+                    }
+                })
+            },
+            //获取助力数量
+            queryHelpComNumByUuId() {
+                let a = this.uuId;
+                console.log("获取助力数量", this.uuId)
+                this.$http.get(this.queryHelpComNumByUuIdUrl, {params: {uuId: a}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据333", res);
+                        this.HelpCompanyNumVo = res.data.result;
+                    }
+                })
+            },
 
         }
     };

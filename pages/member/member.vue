@@ -25,25 +25,25 @@
                     <view class="flex justify-between align-center personData">
                         <view class="flex text-sm">
                             <view class="flex flex-direction align-center margin-right-xl" @click="toFocus(personalList.uuId)">
-                                <text>23</text>
+                                <text>{{FocusFansNumVo.focusCount}}</text>
                                 <text
                                         :style="{color:'#ddd'}">关注
                                 </text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl" @click="toFans(personalList.uuId)">
-                                <text>366</text>
+                                <text>{{FocusFansNumVo.fansCount}}</text>
                                 <text
                                         :style="{color:'#ddd'}">粉丝
                                 </text>
                             </view>
-                            <view class="flex flex-direction align-center margin-right-xl" @click="likeNum(personalList.uuId)">
-                                <text>999</text>
+                            <view class="flex flex-direction align-center margin-right-xl" @click="tomemberLikeCountModal(personalList.uuId)">
+                                <text>{{FocusFansNumVo.loveCollectCount}}</text>
                                 <text
                                         :style="{color:'#ddd'}">获赞与收藏
                                 </text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl" @click="toHelpCom(personalList.uuId)">
-                                <text>6</text>
+                                <text>{{HelpCompanyNumVo.helpComCount}}</text>
                                 <text
                                         :style="{color:'#ddd'}">助力
                                 </text>
@@ -115,7 +115,19 @@
                     signature: '',
                     uuId: '',
                 },
+                FocusFansNumVo: {
+                    focusCount: '',
+                    fansCount: '',
+                    loveCount: '',
+                    collectCount: '',
+                    loveCollectCount: '',
+                },
+                HelpCompanyNumVo: {
+                    helpComCount: '',
+                },
                 userUrl: '/sys/user/queryById',
+                queryfocusFansByUuIdUrl: '/inforcommon/queryfocusFansByUuId',
+                queryHelpComNumByUuIdUrl: '/comcommon/queryHelpComNumByUuId',
                 userId: '',
                 id: '',
                 fileUrl: configService.fileSaveURL,
@@ -127,9 +139,14 @@
                 handler() {
                     console.log('watch', this.cur);
                     this.userId = this.$store.getters.userid;
+                    this.uuId = this.$store.getters.uuId;
                     this.load();
                 }
             }
+        },
+        created() {
+            this.queryfocusFansByUuId();
+            this.queryHelpComNumByUuId();
         },
         methods: {
             scan() {
@@ -194,6 +211,36 @@
                 //console.log("进来了666", myFormData)
                 uni.navigateTo({
                     url: '/pages/member/fansModal?item=' + uuID
+                })
+            },
+            //点击“获赞与收藏”
+            tomemberLikeCountModal() {
+                console.log("点击了跳转modal");
+                uni.navigateTo({
+                    url: '../home/memberLikeCountModal'
+                })
+
+            },
+            //获取用户的粉丝和关注和获赞与收藏数量
+            queryfocusFansByUuId() {
+                let a = this.uuId;
+                console.log("获取用户的粉丝和关注和获赞与收藏数量", this.uuId)
+                this.$http.get(this.queryfocusFansByUuIdUrl, {params: {uuId: a}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据2222", res);
+                        this.FocusFansNumVo = res.data.result;
+                    }
+                })
+            },
+            //获取助力数量
+            queryHelpComNumByUuId() {
+                let a = this.uuId;
+                console.log("获取助力数量", this.uuId)
+                this.$http.get(this.queryHelpComNumByUuIdUrl, {params: {uuId: a}}).then((res) => {
+                    if (res.data.success) {
+                        console.log("表单数据333", res);
+                        this.HelpCompanyNumVo = res.data.result;
+                    }
                 })
             },
         }
