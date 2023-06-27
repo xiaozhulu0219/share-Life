@@ -4,6 +4,7 @@
 <!--		<information :cur="PageCur" v-if="PageCur == 'information'" :key="commponent3Key"></information>-->
 		<member v-if="PageCur == 'member'" :key="commponent4Key"></member>
 		<publish v-if="PageCur == 'publish'" :key="commponent4Key"></publish>
+		<message v-if="PageCur == 'message'" :key="commponent2Key"></message>
 		<view class="cu-bar tabbar bg-white shadow foot">
 			<view :class="PageCur == 'home' ? 'action text-green' : 'action text-gray'" @click="NavChange" data-cur="home">
 				<view class="cuIcon-homefill"></view>
@@ -11,6 +12,10 @@
 			</view>
 			<view :class="PageCur == 'publish' ? 'action text-green' : 'action text-gray'" @click="showModal" data-cur="publish">
 				<view class="cuIcon-roundaddfill"></view>
+			</view>
+			<view :class="PageCur == 'message' ? 'action text-blue' : 'action text-gray'" @click="NavChange" data-cur="message">
+				<view class="cuIcon-message"></view>
+				消息
 			</view>
 			<view :class="PageCur == 'member' ? 'action text-blue' : 'action text-gray'" @click="NavChange" data-cur="member">
 				<view class="cuIcon-people"></view>

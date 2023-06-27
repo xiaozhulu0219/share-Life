@@ -72,6 +72,13 @@ const routes = [{
         }
     },
     {
+        path: '/pages/message/message',
+        name: 'message',
+        meta: {
+            title: '消息页'
+        }
+    },
+    {
         path: '/pages/home/homeMemberDetail',
         name: 'homeMemberDetail',
         meta: {
