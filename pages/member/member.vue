@@ -26,27 +26,19 @@
                         <view class="flex text-sm">
                             <view class="flex flex-direction align-center margin-right-xl" @click="toFocus(personalList.uuId)">
                                 <text>{{FocusFansNumVo.focusCount}}</text>
-                                <text
-                                        :style="{color:'#ddd'}">关注
-                                </text>
+                                <text :style="{color:'#ddd'}">关注</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl" @click="toFans(personalList.uuId)">
                                 <text>{{FocusFansNumVo.fansCount}}</text>
-                                <text
-                                        :style="{color:'#ddd'}">粉丝
-                                </text>
+                                <text :style="{color:'#ddd'}">粉丝</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl" @click="tomemberLikeCountModal(personalList.uuId)">
                                 <text>{{FocusFansNumVo.loveCollectCount}}</text>
-                                <text
-                                        :style="{color:'#ddd'}">获赞与收藏
-                                </text>
+                                <text :style="{color:'#ddd'}">获赞与收藏</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl" @click="toHelpCom(personalList.uuId)">
                                 <text>{{HelpCompanyNumVo.helpComCount}}</text>
-                                <text
-                                        :style="{color:'#ddd'}">助力
-                                </text>
+                                <text :style="{color:'#ddd'}">助力</text>
                             </view>
                         </view>
                         <navigator url="/pages/member/memberdetail">
