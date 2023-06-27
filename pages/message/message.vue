@@ -22,6 +22,7 @@
 
 
     export default {
+        name: 'message',
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
 
