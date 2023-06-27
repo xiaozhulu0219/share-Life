@@ -9,7 +9,7 @@
                        @click="toInformationDetail(item)"></image>
                 <view class="card-text" @click="toInformationDetail(item)">{{item.textContent.substr(0, 35) }}</view>
                 <view class="card-line">
-                    <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt=""></image>
+                    <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt="" @click="toMemberdetail(item.uuId)"></image>
                     <view class="card-nickname">{{item.nickname}}</view>
                     <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx">&#xe60b</view>
                     <view class="card-ipAddress">{{item.ipAddress}}</view>
@@ -256,6 +256,13 @@
                         //刷新列表
                         this.getHomePublishInforList();
                     }
+                })
+            },
+            //点击头像跳转用户详情
+            toMemberdetail(myFormData) {
+                console.log("进来了9999应该是uuid", myFormData)
+                uni.navigateTo({
+                    url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
                 })
             },
         }

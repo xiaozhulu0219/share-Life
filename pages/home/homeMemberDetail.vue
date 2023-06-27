@@ -19,40 +19,30 @@
                     <text class="flex flex-sub flex-direction signature">{{personalList.signature}}</text>
                     <view class="flex justify-between align-center personData">
                         <view class="flex text-sm">
-                            <view class="flex flex-direction align-center margin-right-xl"
-                                  @click="toFocus(personalList.uuId)">
+                            <view class="flex flex-direction align-center margin-right-xl" @click="toFocus(personalList.uuId)">
                                 <text>{{FocusFansNumVo.focusCount}}</text>
-                                <text
-                                        :style="{color:'#ddd'}">关注
-                                </text>
+                                <text :style="{color:'#ddd'}">关注</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl"
                                   @click="toFans(personalList.uuId)">
                                 <text>{{FocusFansNumVo.fansCount}}</text>
-                                <text
-                                        :style="{color:'#ddd'}">粉丝
-                                </text>
+                                <text :style="{color:'#ddd'}">粉丝</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl"
                                   @click="tomemberLikeCountModal()">
                                 <text>{{FocusFansNumVo.loveCollectCount}}</text>
-                                <text
-                                        :style="{color:'#ddd'}">获赞与收藏
-                                </text>
+                                <text :style="{color:'#ddd'}">获赞与收藏</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl">
                                 <text>{{HelpCompanyNumVo.helpComCount}}</text>
-                                <text
-                                        :style="{color:'#ddd'}">助力
-                                </text>
+                                <text :style="{color:'#ddd'}">助力</text>
                             </view>
                         </view>
                         <view>
                             <button class="edit text-sm" @click="focusUser(personalList.uuId)" v-if="iffocus == 0">
                                 关注
                             </button>
-                            <button class="edit text-sm" @click="unFocusUser(personalList.uuId)"
-                                    v-else-if="iffocus == 1">
+                            <button class="edit text-sm" @click="unFocusUser(personalList.uuId)" v-else-if="iffocus == 1">
                                 取消关注
                             </button>
                             <button class="edit text-sm" @click="focusUser(personalList.uuId)" v-else-if="iffocus == 2">
@@ -166,10 +156,10 @@
             }
         },
         created() {
-            this.queryfocusFansByUuId();
-            this.queryHelpComNumByUuId();
+
         },
         onLoad(option) {
+            //这里的item其实是uuid 这个uuid 是从动态也拿过来的 是准确的 this.uuid是当前登录用户 在这里用不正确
             const item = JSON.parse(decodeURIComponent(option.item));
             //this.myFormData = item
             console.log("个人页拿到了uuid准备大干一番", item)
@@ -177,6 +167,8 @@
             this.getFocusOrFansPublishInforList(item); //获取动态列表
             this.getFocusOrFansHelpCompanyList(item); //获取助力列表
             this.getFocusORFans(item); //判断两个用户的关注关系
+            this.queryfocusFansByUuId(item);
+            this.queryHelpComNumByUuId(item);
         },
         methods: {
             scan() {
@@ -339,10 +331,10 @@
                 })
             },
             //获取用户的粉丝和关注和获赞与收藏数量
-            queryfocusFansByUuId() {
-                let a = this.uuId;
-                console.log("获取用户的粉丝和关注和获赞与收藏数量", this.uuId)
-                this.$http.get(this.queryfocusFansByUuIdUrl, {params: {uuId: a}}).then((res) => {
+            queryfocusFansByUuId(uuId) {
+                //let a = this.uuId;
+                console.log("获取用户的粉丝和关注和获赞与收藏数量", uuId)
+                this.$http.get(this.queryfocusFansByUuIdUrl, {params: {uuId: uuId}}).then((res) => {
                     if (res.data.success) {
                         console.log("表单数据2222", res);
                         this.FocusFansNumVo = res.data.result;
@@ -350,10 +342,10 @@
                 })
             },
             //获取助力数量
-            queryHelpComNumByUuId() {
-                let a = this.uuId;
-                console.log("获取助力数量", this.uuId)
-                this.$http.get(this.queryHelpComNumByUuIdUrl, {params: {uuId: a}}).then((res) => {
+            queryHelpComNumByUuId(uuId) {
+                //let a = this.uuId;
+                console.log("获取助力数量", uuId)
+                this.$http.get(this.queryHelpComNumByUuIdUrl, {params: {uuId: uuId}}).then((res) => {
                     if (res.data.success) {
                         console.log("表单数据333", res);
                         this.HelpCompanyNumVo = res.data.result;

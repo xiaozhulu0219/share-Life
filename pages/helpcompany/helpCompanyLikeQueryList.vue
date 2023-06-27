@@ -29,7 +29,11 @@
 						<view class="card-text">{{item.legalPerson}}</view>
 						<view class="card-text">{{item.companyStatus}}</view>
 						<view class="card-text">{{item.registeredCapital}}</view>
-						<button style="font-size: 18rpx;"  @click="confirmHelp(item)">拿捏此企业</button>
+
+						<button @click="confirmHelp(item)">
+							<view class="iconfont ml-1" style="color: #fbbd08 ; margin-top: 8rpx "  @click="confirmHelp(item)"> 拿捏此企业 &#xe69f
+							</view>
+						</button>
 					</view>
 					<view class="list-line"></view>
 				</view>
