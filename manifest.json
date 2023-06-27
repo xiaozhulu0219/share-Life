@@ -10,7 +10,8 @@
         "modules" : {
             "Geolocation" : {},
             "Push" : {},
-            "Camera" : {}
+            "Camera" : {},
+            "Share" : {}
         },
         /* 模块配置 */
         "distribute" : {
