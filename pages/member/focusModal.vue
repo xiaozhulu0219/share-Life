@@ -6,7 +6,7 @@
             <block slot="content">我的关注</block>
         </cu-custom>
         <mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
-            <view v-for="item in myFocusList" :key="index" class="card">
+            <view v-for="(item,index) in myFocusList" :key="index" class="card">
                 <image class="fans-avatar round sm" :src="fileUrl+item.avatar" alt="" @click="toMemberdetail(item.uuId)"></image>
                 <view class="card-info">
                     <view class="card-nickname">{{item.nickname}}</view>
