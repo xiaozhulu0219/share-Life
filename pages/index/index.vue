@@ -4,7 +4,7 @@
         <!--		<information :cur="PageCur" v-if="PageCur == 'information'" :key="commponent3Key"></information>-->
         <member v-if="PageCur == 'member'" :key="commponent4Key"></member>
         <publish v-if="PageCur == 'publish'" :key="commponent4Key"></publish>
-        <message v-if="PageCur == 'message'" :key="commponent2Key"></message>
+        <message v-if="PageCur == 'message'" :key="commponent4Key"></message>
         <view class="cu-bar tabbar bg-white shadow foot">
             <view :class="PageCur == 'home' ? 'action text-green' : 'action text-gray'" @click="NavChange" data-cur="home">
                 <view class="cuIcon-homefill"></view>

@@ -27,6 +27,9 @@ import forgetPass from './pages/login/forgetPass.vue';
 //以下一个是将来的用户
 import member from './pages/member/member.vue';
 
+//消息页
+import message from './pages/message/message.vue';
+
 //以下两个是新首页
 import inforPublishForm from './pages/information/inforPublishForm.vue';
 
@@ -67,6 +70,7 @@ Vue.component('register', register);
 Vue.component('engine', engine);
 Vue.component('forgetPass', forgetPass);
 Vue.component('member', member);
+Vue.component('message', message);
 Vue.component('inforPublishForm', inforPublishForm);
 Vue.component('helpCompanyLikeQueryList', helpCompanyLikeQueryList);
 Vue.component('homeHelpCompanyDetail', homeHelpCompanyDetail);

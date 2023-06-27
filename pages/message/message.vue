@@ -1,17 +1,9 @@
 <template>
     <view>
-        <!--首页-->
-        <!--关于首页的规划，首页将来还是做框架、HomeSignModal从后台拿回多少个标签 home就插多少个modal
-        至于modal的命名无所谓， 比如第一个modal是心理方面的 在返回的标签中 心理是1 那就将1作为参数获取列表
-        所有标签页获取数据公用一个接口，根据传的标签值（类型）后台返回不同的领域的数据
-        -->
+        <!--消息页-->
         <cu-custom :bgColor="NavBarColor">
-<!--            <block slot="content">ShareLife</block>-->
             <block slot="right"> ShareLife <view class="iconfont ml-1" style="color: #2C405A" @click="toSearch(activeTab.value)">&#xe600</view></block>
         </cu-custom>
-
-
-
     </view>
 </template>
 
@@ -25,7 +17,6 @@
         name: 'message',
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
-
         },
         data() {
             return {
@@ -62,10 +53,6 @@
                 }], //搜索出来的内容(假数据)
             };
         },
-        // created() {
-        //     this.getHomePublishComList();
-        //     this.getHomePublishInforList();
-        // },
         methods: {
             getActiveTab(item) {
                 this.activeTab = item;
@@ -100,61 +87,9 @@
                         title: '搜索内容不能为空'
                     });
                 } else {
-                    //let myForm = this.myFormData
-                    //console.log("myForm", myForm)
-                    //this.$tip.loading();
-                    // this.$http.get('/sys/editNickName', {
-                    //     params: {
-                    //         id: this.$store.getters.userid,
-                    //         nickName: myForm.nickName
-                    //     }
-                    // }).then(res => {
-                    //     console.log(res)
-                    //     this.$tip.loaded();
-                    //     if (res.data.success) {
-                    //         this.$tip.toast('提交成功')
-                    //         this.$Router.replace({
-                    //             name: 'memberdetail'
-                    //         })
-                    //         /* uni.navigateTo({
-                    //             url: '/pages/user/userdetail'
-                    //         }) */
-                    //     }
-                    // }).catch(() => {
-                    //     this.$tip.loaded();
-                    //     this.$tip.error('提交失败')
-                    // });
                 }
-               // this.inputValue = '';
             },
-            // search() {
-            //     if (this.inputValue == '') {
-            //         uni.showModal({
-            //             title: '搜索内容不能为空'
-            //         });
-            //     } else {
-            //         if (!this.searchHistoryList.includes(this.inputValue)) {
-            //             this.searchHistoryList.unshift(this.inputValue);
-            //             uni.setStorage({
-            //                 key: 'searchList',
-            //                 data: JSON.stringify(this.searchHistoryList)
-            //             });
-            //         } else {
-            //             //有搜索记录，删除之前的旧记录，将新搜索值重新push到数组首位
-            //             let i = this.searchHistoryList.indexOf(this.inputValue);
-            //             this.searchHistoryList.splice(i, 1);
-            //             this.searchHistoryList.unshift(this.inputValue);
-            //             uni.showToast({
-            //                 title: '不能重复添加'
-            //             });
-            //             uni.setStorage({
-            //                 key: 'searchList',
-            //                 data: JSON.stringify(this.searchHistoryList)
-            //             });
-            //         }
-            //     }
-            //     this.inputValue = '';
-            // },
+
             //清空历史记录
             empty() {
                 uni.showToast({
@@ -163,18 +98,12 @@
                 uni.removeStorage({
                     key: 'searchList'
                 });
-
                 this.searchHistoryList = [];
             },
-
             async onLoad() {
                 let list = await uni.getStorage({
                     key: 'searchList'
                 });
-               // console.log(list[1].data);
-                // if (list[1].data) {
-                //     this.searchHistoryList = JSON.parse(list[1].data);
-                // }
             }
         }
     };
@@ -233,24 +162,12 @@
     }
 
     .home-infor {
-       //background-color: #fff;
         background-color: $uni-bg-color-grey;
-        //padding: 20rpx 20rpx;
-        //border-radius: 20rpx;
-        //margin-bottom: 10rpx; /*盒子间的距离*/
         margin-top: 100rpx; /*盒子距离顶部的距离*/
-        //line-height: 35rpx; /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
     }
     .home-helpCompany {
-       //background-color: #fff;
         background-color: $uni-bg-color-grey;
-        //padding: 20rpx 20rpx;
-        //border-radius: 20rpx;
-        //margin-bottom: 10rpx; /*盒子间的距离*/
         margin-top: 100rpx; /*盒子距离顶部的距离*/
-        //line-height: 35rpx; /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
     }
 
     .home-sign {
@@ -259,7 +176,6 @@
         margin-top: 5rpx; /*盒子距离顶部的距离*/
         line-height: 60rpx; /*行高*/
         height: 100%;
-        //margin-bottom: 16px; /*内容和标题间的间距*/
     }
 
     .icon-search {
