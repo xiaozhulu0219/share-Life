@@ -61,7 +61,8 @@
                     <swiper-item v-for="(item,index) in tabs" :key="index">
                         <MyPublishList v-if="index === 0"/>
                         <MyHelpCompanyList v-if="index === 1"/>
-                        <view v-if="index !== 0 && index !== 1" class="swiper-item">{{item.name}}</view>
+                        <MyLoveInforList v-if="index === 3"/>
+                        <view v-if="index !== 0 && index !== 1 && index !== 3" class="swiper-item">{{item.name}}</view>
                     </swiper-item>
                 </swiper>
             </view>
@@ -73,6 +74,7 @@
     import api from '@/api/api';
     import MyHelpCompanyList from './memberHelpCompanyList'
     import MyPublishList from './memberPublishList'
+    import MyLoveInforList from './memberLoveInforList'
     import configService from '@/common/service/config.service.js'
 
 
@@ -80,7 +82,8 @@
         name: 'member',
         components: {
             MyHelpCompanyList,
-            MyPublishList
+            MyPublishList,
+            MyLoveInforList
         },
         data() {
             return {
