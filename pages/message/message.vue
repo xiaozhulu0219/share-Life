@@ -95,7 +95,7 @@
                     //display: inline-block;
                     //margin-bottom: 30rpx; /*盒子间的距离*/
                     margin-left: -20rpx;
-                    margin-top: 30rpx;
+                    margin-top: 40rpx;
                 }
             }
 
@@ -110,7 +110,7 @@
                     //display: inline-block;
                     //margin-bottom: 30rpx; /*盒子间的距离*/
                     margin-left: -20rpx;
-                    margin-top: 30rpx;
+                    margin-top: 40rpx;
                 }
             }
 
@@ -126,7 +126,7 @@
                     //display: inline-block;
                     //margin-bottom: 30rpx; /*盒子间的距离*/
                     margin-left: -20rpx;
-                    margin-top: 30rpx;
+                    margin-top: 40rpx;
                 }
             }
         }
