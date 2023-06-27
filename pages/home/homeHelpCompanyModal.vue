@@ -3,15 +3,17 @@
     <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
         <view v-for="(item,index) in homePublishComList" :key="index" class="card"
               @click="toHomeHelpCompanyDetail(item)">
-            <view class="card-title">{{item.companyName}}</view>
+            <view class="card-title">{{item.companyName.substr(0, 18)}}</view>
             <view class="card-text">{{item.legalPerson}}</view>
             <view class="card-text">{{item.registerTime}}</view>
             <view class="card-text">{{item.companyStatus}}</view>
             <view class="card-line">
                 <view class="card-text">{{item.registeredCapital}}</view>
+                <view class="card-icon">
                 <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-if="item.hotValue > 60">&#xe627</view>
 				<view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else-if="item.hotValue > 20">&#xe60d</view>
 				<view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else="item.hotValue = 0">&#xe646</view>
+                </view>
             </view>
         </view>
     </mescroll-body>
@@ -139,22 +141,24 @@
 			//margin-top: 100rpx; /*盒子距离顶部的距离*/
 		}
 
+        .card-line {
+            //font-weight: bold;
+            display: flex;
+            //margin-left: 20rpx;
+        }
+
 		.card-text {
 			font-size: 32rpx;
 		}
 
-		.card-location {
+		.card-icon {
 			position: absolute;
-			right: 20rpx;
+			right: 80rpx;
 			font-size: 20rpx;
 		}
 
 
-		.card-line {
-			//font-weight: bold;
-			display: flex;
-			//margin-left: 20rpx;
-		}
+
 
 	}
 </style>
