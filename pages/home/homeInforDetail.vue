@@ -169,6 +169,19 @@
                 ],
             }
         },
+        watch: {
+            cur: {
+                immediate: true,
+                handler() {
+                    console.log('watch', this.cur);
+                    this.userId = this.$store.getters.userid;
+                    this.uuId = this.$store.getters.uuId;
+                    //this.load();
+                    console.log('uuId666：', this.uuId);
+                    console.log('userId888：', this.userId);
+                }
+            }
+        },
         created() {
             //this.initFormData();
             this.getInforCommentsList(this.myFormData.inforId);
@@ -304,9 +317,17 @@
             //点击头像跳转用户详情
             toMemberdetail(myFormData) {
                 console.log("进来了666应该是uuid", myFormData)
-                uni.navigateTo({
-                    url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
-                })
+                //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
+                //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
+                if(this.uuId == myFormData){
+                    uni.navigateTo({
+                        url: '/pages/member/member'
+                    })
+                }else{
+                    uni.navigateTo({
+                        url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
+                    })
+                }
             },
             //保存评论 这里有两种评论、一种是对动态 一种是对评论
             saveComment(inputValue) {

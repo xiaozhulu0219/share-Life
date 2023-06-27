@@ -2,8 +2,7 @@
     <view>
         <!--首页引用的modal-->
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
-        <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback"
-                       @up="upCallback">
+        <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
             <view v-for="(item,index) in homePublishInforList" :key="index" class="card">
                 <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""
                        @click="toInformationDetail(item)"></image>
@@ -118,7 +117,59 @@
                         radius: "50%" // 圆角, 默认"50%" (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
                     },
                 },
+                /*下拉刷新的回调 */
+                // downCallback() {
+                //     //联网加载数据
+                //     apiNewList().then(data => {
+                //         //联网成功的回调,隐藏下拉刷新的状态
+                //         this.mescroll.endSuccess();
+                //         //设置列表数据
+                //         this.homePublishInforList.unshift(data[0]);
+                //     }).catch(()=>{
+                //         //联网失败的回调,隐藏下拉刷新的状态
+                //         this.mescroll.endErr();
+                //     })
+                // },
+                /*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
+                // upCallback(page) {
+                //     //联网加载数据
+                //     apiNewList(page.num, page.size).then(curPageData=>{
+                //         //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
+                //         //mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
+                //
+                //         //方法一(推荐): 后台接口有返回列表的总页数 totalPage
+                //         //this.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
+                //
+                //         //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
+                //         //this.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
+                //
+                //         //方法三(推荐): 您有其他方式知道是否有下一页 hasNext
+                //         //this.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
+                //
+                //         //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据.
+                //         this.mescroll.endSuccess(curPageData.length);
+                //
+                //         //设置列表数据
+                //         this.homePublishInforList=this.homePublishInforList.concat(curPageData);
+                //     }).catch(()=>{
+                //         //联网失败, 结束加载
+                //         this.mescroll.endErr();
+                //     })
+                // }
             };
+        },
+        watch: {
+            cur: {
+                immediate: true,
+                handler() {
+                    console.log('watch', this.cur);
+                    this.userId = this.$store.getters.userid;
+                    this.uuId = this.$store.getters.uuId;
+                    //this.load();
+                    console.log('uuId666：', this.uuId);
+                    console.log('userId888：', this.userId);
+                }
+            }
         },
         created() {
             //this.getHomePublishComList();
@@ -261,9 +312,17 @@
             //点击头像跳转用户详情
             toMemberdetail(myFormData) {
                 console.log("进来了9999应该是uuid", myFormData)
-                uni.navigateTo({
-                    url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
-                })
+                //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
+                if(this.uuId == myFormData){
+                    uni.navigateTo({
+                        url: '/pages/member/member'
+                    })
+                }else{
+                    uni.navigateTo({
+                        url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
+                    })
+                }
+
             },
         }
     };
