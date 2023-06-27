@@ -16,7 +16,6 @@ export default new Vuex.Store({
     avatar: '',
     uuId: '',
     nickname: '',
-    avatar: '',
 	placeholdertext:'你可以在这里:1.爆料职场新鲜事 2.分享面试跳槽经验 3.与同行交流、吐槽解压'
   },
   mutations: {
