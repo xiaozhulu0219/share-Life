@@ -168,6 +168,18 @@
       "style": {}
     },
     {
+      "path": "pages/message/loveMsgModal",
+      "style": {}
+    },
+    {
+      "path": "pages/message/focusMsgModal",
+      "style": {}
+    },
+    {
+      "path": "pages/message/commentMsgModal",
+      "style": {}
+    },
+    {
       "path": "pages/member/memberdetail",
       "style": {}
     },

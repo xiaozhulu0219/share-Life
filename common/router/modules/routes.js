@@ -79,6 +79,28 @@ const routes = [{
         }
     },
     {
+        path: '/pages/message/loveMsgModal',
+        name: 'loveMsgModal',
+        meta: {
+            title: '赞与收藏消息页'
+        }
+    },
+
+    {
+        path: '/pages/message/focusMsgModal',
+        name: 'focusMsgModal',
+        meta: {
+            title: '新增关注消息页'
+        }
+    },
+    {
+        path: '/pages/message/commentMsgModal',
+        name: 'commentMsgModal',
+        meta: {
+            title: '评论消息页'
+        }
+    },
+    {
         path: '/pages/home/homeMemberDetail',
         name: 'homeMemberDetail',
         meta: {

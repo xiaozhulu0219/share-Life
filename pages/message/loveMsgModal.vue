@@ -4,23 +4,23 @@
     <view class="container">
         <cu-custom :bgColor="NavBarColor">
             <!--            <block slot="content">ShareLife</block>-->
-            <block slot="right" style="margin-left: 2000rpx"> 消息</block>
+            <block slot="right" style="margin-left: 2000rpx"> 获赞消息</block>
 
         </cu-custom>
         <view class="card">
             <view class="card-line">
-                <view class="card-loveMessage">
-                    <view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;" @click="loveMsgTotal()"></view>
-                    <view class="card-loveCount">赞和收藏</view>
-                </view>
-                <view class="card-focusMessage">
-                    <view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;" @click="focusMsgTotal()"></view>
-                    <view class="card-focusCount">新增关注</view>
-                </view>
-                <view class="card-commentMessage">
-                    <view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;" @click="commentMsgTotal()"></view>
-                    <view class="card-commentCount">评论和@</view>
-                </view>
+<!--                <view class="card-loveMessage">-->
+<!--                    <view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;" @click="loveMsgTotal()"></view>-->
+<!--                    <view class="card-loveCount">赞和收藏</view>-->
+<!--                </view>-->
+<!--                <view class="card-focusMessage">-->
+<!--                    <view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;" @click="focusMsgTotal()"></view>-->
+<!--                    <view class="card-focusCount">新增关注</view>-->
+<!--                </view>-->
+<!--                <view class="card-commentMessage">-->
+<!--                    <view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;" @click="commentMsgTotal()"></view>-->
+<!--                    <view class="card-commentCount">评论和@</view>-->
+<!--                </view>-->
             </view>
 
             <!--                <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">-->
@@ -54,39 +54,13 @@
 
 
     export default {
-        name: 'message',
+        name: 'loveMsgModal',
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {},
         data() {
             return {};
         },
-        methods: {
-            //点击"赞和收藏"
-            loveMsgTotal() {
-                console.log("进来了666应该是uuid")
-                //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
-                    uni.navigateTo({
-                        url: '/pages/message/loveMsgModal'
-                    })
-            },
-            //点击"新增关注"
-            focusMsgTotal() {
-                console.log("进来了666应该是uuid")
-                //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
-                uni.navigateTo({
-                    url: '/pages/message/focusMsgModal'
-                })
-            },
-            //点击"评论和@"
-            commentMsgTotal() {
-                console.log("进来了666应该是uuid")
-                //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
-                uni.navigateTo({
-                    url: '/pages/message/commentMsgModal'
-                })
-            },
-
-        }
+        methods: {}
     };
 </script>
 
