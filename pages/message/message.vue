@@ -24,6 +24,7 @@
                     <view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;"
                           @click="commentMsgTotal(announcement5)"></view>
                     <view class="card-commentCount">评论和@</view>
+<!--                    <view class="card-loveCount">{{this.announcement5}}</view>-->
                 </view>
             </view>
         </view>
