@@ -2,10 +2,8 @@
 
     <!--消息页-->
     <view class="container">
-        <cu-custom :bgColor="NavBarColor">
-            <!--            <block slot="content">ShareLife</block>-->
+        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
             <block slot="right" style="margin-left: 2000rpx"> 新增关注消息</block>
-
         </cu-custom>
         <view class="card">
             <view class="card-line">
@@ -58,7 +56,9 @@
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {},
         data() {
-            return {};
+            return {
+                backRouteName: 'index',
+            };
         },
         methods: {}
     };

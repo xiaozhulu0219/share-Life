@@ -2,46 +2,30 @@
 
     <!--消息页-->
     <view class="container">
-        <cu-custom :bgColor="NavBarColor">
-            <!--            <block slot="content">ShareLife</block>-->
+        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+            <block slot="backText"></block>
             <block slot="right" style="margin-left: 2000rpx"> 获赞消息</block>
-
         </cu-custom>
         <view class="card">
             <view class="card-line">
-<!--                <view class="card-loveMessage">-->
-<!--                    <view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;" @click="loveMsgTotal()"></view>-->
-<!--                    <view class="card-loveCount">赞和收藏</view>-->
-<!--                </view>-->
-<!--                <view class="card-focusMessage">-->
-<!--                    <view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;" @click="focusMsgTotal()"></view>-->
-<!--                    <view class="card-focusCount">新增关注</view>-->
-<!--                </view>-->
-<!--                <view class="card-commentMessage">-->
-<!--                    <view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;" @click="commentMsgTotal()"></view>-->
-<!--                    <view class="card-commentCount">评论和@</view>-->
-<!--                </view>-->
+                <a-list>
+                    <a-list-item :key="index" v-for="(record, index) in this.announcement3">
+                        <div style="margin-left: 5%;width: 80%">
+                            <p><a @click="showAnnouncement(record)">{{ record.titile }}</a></p>
+                            <p style="color: rgba(0,0,0,.45);margin-bottom: 0px">{{ record.createTime }} 发布</p>
+                        </div>
+                        <div style="text-align: right">
+                            <a-tag @click="showAnnouncement(record)" v-if="record.priority === 'L'" color="blue">一般消息</a-tag>
+                            <a-tag @click="showAnnouncement(record)" v-if="record.priority === 'M'" color="orange">重要消息</a-tag>
+                            <a-tag @click="showAnnouncement(record)" v-if="record.priority === 'H'" color="red">紧急消息</a-tag>
+                        </div>
+                    </a-list-item>
+                    <div style="margin-top: 5px;text-align: center">
+                        <a-button @click="toMyAnnouncement()" type="dashed" block>查看更多</a-button>
+                    </div>
+                </a-list>
             </view>
 
-            <!--                <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">-->
-            <!--                    <view class="comment-parent">-->
-            <!--                        <image class="comment-avatar round sm" :src="item.avatar" alt=""-->
-            <!--                               @click="toMemberdetail(myFormData.uuId)"></image>-->
-            <!--                        <view class="comment-nickcon">-->
-            <!--                            <view class="comment-nickname">{{ item.nickname }}</view>-->
-            <!--                            <view class="comment-content">{{ item.content }}</view>-->
-            <!--                            <view class="comment-createDate">{{item.createDate}}</view>-->
-            <!--                        </view>-->
-            <!--                        <view class="comment-iconlikeCount">-->
-            <!--                            <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;" v-if="item.hasLiked == 0" @click="likeComment(item.id)">&#xe8ad</view>-->
-            <!--                            <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else="item.hasLiked == 1" @click="dislikeComment(item.id)">&#xe60f</view>-->
-            <!--                            <view class="comment-likeCount">{{item.likeCount}}</view>-->
-            <!--                        </view>-->
-            <!--                    </view>-->
-            <!--                    <view class="iconfont ml-1" style="font-size: 40rpx;  margin-left: 200rpx"-->
-            <!--                          @click="getSonCommentsList(item)">&#xe631-->
-            <!--                    </view>-->
-            <!--                </view>-->
         </view>
     </view>
 
@@ -58,7 +42,20 @@
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {},
         data() {
-            return {};
+            return {
+                backRouteName: 'index',
+                announcement1:[],
+                announcement2:[],
+                announcement3:[],
+                announcement4:[],
+                announcement5:[],
+            };
+        },
+        onLoad(option) {
+            const item = JSON.parse(decodeURIComponent(option.item));
+            this.announcement3 = item
+            //console.log("输出item", item)
+            //this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {}
     };
