@@ -26,7 +26,11 @@
                     <view class="card-commentCount">评论和@</view>
 <!--                    <view class="card-loveCount">{{this.announcement5}}</view>-->
                 </view>
+
             </view>
+            <view>{{this.announcement3}}</view>
+            <!--                <view>{{this.announcement3}}</view>-->
+            <!--                <view>{{this.announcement3}}</view>-->
         </view>
     </view>
 
@@ -43,11 +47,6 @@
         components: {},
         data() {
             return {
-                url: {
-                    listCementByUser: "/sys/annountCement/listByUser",
-                    editCementSend: "/sys/sysAnnouncementSend/editByAnntIdAndUserId",
-                    queryById: "/sys/annountCement/queryById",
-                },
                 hovered: false,
                 announcement1: [],
                 announcement2: [],
@@ -64,6 +63,11 @@
                 msg3Title: "",
                 msg4Title: "",
                 msg5Title: "",
+                url: {
+                    listMsgUrl: "/sys/annountCement/listMsg",
+                    editCementSend: "/sys/sysAnnouncementSend/editByAnntIdAndUserId",
+                    queryById: "/sys/annountCement/queryById",
+                },
             };
         },
         //这里会拿到所有消息数量、将来展示在index的消息图标上
@@ -90,16 +94,16 @@
             loadData() {
                 try {
                     // 获取系统消息
-                    this.$http.get(this.url.listCementByUser).then((res) => {
+                    this.$http.get(this.url.listMsgUrl).then((res) => {
                         console.log("进入了获取系统消息方法")
                         if (res.data.success) {
                             console.log("系统消息方法的表单数据", res);
-                            this.announcement1 = res.data.result.anntMsgList;
-                            this.msg1Count = res.data.result.anntMsgTotal;
-                            this.msg1Title = "通知(" + res.data.result.anntMsgTotal + ")";
-                            this.announcement2 = res.data.result.sysMsgList;
-                            this.msg2Count = res.data.result.sysMsgTotal;
-                            this.msg2Title = "系统消息(" + res.data.result.sysMsgTotal + ")";
+                            //this.announcement1 = res.data.result.anntMsgList;
+                            //this.msg1Count = res.data.result.anntMsgTotal;
+                            //this.msg1Title = "通知(" + res.data.result.anntMsgTotal + ")";
+                            //this.announcement2 = res.data.result.sysMsgList;
+                            //this.msg2Count = res.data.result.sysMsgTotal;
+                            //this.msg2Title = "系统消息(" + res.data.result.sysMsgTotal + ")";
                             this.announcement3 = res.data.result.loveMsgList;
                             this.msg3Count = res.data.result.loveMsgTotal;
                             this.msg3Title = "赞和收藏(" + res.data.result.loveMsgTotal + ")";

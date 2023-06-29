@@ -288,9 +288,9 @@
                         console.log("this.homePublishInforList.indexOf(index)：", this.homePublishInforList[index]);
                         console.log("11111", this.homePublishInforList);
 
-                        for (let d of this.homePublishInforList) {
-                            console.log("2222", d);
-                        }
+                        // for (let d of this.homePublishInforList) {
+                        //     console.log("2222", d);
+                        // }
                         //this.homePublishInforList.indexOf(index).loveCount = res.data.result;
                         //刷新列表
                         this.getHomePublishInforList();

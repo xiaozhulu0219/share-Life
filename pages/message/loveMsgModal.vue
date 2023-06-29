@@ -7,22 +7,22 @@
             <block slot="right" style="margin-left: 2000rpx"> 获赞消息</block>
         </cu-custom>
         <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
-            <view v-for="(item,index) in announcement3" :key="index" class="card">
 
-<!--                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""-->
-<!--                       @click="toInformationDetail(item)"></image>-->
+            <view v-for="(item,index) in this.announcement3" :key="index" class="card">
+                <view class="detail-title">
+                    <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
+                </view>
+                <view class="detail-content">
+                    <view class="detail-info">
+                        <view style="font-size: 40rpx; margin-top: 10rpx">{{item.nickName }}</view>
+                        <view style="margin-right: 10rpx; margin-top: 10rpx">{{item.title }}  {{item.createTime }} </view>
+                    </view>
+                    <view class="comment-iconlikeCount"> <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
+                        <image class="card-avatar round sm" :src="item.medias" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
 
-                <view class="card-text" @click="toInformationDetail(item)">{{item.titile.substr(0, 35) }}</view>
-                <view class="card-text" @click="toInformationDetail(item)">{{item.createTime.substr(0, 35) }}</view>
-<!--                <view class="card-line">-->
-<!--                    <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt="" @click="toMemberdetail(item.uuId)"></image>-->
-<!--                    <view class="card-nickname">{{item.nickname.substr(0, 12)}}</view>-->
-<!--                    <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx">&#xe60b</view>-->
-<!--                    <view class="card-ipAddress">{{item.ipAddress}}</view>-->
-<!--                    <view class="cuIcon-like" style="color: #fbbd08 ; margin-top: 8rpx" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)"></view>-->
-<!--                    <view class="cuIcon-likefill" style="color: #dd524d ; margin-top: 8rpx" v-else="item.hasLoved == 1" @click="unloveInfor(item.inforId,index)"></view>-->
-<!--                    <view class="card-loveCount">{{item.loveCount}}</view>-->
-<!--                </view>-->
+
+                    </view>
+                </view>
             </view>
         </mescroll-body>
     </view>
@@ -46,6 +46,7 @@
                 fileUrl: configService.fileSaveURL,
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
+                    findPublishInforUrl: '/information/movements/findPublishInfor',
                     findInforCommentsPageUrl: '/information/comments/list',
                     findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
                     saveCommentUrl: '/information/comments/saveCommentForInfor',
@@ -57,6 +58,8 @@
                     dislikeInforUrl: '/information/movements/dislike',
                     loveInforUrl: '/information/movements/love',
                     unloveInforUrl: '/information/movements/unlove',
+                    queryByUuIdUrl: '/sys/user/queryByUuId',
+                    findCommentByIdUrl: '/information/comments/findCommentById',
                 },
                 FocusFansNumVo: {
                     avatar: '',
@@ -66,6 +69,9 @@
                     msgCategory: '',
                     fromUser: '',
                     createTime: '',
+                    nickName: '',
+                    medias: '',
+                    content: '', //被评论的评论内容，或者被赞的评论、
 
                 },
             };
@@ -77,47 +83,11 @@
             this.loveMsg(this.announcement3); //这是传参后继续调用方法的示例
         },
         methods: {
-            loveMsg(list){
-                console.log("初始list数组", list)
+            loveMsg(list){//这个方法放弃了  不在前端做 操作了、放在后端吧
+                //console.log("初始list数组", list)
                 for (let d of list) {
-                    this.$http.get(this.queryByUuIdUrl, {params: {uuId: d.uuId}}).then((res) => {
-                        if (res.data.success) {
-                            //将的的每一项给到 FocusFansNumVo 然后再 push 到一个新数组
-                            this.FocusFansNumVo = d;
 
-
-
-                            d.avatar = this.fileUrl + d.avatar
-
-
-
-                            this.personalList = res.data.result;
-                            //console.log("this.personalList.avatar", this.personalList.avatar);
-                            //console.log("res.data.result.avatar", res.data.result.avatar);
-                            console.log("查询个人信息返回的数据是：", res.data.result);
-                            if (res.data.result.avatar === "") {
-                                console.log("头像不存在")
-                            } else {
-                                console.log("有头像", res.data.result.avatar)
-                            }
-
-
-
-                        }
-                    })
-
-
-                    let arr = d.medias.split(',')
-                    let arr2 = []
-                    for (let e of arr) {
-                        e = this.fileUrl + e
-                        arr2.push(e)
-                    }
-                    d.avatar = this.fileUrl + d.avatar
-                    d.medias = arr2
                 }
-
-
             },
             //根据inforId查询动态详情----  TODO 需要注意的是即使点赞的是评论，在赞里边跳转的也是 评论所在的动态，而不是评论本身
             findPublishInfor(inforId) {
@@ -146,6 +116,19 @@
                     }
                 })
             },
+            //根据评论的id查询评论的内容
+            findComment(item) {
+                //console.log("进来了方法33333", item)
+                this.$http.get(this.url.findCommentByIdUrl, {params: {id: item.id}}).then(res => {
+                    if (res.data.success) {
+                        //this.inforSonCommentsList = res.data.result;
+                        //console.log("数据:",this.inforSonCommentsList);
+                        //console.log("数据条数222:",this.inforSonCommentsList.length);
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
 
 
         }
@@ -155,9 +138,9 @@
 
 <style lang="scss" scoped>
 
-    .container{
-        background-color: #ffffff;
-    }
+    /*.container{*/
+    /*    background-color: #ffffff;*/
+    /*}*/
 
     .card {
         background-color:  #fff;
@@ -166,59 +149,64 @@
         margin-bottom: 10rpx; /*盒子间的距离*/
         margin-top: 100rpx; /*盒子距离顶部的距离*/
         line-height: 35rpx; /*行高*/
-
-        .card-line {
-            font-weight: bold;
-            display: flex;
-            margin-bottom: 30rpx; /*盒子间的距离*/
-
-            .card-loveMessage {
-                font-weight: bold;
-                display: inline-block;
-                margin-bottom: 30rpx; /*盒子间的距离*/
-                margin-left: 50rpx;
-
-                .card-loveCount {
-                    font-weight: bold;
-                    //display: inline-block;
-                    //margin-bottom: 30rpx; /*盒子间的距离*/
-                    margin-left: -20rpx;
-                    margin-top: 40rpx;
-                }
-            }
-
-            .card-focusMessage {
-                font-weight: bold;
-                display: inline-block;
-                margin-bottom: 30rpx; /*盒子间的距离*/
-                margin-left: 160rpx;
-
-                .card-focusCount {
-                    font-weight: bold;
-                    //display: inline-block;
-                    //margin-bottom: 30rpx; /*盒子间的距离*/
-                    margin-left: -20rpx;
-                    margin-top: 40rpx;
-                }
-            }
-
-            .card-commentMessage {
-                font-weight: bold;
-                display: inline-block;
-                margin-bottom: 30rpx; /*盒子间的距离*/
-                margin-left: 160rpx;
-
-
-                .card-commentCount {
-                    font-weight: bold;
-                    //display: inline-block;
-                    //margin-bottom: 30rpx; /*盒子间的距离*/
-                    margin-left: -20rpx;
-                    margin-top: 40rpx;
-                }
-            }
-        }
     }
 
+    .card-avatar {
+        max-width: 25px;
+        width: 25px;
+        width: expression(this.width > 25 ? "25px" : this.width);
+        height: 25px;
+        height: expression(this.height > 25 ? "25px" : this.height);
+        position: absolute;
+        font-size: 20rpx;
+        margin-top: 15rpx;
+        //margin-right: 10rpx;
+        margin-left: 20rpx;
+    }
+
+    .detail {
+        padding: 30rpx;
+        border-bottom: #eee solid 1rpx;
+    }
+
+    .detail-title {
+        //display: flex;
+        margin-right: 100rpx;
+        // justify-content: space-between;
+    }
+
+    .detail-content {
+        display: flex;
+        justify-content: space-between;
+        margin-left: 80rpx;
+    }
+
+    .detail-info {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+
+    .detail-icon {
+        width: 40rpx;
+        height: 40rpx;
+    }
+
+    .comment-iconlikeCount {
+        //font-weight: bold;
+        margin-right: 25rpx;
+        //margin-left: 35rpx;
+        margin-top: 30rpx;
+        display: flex;
+        //justify-content: space-between;
+
+        .comment-likeCount {
+            font-weight: bold;
+            //margin-right: 80rpx;
+            margin-left: 10rpx;
+            margin-top: 10rpx;
+        }
+    }
 
 </style>
