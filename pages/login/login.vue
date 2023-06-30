@@ -87,6 +87,7 @@
 				loading: false,
 				password: '12345678',
 				//phoneNo: '16600251650',
+				//phoneNo: '15288888888',
 				phoneNo: '',
 				smsCode: '',
 				showPassword: false, //是否显示明文
