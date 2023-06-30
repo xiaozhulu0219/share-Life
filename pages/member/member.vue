@@ -132,7 +132,7 @@
             cur: {
                 immediate: true,
                 handler() {
-                    console.log('watch', this.cur);
+                    //console.log('watch', this.cur);
                     this.userId = this.$store.getters.userid;
                     this.uuId = this.$store.getters.uuId;
                     this.load();
@@ -219,7 +219,7 @@
             //获取用户的粉丝和关注和获赞与收藏数量
             queryfocusFansByUuId() {
                 let a = this.uuId;
-                console.log("获取用户的粉丝和关注和获赞与收藏数量", this.uuId)
+                console.log("获取登录用户的粉丝和关注和获赞与收藏数量：", this.uuId)
                 this.$http.get(this.queryfocusFansByUuIdUrl, {params: {uuId: a}}).then((res) => {
                     if (res.data.success) {
                         console.log("表单数据2222", res);
@@ -230,7 +230,7 @@
             //获取助力数量
             queryHelpComNumByUuId() {
                 let a = this.uuId;
-                console.log("获取助力数量", this.uuId)
+                console.log("获取登录用户助力数量：", this.uuId)
                 this.$http.get(this.queryHelpComNumByUuIdUrl, {params: {uuId: a}}).then((res) => {
                     if (res.data.success) {
                         console.log("表单数据333", res);

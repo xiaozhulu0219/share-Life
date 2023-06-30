@@ -162,12 +162,12 @@
             cur: {
                 immediate: true,
                 handler() {
-                    console.log('watch', this.cur);
+                    //console.log('watch', this.cur);
                     this.userId = this.$store.getters.userid;
                     this.uuId = this.$store.getters.uuId;
                     //this.load();
-                    console.log('uuId666：', this.uuId);
-                    console.log('userId888：', this.userId);
+                    console.log('监控到的登录用户的uuId：', this.uuId);
+                    console.log('监控到的登录用户的userId：', this.userId);
                 }
             }
         },
