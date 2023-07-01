@@ -28,9 +28,9 @@
                 </view>
 
             </view>
-            <view>{{this.announcement3}}</view>
-            <!--                <view>{{this.announcement3}}</view>-->
-            <!--                <view>{{this.announcement3}}</view>-->
+<!--            <view>{{this.announcement3}}</view>-->
+<!--                            <view>{{this.announcement5}}</view>-->
+            <!--                <view>{{this.announcement4}}</view>-->
         </view>
     </view>
 
@@ -146,11 +146,11 @@
                 })
             },
             //点击"评论和@"
-            commentMsgTotal() {
+            commentMsgTotal(myFormData) {
                 console.log("进来了666应该是uuid")
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 uni.navigateTo({
-                    url: '/pages/message/commentMsgModal'
+                    url: '/pages/message/commentMsgModal?item=' + encodeURIComponent(JSON.stringify(myFormData))
                 })
             },
 

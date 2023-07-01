@@ -85,7 +85,6 @@ const routes = [{
             title: '赞与收藏消息页'
         }
     },
-
     {
         path: '/pages/message/focusMsgModal',
         name: 'focusMsgModal',

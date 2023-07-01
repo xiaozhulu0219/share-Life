@@ -18,11 +18,13 @@
                         <view style="margin-right: 10rpx; margin-top: 10rpx">{{item.title }}  {{item.createTime }} </view>
                     </view>
                     <view class="comment-iconlikeCount"> <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
-                        <image class="card-avatar round sm" :src="item.medias" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
-
+                        <image class="card-medias" :src="item.medias" mode="aspectFit" alt="" @click="toInformationDetail(item.busId)"></image>
 
                     </view>
                 </view>
+            </view>
+            <view style="margin-top: 5px;text-align: center">
+                <a-button @click="" type="dashed" block>查看更多</a-button>
             </view>
         </mescroll-body>
     </view>
@@ -71,8 +73,9 @@
                     createTime: '',
                     nickName: '',
                     medias: '',
-                    content: '', //被评论的评论内容，或者被赞的评论、
-
+                    content: '', //评论内容
+                    backContent: '', //被评论的评论内容，或者被赞的评论、
+                    inforId: '', //被评论的评论内容，或者被赞的评论、
                 },
             };
         },
@@ -86,7 +89,15 @@
             loveMsg(list){//这个方法放弃了  不在前端做 操作了、放在后端吧
                 //console.log("初始list数组", list)
                 for (let d of list) {
-
+                        // let arr = d.medias.split(',')
+                        // let arr2 = []
+                        // for (let e of arr) {
+                        //     e = this.fileUrl + e
+                        //     arr2.push(e)
+                        // }
+                        d.avatar = this.fileUrl + d.avatar
+                        d.medias = this.fileUrl + d.medias
+                        //d.medias = arr2
                 }
             },
             //根据inforId查询动态详情----  TODO 需要注意的是即使点赞的是评论，在赞里边跳转的也是 评论所在的动态，而不是评论本身
@@ -129,7 +140,14 @@
                     console.log(err);
                 });
             },
-
+            toInformationDetail(item) {
+                //console.log("进来了111", item)
+                //进来的是  busId 名字要换为 inforId
+                this.FocusFansNumVo.inforId = item
+                uni.navigateTo({
+                    url: '/pages/home/homeInforDetail?item=' + encodeURIComponent(JSON.stringify(this.FocusFansNumVo))
+                })
+            },
 
         }
     };
@@ -164,6 +182,19 @@
         margin-left: 20rpx;
     }
 
+    .card-medias {
+        max-width: 55px;
+        width: 55px;
+        width: expression(this.width > 55 ? "55px" : this.width);
+        height: 55px;
+        height: expression(this.height > 55 ? "55px" : this.height);
+        position: absolute;
+        font-size: 20rpx;
+        //margin-top: 1rpx;
+        margin-right: 50rpx;
+        //margin-left: 2rpx;
+    }
+
     .detail {
         padding: 30rpx;
         border-bottom: #eee solid 1rpx;
@@ -195,18 +226,11 @@
 
     .comment-iconlikeCount {
         //font-weight: bold;
-        margin-right: 25rpx;
+        margin-right: 110rpx;
         //margin-left: 35rpx;
-        margin-top: 30rpx;
+        //margin-top: 30rpx;
         display: flex;
         //justify-content: space-between;
-
-        .comment-likeCount {
-            font-weight: bold;
-            //margin-right: 80rpx;
-            margin-left: 10rpx;
-            margin-top: 10rpx;
-        }
     }
 
 </style>
