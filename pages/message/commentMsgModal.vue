@@ -8,7 +8,7 @@
         </cu-custom>
         <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
 
-            <view v-for="(item,index) in this.announcement5" :key="index" class="card">
+            <view v-for="(item,index) in this.myCommentMsg" :key="index" class="card">
                 <view class="detail-title">
                     <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
                 </view>
@@ -43,24 +43,14 @@
         data() {
             return {
                 backRouteName: 'index',
-                announcement5:[],
+                myCommentMsg:[],
                 fileUrl: configService.fileSaveURL,
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
-                    findPublishInforUrl: '/information/movements/findPublishInfor',
-                    findInforCommentsPageUrl: '/information/comments/list',
-                    findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
-                    saveCommentUrl: '/information/comments/saveCommentForInfor',
-                    likeCommentUrl: '/information/comments/like',
-                    dislikeCommentUrl: '/information/comments/dislike',
-                    likeSonCommentUrl: '/information/comments/like',
-                    deleteCommentUrl: '/information/comments/deleteComment',
-                    likeInforUrl: '/information/movements/like',
-                    dislikeInforUrl: '/information/movements/dislike',
-                    loveInforUrl: '/information/movements/love',
-                    unloveInforUrl: '/information/movements/unlove',
                     queryByUuIdUrl: '/sys/user/queryByUuId',
                     findCommentByIdUrl: '/information/comments/findCommentById',
+                    getMyCommentMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyCommentMsgAnnouncementSend",
+                    readCommentMsgAllUrl: "/sys/sysAnnouncementSend/readCommentMsgAll",
                 },
                 FocusFansNumVo: {
                     avatar: '',
@@ -78,14 +68,50 @@
                 },
             };
         },
+        created() {
+            this.getMyCommentMsgAnnouncementSend();
+            this.readCommentMsgAll();
+        },
         onLoad(option) {
-            const item = JSON.parse(decodeURIComponent(option.item));
-            this.announcement5 = item
-            console.log("输出item", item)
+            //const item = JSON.parse(decodeURIComponent(option.item));
+            //this.announcement5 = item
+            //console.log("输出item", item)
             //this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
-            this.commentMsg(this.announcement5); //这是传参后继续调用方法的示例
+            //this.commentMsg(this.announcement5); //这是传参后继续调用方法的示例
         },
         methods: {
+            //获取我的评论消息
+            getMyCommentMsgAnnouncementSend() {
+                //console.log("进来了方法33333", item)
+                this.$http.get(this.url.getMyCommentMsgAnnouncementSendUrl, {
+                    params: {
+                        page: 1,
+                        pagesize: 10
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        console.log("获取我的评论消息", res.data.result.records)
+                        this.myCommentMsg = res.data.result.records;
+                        for (let d of this.myCommentMsg) {
+                            d.avatar = this.fileUrl + d.avatar
+                            d.medias = this.fileUrl + d.medias
+                        }
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            //一键已读评论消息
+            readCommentMsgAll() {
+                //console.log("进来了方法33333", item)
+                this.$http.get(this.url.readCommentMsgAllUrl).then(res => {
+                    if (res.data.success) {
+                        console.log("评论消息已经被一键已读")
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
             commentMsg(list){
                 //console.log("初始list数组", list)
                 for (let d of list) {

@@ -8,7 +8,7 @@
         </cu-custom>
         <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
 
-            <view v-for="(item,index) in this.announcement3" :key="index" class="card">
+            <view v-for="(item,index) in this.myLoveMsg" :key="index" class="card">
                 <view class="detail-title">
                     <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
                 </view>
@@ -44,24 +44,14 @@
         data() {
             return {
                 backRouteName: 'index',
-                announcement3:[],
+                myLoveMsg:[],
                 fileUrl: configService.fileSaveURL,
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
-                    findPublishInforUrl: '/information/movements/findPublishInfor',
-                    findInforCommentsPageUrl: '/information/comments/list',
-                    findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
-                    saveCommentUrl: '/information/comments/saveCommentForInfor',
-                    likeCommentUrl: '/information/comments/like',
-                    dislikeCommentUrl: '/information/comments/dislike',
-                    likeSonCommentUrl: '/information/comments/like',
-                    deleteCommentUrl: '/information/comments/deleteComment',
-                    likeInforUrl: '/information/movements/like',
-                    dislikeInforUrl: '/information/movements/dislike',
-                    loveInforUrl: '/information/movements/love',
-                    unloveInforUrl: '/information/movements/unlove',
                     queryByUuIdUrl: '/sys/user/queryByUuId',
                     findCommentByIdUrl: '/information/comments/findCommentById',
+                    getMyLoveMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyLoveMsgAnnouncementSend",
+                    readLoveMsgAllUrl: "/sys/sysAnnouncementSend/readLoveMsgAll",
                 },
                 FocusFansNumVo: {
                     avatar: '',
@@ -79,26 +69,48 @@
                 },
             };
         },
+        created() {
+            this.getMyLoveMsgAnnouncementSend();
+            this.readLoveMsgAll();
+        },
         onLoad(option) {
-            const item = JSON.parse(decodeURIComponent(option.item));
-            this.announcement3 = item
+            //const item = JSON.parse(decodeURIComponent(option.item));
+            //this.announcement3 = item
             //console.log("输出item", item)
-            this.loveMsg(this.announcement3); //这是传参后继续调用方法的示例
+            //this.loveMsg(this.announcement3); //这是传参后继续调用方法的示例
         },
         methods: {
-            loveMsg(list){//这个方法放弃了  不在前端做 操作了、放在后端吧
-                //console.log("初始list数组", list)
-                for (let d of list) {
-                        // let arr = d.medias.split(',')
-                        // let arr2 = []
-                        // for (let e of arr) {
-                        //     e = this.fileUrl + e
-                        //     arr2.push(e)
-                        // }
-                        d.avatar = this.fileUrl + d.avatar
-                        d.medias = this.fileUrl + d.medias
-                        //d.medias = arr2
-                }
+            //获取我的点赞消息
+            getMyLoveMsgAnnouncementSend() {
+                //console.log("进来了方法33333", item)
+                this.$http.get(this.url.getMyLoveMsgAnnouncementSendUrl, {
+                    params: {
+                            page: 1,
+                            pagesize: 10
+                        }
+                }).then(res => {
+                    if (res.data.success) {
+                        console.log("获取我的点赞消息", res.data.result.records)
+                        this.myLoveMsg = res.data.result.records;
+                        for (let d of this.myLoveMsg) {
+                            d.avatar = this.fileUrl + d.avatar
+                            d.medias = this.fileUrl + d.medias
+                        }
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            //一键已读点赞信息
+            readLoveMsgAll() {
+                //console.log("进来了方法33333", item)
+                this.$http.get(this.url.readLoveMsgAllUrl).then(res => {
+                    if (res.data.success) {
+                        console.log("点赞信息已经被一键已读")
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
             },
             //根据inforId查询动态详情----  TODO 需要注意的是即使点赞的是评论，在赞里边跳转的也是 评论所在的动态，而不是评论本身
             findPublishInfor(inforId) {

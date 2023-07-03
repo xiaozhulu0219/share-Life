@@ -11,18 +11,18 @@
             <view class="card-line">
                 <view class="card-loveMessage">
                     <view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;"
-                          @click="loveMsgTotal(announcement3)"></view>
+                          @click="loveMsg()"></view>
                     <view class="card-loveCount">赞和收藏</view>
 <!--                    <view class="card-loveCount">{{this.announcement3}}</view>-->
                 </view>
                 <view class="card-focusMessage">
                     <view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;"
-                          @click="focusMsgTotal(announcement4)"></view>
+                          @click="focusMsg()"></view>
                     <view class="card-focusCount">新增关注</view>
                 </view>
                 <view class="card-commentMessage">
                     <view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;"
-                          @click="commentMsgTotal(announcement5)"></view>
+                          @click="commentMsg()"></view>
                     <view class="card-commentCount">评论和@</view>
 <!--                    <view class="card-loveCount">{{this.announcement5}}</view>-->
                 </view>
@@ -104,16 +104,16 @@
                             //this.announcement2 = res.data.result.sysMsgList;
                             //this.msg2Count = res.data.result.sysMsgTotal;
                             //this.msg2Title = "系统消息(" + res.data.result.sysMsgTotal + ")";
-                            this.announcement3 = res.data.result.loveMsgList;
+                            //this.announcement3 = res.data.result.loveMsgList;
                             this.msg3Count = res.data.result.loveMsgTotal;
                             this.msg3Title = "赞和收藏(" + res.data.result.loveMsgTotal + ")";
-                            console.log("announcement3 的数据为",this.announcement3)
+                            //console.log("announcement3 的数据为",this.announcement3)
                             console.log("msg3ount 的数据为",this.msg3Count)
                             console.log("msg3Title 的数据为",this.msg3Title)
-                            this.announcement4 = res.data.result.focusMsgList;
+                            //this.announcement4 = res.data.result.focusMsgList;
                             this.msg4Count = res.data.result.focusMsgTotal;
                             this.msg4Title = "新增关注(" + res.data.result.focusMsgTotal + ")";
-                            this.announcement5 = res.data.result.commentMsgList;
+                            //this.announcement5 = res.data.result.commentMsgList;
                             this.msg5Count = res.data.result.commentMsgTotal;
                             this.msg5Title = "评论和@(" + res.data.result.commentMsgTotal + ")";
                         }
@@ -129,16 +129,17 @@
             },
 
             //点击"赞和收藏"
-            loveMsgTotal(myFormData) {
-                console.log("announcement3 的数据为",this.announcement3)
-                console.log("进来了赞和收藏,拿到的是所有赞和收藏消息", myFormData)
+            loveMsg() {
+                //什么值也不用传 进去在调用新的接口
+                //console.log("announcement3 的数据为",this.announcement3)
+                //console.log("进来了赞和收藏,拿到的是所有赞和收藏消息", myFormData)
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 uni.navigateTo({
-                    url: '/pages/message/loveMsgModal?item=' + encodeURIComponent(JSON.stringify(myFormData))
+                    url: '/pages/message/loveMsgModal'
                 })
             },
             //点击"新增关注"
-            focusMsgTotal(myFormData) {
+            focusMsg(myFormData) {
                 console.log("进来了666应该是uuid")
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 uni.navigateTo({
@@ -146,7 +147,7 @@
                 })
             },
             //点击"评论和@"
-            commentMsgTotal(myFormData) {
+            commentMsg(myFormData) {
                 console.log("进来了666应该是uuid")
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 uni.navigateTo({

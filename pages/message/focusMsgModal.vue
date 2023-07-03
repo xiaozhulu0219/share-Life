@@ -8,7 +8,7 @@
         </cu-custom>
         <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
 
-            <view v-for="(item,index) in this.announcement4" :key="index" class="card">
+            <view v-for="(item,index) in this.myFocusMsg" :key="index" class="card">
                 <view class="detail-title">
                     <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toMemberdetail(item.uuId)"></image>
                 </view>
@@ -54,27 +54,17 @@
         data() {
             return {
                 backRouteName: 'index',
-                announcement4:[],
+                myFocusMsg:[],
                 fileUrl: configService.fileSaveURL,
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
-                    findPublishInforUrl: '/information/movements/findPublishInfor',
-                    findInforCommentsPageUrl: '/information/comments/list',
-                    findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
-                    saveCommentUrl: '/information/comments/saveCommentForInfor',
-                    likeCommentUrl: '/information/comments/like',
-                    dislikeCommentUrl: '/information/comments/dislike',
-                    likeSonCommentUrl: '/information/comments/like',
-                    deleteCommentUrl: '/information/comments/deleteComment',
-                    likeInforUrl: '/information/movements/like',
-                    dislikeInforUrl: '/information/movements/dislike',
-                    loveInforUrl: '/information/movements/love',
-                    unloveInforUrl: '/information/movements/unlove',
                     queryByUuIdUrl: '/sys/user/queryByUuId',
                     findCommentByIdUrl: '/information/comments/findCommentById',
                     userFocusUrl: '/information/followuser/userFocus',
                     userUnFocusUrl: '/information/followuser/userUnFocus',
                     FocusORFansUrl: '/information/followuser/FocusORFans',
+                    getMyFocusMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyFocusMsgAnnouncementSend",
+                    readFocusMsgAllUrl: "/sys/sysAnnouncementSend/readFocusMsgAll",
                 },
                 FocusFansNumVo: {
                     avatar: '',
@@ -92,17 +82,47 @@
                 },
             };
         },
+        created() {
+            this.getMyFocusMsgAnnouncementSend();
+            this.readFocusMsgAll();
+        },
         onLoad(option) {
-            const item = JSON.parse(decodeURIComponent(option.item));
-            this.announcement4 = item
+            //const item = JSON.parse(decodeURIComponent(option.item));
+            //this.announcement4 = item
             //console.log("输出item", item)
-            this.focusMsg(this.announcement4); //这是传参后继续调用方法的示例
+            //this.focusMsg(this.announcement4); //这是传参后继续调用方法的示例
         },
         methods: {
-            focusMsg(list){
-                for (let d of list) {
-                    d.avatar = this.fileUrl + d.avatar
-                }
+            //获取我的新增关注消息
+            getMyFocusMsgAnnouncementSend() {
+                //console.log("进来了方法33333", item)
+                this.$http.get(this.url.getMyFocusMsgAnnouncementSendUrl, {
+                    params: {
+                        page: 1,
+                        pagesize: 10
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        console.log("获取我的新增关注消息", res.data.result.records)
+                        this.myFocusMsg = res.data.result.records;
+                        for (let d of this.myFocusMsg) {
+                            d.avatar = this.fileUrl + d.avatar
+                        }
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            //一键已读新增关注消息
+            readFocusMsgAll() {
+                //console.log("进来了方法33333", item)
+                this.$http.get(this.url.readFocusMsgAllUrl).then(res => {
+                    if (res.data.success) {
+                        console.log("新增关注消息已经被一键已读")
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
             },
             //点击头像跳转用户详情
             toMemberdetail(myFormData) {
