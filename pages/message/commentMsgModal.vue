@@ -70,7 +70,7 @@
         },
         created() {
             this.getMyCommentMsgAnnouncementSend();
-            this.readCommentMsgAll();
+
         },
         onLoad(option) {
             //const item = JSON.parse(decodeURIComponent(option.item));
@@ -96,6 +96,7 @@
                             d.avatar = this.fileUrl + d.avatar
                             d.medias = this.fileUrl + d.medias
                         }
+                        this.readCommentMsgAll();
                     }
                 }).catch(err => {
                     console.log(err);

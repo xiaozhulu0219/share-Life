@@ -3,7 +3,6 @@
     <!--消息页-->
     <view class="container">
         <cu-custom :bgColor="NavBarColor">
-            <!--            <block slot="content">ShareLife</block>-->
             <block slot="right" style="margin-left: 2000rpx"> 消息</block>
 
         </cu-custom>
@@ -13,17 +12,20 @@
                     <view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;"
                           @click="loveMsg()"></view>
                     <view class="card-loveCount">赞和收藏</view>
+                    <view class="card-loveCount">{{this.msg3Count}}</view>
 <!--                    <view class="card-loveCount">{{this.announcement3}}</view>-->
                 </view>
                 <view class="card-focusMessage">
                     <view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;"
                           @click="focusMsg()"></view>
                     <view class="card-focusCount">新增关注</view>
+                    <view class="card-focusCount">{{this.msg4Count}}</view>
                 </view>
                 <view class="card-commentMessage">
                     <view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;"
                           @click="commentMsg()"></view>
                     <view class="card-commentCount">评论和@</view>
+                    <view class="card-commentCount">{{this.msg5Count}}</view>
 <!--                    <view class="card-loveCount">{{this.announcement5}}</view>-->
                 </view>
 
@@ -48,18 +50,18 @@
         data() {
             return {
                 hovered: false,
-                announcement1: [],
-                announcement2: [],
+                //announcement1: [],
+                //announcement2: [],
                 announcement3: [],
                 announcement4: [],
                 announcement5: [],
-                msg1Count: "0",
-                msg2Count: "0",
+               // msg1Count: "0",
+               // msg2Count: "0",
                 msg3Count: "0",
                 msg4Count: "0",
                 msg5Count: "0",
-                msg1Title: "通知(0)",
-                msg2Title: "",
+               // msg1Title: "通知(0)",
+                //msg2Title: "",
                 msg3Title: "",
                 msg4Title: "",
                 msg5Title: "",
@@ -73,7 +75,8 @@
         //这里会拿到所有消息数量、将来展示在index的消息图标上
         computed: {
             msgTotal() {
-                return parseInt(this.msg1Count) + parseInt(this.msg2Count) + parseInt(this.msg3Count) + parseInt(this.msg4Count) + parseInt(this.msg5Count);
+                //return parseInt(this.msg1Count) + parseInt(this.msg2Count) + parseInt(this.msg3Count) + parseInt(this.msg4Count) + parseInt(this.msg5Count);
+                return parseInt(this.msg3Count) + parseInt(this.msg4Count) + parseInt(this.msg5Count);
             }
         },
         mounted() {
@@ -143,7 +146,7 @@
                 console.log("进来了666应该是uuid")
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 uni.navigateTo({
-                    url: '/pages/message/focusMsgModal?item=' + encodeURIComponent(JSON.stringify(myFormData))
+                    url: '/pages/message/focusMsgModal'
                 })
             },
             //点击"评论和@"
@@ -151,7 +154,7 @@
                 console.log("进来了666应该是uuid")
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 uni.navigateTo({
-                    url: '/pages/message/commentMsgModal?item=' + encodeURIComponent(JSON.stringify(myFormData))
+                    url: '/pages/message/commentMsgModal'
                 })
             },
 

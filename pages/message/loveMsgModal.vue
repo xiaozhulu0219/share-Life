@@ -19,7 +19,6 @@
                     </view>
                     <view class="comment-iconlikeCount"> <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
                         <image class="card-medias" :src="item.medias" mode="aspectFit" alt="" @click="toInformationDetail(item.busId)"></image>
-
                     </view>
                 </view>
             </view>
@@ -71,7 +70,7 @@
         },
         created() {
             this.getMyLoveMsgAnnouncementSend();
-            this.readLoveMsgAll();
+
         },
         onLoad(option) {
             //const item = JSON.parse(decodeURIComponent(option.item));
@@ -96,6 +95,7 @@
                             d.avatar = this.fileUrl + d.avatar
                             d.medias = this.fileUrl + d.medias
                         }
+                        this.readLoveMsgAll();
                     }
                 }).catch(err => {
                     console.log(err);
@@ -103,7 +103,7 @@
             },
             //一键已读点赞信息
             readLoveMsgAll() {
-                //console.log("进来了方法33333", item)
+                console.log("进来了一键已读点赞信息方法")
                 this.$http.get(this.url.readLoveMsgAllUrl).then(res => {
                     if (res.data.success) {
                         console.log("点赞信息已经被一键已读")

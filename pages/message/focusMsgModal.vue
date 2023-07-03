@@ -84,7 +84,7 @@
         },
         created() {
             this.getMyFocusMsgAnnouncementSend();
-            this.readFocusMsgAll();
+
         },
         onLoad(option) {
             //const item = JSON.parse(decodeURIComponent(option.item));
@@ -108,6 +108,7 @@
                         for (let d of this.myFocusMsg) {
                             d.avatar = this.fileUrl + d.avatar
                         }
+                        this.readFocusMsgAll();
                     }
                 }).catch(err => {
                     console.log(err);
