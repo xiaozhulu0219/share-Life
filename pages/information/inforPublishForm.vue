@@ -113,6 +113,12 @@
             //this.initFormData();
             this.shijiao();
         },
+        onLoad(option) {
+            const item = JSON.parse(decodeURIComponent(option.item));
+            this.myFormData = item
+            console.log("编辑页带进来的数据", item)
+            //this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
+        },
         methods: {
             // initFormData() {
             //     if (this.formData) {
