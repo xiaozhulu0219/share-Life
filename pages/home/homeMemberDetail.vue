@@ -77,9 +77,11 @@
                         <!--                        <MemberHelpCompanyListModal v-if="index === 1"/>-->
                         <view v-for="(ite,inde) in focusOrFansHelpList" :key="inde" class="card-Help"
                               v-if="index === 1">
-                            <view class="card-location">{{ite.commentCreateDate}}</view>
                             <view class="card-title">{{ite.companyName}}</view>
-                            <view class="card-text">{{ite.content}}</view>
+                            <view v-for="(it,ind) in ite.commentVoList" :key="ind" class="">
+                                <view class="card-location">{{it.commentCreateDate}}</view>
+                                <view class="card-text">{{it.content}}</view>
+                            </view>
                         </view>
                         <view v-if="index !== 0 && index !== 1" class="swiper-item">{{item.name}}</view>
 
