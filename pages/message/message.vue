@@ -32,7 +32,7 @@
             </view>
 <!--            <view>{{this.announcement3}}</view>-->
 <!--                            <view>{{this.announcement5}}</view>-->
-            <!--                <view>{{this.announcement4}}</view>-->
+<!--                            <view>{{this.announcement4}}</view>-->
         </view>
     </view>
 
