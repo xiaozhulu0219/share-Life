@@ -14,6 +14,7 @@
 				<view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else-if="item.hotValue > 20">&#xe60d</view>
 				<view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else="item.hotValue = 0">&#xe646</view>
                 </view>
+                <view class="card-hotValue">{{item.hotValue}}</view>
             </view>
         </view>
     </mescroll-body>
@@ -153,11 +154,16 @@
 
 		.card-icon {
 			position: absolute;
-			right: 80rpx;
+			right: 120rpx;
 			font-size: 20rpx;
 		}
 
-
+        .card-hotValue {
+            position: absolute;
+            font-weight: bold;
+            right: 35rpx;
+            margin-top: 8rpx;
+        }
 
 
 	}
