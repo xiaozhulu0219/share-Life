@@ -1,10 +1,12 @@
 <template>
 	<!--首页的所有标签页-->
-	<view>
-		<scroll-view class="uni-swiper-tab" :scroll-x="true" @scroll="scroll">
-			<view class="tab-title flex justify-between">
-				<view class="padding-sm" v-for="(item, index) in tabs" :key="index" @tap="clickTab(item)">
-					<text :class="activeTab === index ? 'active' : ''">{{ item.title }}</text>
+	<view class="menu-scroll">
+		<scroll-view class="menu-tab" :scroll-x="true" @scroll="scroll">
+			<view class="menu-wrap">
+				<view v-for="(item, index) in tabs"
+          :class="[{'active' : activeTab === index}, 'tab']" :key="index"
+          @tap="clickTab(item)">
+					{{ item.title }}
 				</view>
 			</view>
 		</scroll-view>
@@ -17,70 +19,84 @@
 
 	export default {
 		mixins: [MescrollMixin, Mixin],
-		props: ["getActiveTab"],
-		components:{
+		props: ['getActiveTab'],
+		components: {
 
 		},
 		data() {
 			return {
 				activeTab: 0,
-				tabs: [{
-					value: 1,
-					title: '推荐'
-				}, {
-					value: 2,
-					title: '助力'
-				}, {
-					value: 3,
-					title: '关注'
-				}],
+				tabs: []
 			};
 		},
 		created() {
 			this.$http.get('/sys/dict/querySomeDictItems', {
 				params: {
-					dicts: "home_sign"
+					dicts: 'home_sign'
 				}
 			}).then(res => {
 				if (res.data.success) {
 					this.tabs = res.data.result.home_sign;
-					//console.log("tabs:",this.tabs)
-					this.getActiveTab(this.tabs[0])
+					this.getActiveTab(this.tabs[0]);
 				}
-			})
+			});
 		},
 		methods: {
 			clickTab(item) {
-				if (this.activeTab === item.value- 1) return;
-				this.activeTab = item.value- 1;
-				this.getActiveTab(item)
+				if (this.activeTab === item.value - 1) return;
+				this.activeTab = item.value - 1;
+				this.getActiveTab(item);
 			},
 			scroll(e) {
 				// console.log(e)
-			},
+			}
 		}
 	};
 </script>
 
 <style lang="scss" scoped>
-	.uni-swiper-tab {
-		white-space: nowrap;
-		width: 100%;
-		top: 180rpx;
-		position: fixed;
-	}
+.menu-scroll {
+  width: 100vw;
+}
+.menu-tab {
+  height: 80rpx;
+  width: 100vw;
+  background-color: #fff;
 
-	.tab-title {
-		color: #666;
-		width: 90%;
-		margin-top: -30rpx;
+  .menu-wrap {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  .tab {
+    color: #666;
 		font-size: 36rpx;
-	}
-
-	.tab-title text.active {
-		color: #000;
+    min-width: 100rpx;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .active {
+    color: #000;
 		font-weight: bold;
-	}
+  }
+}
+
+	// .uni-swiper-tab {
+	// 	white-space: nowrap;
+	// 	width: 100%;
+	// 	// top: 180rpx;
+	// 	// position: fixed;
+	// }
+
+	// .tab-title {
+	// 	color: #666;
+	// 	width: 90%;
+	// 	margin-top: -30rpx;
+	// 	font-size: 36rpx;
+	// }
+
+	// .tab-title text.active {
+	// 	color: #000;
+	// 	font-weight: bold;
+	// }
 </style>
-
-

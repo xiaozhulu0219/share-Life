@@ -7,14 +7,15 @@
         -->
         <cu-custom :bgColor="NavBarColor">
 <!--            <block slot="content">ShareLife</block>-->
-            <block slot="right"> ShareLife <view class="iconfont ml-1" style="color: #2C405A" @click="toSearch(activeTab.value)">&#xe600</view></block>
+            <block slot="right"> ShareLife<view class="iconfont ml-1 search-icon" @click="toSearch(activeTab.value)">&#xe600</view></block>
         </cu-custom>
 
-        <HomeSignModal :getActiveTab="getActiveTab" class="home-sign"></HomeSignModal>
+        <HomeSignModal :getActiveTab="getActiveTab" ></HomeSignModal>
+        <!-- class="home-sign" -->
 
-        <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
+        <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab===2"></homeHelpCompanyModal>
 
-        <homeModal class="home-infor" v-else="activeTab.value!=2"></homeModal>
+        <homeModal class="home-infor" v-else></homeModal>
 
     </view>
 </template>
@@ -22,10 +23,10 @@
 <script>
     import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
     import Mixin from '@/common/mixin/Mixin.js';
-    import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
-    import HomeSignModal from './homeSignModal.vue'
-    import homeHelpCompanyModal from './homeHelpCompanyModal.vue'
-    import homeModal from './homeInforModal.vue'
+    import MescrollMoreMixin from '@/components/mescroll-uni/mixins/mescroll-more.js';
+    import HomeSignModal from './homeSignModal.vue';
+    import homeHelpCompanyModal from './homeHelpCompanyModal.vue';
+    import homeModal from './homeInforModal.vue';
 
     export default {
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
@@ -37,10 +38,10 @@
         data() {
             return {
                 activeTab: {
-                    label:"",
-                    text:"",
-                    title:"",
-                    value:"",
+                    label: '',
+                    text: '',
+                    title: '',
+                    value: ''
                 },
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
@@ -66,7 +67,7 @@
                     createTime: '2022-12-12 10:00:00',
                     createBy: '之乎者也有限公司',
                     status: 2
-                }], //搜索出来的内容(假数据)
+                }] //搜索出来的内容(假数据)
             };
         },
         // created() {
@@ -76,14 +77,14 @@
         methods: {
             getActiveTab(item) {
                 this.activeTab = item;
-                console.log("切换tab1",item.value)
-                console.log("切换tab2",this.activeTab.value)
+                console.log('切换tab1', item.value);
+                console.log('切换tab2', this.activeTab.value);
             },
             toSearch(item) {
-                console.log("首页的activeTab.value进来了",item)
+                console.log('首页的activeTab.value进来了', item);
                 uni.navigateTo({
                     url: '/pages/home/homeSearch?item=' + item
-                })
+                });
             },
             handleStatus(status, type) {
 
@@ -101,7 +102,7 @@
             },
 
             search(inputValue) {
-                console.log("进来了",inputValue)
+                console.log('进来了', inputValue);
                 if (this.inputValue == '') {
                     uni.showModal({
                         title: '搜索内容不能为空'
@@ -175,7 +176,7 @@
             },
 
             async onLoad() {
-                let list = await uni.getStorage({
+                const list = await uni.getStorage({
                     key: 'searchList'
                 });
                // console.log(list[1].data);
@@ -245,7 +246,7 @@
         //padding: 20rpx 20rpx;
         //border-radius: 20rpx;
         //margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 100rpx; /*盒子距离顶部的距离*/
+        margin-top: 10rpx; /*盒子距离顶部的距离*/
         //line-height: 35rpx; /*行高*/
         //margin-bottom: 16px; /*内容和标题间的间距*/
     }
@@ -269,10 +270,10 @@
         //margin-bottom: 16px; /*内容和标题间的间距*/
     }
 
-    .icon-search {
-        width: 36rpx;
-        height: 36rpx;
-        margin-right: 10rpx;
-        margin-left: 240rpx;
+    .search-icon {
+    color: #fff;
+    margin-left: 10rpx;
+    font-size: 40rpx;
+    font-weight: 700;
     }
 </style>
