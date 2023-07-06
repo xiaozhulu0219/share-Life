@@ -5,17 +5,17 @@
             <block slot="backText">
             </block>
             <!--				<block slot="content">我的动态</block>-->
+
             <block slot="right">
-                <button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="toInforPublishForm(myFormData)">
+                <button class="cu-btn block bg-gray margin-tb-sm " size="small" v-if="this.pubOrLove==1" @click="toInforPublishForm(myFormData)">
                     编辑  <!--跳新页面还是到informationForm.vue 而且可编辑 还可设置可见状态-->
                 </button>
             </block>
             <block slot="right">
-                <button class="cu-btn block bg-gray margin-tb-sm" type="warn" size="mini"
-                        @click="deleteInfor(myFormData)">
-                    删除
+                <button class="cu-btn block bg-gray margin-tb-sm" type="warn" size="mini" v-if="this.pubOrLove==1" @click="deleteInfor(myFormData)">删除
                 </button>
             </block>
+
         </cu-custom>
         <view class="card">
             <view class="iptbox">
@@ -135,6 +135,20 @@
                 fileUrl: configService.fileSaveURL,
                 inforCommentsList: [],
                 inforSonCommentsList: [],
+                pubOrLove: '',
+            }
+        },
+        watch: {
+            cur: {
+                immediate: true,
+                handler() {
+                    console.log('watch', this.cur);
+                    this.userId = this.$store.getters.userid;
+                    this.uuId = this.$store.getters.uuId;
+                    //this.load();
+                    console.log('uuId666：', this.uuId);
+                    console.log('userId888：', this.userId);
+                }
             }
         },
         created() {
@@ -147,6 +161,13 @@
             this.myFormData = item
             console.log("获取到了列表传过来的对象：", item);
             console.log("对象的id：", item.id);
+            if(this.uuId == this.myFormData.uuId ){
+                //从我的发布、我赞过 跳的详情都是这一个页面 然后是否展示 编辑和删除按钮就得判断
+                //如果是我的发布进来的 就需要有编辑以及删除按钮   反之从我赞过进来的不要
+                // 如果不相等 赋值为2 代表是我赞过
+                // 如果相等 赋值为1 代表是我的发布
+                this.pubOrLove = 1;
+            }
             //console.log("myFormData", this.myFormData.id);
             //this.findPublishInfor(this.publishId); 这是传参后继续调用方法的示例
         },

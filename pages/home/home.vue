@@ -13,7 +13,7 @@
         <HomeSignModal :getActiveTab="getActiveTab" ></HomeSignModal>
         <!-- class="home-sign" -->
 
-        <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab===2"></homeHelpCompanyModal>
+        <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
 
         <homeModal class="home-infor" v-else></homeModal>
         <bottomTab PageCur="home"></bottomTab>
@@ -248,7 +248,7 @@
         //padding: 20rpx 20rpx;
         //border-radius: 20rpx;
         //margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 10rpx; /*盒子距离顶部的距离*/
+        margin-top: 5rpx; /*盒子距离顶部的距离*/
         //line-height: 35rpx; /*行高*/
         //margin-bottom: 16px; /*内容和标题间的间距*/
     }
@@ -258,7 +258,7 @@
         //padding: 20rpx 20rpx;
         //border-radius: 20rpx;
         //margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 100rpx; /*盒子距离顶部的距离*/
+        margin-top: 5rpx; /*盒子距离顶部的距离*/
         //line-height: 35rpx; /*行高*/
         //margin-bottom: 16px; /*内容和标题间的间距*/
     }

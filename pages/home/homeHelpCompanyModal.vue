@@ -12,7 +12,7 @@
                 <view class="card-icon">
                 <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-if="item.hotValue > 60">&#xe627</view>
 				<view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else-if="item.hotValue > 20">&#xe60d</view>
-				<view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else="item.hotValue = 0">&#xe646</view>
+				<view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else>&#xe646</view>
                 </view>
                 <view class="card-hotValue">{{item.hotValue}}</view>
             </view>

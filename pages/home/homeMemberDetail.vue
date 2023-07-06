@@ -211,7 +211,7 @@
                 this.$http.get(this.findFocusOrFansPublishInforPageUrl, {
                     params: {
                         page: 1,
-                        pagesize: 20,
+                        pagesize: 10,
                         uuId: item
                     }
                 }).then(res => {
@@ -253,7 +253,7 @@
             },
             //获取用户"关注"modal
             toFocus(uuID) {
-                //console.log("进来了666", myFormData)
+                //console.log("点击关注按钮传递参数", uuID)
                 uni.navigateTo({
                     url: '/pages/member/focusModal?item=' + uuID
                 })
