@@ -253,7 +253,7 @@
             },
             //获取用户"关注"modal
             toFocus(uuID) {
-                //console.log("进来了666", myFormData)
+                //console.log("点击关注按钮传递参数", uuID)
                 uni.navigateTo({
                     url: '/pages/member/focusModal?item=' + uuID
                 })
