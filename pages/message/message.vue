@@ -34,6 +34,7 @@
 <!--                            <view>{{this.announcement5}}</view>-->
 <!--                            <view>{{this.announcement4}}</view>-->
         </view>
+        <bottomTab PageCur="message"></bottomTab>
     </view>
 
 </template>
@@ -41,12 +42,15 @@
 <script>
     import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
     import Mixin from '@/common/mixin/Mixin.js';
-    import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
+    import MescrollMoreMixin from '@/components/mescroll-uni/mixins/mescroll-more.js';
+    import bottomTab from '../component/bottomTab.vue';
 
     export default {
         name: 'message',
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
-        components: {},
+        components: {
+          bottomTab
+        },
         data() {
             return {
                 hovered: false,
@@ -57,19 +61,19 @@
                 announcement5: [],
                // msg1Count: "0",
                // msg2Count: "0",
-                msg3Count: "0",
-                msg4Count: "0",
-                msg5Count: "0",
+                msg3Count: '0',
+                msg4Count: '0',
+                msg5Count: '0',
                // msg1Title: "通知(0)",
                 //msg2Title: "",
-                msg3Title: "",
-                msg4Title: "",
-                msg5Title: "",
+                msg3Title: '',
+                msg4Title: '',
+                msg5Title: '',
                 url: {
-                    listMsgUrl: "/sys/annountCement/listMsg",
-                    editCementSend: "/sys/sysAnnouncementSend/editByAnntIdAndUserId",
-                    queryById: "/sys/annountCement/queryById",
-                },
+                    listMsgUrl: '/sys/annountCement/listMsg',
+                    editCementSend: '/sys/sysAnnouncementSend/editByAnntIdAndUserId',
+                    queryById: '/sys/annountCement/queryById'
+                }
             };
         },
         //这里会拿到所有消息数量、将来展示在index的消息图标上
@@ -85,22 +89,22 @@
         methods: {
             timerFun() {
                 this.stopTimer = false;
-                let myTimer = setInterval(() => {
+                const myTimer = setInterval(() => {
                     // 停止定时器
                     if (this.stopTimer == true) {
                         clearInterval(myTimer);
                         return;
                     }
-                    this.loadData()
-                }, 6000)
+                    this.loadData();
+                }, 6000);
             },
             loadData() {
                 try {
                     // 获取系统消息
                     this.$http.get(this.url.listMsgUrl).then((res) => {
-                        console.log("进入了获取系统消息方法")
+                        console.log('进入了获取系统消息方法');
                         if (res.data.success) {
-                            console.log("系统消息方法的表单数据", res);
+                            console.log('系统消息方法的表单数据', res);
                             //this.announcement1 = res.data.result.anntMsgList;
                             //this.msg1Count = res.data.result.anntMsgTotal;
                             //this.msg1Title = "通知(" + res.data.result.anntMsgTotal + ")";
@@ -109,25 +113,25 @@
                             //this.msg2Title = "系统消息(" + res.data.result.sysMsgTotal + ")";
                             //this.announcement3 = res.data.result.loveMsgList;
                             this.msg3Count = res.data.result.loveMsgTotal;
-                            this.msg3Title = "赞和收藏(" + res.data.result.loveMsgTotal + ")";
+                            this.msg3Title = '赞和收藏(' + res.data.result.loveMsgTotal + ')';
                             //console.log("announcement3 的数据为",this.announcement3)
-                            console.log("msg3ount 的数据为",this.msg3Count)
-                            console.log("msg3Title 的数据为",this.msg3Title)
+                            console.log('msg3ount 的数据为', this.msg3Count);
+                            console.log('msg3Title 的数据为', this.msg3Title);
                             //this.announcement4 = res.data.result.focusMsgList;
                             this.msg4Count = res.data.result.focusMsgTotal;
-                            this.msg4Title = "新增关注(" + res.data.result.focusMsgTotal + ")";
+                            this.msg4Title = '新增关注(' + res.data.result.focusMsgTotal + ')';
                             //this.announcement5 = res.data.result.commentMsgList;
                             this.msg5Count = res.data.result.commentMsgTotal;
-                            this.msg5Title = "评论和@(" + res.data.result.commentMsgTotal + ")";
+                            this.msg5Title = '评论和@(' + res.data.result.commentMsgTotal + ')';
                         }
                     }).catch(error => {
-                        console.log("系统消息通知异常", error);//这行打印permissionName is undefined
+                        console.log('系统消息通知异常', error);//这行打印permissionName is undefined
                         this.stopTimer = true;
-                        console.log("清理timer");
+                        console.log('清理timer');
                     });
                 } catch (err) {
                     this.stopTimer = true;
-                    console.log("通知异常", err);
+                    console.log('通知异常', err);
                 }
             },
 
@@ -139,30 +143,28 @@
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 uni.navigateTo({
                     url: '/pages/message/loveMsgModal'
-                })
+                });
             },
             //点击"新增关注"
             focusMsg(myFormData) {
-                console.log("进来了666应该是uuid")
+                console.log('进来了666应该是uuid');
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 uni.navigateTo({
                     url: '/pages/message/focusMsgModal'
-                })
+                });
             },
             //点击"评论和@"
             commentMsg(myFormData) {
-                console.log("进来了666应该是uuid")
+                console.log('进来了666应该是uuid');
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 uni.navigateTo({
                     url: '/pages/message/commentMsgModal'
-                })
-            },
-
+                });
+            }
 
         }
     };
 </script>
-
 
 <style lang="scss" scoped>
 
@@ -219,7 +221,6 @@
                 margin-bottom: 30rpx; /*盒子间的距离*/
                 margin-left: 160rpx;
 
-
                 .card-commentCount {
                     font-weight: bold;
                     //display: inline-block;
@@ -230,6 +231,5 @@
             }
         }
     }
-
 
 </style>

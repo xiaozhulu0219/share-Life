@@ -67,23 +67,25 @@
                 </swiper>
             </view>
         </scroll-view>
+        <bottomTab PageCur="member"></bottomTab>
     </view>
 </template>
 
 <script>
     import api from '@/api/api';
-    import MyHelpCompanyList from './memberHelpCompanyList'
-    import MyPublishList from './memberPublishList'
-    import MyLoveInforList from './memberLoveInforList'
-    import configService from '@/common/service/config.service.js'
-
+    import MyHelpCompanyList from './memberHelpCompanyList';
+    import MyPublishList from './memberPublishList';
+    import MyLoveInforList from './memberLoveInforList';
+    import configService from '@/common/service/config.service.js';
+    import bottomTab from '../component/bottomTab.vue';
 
     export default {
         name: 'member',
         components: {
             MyHelpCompanyList,
             MyPublishList,
-            MyLoveInforList
+            MyLoveInforList,
+            bottomTab
         },
         data() {
             return {
@@ -108,24 +110,24 @@
                     nickName: '',
                     post: '',
                     signature: '',
-                    uuId: '',
+                    uuId: ''
                 },
                 FocusFansNumVo: {
                     focusCount: '',
                     fansCount: '',
                     loveCount: '',
                     collectCount: '',
-                    loveCollectCount: '',
+                    loveCollectCount: ''
                 },
                 HelpCompanyNumVo: {
-                    helpComCount: '',
+                    helpComCount: ''
                 },
                 userUrl: '/sys/user/queryById',
                 queryfocusFansByUuIdUrl: '/inforcommon/queryfocusFansByUuId',
                 queryHelpComNumByUuIdUrl: '/comcommon/queryHelpComNumByUuId',
                 userId: '',
                 id: '',
-                fileUrl: configService.fileSaveURL,
+                fileUrl: configService.fileSaveURL
             };
         },
         watch: {
@@ -148,7 +150,7 @@
                 console.log('进来了');
                 // #ifndef H5
                 uni.scanCode({
-                    success: function (res) {
+                    success: function(res) {
                         console.log('条码res：' + res);
                         console.log('条码类型：' + res.scanType);
                         console.log('条码内容：' + res.result);
@@ -171,12 +173,12 @@
                     if (res.data.success) {
                         //const {avatar: originalAvatar, departIds, post} = res.data.result;
                         this.personalList = res.data.result;
-                        console.log("this.personalList.avatar",this.personalList.avatar);
-                        console.log("res.data.result.avatar",res.data.result.avatar);
-                        if(res.data.result.avatar === ""){
-                            console.log("头像不存在")
-                        }else{
-                            console.log("有头像",res.data.result.avatar)
+                        console.log('this.personalList.avatar', this.personalList.avatar);
+                        console.log('res.data.result.avatar', res.data.result.avatar);
+                        if (res.data.result.avatar === '') {
+                            console.log('头像不存在');
+                        } else {
+                            console.log('有头像', res.data.result.avatar);
                         }
                         //console.log("头像", res.data.result)
                         // const avatar = (originalAvatar && originalAvatar.length > 0)
@@ -199,45 +201,44 @@
                 //console.log("进来了666", myFormData)
                 uni.navigateTo({
                     url: '/pages/member/focusModal?item=' + uuID
-                })
+                });
             },
             //点击"粉丝"
             toFans(uuID) {
                 //console.log("进来了666", myFormData)
                 uni.navigateTo({
                     url: '/pages/member/fansModal?item=' + uuID
-                })
+                });
             },
             //点击“获赞与收藏”
             tomemberLikeCountModal() {
-                console.log("点击了跳转modal");
+                console.log('点击了跳转modal');
                 uni.navigateTo({
                     url: '../home/memberLikeCountModal'
-                })
-
+                });
             },
             //获取用户的粉丝和关注和获赞与收藏数量
             queryfocusFansByUuId() {
-                let a = this.uuId;
-                console.log("获取登录用户的粉丝和关注和获赞与收藏数量：", this.uuId)
-                this.$http.get(this.queryfocusFansByUuIdUrl, {params: {uuId: a}}).then((res) => {
+                const a = this.uuId;
+                console.log('获取登录用户的粉丝和关注和获赞与收藏数量：', this.uuId);
+                this.$http.get(this.queryfocusFansByUuIdUrl, { params: { uuId: a } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据2222", res);
+                        console.log('表单数据2222', res);
                         this.FocusFansNumVo = res.data.result;
                     }
-                })
+                });
             },
             //获取助力数量
             queryHelpComNumByUuId() {
-                let a = this.uuId;
-                console.log("获取登录用户助力数量：", this.uuId)
-                this.$http.get(this.queryHelpComNumByUuIdUrl, {params: {uuId: a}}).then((res) => {
+                const a = this.uuId;
+                console.log('获取登录用户助力数量：', this.uuId);
+                this.$http.get(this.queryHelpComNumByUuIdUrl, { params: { uuId: a } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据333", res);
+                        console.log('表单数据333', res);
                         this.HelpCompanyNumVo = res.data.result;
                     }
-                })
-            },
+                });
+            }
         }
     };
 </script>
@@ -344,7 +345,6 @@
         color: #888;
         border-bottom: 1px solid #eee;
     }
-
 
     .tab-title text.active {
         color: #000;

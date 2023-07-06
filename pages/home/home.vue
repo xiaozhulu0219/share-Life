@@ -16,7 +16,7 @@
         <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab===2"></homeHelpCompanyModal>
 
         <homeModal class="home-infor" v-else></homeModal>
-
+        <bottomTab PageCur="home"></bottomTab>
     </view>
 </template>
 
@@ -27,13 +27,15 @@
     import HomeSignModal from './homeSignModal.vue';
     import homeHelpCompanyModal from './homeHelpCompanyModal.vue';
     import homeModal from './homeInforModal.vue';
+    import bottomTab from '../component/bottomTab.vue';
 
     export default {
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
             HomeSignModal,
             homeModal,
-            homeHelpCompanyModal
+            homeHelpCompanyModal,
+            bottomTab
         },
         data() {
             return {
