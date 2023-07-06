@@ -211,7 +211,7 @@
                 this.$http.get(this.findFocusOrFansPublishInforPageUrl, {
                     params: {
                         page: 1,
-                        pagesize: 20,
+                        pagesize: 10,
                         uuId: item
                     }
                 }).then(res => {

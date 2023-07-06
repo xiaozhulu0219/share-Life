@@ -82,7 +82,7 @@
 				this.$http.get(this.findMyPublishInforPageUrl, {
 					params: {
 						page: 1,
-						pagesize: 20
+						pagesize: 10
 					}
 				}).then(res => {
 					if (res.data.success) {
