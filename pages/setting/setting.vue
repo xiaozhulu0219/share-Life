@@ -10,8 +10,16 @@
 
             <!-- list列表 -->
             <view class="cu-list menu">
+                <navigator class="cu-item" url="/pages/member/memberdetail">
+                    <text class="cuIcon-edit" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
+                    <view class="content">
+                        <text class="text-grey" style="font-size: 40rpx;">编辑资料</text>
+                    </view>
+                </navigator>
+            </view>
+            <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
-                    <text class="cuIcon-share" style="font-size: 40rpx;margin-left: 200rpx; margin-right: 10rpx"></text>
+                    <text class="cuIcon-share" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">分享app</text>
                     </view>
@@ -19,7 +27,7 @@
             </view>
             <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
-                    <text class="cuIcon-moneybag" style="font-size: 40rpx;margin-left: 200rpx; margin-right: 10rpx"></text>
+                    <text class="cuIcon-moneybag" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">捐赠</text>
                     </view>
@@ -27,7 +35,7 @@
             </view>
             <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
-                    <text class="cuIcon-message" style="font-size: 40rpx;margin-left: 200rpx; margin-right: 10rpx"></text>
+                    <text class="cuIcon-message" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">联系客服</text>
                     </view>
@@ -35,7 +43,7 @@
             </view>
             <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
-                    <text class="cuIcon-vipcard" style="font-size: 40rpx;margin-left: 200rpx; margin-right: 10rpx"></text>
+                    <text class="cuIcon-vipcard" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">信息认证</text>
                     </view>
@@ -43,7 +51,7 @@
             </view>
             <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
-                    <text class="cuIcon-delete" style="font-size: 40rpx;margin-left: 200rpx; margin-right: 10rpx"></text>
+                    <text class="cuIcon-delete" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">注销账户</text>
                     </view>
@@ -51,7 +59,7 @@
             </view>
             <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
-                    <text class="cuIcon-exit" style="font-size: 40rpx;margin-left: 200rpx; margin-right: 10rpx"></text>
+                    <text class="cuIcon-exit" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">退出app</text>
                     </view>
