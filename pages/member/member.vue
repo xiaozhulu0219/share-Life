@@ -64,7 +64,7 @@
                         <MyPublishList v-if="index === 0"/>
                         <MyHelpCompanyList v-if="index === 1"/>
                         <MyLoveInforList v-if="index === 3"/>
-                        <view v-if="index !== 0 && index !== 1 && index !== 3" class="swiper-item">{{item.name}}</view>
+                        <view v-if="index !== 0 && index !== 1 && index !== 3" class="swiper-item">收藏功能列表暂时还未开发</view>
                     </swiper-item>
                 </swiper>
             </view>
