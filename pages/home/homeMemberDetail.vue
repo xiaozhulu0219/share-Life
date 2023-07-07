@@ -29,7 +29,7 @@
                                 <text :style="{color:'#ddd'}">粉丝</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl"
-                                  @click="tomemberLikeCountModal()">
+                                  @click="tomemberLikeCountModal(FocusFansNumVo)">
                                 <text>{{FocusFansNumVo.loveCollectCount}}</text>
                                 <text :style="{color:'#ddd'}">获赞与收藏</text>
                             </view>
@@ -326,10 +326,10 @@
                 this.activeTab = index;
             },
             //点击“获赞与收藏”
-            tomemberLikeCountModal() {
+            tomemberLikeCountModal(item) {
                 console.log("点击了跳转modal");
                 uni.navigateTo({
-                    url: './memberLikeCountModal'
+                    url: '/pages/home/memberLikeCountModal?item=' + encodeURIComponent(JSON.stringify(item))
                 })
             },
             //获取用户的粉丝和关注和获赞与收藏数量
