@@ -191,6 +191,13 @@ const routes = [{
         }
     },
     {
+        path: '/pages/setting/setting',
+        name: 'setting',
+        meta: {
+            title: '设置页'
+        }
+    },
+    {
         path: '/pages/user/userexit',
         name: 'userexit',
         meta: {

@@ -5,9 +5,11 @@
             <!-- 头部logo-->
             <view class="UCenter-bg">
                 <view class="padding text-right text-xl text-exit">
-                    <navigator url="/pages/user/userexit">
-                        <text class="cuIcon-exit"></text>
-                    </navigator>
+<!--                    <block slot="right"> </block>-->
+                    <view class="iconfont ml-1 search-icon" @click="toSetting()">&#xe8b8</view>
+<!--                    <navigator url="/pages/user/userexit">-->
+<!--                        <text class="cuIcon-exit"></text>-->
+<!--                    </navigator>-->
                 </view>
                 <view class="padding">
                     <view class="margin-bottom-xl flex personInfo">
@@ -238,7 +240,13 @@
                         this.HelpCompanyNumVo = res.data.result;
                     }
                 });
-            }
+            },
+            toSetting() {
+                console.log('跳转到设置页');
+                uni.navigateTo({
+                    url: '/pages/setting/setting'
+                });
+            },
         }
     };
 </script>
