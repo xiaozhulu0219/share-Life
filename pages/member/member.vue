@@ -63,8 +63,9 @@
                     <swiper-item v-for="(item,index) in tabs" :key="index">
                         <MyPublishList v-if="index === 0"/>
                         <MyHelpCompanyList v-if="index === 1"/>
+                        <MyCollectList v-if="index === 2"/>
                         <MyLoveInforList v-if="index === 3"/>
-                        <view v-if="index !== 0 && index !== 1 && index !== 3" class="swiper-item">收藏功能列表暂时还未开发</view>
+                        <view v-if="index !== 0 && index !== 1 && index !== 3" class="swiper-item">收藏列表功能暂时还未开发</view>
                     </swiper-item>
                 </swiper>
             </view>
@@ -75,8 +76,9 @@
 
 <script>
     import api from '@/api/api';
-    import MyHelpCompanyList from './memberHelpCompanyList';
     import MyPublishList from './memberPublishList';
+    import MyHelpCompanyList from './memberHelpCompanyList';
+    import MyCollectList from './memberCollectList';
     import MyLoveInforList from './memberLoveInforList';
     import configService from '@/common/service/config.service.js';
     import bottomTab from '../component/bottomTab.vue';
@@ -84,8 +86,9 @@
     export default {
         name: 'member',
         components: {
-            MyHelpCompanyList,
             MyPublishList,
+            MyHelpCompanyList,
+            MyCollectList,
             MyLoveInforList,
             bottomTab
         },

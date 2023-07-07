@@ -83,7 +83,13 @@
                                 <view class="card-text">{{it.content}}</view>
                             </view>
                         </view>
-                        <view v-if="index !== 0 && index !== 1" class="swiper-item">{{item.name}}</view>
+
+                        <view v-for="(ite,inde) in focusOrFansLoveInforList" :key="inde" class="card-PublishInfor"
+                              v-if="index === 2">
+                            <image class="medias_size" :src="ite.medias[0]" mode="widthFix" alt=""></image>
+                            <view>{{ ite.textContent.substr(0, 35) }}</view>
+                        </view>
+                        <view v-if="index !== 0 && index !== 1 && index !== 2" class="swiper-item">什么乱七八糟的</view>
 
                     </swiper-item>
                 </swiper>
@@ -109,6 +115,9 @@
                 }, {
                     id: 2,
                     name: '助力'
+                }, {
+                    id: 3,
+                    name: '赞过'
                 }],
                 personalList: {
                     avatar: '',
@@ -130,7 +139,8 @@
                 },
                 userUrl: '/sys/user/queryById',
                 queryByUuIdUrl: '/sys/user/queryByUuId',
-                findFocusOrFansPublishInforPageUrl: '/information/movements/findFocusOrFansPublishInforPage',
+                findFocusOrFansPublishInforPageUrl: '/information/movements/findFocusOrFansPublishInforPage',//获取用户的动态发布数据
+                findFocusOrFansLoveInforPageUrl: '/information/movements/findFocusOrFansLoveInforPage',//获取用户赞过的动态数据
                 findFocusOrFansPublishComPageUrl: '/company/findFocusOrFansPublishComPage',//用户信息页公开可见助力返回列表
                 userFocusUrl: '/information/followuser/userFocus',
                 userUnFocusUrl: '/information/followuser/userUnFocus',
@@ -143,6 +153,7 @@
                 fileUrl: configService.fileSaveURL,
                 backRouteName: 'index',
                 focusOrFansPublishInforList: [],
+                focusOrFansLoveInforList: [],
                 focusOrFansHelpList: [],
 
             };
@@ -166,8 +177,9 @@
             //this.myFormData = item
             console.log("个人页拿到了uuid准备大干一番", item)
             this.findPersonInfor(item); //这是传参后继续调用方法的示例
-            this.getFocusOrFansPublishInforList(item); //获取动态列表
-            this.getFocusOrFansHelpCompanyList(item); //获取助力列表
+            this.getFocusOrFansPublishInforList(item); //获取用户发布的动态列表
+            this.getFocusOrFansLoveInforList(item); //获取用户赞过的动态列表
+            this.getFocusOrFansHelpCompanyList(item); //获取用户助力的列表
             this.getFocusORFans(item); //判断两个用户的关注关系
             this.queryfocusFansByUuId(item);
             this.queryHelpComNumByUuId(item);
@@ -246,6 +258,34 @@
                     if (res.data.success) {
                         console.log(res.data.result);
                         this.focusOrFansHelpList = res.data.result.items;
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            },
+            //获取用户的赞过的数据列表
+            getFocusOrFansLoveInforList(item) {
+                this.$http.get(this.findFocusOrFansLoveInforPageUrl, {
+                    params: {
+                        page: 1,
+                        pagesize: 10,
+                        uuId: item
+                    }
+                }).then(res => {
+                    if (res.data.success) {
+                        //console.log("res.data.result:",res.data.result);
+                        //console.log("数据条数:",res.data.result.items.length);
+                        this.focusOrFansLoveInforList = res.data.result.items;
+                        for (let d of this.focusOrFansLoveInforList) {
+                            let arr = d.medias.split(',')
+                            let arr2 = []
+                            for (let e of arr) {
+                                e = this.fileUrl + e
+                                arr2.push(e)
+                            }
+                            d.medias = arr2
+                        }
+                        //console.log("数据条数222:",this.myPublishInforList.length);
                     }
                 }).catch(err => {
                     console.log(err);
