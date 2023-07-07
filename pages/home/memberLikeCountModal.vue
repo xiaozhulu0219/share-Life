@@ -1,23 +1,31 @@
 <template>
     <view class="mask" @click="dimiss">
         <view class="content">
-            <view class="card-text">获赞数：32</view>
-            <view class="card-text">喜欢数：66</view>
-
+            <view class="flex flex-direction align-center card-text">获赞数：{{FocusFansNumVo.loveCollectCount}}</view>
+            <view class="flex flex-direction align-center card-text">收藏数：{{FocusFansNumVo.collectCount}}</view>
         </view>
     </view>
 </template>
 
 <script>
     export default {
+        name: 'memberLikeCountModal',
         data() {
             return {
+                FocusFansNumVo: {
+                    focusCount: '',
+                    fansCount: '',
+                    loveCount: '',
+                    collectCount: '',
+                    loveCollectCount: ''
+                },
 
             }
         },
         onLoad(option) {
-
-            console.log("进来了")
+            const item = JSON.parse(decodeURIComponent(option.item));
+            console.log("进来了",item)
+            this.FocusFansNumVo = item
 
         },
         methods: {
