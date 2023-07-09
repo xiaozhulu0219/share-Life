@@ -46,7 +46,7 @@
                 this.$http.get(this.findMyPublishComPageUrl, {
                     params: {
                         page: 1,
-                        pagesize: 20
+                        pagesize: 5
                     }
                 }).then(res => {
                     if (res.data.success) {
