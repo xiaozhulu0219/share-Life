@@ -1,5 +1,5 @@
 <template>
-    <view>
+    <view style="height: calc(100vh-206rpx);">
         <!--首页引用的modal-->
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
         <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
@@ -24,14 +24,14 @@
 <script>
     import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
     import Mixin from '@/common/mixin/Mixin.js';
-    import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
-    import HomeSignModal from './homeSignModal.vue'
-    import configService from '@/common/service/config.service.js'
+    import MescrollMoreMixin from '@/components/mescroll-uni/mixins/mescroll-more.js';
+    import HomeSignModal from './homeSignModal.vue';
+    import configService from '@/common/service/config.service.js';
 
     export default {
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
-            HomeSignModal,
+            HomeSignModal
         },
         data() {
             return {
@@ -81,17 +81,17 @@
                     outOffsetRate: 0.2, // 在列表顶部,下拉的距离大于offset时,改变下拉区域高度比例;值小于1且越接近0,高度变化越小,表现为越往下越难拉
                     bottomOffset: 20, // 当手指touchmove位置在距离body底部20upx范围内的时候结束上拉刷新,避免Webview嵌套导致touchend事件不执行
                     minAngle: 45, // 向下滑动最少偏移的角度,取值区间  [0,90];默认45度,即向下滑动的角度大于45度则触发下拉;而小于45度,将不触发下拉,避免与左右滑动的轮播等组件冲突;
-                    bgColor: "#E75A7C", // 背景颜色 (建议在pages.json中再设置一下backgroundColorTop)
-                    textColor: "#fff", // 文本颜色 (当bgColor配置了颜色,而textColor未配置时,则textColor会默认为白色)
+                    bgColor: '#E75A7C', // 背景颜色 (建议在pages.json中再设置一下backgroundColorTop)
+                    textColor: '#fff', // 文本颜色 (当bgColor配置了颜色,而textColor未配置时,则textColor会默认为白色)
                     textInOffset: '下拉刷新', // 下拉的距离在offset范围内的提示文本
                     textOutOffset: '释放更新', // 下拉的距离大于offset范围的提示文本
-                    textLoading: '稍等加载中 ...'    // 加载中的提示文本
+                    textLoading: '稍等加载中 ...' // 加载中的提示文本
                 },
                 upOption: {
                     auto: false, // 不自动加载
                     page: {
                         num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
-                        size: 6 // 每页数据的数量
+                        size: 10 // 每页数据的数量
                     },
                     // noMoreSize: 6, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
                     empty: {
@@ -100,12 +100,12 @@
                         use: true, // 是否显示空布局
                         //icon: "https://www.mescroll.com/img/mescroll-empty.png", // 图标路径
                         fixed: false, // 是否使用fixed定位,默认false; 配置fixed为true,以下的top和zIndex才生效 (transform会使fixed失效,最终会降级为absolute)
-                        top: "100rpx", // fixed定位的top值 (完整的单位值,如 "10%"; "100rpx")
+                        top: '100rpx', // fixed定位的top值 (完整的单位值,如 "10%"; "100rpx")
                         zIndex: 99 // fixed定位z-index值
                     },
                     toTop: {
                         // 回到顶部按钮,需配置src才显示
-                        src: "https://www.mescroll.com/img/mescroll-totop.png", // 图片路径
+                        src: 'https://www.mescroll.com/img/mescroll-totop.png', // 图片路径
                         offset: 1000, // 列表滚动多少距离才显示回到顶部按钮,默认1000
                         duration: 300, // 回到顶部的动画时长,默认300ms (当值为0或300则使用系统自带回到顶部,更流畅; 其他值则通过step模拟,部分机型可能不够流畅,所以非特殊情况不建议修改此项)
                         zIndex: 9990, // fixed定位z-index值
@@ -114,9 +114,9 @@
                         bottom: 120, // 到底部的距离, 默认120 (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
                         safearea: false, // bottom的偏移量是否加上底部安全区的距离, 默认false, 需要适配iPhoneX时使用 (具体的界面如果不配置此项,则取mescroll组件props的safearea值)
                         width: 72, // 回到顶部图标的宽度, 默认72 (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
-                        radius: "50%" // 圆角, 默认"50%" (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
-                    },
-                },
+                        radius: '50%' // 圆角, 默认"50%" (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
+                    }
+                }
                 /*下拉刷新的回调 */
                 // downCallback() {
                 //     //联网加载数据
@@ -191,18 +191,18 @@
                         pagesize: 10
                     }
                 }).then(res => {
-                    console.log("查看条数999：", res.data.result.items);
+                    console.log('查看条数999：', res.data.result.items);
                     if (res.data.success) {
                         this.homePublishInforList = res.data.result.items;
-                        for (let d of this.homePublishInforList) {
-                            let arr = d.medias.split(',')
-                            let arr2 = []
+                        for (const d of this.homePublishInforList) {
+                            const arr = d.medias.split(',');
+                            const arr2 = [];
                             for (let e of arr) {
-                                e = this.fileUrl + e
-                                arr2.push(e)
+                                e = this.fileUrl + e;
+                                arr2.push(e);
                             }
-                            d.avatar = this.fileUrl + d.avatar
-                            d.medias = arr2
+                            d.avatar = this.fileUrl + d.avatar;
+                            d.medias = arr2;
                         }
                     }
                 }).catch(err => {
@@ -213,7 +213,7 @@
                 //console.log("进来了111", item)
                 uni.navigateTo({
                     url: '/pages/home/homeInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
-                })
+                });
             },
             goHome() {
                 this.$Router.push({
@@ -240,7 +240,7 @@
                         });
                     } else {
                         //有搜索记录，删除之前的旧记录，将新搜索值重新push到数组首位
-                        let i = this.searchHistoryList.indexOf(this.inputValue);
+                        const i = this.searchHistoryList.indexOf(this.inputValue);
                         this.searchHistoryList.splice(i, 1);
                         this.searchHistoryList.unshift(this.inputValue);
                         uni.showToast({
@@ -267,7 +267,7 @@
             },
 
             async onLoad() {
-                let list = await uni.getStorage({
+                const list = await uni.getStorage({
                     key: 'searchList'
                 });
 
@@ -279,14 +279,13 @@
             },
             //喜欢动态
             loveInfor(id, index) {
-                console.log("进来了方法", id)
-                console.log("顺序是", index)
-                this.$http.get(this.loveInforUrl, {params: {id: id}}).then((res) => {
+                console.log('进来了方法', id);
+                console.log('顺序是', index);
+                this.$http.get(this.loveInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-
                         //this.myCommentForm.loveCount = res.data.result;
-                        console.log("this.homePublishInforList.indexOf(index)：", this.homePublishInforList[index]);
-                        console.log("11111", this.homePublishInforList);
+                        console.log('this.homePublishInforList.indexOf(index)：', this.homePublishInforList[index]);
+                        console.log('11111', this.homePublishInforList);
 
                         // for (let d of this.homePublishInforList) {
                         //     console.log("2222", d);
@@ -295,35 +294,34 @@
                         //刷新列表
                         this.getHomePublishInforList();
                     }
-                })
+                });
             },
             //取消喜欢动态
             unloveInfor(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.unloveInforUrl, {params: {id: id}}).then((res) => {
+                this.$http.get(this.unloveInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        console.log('表单数据', res);
                         //this.myCommentForm.loveCount = res.data.result;
                         //刷新列表
                         this.getHomePublishInforList();
                     }
-                })
+                });
             },
             //点击头像跳转用户详情
             toMemberdetail(myFormData) {
-                console.log("进来了9999应该是uuid", myFormData)
+                console.log('进来了9999应该是uuid', myFormData);
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
-                if(this.uuId == myFormData){
+                if (this.uuId == myFormData) {
                     uni.navigateTo({
                         url: '/pages/member/member'
-                    })
-                }else{
+                    });
+                } else {
                     uni.navigateTo({
                         url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
-                    })
+                    });
                 }
-
-            },
+            }
         }
     };
 </script>
@@ -534,6 +532,5 @@
         /*border-radius: 8rpx;*/
         margin-bottom: 20rpx; /*盒子间的距离*/
     }
-
 
 </style>

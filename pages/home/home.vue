@@ -1,21 +1,22 @@
 <template>
-    <view>
+    <view class="home-container">
         <!--首页-->
         <!--关于首页的规划，首页将来还是做框架、HomeSignModal从后台拿回多少个标签 home就插多少个modal
         至于modal的命名无所谓， 比如第一个modal是心理方面的 在返回的标签中 心理是1 那就将1作为参数获取列表
         所有标签页获取数据公用一个接口，根据传的标签值（类型）后台返回不同的领域的数据
         -->
-        <cu-custom :bgColor="NavBarColor">
-<!--            <block slot="content">ShareLife</block>-->
-            <block slot="right"> ShareLife<view class="iconfont ml-1 search-icon" @click="toSearch(activeTab.value)">&#xe600</view></block>
-        </cu-custom>
+        <commonTab :bgColor="NavBarColor">
+          <block slot="title"> ShareLife
+            <view class="iconfont ml-1 search-icon" @click="toSearch(activeTab.value)">&#xe600</view>
+          </block>
+        </commonTab>
 
         <HomeSignModal :getActiveTab="getActiveTab" ></HomeSignModal>
-        <!-- class="home-sign" -->
 
         <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
 
-        <homeModal class="home-infor" v-else></homeModal>
+        <!-- <homeModal class="home-infor" v-else></homeModal> -->
+        <listComponent v-else></listComponent>
         <bottomTab PageCur="home"></bottomTab>
     </view>
 </template>
@@ -28,6 +29,8 @@
     import homeHelpCompanyModal from './homeHelpCompanyModal.vue';
     import homeModal from './homeInforModal.vue';
     import bottomTab from '../component/bottomTab.vue';
+    import commonTab from '../component/commonTab.vue';
+    import listComponent from './components/listComponent.vue';
 
     export default {
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
@@ -35,7 +38,9 @@
             HomeSignModal,
             homeModal,
             homeHelpCompanyModal,
-            bottomTab
+            bottomTab,
+            commonTab,
+            listComponent
         },
         data() {
             return {
@@ -191,91 +196,26 @@
 </script>
 
 <style lang="scss" scoped>
-    // 搜索框
-    .search {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100rpx;
-        margin: 0;
-        position: fixed;
-    }
-
-    .search-bar-box {
-        display: flex;
-        align-items: center;
-        width: 60%;
-        height: 70rpx;
-        border: 5rpx solid #00a8cc;
-        border-radius: 50rpx;
-        margin-top: -20rpx;
-    }
-
-    .search-btn {
-        width: 120rpx;
-        height: 70rpx;
-        background-color: #00a8cc;
-        color: white;
-        line-height: 70rpx;
-        text-align: center;
-        border-radius: 35rpx;
-        letter-spacing: 3rpx;
-    }
-
-    .searchHistory {
-        width: 100%;
-        margin-top: 16rpx;
-
-        .searchHistoryItem {
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-
-            view {
-                /* width: 50px; */
-                height: 20rpx;
-                background: #f0f0f0;
-                padding: 4rpx;
-                margin: 6rpx 5rpx;
-            }
-        }
-    }
-
-    .home-infor {
-       //background-color: #fff;
-        background-color: $uni-bg-color-grey;
-        //padding: 20rpx 20rpx;
-        //border-radius: 20rpx;
-        //margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 5rpx; /*盒子距离顶部的距离*/
-        //line-height: 35rpx; /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
-    }
-    .home-helpCompany {
-       //background-color: #fff;
-        background-color: $uni-bg-color-grey;
-        //padding: 20rpx 20rpx;
-        //border-radius: 20rpx;
-        //margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 5rpx; /*盒子距离顶部的距离*/
-        //line-height: 35rpx; /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
-    }
-
-    .home-sign {
-        background-color: $uni-bg-color-grey;
-        margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 5rpx; /*盒子距离顶部的距离*/
-        line-height: 60rpx; /*行高*/
-        height: 100%;
-        //margin-bottom: 16px; /*内容和标题间的间距*/
-    }
-
-    .search-icon {
+.home-container {
+  width: 100vw;
+  height: 100vh;
+  padding-bottom: 106rpx;
+  padding-top: 100rpx;
+  box-sizing: border-box;
+}
+  .search-icon {
     color: #fff;
     margin-left: 10rpx;
     font-size: 40rpx;
     font-weight: 700;
+  }
+    .home-helpCompany {
+        background-color: $uni-bg-color-grey;
+        margin-top: 5rpx;
     }
+    .home-infor {
+        background-color: $uni-bg-color-grey;
+        margin-top: 5rpx;
+    }
+
 </style>
