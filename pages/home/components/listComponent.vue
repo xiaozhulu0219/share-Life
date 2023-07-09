@@ -22,6 +22,8 @@
 </template>
 
 <script>
+    import configService from '@/common/service/config.service.js';
+
   export default {
     data() {
       return {
@@ -34,7 +36,8 @@
         unloveInforUrl: '/information/movements/unlove',
         loveInforUrl: '/information/movements/love',
         homeListUrl: '/information/movements/findHomePublishInforList',
-        homeList: [] // 上拉加载的配置(可选, 绝大部分情况无需配置)
+        homeList: [], // 上拉加载的配置(可选, 绝大部分情况无需配置)
+        fileUrl: configService.fileSaveURL,
       };
     },
     created() {

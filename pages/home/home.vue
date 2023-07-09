@@ -15,8 +15,8 @@
 
         <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
 
-        <!-- <homeModal class="home-infor" v-else></homeModal> -->
-        <listComponent v-else></listComponent>
+         <homeModal  v-else></homeModal>
+<!--        <listComponent v-else></listComponent>-->
         <bottomTab PageCur="home"></bottomTab>
     </view>
 </template>

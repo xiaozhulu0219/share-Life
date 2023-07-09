@@ -1,9 +1,7 @@
 <template>
-    <view style="height: calc(100vh-206rpx);">
-        <!--首页引用的modal-->
-        <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
-        <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
-            <view v-for="(item,index) in homePublishInforList" :key="index" class="card">
+    <view class="list-wrap">
+        <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
+            <view v-for="(item,index) in homeList" :key="index" class="card">
                 <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""
                        @click="toInformationDetail(item)"></image>
                 <view class="card-text" @click="toInformationDetail(item)">{{item.textContent.substr(0, 35) }}</view>
@@ -17,302 +15,103 @@
                     <view class="card-loveCount">{{item.loveCount}}</view>
                 </view>
             </view>
-        </mescroll-body>
+            <view v-if='isDownLoading' class="load-text">加载中....</view>
+            <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
+        </scroll-view>
     </view>
 </template>
 
 <script>
-    import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
-    import Mixin from '@/common/mixin/Mixin.js';
-    import MescrollMoreMixin from '@/components/mescroll-uni/mixins/mescroll-more.js';
-    import HomeSignModal from './homeSignModal.vue';
     import configService from '@/common/service/config.service.js';
 
     export default {
-        mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
-        components: {
-            HomeSignModal
-        },
         data() {
             return {
-                activeTab: {},
-                CustomBar: this.CustomBar,
-                NavBarColor: this.NavBarColor,
-                findHomePublishComListUrl: '/company/findHomePublishComList',
-                findHomePublishInforListUrl: '/information/movements/findHomePublishInforList',
-                loveInforUrl: '/information/movements/love',
-                unloveInforUrl: '/information/movements/unlove',
-                homePublishComList: [],
-                homePublishInforList: [],
-                arr: [],
-                arr2: [],
-                inputValue: '',
-                fileUrl: configService.fileSaveURL,
-                searchHistoryList: [{
-                    locationName: '反而可能',
-                    createTime: '2022-11-30 10:00:00',
-                    createBy: '本金额看见你有限公司',
-                    status: 1
-                }, {
-                    locationName: '人家',
-                    createTime: '2022-11-30 10:00:00',
-                    createBy: '诶接耳机有限公司',
-                    status: 2
-                }], //搜索出来的内容
-                searchHistoryList2: [{
-                    locationName: '就是一个普通首页',
-                    createTime: '2022-12-12 10:00:00',
-                    createBy: '预科金融有限公司',
-                    status: 1
-                }, {
-                    locationName: '斗战',
-                    createTime: '2022-12-12 10:00:00',
-                    createBy: '之乎者也有限公司',
-                    status: 2
-                }], //搜索出来的内容(假数据)
-                downOption: {
-                    use: true, // 是否启用下拉刷新; 默认true
-                    auto: true, // 是否在初始化完毕之后自动执行下拉刷新的回调; 默认true
-                    native: false, // 是否使用系统自带的下拉刷新; 默认false; 仅mescroll-body生效 (值为true时,还需在pages配置enablePullDownRefresh:true;详请参考mescroll-native的案例)
-                    autoShowLoading: false, // 如果设置auto=true(在初始化完毕之后自动执行下拉刷新的回调),那么是否显示下拉刷新的进度; 默认false
-                    isLock: false, // 是否锁定下拉刷新,默认false;
-                    offset: 60, // 在列表顶部,下拉大于80upx,松手即可触发下拉刷新的回调
-                    inOffsetRate: 1, // 在列表顶部,下拉的距离小于offset时,改变下拉区域高度比例;值小于1且越接近0,高度变化越小,表现为越往下越难拉
-                    outOffsetRate: 0.2, // 在列表顶部,下拉的距离大于offset时,改变下拉区域高度比例;值小于1且越接近0,高度变化越小,表现为越往下越难拉
-                    bottomOffset: 20, // 当手指touchmove位置在距离body底部20upx范围内的时候结束上拉刷新,避免Webview嵌套导致touchend事件不执行
-                    minAngle: 45, // 向下滑动最少偏移的角度,取值区间  [0,90];默认45度,即向下滑动的角度大于45度则触发下拉;而小于45度,将不触发下拉,避免与左右滑动的轮播等组件冲突;
-                    bgColor: '#E75A7C', // 背景颜色 (建议在pages.json中再设置一下backgroundColorTop)
-                    textColor: '#fff', // 文本颜色 (当bgColor配置了颜色,而textColor未配置时,则textColor会默认为白色)
-                    textInOffset: '下拉刷新', // 下拉的距离在offset范围内的提示文本
-                    textOutOffset: '释放更新', // 下拉的距离大于offset范围的提示文本
-                    textLoading: '稍等加载中 ...' // 加载中的提示文本
+                pageInfo: {
+                    num: 0,
+                    size: 10
                 },
-                upOption: {
-                    auto: false, // 不自动加载
-                    page: {
-                        num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
-                        size: 10 // 每页数据的数量
-                    },
-                    // noMoreSize: 6, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
-                    empty: {
-                        tip: '~ 空空如也 ~', // 提示
-                        btnText: '去逛逛 >', // 按钮
-                        use: true, // 是否显示空布局
-                        //icon: "https://www.mescroll.com/img/mescroll-empty.png", // 图标路径
-                        fixed: false, // 是否使用fixed定位,默认false; 配置fixed为true,以下的top和zIndex才生效 (transform会使fixed失效,最终会降级为absolute)
-                        top: '100rpx', // fixed定位的top值 (完整的单位值,如 "10%"; "100rpx")
-                        zIndex: 99 // fixed定位z-index值
-                    },
-                    toTop: {
-                        // 回到顶部按钮,需配置src才显示
-                        src: 'https://www.mescroll.com/img/mescroll-totop.png', // 图片路径
-                        offset: 1000, // 列表滚动多少距离才显示回到顶部按钮,默认1000
-                        duration: 300, // 回到顶部的动画时长,默认300ms (当值为0或300则使用系统自带回到顶部,更流畅; 其他值则通过step模拟,部分机型可能不够流畅,所以非特殊情况不建议修改此项)
-                        zIndex: 9990, // fixed定位z-index值
-                        left: null, // 到左边的距离, 默认null. 此项有值时,right不生效. (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
-                        right: 20, // 到右边的距离, 默认20 (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
-                        bottom: 120, // 到底部的距离, 默认120 (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
-                        safearea: false, // bottom的偏移量是否加上底部安全区的距离, 默认false, 需要适配iPhoneX时使用 (具体的界面如果不配置此项,则取mescroll组件props的safearea值)
-                        width: 72, // 回到顶部图标的宽度, 默认72 (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
-                        radius: '50%' // 圆角, 默认"50%" (支持20, "20rpx", "20px", "20%"格式的值, 其中纯数字则默认单位rpx)
-                    }
-                }
-                /*下拉刷新的回调 */
-                // downCallback() {
-                //     //联网加载数据
-                //     apiNewList().then(data => {
-                //         //联网成功的回调,隐藏下拉刷新的状态
-                //         this.mescroll.endSuccess();
-                //         //设置列表数据
-                //         this.homePublishInforList.unshift(data[0]);
-                //     }).catch(()=>{
-                //         //联网失败的回调,隐藏下拉刷新的状态
-                //         this.mescroll.endErr();
-                //     })
-                // },
-                /*上拉加载的回调: 其中page.num:当前页 从1开始, page.size:每页数据条数,默认10 */
-                // upCallback(page) {
-                //     //联网加载数据
-                //     apiNewList(page.num, page.size).then(curPageData=>{
-                //         //联网成功的回调,隐藏下拉刷新和上拉加载的状态;
-                //         //mescroll会根据传的参数,自动判断列表如果无任何数据,则提示空;列表无下一页数据,则提示无更多数据;
-                //
-                //         //方法一(推荐): 后台接口有返回列表的总页数 totalPage
-                //         //this.mescroll.endByPage(curPageData.length, totalPage); //必传参数(当前页的数据个数, 总页数)
-                //
-                //         //方法二(推荐): 后台接口有返回列表的总数据量 totalSize
-                //         //this.mescroll.endBySize(curPageData.length, totalSize); //必传参数(当前页的数据个数, 总数据量)
-                //
-                //         //方法三(推荐): 您有其他方式知道是否有下一页 hasNext
-                //         //this.mescroll.endSuccess(curPageData.length, hasNext); //必传参数(当前页的数据个数, 是否有下一页true/false)
-                //
-                //         //方法四 (不推荐),会存在一个小问题:比如列表共有20条数据,每页加载10条,共2页.如果只根据当前页的数据个数判断,则需翻到第三页才会知道无更多数据.
-                //         this.mescroll.endSuccess(curPageData.length);
-                //
-                //         //设置列表数据
-                //         this.homePublishInforList=this.homePublishInforList.concat(curPageData);
-                //     }).catch(()=>{
-                //         //联网失败, 结束加载
-                //         this.mescroll.endErr();
-                //     })
-                // }
+                hasNext: true,
+                isDownLoading: false,
+                unloveInforUrl: '/information/movements/unlove',
+                loveInforUrl: '/information/movements/love',
+                homeListUrl: '/information/movements/findHomePublishInforList',
+                homeList: [], // 上拉加载的配置(可选, 绝大部分情况无需配置)
+                fileUrl: configService.fileSaveURL,
             };
         },
-        watch: {
-            cur: {
-                immediate: true,
-                handler() {
-                    //console.log('watch', this.cur);
-                    this.userId = this.$store.getters.userid;
-                    this.uuId = this.$store.getters.uuId;
-                    //this.load();
-                    console.log('监控到的登录用户的uuId：', this.uuId);
-                    console.log('监控到的登录用户的userId：', this.userId);
-                }
-            }
-        },
         created() {
-            //this.getHomePublishComList();
+            console.log(9999);
             this.getHomePublishInforList();
         },
         methods: {
-            getActiveTab(item) {
-                this.activeTab = item;
-                // this.mescroll.resetUpScroll()
+            // 触底加载
+            reachBottom() {
+                if (!this.hasNext) return;
+                console.log('//// 触底加载');
+                this.getHomePublishInforList();
             },
-            handleStatus(status, type) {
-
-            },
-            //标签为"助力"之外的标签展示的数据--以后将考虑根据类型type来区分调用不同类型的接口，展示在不同标签的列表页
             getHomePublishInforList() {
-                this.$http.get(this.findHomePublishInforListUrl, {
-                    params: {
-                        page: 1,
-                        pagesize: 10
-                    }
+                if (this.isDownLoading) return;
+                this.isDownLoading = true;
+                this.pageInfo.num++;
+                const { homeListUrl, pageInfo: { num, size } } = this;
+                this.$http.get(homeListUrl, {
+                    params: { page: num, pagesize: size }
                 }).then(res => {
-                    console.log('查看条数999：', res.data.result.items);
-                    if (res.data.success) {
-                        this.homePublishInforList = res.data.result.items;
-                        for (const d of this.homePublishInforList) {
-                            const arr = d.medias.split(',');
-                            const arr2 = [];
-                            for (let e of arr) {
-                                e = this.fileUrl + e;
-                                arr2.push(e);
+                    const { success, result } = res.data;
+                    console.log('。。。。。', result.items);
+                    if (success) {
+                        const { pages, items, page } = result;
+                        if (num === 1) this.homeList = [];
+                        if (items.length) {
+                            for (const d of items) {
+                                const arr = d?.medias?.split(',');
+                                const arr2 = [];
+                                for (let e of arr) {
+                                    e = this.fileUrl + e;
+                                    arr2.push(e);
+                                }
+                                d.avatar = this.fileUrl + d.avatar;
+                                d.medias = arr2;
                             }
-                            d.avatar = this.fileUrl + d.avatar;
-                            d.medias = arr2;
                         }
+                        this.homeList = this.homeList.concat(items);
+                        this.hasNext = pages > page;
+                        this.isDownLoading = false;
+                    } else {
+                        this.isDownLoading = false;
                     }
                 }).catch(err => {
                     console.log(err);
+                    this.isDownLoading = false;
                 });
             },
             toInformationDetail(item) {
-                //console.log("进来了111", item)
                 uni.navigateTo({
                     url: '/pages/home/homeInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
                 });
             },
-            goHome() {
-                this.$Router.push({
-                    name: 'index'
-                });
-            },
-            model(item, index) {
-                this.inputValue = item;
-            },
-            del(item, index) {
-                this.searchHistoryList.splice(0, 1);
-            },
-            search() {
-                if (this.inputValue == '') {
-                    uni.showModal({
-                        title: '搜索内容不能为空'
-                    });
-                } else {
-                    if (!this.searchHistoryList.includes(this.inputValue)) {
-                        this.searchHistoryList.unshift(this.inputValue);
-                        uni.setStorage({
-                            key: 'searchList',
-                            data: JSON.stringify(this.searchHistoryList)
-                        });
-                    } else {
-                        //有搜索记录，删除之前的旧记录，将新搜索值重新push到数组首位
-                        const i = this.searchHistoryList.indexOf(this.inputValue);
-                        this.searchHistoryList.splice(i, 1);
-                        this.searchHistoryList.unshift(this.inputValue);
-                        uni.showToast({
-                            title: '不能重复添加'
-                        });
-                        uni.setStorage({
-                            key: 'searchList',
-                            data: JSON.stringify(this.searchHistoryList)
-                        });
-                    }
-                }
-                this.inputValue = '';
-            },
-            //清空历史记录
-            empty() {
-                uni.showToast({
-                    title: '已清空'
-                });
-                uni.removeStorage({
-                    key: 'searchList'
-                });
-
-                this.searchHistoryList = [];
-            },
-
-            async onLoad() {
-                const list = await uni.getStorage({
-                    key: 'searchList'
-                });
-
-                // console.log(list[1].data);
-
-                // if (list[1].data) {
-                //     this.searchHistoryList = JSON.parse(list[1].data);
-                // }
-            },
             //喜欢动态
-            loveInfor(id, index) {
-                console.log('进来了方法', id);
-                console.log('顺序是', index);
+            loveInfor(id) {
                 this.$http.get(this.loveInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        //this.myCommentForm.loveCount = res.data.result;
-                        console.log('this.homePublishInforList.indexOf(index)：', this.homePublishInforList[index]);
-                        console.log('11111', this.homePublishInforList);
-
-                        // for (let d of this.homePublishInforList) {
-                        //     console.log("2222", d);
-                        // }
-                        //this.homePublishInforList.indexOf(index).loveCount = res.data.result;
-                        //刷新列表
                         this.getHomePublishInforList();
                     }
                 });
             },
             //取消喜欢动态
             unloveInfor(id) {
-                //console.log("进来了方法", inforId)
                 this.$http.get(this.unloveInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        console.log('表单数据', res);
-                        //this.myCommentForm.loveCount = res.data.result;
-                        //刷新列表
                         this.getHomePublishInforList();
                     }
                 });
             },
             //点击头像跳转用户详情
             toMemberdetail(myFormData) {
-                console.log('进来了9999应该是uuid', myFormData);
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
-                if (this.uuId == myFormData) {
+                if (this.$store.getters.uuId == myFormData) {
                     uni.navigateTo({
                         url: '/pages/member/member'
                     });
@@ -327,138 +126,9 @@
 </script>
 
 <style lang="scss" scoped>
-    // 搜索框
-    .search {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100rpx;
-        margin: 0;
-        position: fixed;
+    .list-wrap {
+        height: calc(100vh - 280rpx);
     }
-
-    .search-bar-box {
-        display: flex;
-        align-items: center;
-        width: 60%;
-        height: 70rpx;
-        border: 5rpx solid #00a8cc;
-        border-radius: 50rpx;
-        margin-top: -20rpx;
-    }
-
-    .search-btn {
-        width: 120rpx;
-        height: 70rpx;
-        background-color: #00a8cc;
-        color: white;
-        line-height: 70rpx;
-        text-align: center;
-        border-radius: 35rpx;
-        letter-spacing: 3rpx;
-    }
-
-    .searchHistory {
-        width: 100%;
-        margin-top: 16rpx;
-
-        .searchHistoryItem {
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-
-            view {
-                /* width: 50px; */
-                height: 20rpx;
-                background: #f0f0f0;
-                padding: 4rpx;
-                margin: 6rpx 5rpx;
-            }
-        }
-    }
-
-    .main_classify {
-        background: white;
-
-        .main_under_classify {
-            .li {
-                height: 124rpx;
-                border-bottom: 2rpx #999999 solid;
-                padding: 20rpx 28rpx;
-                display: flex;
-                justify-content: space-between;
-                margin-top: 20rpx;
-
-                image {
-                    width: 116rpx;
-                    height: 110rpx;
-                    border-radius: 50%;
-                    margin-right: 20rpx;
-                    margin-top: 6rpx;
-                }
-
-                .li_content {
-                    width: 254rpx;
-
-                    .title {
-                        display: block;
-                        font-weight: 800;
-                        font-size: 28rpx;
-                    }
-
-                    text {
-                        line-height: 40rpx;
-                    }
-
-                    .zhiwei {
-                        color: #666666;
-                    }
-
-                    .heng {
-                        color: #999999;
-                    }
-                }
-
-                .li_end {
-                    padding: 0rpx 40rpx;
-                    width: 140rpx;
-                    height: 52rpx;
-                    border: 1rpx solid red;
-                    border-radius: 50rpx;
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 36rpx;
-
-                    .jia {
-                        width: 24rpx;
-                        height: 24rpx;
-                        margin-top: 16rpx;
-                    }
-
-                    .erji {
-                        width: 42rpx;
-                        height: 42rpx;
-                    }
-                }
-            }
-        }
-    }
-
-    .tab-content {
-        background-color: #00a8cc;
-        position: fixed;
-        width: 100%;
-        height: 200rpx;
-        top: 260rpx;
-    }
-
-    .list-item {
-        margin: 20rpx auto;
-        width: 95%;
-        border-radius: 20rpx;
-    }
-
     .card {
         background-color:  #fff;
         //background-color: $uni-bg-color-grey;
@@ -512,19 +182,18 @@
         .card-avatar {
             max-width: 20px;
             width: 20px;
-            width: expression(this.width > 20 ? "20px" : this.width);
+            // width: expression(this.width > 20 ? "20px" : this.width);
             height: 20px;
-            height: expression(this.height > 20 ? "20px" : this.height);
+            // height: expression(this.height > 20 ? "20px" : this.height);
         }
 
     }
-
     .medias_size {
         max-width: 180px;
         width: 180px;
-        width:expression(this.width > 180 ? "180px" : this.width);
+        // width:expression(this.width > 180 ? "180px" : this.width);
         height: 180px;
-        height:expression(this.height > 180 ? "180px" : this.height);
+        // height:expression(this.height > 180 ? "180px" : this.height);
         overflow:hidden;
         /*text-align:center;*/
         /*width: 21rpx;*/
@@ -532,5 +201,12 @@
         /*border-radius: 8rpx;*/
         margin-bottom: 20rpx; /*盒子间的距离*/
     }
-
+    .load-text, .noMore {
+        background-color: #fff;
+        text-align: center;
+        padding: 4rpx;
+    }
+    .noMore {
+        color: #ccc;
+    }
 </style>
