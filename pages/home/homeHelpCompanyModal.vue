@@ -33,7 +33,7 @@
             return {
                 pageInfo: {
                     num: 0,
-                    size: 10
+                    size: 20
                 },
                 hasNext: true,
                 isDownLoading: false,
@@ -71,16 +71,6 @@
                         const { pages, items, page } = result;
                         if (num === 1) this.homeComList = [];
                         if (items.length) {
-                            // for (const d of items) {
-                            //     const arr = d?.medias?.split(',');
-                            //     const arr2 = [];
-                            //     for (let e of arr) {
-                            //         e = this.fileUrl + e;
-                            //         arr2.push(e);
-                            //     }
-                            //     d.avatar = this.fileUrl + d.avatar;
-                            //     d.medias = arr2;
-                            // }
                             for (const d of items) {
                                 d.companyName = "公司名称：" + d.companyName
                                 d.legalPerson = "法人：" + d.legalPerson
