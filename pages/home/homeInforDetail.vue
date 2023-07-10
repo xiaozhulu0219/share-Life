@@ -16,7 +16,7 @@
                 </swiper-item>
             </swiper>
 
-            <view class="card-text" @click="toMemberdetail(myFormData.uuId)">{{myFormData.textContent}}</view>
+            <view class="card-text">{{myFormData.textContent}}</view>
 
             <view class="card-line">
                 <view class="card-createDate">{{myCommentForm.createDate}}</view>
@@ -47,7 +47,7 @@
                     <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
                         <view class="comment-parent">
                             <image class="comment-avatar round sm" :src="item.avatar" alt=""
-                                   @click="toMemberdetail(myFormData.uuId)"></image>
+                                   @click="toMemberdetail(item.uuId)"></image>
                             <view class="comment-nickcon">
                                 <view class="comment-nickname">{{ item.nickname }}</view>
                                 <view class="comment-content">{{ item.content }}</view>
@@ -70,7 +70,7 @@
                         <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
                             <view class="comment-son">
                                 <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
-                                       @click="toMemberdetail(myFormData.uuId)"></image>
+                                       @click="toMemberdetail(sonitem.uuId)"></image>
                                 <view class="comment-nickcon">
                                     <view class="comment-nickname">{{ sonitem.nickname }}</view>
                                     <view class="comment-content">{{ sonitem.content }}</view>
@@ -104,10 +104,14 @@
 <script>
     import myDate from '@/components/my-componets/my-date.vue'
     import configService from '@/common/service/config.service.js'
+    import commonTab from '../component/commonTab.vue';
 
     export default {
         name: "homeInformationDetail",
-        components: {myDate},
+        components: {
+            myDate,
+            commonTab
+        },
         props: {
             formData: {
                 type: Object,
@@ -550,7 +554,7 @@
                 .comment-nickcon {
                     //font-weight: bold;
                     //margin-right: 80rpx;
-                    margin-left: 70rpx;
+                    margin-left: 80rpx;
                     //display: flex;
                     //justify-content: space-between;
 
