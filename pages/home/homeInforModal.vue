@@ -16,7 +16,7 @@
                 </view>
             </view>
             <view v-if='isDownLoading' class="load-text">加载中....</view>
-            <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
+            <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多动态了，快去分享你的美好生活吧---</view>
         </scroll-view>
     </view>
 </template>

@@ -85,8 +85,8 @@
                             </view>
                         </view>
                     </view>
-                    <view v-if='isDownLoading' class="load-text">加载中....</view>
-                    <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
+                    <view v-if='isDownLoading' class="load-text">评论加载中....</view>
+                    <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快去发表你的态度吧---</view>
 
                 </scroll-view>
             </view>
@@ -316,7 +316,6 @@
             },
             //获取评论的评论列表
             getSonCommentsList(item) {
-                //console.log("进来了方法33333", item)
                 this.$http.get(this.url.findSonCommentListPageUrl, {
                     params: {
                         id: item.id
@@ -329,7 +328,6 @@
                             d.avatar = this.fileUrl + d.avatar
                         }
                         //console.log("数据:",this.inforSonCommentsList);
-                        //console.log("数据条数222:",this.inforSonCommentsList.length);
                     }
                 }).catch(err => {
                     console.log(err);
@@ -366,8 +364,10 @@
                             //console.log("33333res:",res.data.result);
                             //回显最新评论数
                             this.myCommentForm.commentCount = res.data.result
-                            //刷新评论列表
+                            //重新赋页码数、并刷新评论列表
+                            this.pageInfo.num = 0;
                             this.getInforCommentsList(this.myFormData.inforId);
+                            //console.log('当前页数是：', this.pageInfo.num);
                             //置空输入框
                             this.inputValue = '';
                         }
@@ -429,7 +429,8 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         //this.myCommentForm.likeCount = res.data.result;
-                        //刷新评论列表
+                        //重新赋页码数、并刷新评论列表
+                        this.pageInfo.num = 0;
                         this.getInforCommentsList(this.myFormData.inforId);
                     }
                 })
@@ -441,7 +442,8 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         //this.myCommentForm.likeCount = res.data.result;
-                        //刷新评论列表
+                        //重新赋页码数、并刷新评论列表
+                        this.pageInfo.num = 0;
                         this.getInforCommentsList(this.myFormData.inforId);
                     }
                 })

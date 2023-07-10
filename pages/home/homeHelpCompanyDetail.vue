@@ -68,8 +68,8 @@
                         </view>
                     </view>
                 </view>
-                <view v-if='isDownLoading' class="load-text">加载中....</view>
-                <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
+                <view v-if='isDownLoading' class="load-text">评论加载中....</view>
+                <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快去助力感兴趣的公司吧---</view>
             </scroll-view>
         </view>
         <view style="width: 100%;height: 100rpx;"></view>
@@ -240,7 +240,7 @@
                     if (res.data.success) {
                         console.log("查询详情返回的数据", res);
                         this.comModel = res.data.result;
-                        console.log("赋值以后的数据", this.comModel);
+                        //console.log("赋值以后的数据", this.comModel);
                         this.comModel.avatar = this.fileUrl + res.data.result.avatar
                     }
                 })
@@ -284,18 +284,14 @@
                             //console.log("value.indexOf(word[i]):",value.indexOf(word[i]))
                             //const result = value.replace(reg, `<span style="color:#f03b2c">${word[i]}</span>`)
                             const result = value.replace(reg, '*')
-                            //console.log("result:",result)
                             value = result
-                            //console.log("value:",value)
                         }
                     }
                 }
                 this.inputValue = value
-                //console.log("置换后value:",value)
             },
             //保存评论 这里有两种评论、一种是对动态 一种是对评论
             saveComment(inputValue) {
-                //console.log("inputValue:",inputValue);
                 //若评论中包含 “*” 或者为空 不允许保存
                 //console.log("inputValue值为空1：", inputValue);
                 if (inputValue === "" || inputValue.indexOf("*") != -1) {
@@ -307,12 +303,10 @@
                     this.$http.post(this.url.saveCommentUrl, HelpCompanyCommentDto).then(res => {
                         //刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
                         if (res.data.success) {
-                            //console.log("33333res:",res.data.result);
                             //回显最新评论数
                             this.comModel.commentCount = res.data.result
-                            //console.log("保存了评论、重新调用评论列表方法11:",this.comModel.id);
-                            //console.log("保存了评论、重新调用评论列表方法22:",this.model.tianyanchaId);
-                            //刷新评论列表
+                            //重新赋页码数、并刷新评论列表
+                            this.pageInfo.num = 0;
                             this.findPageCommentById(this.model.tianyanchaId);
                             //置空输入框
                             this.inputValue = '';
@@ -327,7 +321,7 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.comModel.upLikeCount = res.data.result;
-                        //刷新页面
+                        //重新根据 tianyanchaId 查询公司详情
                         this.findHelpComById(this.model.tianyanchaId);
                     }
                 })
@@ -339,7 +333,7 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.comModel.upLikeCount = res.data.result;
-                        //刷新页面
+                        //重新根据 tianyanchaId 查询公司详情
                         this.findHelpComById(this.model.tianyanchaId);
                     }
                 })
@@ -351,7 +345,7 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.comModel.downLikeCount = res.data.result;
-                        //刷新页面
+                        //重新根据 tianyanchaId 查询公司详情
                         this.findHelpComById(this.model.tianyanchaId);
                     }
                 })
@@ -363,7 +357,7 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.comModel.downLikeCount = res.data.result;
-                        //刷新页面
+                        //重新根据 tianyanchaId 查询公司详情
                         this.findHelpComById(this.model.tianyanchaId);
                     }
                 })
@@ -374,9 +368,8 @@
                 this.$http.get(this.url.likeCommentUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log("表单数据", res);
-                        //this.myCommentForm.likeCount = res.data.result;
-                        //刷新评论列表
-                        //this.findPageCommentById(this.comModel.id);
+                        //重新赋页码数、并刷新评论列表
+                        this.pageInfo.num = 0;
                         this.findPageCommentById(this.model.tianyanchaId);
                     }
                 })
@@ -387,9 +380,8 @@
                 this.$http.get(this.url.dislikeCommentUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log("表单数据", res);
-                        //this.myCommentForm.likeCount = res.data.result;
-                        //刷新评论列表
-                        //this.findPageCommentById(this.comModel.id);
+                        //重新赋页码数、并刷新评论列表
+                        this.pageInfo.num = 0;
                         this.findPageCommentById(this.model.tianyanchaId);
                     }
                 })
