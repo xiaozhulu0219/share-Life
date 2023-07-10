@@ -1,14 +1,26 @@
 <template>
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view class="container">
-        <cu-custom style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+<!--        <cu-custom style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">-->
+<!--            <block slot="backText"></block>-->
+<!--            <block slot="content" style="margin-right: 200rpx">-->
+<!--                <image class="medias_avatar" :src="myFormData.avatar" alt=""-->
+<!--                       @click="toMemberdetail(myFormData.uuId)"></image>-->
+<!--                {{myCommentForm.nickname}}-->
+<!--            </block>-->
+<!--        </cu-custom>-->
+
+        <commonTab :bgColor="NavBarColor"  isBack="t" :backRouterName="backRouteName">
             <block slot="backText"></block>
-            <block slot="content" style="margin-right: 200rpx">
+            <block slot="title">
                 <image class="medias_avatar" :src="myFormData.avatar" alt=""
-                       @click="toMemberdetail(myFormData.uuId)"></image>
+                       @click="toMemberdetail(myFormData.uuId)">
+                </image>
                 {{myCommentForm.nickname}}
             </block>
-        </cu-custom>
+        </commonTab>
+
+
         <view class="card">
             <swiper indicator-dots indicator-color="#008c8c" indicator-active-color="red">
                 <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
