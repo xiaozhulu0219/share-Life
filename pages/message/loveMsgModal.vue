@@ -83,6 +83,8 @@
         created() {
             console.log(9999);
             this.getMyLoveMsgAnnouncementSend();
+            //一键已读所有未读的消息
+            this.readLoveMsgAll();
         },
         onLoad(option) {
             //const item = JSON.parse(decodeURIComponent(option.item));
@@ -120,8 +122,6 @@
                         this.myLoveMsg = this.myLoveMsg.concat(records);
                         this.hasNext = pages > current;
                         this.isDownLoading = false;
-                        //一键已读所有未读的消息
-                        this.readLoveMsgAll();
                     } else {
                         this.isDownLoading = false;
                     }
