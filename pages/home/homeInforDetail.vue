@@ -1,14 +1,20 @@
 <template>
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view class="container">
-        <cu-custom style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+       <!-- <cu-custom style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
             <block slot="backText"></block>
             <block slot="content" style="margin-right: 200rpx">
                 <image class="medias_avatar" :src="myFormData.avatar" alt=""
                        @click="toMemberdetail(myFormData.uuId)"></image>
                 {{myCommentForm.nickname}}
             </block>
-        </cu-custom>
+        </cu-custom> -->
+        <commonTab :isBack="true" :backRouterName="backRouteName">
+          <block slot="title"> <image class="medias_avatar" :src="myFormData.avatar" alt=""
+            @click="toMemberdetail(myFormData.uuId)"></image>
+            {{myCommentForm.nickname}}
+          </block>
+        </commonTab>
         <view class="card">
             <swiper indicator-dots indicator-color="#008c8c" indicator-active-color="red">
                 <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
@@ -34,7 +40,6 @@
                 <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
                 <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
             </view>
-
 
             <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
                 <view class="comment-parent">
@@ -84,12 +89,13 @@
 </template>
 
 <script>
-    import myDate from '@/components/my-componets/my-date.vue'
-    import configService from '@/common/service/config.service.js'
+    import myDate from '@/components/my-componets/my-date.vue';
+    import configService from '@/common/service/config.service.js';
+    import commonTab from '../component/commonTab.vue';
 
     export default {
-        name: "homeInformationDetail",
-        components: {myDate},
+        name: 'homeInformationDetail',
+        components: { myDate, commonTab },
         props: {
             formData: {
                 type: Object,
@@ -118,18 +124,18 @@
                     likeInforUrl: '/information/movements/like',
                     dislikeInforUrl: '/information/movements/dislike',
                     loveInforUrl: '/information/movements/love',
-                    unloveInforUrl: '/information/movements/unlove',
+                    unloveInforUrl: '/information/movements/unlove'
                 },
                 text: '',
-                vBlock: "block",
+                vBlock: 'block',
                 toupiao: false,
-                voteBc: "white",
+                voteBc: 'white',
                 voteList: [
-                    {id: 1, content: ''},
-                    {id: 2, content: ''},
-                    {id: 3, content: ''}
+                    { id: 1, content: '' },
+                    { id: 2, content: '' },
+                    { id: 3, content: '' }
                 ],
-                publishId: "",
+                publishId: '',
                 myFormData: {
                     latitude: '',
                     longitude: '',
@@ -137,7 +143,7 @@
                     medias: '',
                     textContent: '',
                     uuId: '',
-                    avatar: '',
+                    avatar: ''
                 },
                 myCommentForm: {
                     latitude: '',
@@ -152,7 +158,7 @@
                     createDate: '',
                     nickname: '',
                     id: '',
-                    inforId: '',
+                    inforId: ''
                 },
                 fileUrl: configService.fileSaveURL,
                 inforCommentsList: [],
@@ -165,9 +171,9 @@
                     '尼格', '黑鬼', 'nige', 'heigui',
                     '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人',
                     '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人',
-                    '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人',
-                ],
-            }
+                    '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人'
+                ]
+            };
         },
         watch: {
             cur: {
@@ -189,54 +195,53 @@
         },
         onLoad(option) {
             const item = JSON.parse(decodeURIComponent(option.item));
-            this.myFormData = item
+            this.myFormData = item;
             //console.log("输出item", item)
             this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {
             onInput(value) {
-                const word = this.keyWords
+                const word = this.keyWords;
                 if (value !== null) {
                     for (const i in word) {
-                        const reg = new RegExp(word[i], 'g')
+                        const reg = new RegExp(word[i], 'g');
                         //console.log("reg:",reg)
                         if (value.indexOf(word[i]) != -1) {
                             //console.log("value.indexOf(word[i]):",value.indexOf(word[i]))
                             //const result = value.replace(reg, `<span style="color:#f03b2c">${word[i]}</span>`)
-                            const result = value.replace(reg, '*')
+                            const result = value.replace(reg, '*');
                             //console.log("result:",result)
-                            value = result
+                            value = result;
                             //console.log("value:",value)
                         }
                     }
                 }
-                this.inputValue = value
+                this.inputValue = value;
                 //console.log("置换后value:",value)
             },
-
 
             //点击图片进入函数，传入当前列表的索引index
             TanPreviewImage(indexa) {
                 uni.previewImage({ // 预览图片  图片路径必须是一个数组 => ["http://21111889:8970/6_1597822634094.png"]
-                    current: indexa,//这里是判断到点击列表上的某个图片，就读取索引的图片
-                    urls: this.myFormData.medias,//这是整个内容的图片数组，放一个数组里，就可以左右切换了
+                    current: indexa, //这里是判断到点击列表上的某个图片，就读取索引的图片
+                    urls: this.myFormData.medias, //这是整个内容的图片数组，放一个数组里，就可以左右切换了
                     longPressActions: { //长按保存图片到相册
                         itemList: ['保存图片'],
                         success: (data) => {
                             console.log(data);
                             uni.saveImageToPhotosAlbum({ //保存图片到相册
                                 filePath: payUrl,
-                                success: function () {
+                                success: function() {
                                     uni.showToast({
                                         icon: 'success',
                                         title: '保存成功'
-                                    })
+                                    });
                                 },
                                 fail: (err) => {
                                     uni.showToast({
                                         icon: 'none',
                                         title: '保存失败，请重新尝试'
-                                    })
+                                    });
                                 }
                             });
                         },
@@ -249,12 +254,12 @@
             //根据inforId查询详情
             findPublishInfor(inforId) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.findPublishInforByIdUrl, {params: {id: inforId}}).then((res) => {
+                this.$http.get(this.url.findPublishInforByIdUrl, { params: { id: inforId } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        console.log('表单数据', res);
                         this.myCommentForm = res.data.result;
                     }
-                })
+                });
             },
             //获取评论列表
             getInforCommentsList(inforId) {
@@ -270,14 +275,14 @@
                         //console.log("res.data.result:",res.data.result);
                         //console.log("数据条数:",res.data.result);
                         this.inforCommentsList = res.data.result.items;
-                        for (let d of this.inforCommentsList) {
+                        for (const d of this.inforCommentsList) {
                             // let arr = d.medias.split(',')
                             // let arr2 = []
                             // for (let e of arr) {
                             //     e = this.fileUrl+e
                             //     arr2.push(e)
                             // }
-                            d.avatar = this.fileUrl + d.avatar
+                            d.avatar = this.fileUrl + d.avatar;
                             //d.medias = arr2
                         }
                         //console.log("数据条数222:",this.inforCommentsList.length);
@@ -297,14 +302,14 @@
                     if (res.data.success) {
                         //console.log("33333res:",res.data.result);
                         this.inforSonCommentsList = res.data.result;
-                        for (let d of this.inforSonCommentsList) {
+                        for (const d of this.inforSonCommentsList) {
                             // let arr = d.medias.split(',')
                             // let arr2 = []
                             // for (let e of arr) {
                             //     e = this.fileUrl+e
                             //     arr2.push(e)
                             // }
-                            d.avatar = this.fileUrl + d.avatar
+                            d.avatar = this.fileUrl + d.avatar;
                             //d.medias = arr2
                         }
                         //console.log("数据:",this.inforSonCommentsList);
@@ -316,25 +321,25 @@
             },
             //点击头像跳转用户详情
             toMemberdetail(myFormData) {
-                console.log("进来了666应该是uuid", myFormData)
+                console.log('进来了666应该是uuid', myFormData);
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
-                if(this.uuId == myFormData){
+                if (this.uuId == myFormData) {
                     uni.navigateTo({
                         url: '/pages/member/member'
-                    })
-                }else{
+                    });
+                } else {
                     uni.navigateTo({
                         url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
-                    })
+                    });
                 }
             },
             //保存评论 这里有两种评论、一种是对动态 一种是对评论
             saveComment(inputValue) {
                 //若评论中包含 “*” 或者为空 不允许保存
                 //console.log("inputValue值为空1：", inputValue);
-                if (inputValue === "" || inputValue.indexOf("*") != -1) {
-                    console.log("评论出现了违规词语、已被拦截：", inputValue);
+                if (inputValue === '' || inputValue.indexOf('*') != -1) {
+                    console.log('评论出现了违规词语、已被拦截：', inputValue);
                 } else {
                     const InforCommentDto = {};
                     InforCommentDto.publishId = this.myCommentForm.id;
@@ -344,7 +349,7 @@
                         if (res.data.success) {
                             //console.log("33333res:",res.data.result);
                             //回显最新评论数
-                            this.myCommentForm.commentCount = res.data.result
+                            this.myCommentForm.commentCount = res.data.result;
                             //刷新评论列表
                             this.getInforCommentsList(this.myFormData.inforId);
                             //置空输入框
@@ -355,78 +360,78 @@
             },
             //点赞动态
             likeInfor(id) {
-                console.log("进来了点赞动态方法", id)
-                this.$http.get(this.url.likeInforUrl, {params: {id: id}}).then((res) => {
+                console.log('进来了点赞动态方法', id);
+                this.$http.get(this.url.likeInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        console.log('表单数据', res);
                         this.myCommentForm.likeCount = res.data.result;
                         //刷新页面
                         this.findPublishInfor(this.myFormData.inforId);
                     }
-                })
+                });
             },
             //取消点赞动态
             dislikeInfor(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.dislikeInforUrl, {params: {id: id}}).then((res) => {
+                this.$http.get(this.url.dislikeInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        console.log('表单数据', res);
                         this.myCommentForm.likeCount = res.data.result;
                         //刷新页面
                         this.findPublishInfor(this.myFormData.inforId);
                     }
-                })
+                });
             },
             //喜欢动态
             loveInfor(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.loveInforUrl, {params: {id: id}}).then((res) => {
+                this.$http.get(this.url.loveInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        console.log('表单数据', res);
                         this.myCommentForm.loveCount = res.data.result;
                         //刷新页面
                         this.findPublishInfor(this.myFormData.inforId);
                     }
-                })
+                });
             },
             //取消喜欢动态
             unloveInfor(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.unloveInforUrl, {params: {id: id}}).then((res) => {
+                this.$http.get(this.url.unloveInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        console.log('表单数据', res);
                         this.myCommentForm.loveCount = res.data.result;
                         //刷新页面
                         this.findPublishInfor(this.myFormData.inforId);
                     }
-                })
+                });
             },
             //点赞评论
             likeComment(id) {
-                console.log("进来了点赞评论方法", id)
-                this.$http.get(this.url.likeCommentUrl, {params: {id: id}}).then((res) => {
+                console.log('进来了点赞评论方法', id);
+                this.$http.get(this.url.likeCommentUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        console.log('表单数据', res);
                         //this.myCommentForm.likeCount = res.data.result;
                         //刷新评论列表
                         this.getInforCommentsList(this.myFormData.inforId);
                     }
-                })
+                });
             },
             //取消点赞评论
             dislikeComment(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.dislikeCommentUrl, {params: {id: id}}).then((res) => {
+                this.$http.get(this.url.dislikeCommentUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        console.log("表单数据", res);
+                        console.log('表单数据', res);
                         //this.myCommentForm.likeCount = res.data.result;
                         //刷新评论列表
                         this.getInforCommentsList(this.myFormData.inforId);
                     }
-                })
-            },
+                });
+            }
         }
-    }
+    };
 </script>
 
 <style lang="scss" scoped>
@@ -707,5 +712,3 @@
         margin:auto;
     }
 </style>
-
-

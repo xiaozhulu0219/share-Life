@@ -1,6 +1,6 @@
 <template>
 			<view :style="{'background': bgColor}" class="nav-wrap bg-gradual-blue">
-				<view @tap="BackPage" v-if="isBack">
+				<view @tap="BackPage" v-if="isBack" class="back">
 					<text class="cuIcon-back"></text>
 					<slot name="backText"></slot>
 				</view>
@@ -63,14 +63,20 @@
   height: 100rpx;
   display: flex;
   align-items: center;
-  justify-content: center;
   position: fixed;
   z-index: 99;
   left: 0;
   right: 0;
   top: 0;
 }
+.back, .action {
+  width: 50rpx;
+  flex-shrink: 0;
+  text-align: center;
+}
 .title {
+  flex: 1;
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
