@@ -126,9 +126,9 @@
 </script>
 
 <style lang="scss" scoped>
-.list-wrap {
-  height: calc(100vh - 280rpx);
-}
+    .list-wrap {
+      height: calc(100vh - 280rpx);
+    }
 .card {
         background-color:  #fff;
         //background-color: $uni-bg-color-grey;
