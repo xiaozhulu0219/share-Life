@@ -246,7 +246,6 @@
                 })
             },
             findPageCommentById(id) {
-                console.log('再一次调用了获取评论接口');
                 if (this.isDownLoading) return;
                 this.isDownLoading = true;
                 this.pageInfo.num++;
