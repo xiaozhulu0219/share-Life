@@ -318,7 +318,7 @@
             toMemberdetail(myFormData) {
                 console.log("进来了666应该是uuid", myFormData)
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
-                //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
+                //判断如果跳转的动态页的uuid 不是当前登录用户的  那就跳到用户的个人页
                 if(this.uuId == myFormData){
                     uni.navigateTo({
                         url: '/pages/member/member'
