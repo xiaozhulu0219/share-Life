@@ -75,6 +75,7 @@
            // this.getFocusORFans(item); //判断两个用户的关注关系
         },
         methods: {
+            //判断两个用户的关注关系是什么
             getMyFocusList() {
                 this.$http.get(this.findMyFocusPageUrl, {
                     params: {
@@ -109,24 +110,6 @@
                     url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
                 })
             },
-            //判断两个用户的关注关系
-            // getFocusORFans() {
-            //     //从这里拿到列表的 关注列表的uuid
-            //
-            //     console.log("进来了判断两个用户的关注关系de方法", uuId)
-            //     this.$http.get(this.FocusORFansUrl, {params: {uuId: uuId}}).then((res) => {
-            //         if (res.data.success) {
-            //             //console.log("两个用户的关注关系是：", res.data.result);
-            //             this.iffocus = res.data.result;
-            //
-            //             //初始化判断这个页面是不是自己的  是自己的就把“关注”按钮去掉
-            //             // if (this.uuId === uuId) {
-            //             //     this.iffocus = "4"
-            //             // }
-            //             console.log("两个用户的关注关系是：", this.iffocus);
-            //         }
-            //     })
-            // },
             //点击关注按钮、关注用户
             focusUser(item) {
                 console.log("点击了关注方法：", item);
@@ -139,8 +122,8 @@
                         //关注成功后将 iffocus 置为 true 然后页面根据  iffocus 属性改变按钮的显示
                         //this.iffocus = false;
                         console.log("关注方法返回的提示信息为：", res.data.result);
-                        //重新调用接口判断两个用户之间的关系
-                        //this.getFocusORFans(item);
+                        //重新调用列表方法、刷新列表
+                        this.getMyFocusList();
                     }
                 }).catch(err => {
                     console.log(err);
