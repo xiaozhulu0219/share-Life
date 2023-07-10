@@ -2,10 +2,10 @@
 
     <!--消息页-->
     <view class="container">
-        <cu-custom :bgColor="NavBarColor">
-            <block slot="right" style="margin-left: 2000rpx"> 消息</block>
+        <commonTab :bgColor="NavBarColor">
+            <block slot="title"> 消息 </block>
+        </commonTab>
 
-        </cu-custom>
         <view class="card">
             <view class="card-line">
                 <view class="card-loveMessage">
@@ -44,18 +44,19 @@
     import Mixin from '@/common/mixin/Mixin.js';
     import MescrollMoreMixin from '@/components/mescroll-uni/mixins/mescroll-more.js';
     import bottomTab from '../component/bottomTab.vue';
+    import commonTab from '../component/commonTab.vue';
 
     export default {
         name: 'message',
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
-          bottomTab
+          bottomTab,
+          commonTab,
         },
         data() {
             return {
                 hovered: false,
-                //announcement1: [],
-                //announcement2: [],
+                NavBarColor: this.NavBarColor,
                 announcement3: [],
                 announcement4: [],
                 announcement5: [],
@@ -177,13 +178,14 @@
         padding: 20rpx 20rpx;
         border-radius: 20rpx;
         margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 100rpx; /*盒子距离顶部的距离*/
+        margin-top: 105rpx; /*盒子距离顶部的距离*/
         line-height: 35rpx; /*行高*/
 
         .card-line {
             font-weight: bold;
             display: flex;
             margin-bottom: 30rpx; /*盒子间的距离*/
+            margin-top: 45rpx; /*盒子距离顶部的距离*/
 
             .card-loveMessage {
                 font-weight: bold;
