@@ -13,9 +13,11 @@
 
         <HomeSignModal :getActiveTab="getActiveTab" ></HomeSignModal>
 
-        <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
+        <KeepAlive>
+  <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
 
-         <homeModal  v-else></homeModal>
+  <homeModal  v-else></homeModal>
+</KeepAlive>
 <!--        <listComponent v-else></listComponent>-->
         <bottomTab PageCur="home"></bottomTab>
     </view>
