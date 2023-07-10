@@ -130,27 +130,6 @@
                     this.isDownLoading = false;
                 });
             },
-            // getMyLoveMsgAnnouncementSend() {
-            //     //console.log("进来了方法33333", item)
-            //     this.$http.get(this.url.getMyLoveMsgAnnouncementSendUrl, {
-            //         params: {
-            //                 page: 1,
-            //                 pagesize: 10
-            //             }
-            //     }).then(res => {
-            //         if (res.data.success) {
-            //             console.log("获取我的点赞消息", res.data.result.records)
-            //             this.myLoveMsg = res.data.result.records;
-            //             for (let d of this.myLoveMsg) {
-            //                 d.avatar = this.fileUrl + d.avatar
-            //                 d.medias = this.fileUrl + d.medias
-            //             }
-            //             this.readLoveMsgAll();
-            //         }
-            //     }).catch(err => {
-            //         console.log(err);
-            //     });
-            // },
             //一键已读点赞信息
             readLoveMsgAll() {
                 console.log("进来了一键已读点赞信息方法")
