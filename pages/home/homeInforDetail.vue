@@ -3,9 +3,10 @@
     <view class="container">
        <!-- <cu-custom style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
             <block slot="backText"></block>
-            <block slot="content" style="margin-right: 200rpx">
+            <block slot="title">
                 <image class="medias_avatar" :src="myFormData.avatar" alt=""
-                       @click="toMemberdetail(myFormData.uuId)"></image>
+                       @click="toMemberdetail(myFormData.uuId)">
+                </image>
                 {{myCommentForm.nickname}}
             </block>
         </cu-custom> -->
@@ -22,7 +23,7 @@
                 </swiper-item>
             </swiper>
 
-            <view class="card-text" @click="toMemberdetail(myFormData.uuId)">{{myFormData.textContent}}</view>
+            <view class="card-text">{{myFormData.textContent}}</view>
 
             <view class="card-line">
                 <view class="card-createDate">{{myCommentForm.createDate}}</view>
@@ -31,53 +32,72 @@
             </view>
 
             <view class="card-line">
-                <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLiked == 0" @click="likeInfor(myCommentForm.id)">&#xe8ad</view>
-                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else @click="dislikeInfor(myCommentForm.id)">&#xe60f</view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLiked == 0"
+                      @click="likeInfor(myCommentForm.id)">&#xe8ad
+                </view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
+                      @click="dislikeInfor(myCommentForm.id)">&#xe60f
+                </view>
                 <view class="card-likeCount">{{myCommentForm.likeCount}}</view>
-                <view class="cuIcon-like" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLoved == 0" @click="loveInfor(myCommentForm.inforId)"></view>
-                <view class="cuIcon-likefill" style="font-size: 45rpx; color: #dd524d;" v-else @click="unloveInfor(myCommentForm.inforId)"></view>
+                <view class="cuIcon-like" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLoved == 0"
+                      @click="loveInfor(myCommentForm.inforId)"></view>
+                <view class="cuIcon-likefill" style="font-size: 45rpx; color: #dd524d;" v-else
+                      @click="unloveInfor(myCommentForm.inforId)"></view>
                 <view class="card-loveCount">{{myCommentForm.loveCount}}</view>
                 <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
                 <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
             </view>
 
-            <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
-                <view class="comment-parent">
-                    <image class="comment-avatar round sm" :src="item.avatar" alt=""
-                           @click="toMemberdetail(myFormData.uuId)"></image>
-                    <view class="comment-nickcon">
-                        <view class="comment-nickname">{{ item.nickname }}</view>
-                        <view class="comment-content">{{ item.content }}</view>
-                        <view class="comment-createDate">{{item.createDate}}</view>
-                    </view>
-                    <view class="comment-iconlikeCount">
-                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;" v-if="item.hasLiked == 0" @click="likeComment(item.id)">&#xe8ad</view>
-                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else @click="dislikeComment(item.id)">&#xe60f</view>
-                        <view class="comment-likeCount">{{item.likeCount}}</view>
-                    </view>
-                </view>
-                <view class="iconfont ml-1" style="font-size: 40rpx;  margin-left: 200rpx"
-                      @click="getSonCommentsList(item)">&#xe631
-                </view>
-                <!--  <view>展开{{}}条回复</view>-->
-                <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
-                    <view class="comment-son">
-                        <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
-                               @click="toMemberdetail(myFormData.uuId)"></image>
-                        <view class="comment-nickcon">
-                            <view class="comment-nickname">{{ sonitem.nickname }}</view>
-                            <view class="comment-content">{{ sonitem.content }}</view>
-                            <view class="comment-createDate">{{sonitem.createDate}}</view>
-                        </view>
-                        <view class="comment-iconlikeCount">
-                            <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
-                                  @click="likeSonComment(sonitem.id)">&#xe60f
+            <view class="list-wrap">
+                <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
+
+                    <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
+                        <view class="comment-parent">
+                            <image class="comment-avatar round sm" :src="item.avatar" alt=""
+                                   @click="toMemberdetail(item.uuId)"></image>
+                            <view class="comment-nickcon">
+                                <view class="comment-nickname">{{ item.nickname }}</view>
+                                <view class="comment-content">{{ item.content }}</view>
+                                <view class="comment-createDate">{{item.createDate}}</view>
                             </view>
-                            <view class="comment-likeCount">{{sonitem.likeCount}}</view>
+                            <view class="comment-iconlikeCount">
+                                <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
+                                      v-if="item.hasLiked == 0" @click="likeComment(item.id)">&#xe8ad
+                                </view>
+                                <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
+                                      @click="dislikeComment(item.id)">&#xe60f
+                                </view>
+                                <view class="comment-likeCount">{{item.likeCount}}</view>
+                            </view>
+                        </view>
+                        <view class="iconfont ml-1" style="font-size: 40rpx;  margin-left: 200rpx"
+                              @click="getSonCommentsList(item)">&#xe631
+                        </view>
+                        <!--  <view>展开{{}}条回复</view>-->
+                        <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
+                            <view class="comment-son">
+                                <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
+                                       @click="toMemberdetail(sonitem.uuId)"></image>
+                                <view class="comment-nickcon">
+                                    <view class="comment-nickname">{{ sonitem.nickname }}</view>
+                                    <view class="comment-content">{{ sonitem.content }}</view>
+                                    <view class="comment-createDate">{{sonitem.createDate}}</view>
+                                </view>
+                                <view class="comment-iconlikeCount">
+                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
+                                          @click="likeSonComment(sonitem.id)">&#xe60f
+                                    </view>
+                                    <view class="comment-likeCount">{{sonitem.likeCount}}</view>
+                                </view>
+                            </view>
                         </view>
                     </view>
-                </view>
+                    <view v-if='isDownLoading' class="load-text">评论加载中....</view>
+                    <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快去发表你的态度吧---</view>
+
+                </scroll-view>
             </view>
+
         </view>
         <view class="footer">
             <input class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论"
@@ -95,7 +115,10 @@
 
     export default {
         name: 'homeInformationDetail',
-        components: { myDate, commonTab },
+        components: {
+            myDate,
+            commonTab
+        },
         props: {
             formData: {
                 type: Object,
@@ -106,15 +129,21 @@
         },
         data() {
             return {
+                pageInfo: {
+                    num: 0,
+                    size: 10
+                },
+                hasNext: true,
+                isDownLoading: false,
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
                 loading: false,
                 backRouteName: 'index',
                 arr: [],
                 inputValue: '',
+                findInforCommentsPageUrl: '/information/comments/list',
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
-                    findInforCommentsPageUrl: '/information/comments/list',
                     findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
                     saveCommentUrl: '/information/comments/saveCommentForInfor',
                     likeCommentUrl: '/information/comments/like',
@@ -200,6 +229,12 @@
             this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {
+            // 触底加载
+            reachBottom() {
+                if (!this.hasNext) return;
+                console.log('//// 触底加载');
+                this.getInforCommentsList(this.myFormData.inforId);
+            },
             onInput(value) {
                 const word = this.keyWords;
                 if (value !== null) {
@@ -263,37 +298,36 @@
             },
             //获取评论列表
             getInforCommentsList(inforId) {
-                //console.log("进来了方法2222", inforId)
-                this.$http.get(this.url.findInforCommentsPageUrl, {
-                    params: {
-                        page: 1,
-                        pagesize: 20,
-                        id: inforId
-                    }
+                if (this.isDownLoading) return;
+                this.isDownLoading = true;
+                this.pageInfo.num++;
+                const { findInforCommentsPageUrl, pageInfo: { num, size } } = this;
+                this.$http.get(findInforCommentsPageUrl, {
+                    params: { page: num, pagesize: size, id: inforId }
                 }).then(res => {
-                    if (res.data.success) {
-                        //console.log("res.data.result:",res.data.result);
-                        //console.log("数据条数:",res.data.result);
-                        this.inforCommentsList = res.data.result.items;
-                        for (const d of this.inforCommentsList) {
-                            // let arr = d.medias.split(',')
-                            // let arr2 = []
-                            // for (let e of arr) {
-                            //     e = this.fileUrl+e
-                            //     arr2.push(e)
-                            // }
-                            d.avatar = this.fileUrl + d.avatar;
-                            //d.medias = arr2
+                    const { success, result } = res.data;
+                    console.log('。。。。。', result.items);
+                    if (success) {
+                        const { pages, items, page } = result;
+                        if (num === 1) this.inforCommentsList = [];
+                        if (items.length) {
+                            for (const d of items) {
+                                d.avatar = this.fileUrl + d.avatar;
+                            }
                         }
-                        //console.log("数据条数222:",this.inforCommentsList.length);
+                        this.inforCommentsList = this.inforCommentsList.concat(items);
+                        this.hasNext = pages > page;
+                        this.isDownLoading = false;
+                    } else {
+                        this.isDownLoading = false;
                     }
                 }).catch(err => {
                     console.log(err);
+                    this.isDownLoading = false;
                 });
             },
             //获取评论的评论列表
             getSonCommentsList(item) {
-                //console.log("进来了方法33333", item)
                 this.$http.get(this.url.findSonCommentListPageUrl, {
                     params: {
                         id: item.id
@@ -303,17 +337,9 @@
                         //console.log("33333res:",res.data.result);
                         this.inforSonCommentsList = res.data.result;
                         for (const d of this.inforSonCommentsList) {
-                            // let arr = d.medias.split(',')
-                            // let arr2 = []
-                            // for (let e of arr) {
-                            //     e = this.fileUrl+e
-                            //     arr2.push(e)
-                            // }
                             d.avatar = this.fileUrl + d.avatar;
-                            //d.medias = arr2
                         }
                         //console.log("数据:",this.inforSonCommentsList);
-                        //console.log("数据条数222:",this.inforSonCommentsList.length);
                     }
                 }).catch(err => {
                     console.log(err);
@@ -352,6 +378,7 @@
                             this.myCommentForm.commentCount = res.data.result;
                             //刷新评论列表
                             this.getInforCommentsList(this.myFormData.inforId);
+                            //console.log('当前页数是：', this.pageInfo.num);
                             //置空输入框
                             this.inputValue = '';
                         }
@@ -413,7 +440,8 @@
                     if (res.data.success) {
                         console.log('表单数据', res);
                         //this.myCommentForm.likeCount = res.data.result;
-                        //刷新评论列表
+                        //重新赋页码数、并刷新评论列表
+                        this.pageInfo.num = 0;
                         this.getInforCommentsList(this.myFormData.inforId);
                     }
                 });
@@ -425,7 +453,8 @@
                     if (res.data.success) {
                         console.log('表单数据', res);
                         //this.myCommentForm.likeCount = res.data.result;
-                        //刷新评论列表
+                        //重新赋页码数、并刷新评论列表
+                        this.pageInfo.num = 0;
                         this.getInforCommentsList(this.myFormData.inforId);
                     }
                 });
@@ -435,6 +464,10 @@
 </script>
 
 <style lang="scss" scoped>
+    .list-wrap {
+        height: calc(100vh - 280rpx);
+    }
+
     .container{
         background-color: #ffffff;
     }
@@ -528,7 +561,7 @@
                 .comment-nickcon {
                     //font-weight: bold;
                     //margin-right: 80rpx;
-                    margin-left: 70rpx;
+                    margin-left: 80rpx;
                     //display: flex;
                     //justify-content: space-between;
 
@@ -710,5 +743,14 @@
         clear: both;
         display: block;
         margin:auto;
+    }
+
+    .load-text, .noMore {
+        background-color: #fff;
+        text-align: center;
+        padding: 4rpx;
+    }
+    .noMore {
+        color: #ccc;
     }
 </style>

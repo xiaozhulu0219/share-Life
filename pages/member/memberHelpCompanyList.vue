@@ -1,85 +1,131 @@
 <template>
-    <!--个人页的一些页面--（我的助力)分页查询-->
-    <mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
-                   @down="downCallback" @up="upCallback">
-        <view v-for="(item,index) in myHelpList" :key="index" class="card">
-            <view class="card-title">{{item.companyName}}</view>
-            <view v-for="(ite,inde) in item.commentVoList" :key="inde" class="">
-                <view class="card-location">{{ite.commentCreateDate}}</view>
-                <view class="card-text">{{ite.content}}</view>
+    <view class="list-wrap">
+        <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
+
+            <view v-for="(item,index) in myHelpList" :key="index" class="card">
+                <view class="card-title">{{item.companyName}}</view>
+                <view v-for="(ite,inde) in item.commentVoList" :key="inde" class="">
+                    <view class="card-location">{{ite.commentCreateDate}}</view>
+                    <view class="card-text">{{ite.content}}</view>
+                </view>
             </view>
-        </view>
-    </mescroll-body>
+
+            <view v-if='isDownLoading' class="load-text">加载中....</view>
+            <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
+        </scroll-view>
+    </view>
 </template>
 
 <script>
-    import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
-    import Mixin from "@/common/mixin/Mixin.js";
-    import configService from '@/common/service/config.service.js'
+    import configService from '@/common/service/config.service.js';
 
     export default {
         name: 'MyHelpCompanyList',
-        mixins: [MescrollMixin, Mixin],
         data() {
             return {
+                pageInfo: {
+                    num: 0,
+                    size: 10
+                },
+                hasNext: true,
+                isDownLoading: false,
+                //comListUrl: '/company/findHomeComList',
+                //homeComList: [],
                 findMyPublishComPageUrl: '/company/findMyPublishComPage',
                 myHelpList: [],
-                upOption: {
-                    auto: false, // 不自动加载
-                    page: {
-                        num: 0, // 当前页码,默认0,回调之前会加1,即callback(page)会从1开始
-                        size: 6 // 每页数据的数量
-                    },
-                    // noMoreSize: 6, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
-                    empty: {
-                        tip: '~ 空空如也 ~', // 提示
-                        btnText: '去看看'
-                    }
-                },
+                //unloveInforUrl: '/information/movements/unlove',
+                //loveInforUrl: '/information/movements/love',
+                //homeListUrl: '/information/movements/findHomePublishInforList',
+                //homeList: [], // 上拉加载的配置(可选, 绝大部分情况无需配置)
+                fileUrl: configService.fileSaveURL,
             };
         },
         created() {
+            console.log(9999);
             this.getMyHelpCompanyList();
         },
         methods: {
+            // 触底加载
+            reachBottom() {
+                if (!this.hasNext) return;
+                console.log('//// 触底加载');
+                this.getMyHelpCompanyList();
+            },
             getMyHelpCompanyList() {
-                this.$http.get(this.findMyPublishComPageUrl, {
-                    params: {
-                        page: 1,
-                        pagesize: 20
-                    }
+                if (this.isDownLoading) return;
+                this.isDownLoading = true;
+                this.pageInfo.num++;
+                const { findMyPublishComPageUrl, pageInfo: { num, size } } = this;
+                this.$http.get(findMyPublishComPageUrl, {
+                    params: { page: num, pagesize: size }
                 }).then(res => {
-                    if (res.data.success) {
-                        console.log("我助力过的公司都有：", res.data.result);
-                        this.myHelpList = res.data.result.items;
+                    const { success, result } = res.data;
+                    console.log('。。。。。', result.items);
+                    if (success) {
+                        const { pages, items, page } = result;
+                        if (num === 1) this.myHelpList = [];
+                        if (items.length) {
+                            for (const d of items) {
+                                d.companyName = "公司名称：" + d.companyName
+                                d.legalPerson = "法人：" + d.legalPerson
+                                d.registerTime = "注册时间：" + d.registerTime
+                                d.registeredCapital = "注册资金：" + d.registeredCapital
+                                d.companyStatus = "经营状态：" + d.companyStatus
+                                d.bussinessAddress = "经营地：" + d.bussinessAddress
+                                d.organizationCode = "组织编码：" + d.organizationCode
+                            }
+                        }
+                        this.myHelpList = this.myHelpList.concat(items);
+                        this.hasNext = pages > page;
+                        this.isDownLoading = false;
+                    } else {
+                        this.isDownLoading = false;
                     }
                 }).catch(err => {
                     console.log(err);
+                    this.isDownLoading = false;
                 });
-            }
+            },
+            toHomeHelpCompanyDetail(item) {
+                //console.log("进来了111", item)
+                uni.navigateTo({
+                    url: '/pages/home/homeHelpCompanyDetail?item=' + encodeURIComponent(JSON.stringify(item))
+                })
+            },
         }
-    }
+    };
 </script>
 
-<style lang='scss'>
-	.card {
-		background-color: $uni-bg-color-grey;
-		padding: 20rpx 20rpx;
-		border-radius: 20rpx;
-		margin-bottom: 20rpx;
+<style lang="scss" scoped>
+    .list-wrap {
+        height: calc(100vh - 280rpx);
+    }
+    .card {
+        background-color: $uni-bg-color-grey;
+        padding: 20rpx 20rpx;
+        border-radius: 20rpx;
+        margin-bottom: 20rpx;
 
-		.card-title {
-			font-weight: bold;
-		}
+        .card-title {
+            font-weight: bold;
+        }
 
-		.card-text {
-			font-size: 20rpx;
-		}
+        .card-text {
+            font-size: 20rpx;
+        }
 
-		.card-location {
-			position: absolute;
-			right: 20rpx;
-			font-size: 20rpx;
-		}
-	}
+        .card-location {
+            position: absolute;
+            right: 20rpx;
+            font-size: 20rpx;
+        }
+    }
+    .load-text, .noMore {
+        background-color: #fff;
+        text-align: center;
+        padding: 4rpx;
+    }
+    .noMore {
+        color: #ccc;
+    }
 </style>

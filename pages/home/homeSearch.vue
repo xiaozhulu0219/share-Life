@@ -17,7 +17,11 @@
         </form>
 
         <view v-for="item in 5" :key="index" class="detail">
-            <view class="detail-content">这个搜索页以后看看做一些什么样的数据展示、可以是自己的搜索记录、热搜、红黑榜等等</view>
+            <view class="detail-content">
+                这个搜索页以后看看做一些什么样的数据展示、
+                可以是自己的搜索记录、热搜、红黑榜等等，
+                如果是动态进来的展示一些点赞多的动态， 如果是助力进来的展示热门公司以及红黑榜
+            </view>
         </view>
     </view>
 </template>

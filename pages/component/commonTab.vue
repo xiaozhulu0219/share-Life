@@ -14,48 +14,46 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-			};
-		},
-		name: 'cu-custom',
-		computed: {
-		},
-		props: {
-			bgColor: {
-				type: String,
-				default: ''
-			},
-			isBack: {
-				type: [Boolean, String],
-				default: false
-			},
-			bgImage: {
-				type: String,
-				default: ''
-			},
-			zIndex: {
-				type: String,
-				default: '10'
-			},
-			backRouterName: {
-				type: String,
-				default: ''
-			}
-		},
-		methods: {
-			BackPage() {
-				if (!this.backRouterName) {
-					uni.navigateBack({
-						delta: 1
-					});
-				} else {
-					this.$Router.replace({ name: this.backRouterName });
-				}
-			}
-		}
-	};
+    export default {
+        data() {
+            return {};
+        },
+        name: 'cu-custom',
+        computed: {},
+        props: {
+            bgColor: {
+                type: String,
+                default: ''
+            },
+            isBack: {
+                type: [Boolean, String],
+                default: false
+            },
+            bgImage: {
+                type: String,
+                default: ''
+            },
+            zIndex: {
+                type: String,
+                default: '10'
+            },
+            backRouterName: {
+                type: String,
+                default: ''
+            }
+        },
+        methods: {
+            BackPage() {
+                if (!this.backRouterName) {
+                    uni.navigateBack({
+                        delta: 1
+                    });
+                } else {
+                    this.$Router.replace({ name: this.backRouterName });
+                }
+            }
+        }
+    };
 </script>
 
 <style lang="scss" scoped>

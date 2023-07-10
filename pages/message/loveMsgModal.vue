@@ -1,33 +1,39 @@
 <template>
-
     <!--消息页-->
     <view class="container">
-        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+        <!--        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">-->
+        <!--            <block slot="backText"></block>-->
+        <!--            <block slot="right" style="margin-left: 2000rpx"> 获赞消息</block>-->
+        <!--        </cu-custom>-->
+        <cu-custom :bgColor="NavBarColor" :isBack="true">
             <block slot="backText"></block>
-            <block slot="right" style="margin-left: 2000rpx"> 获赞消息</block>
+            <block slot="content">获赞消息</block>
         </cu-custom>
-        <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
 
-            <view v-for="(item,index) in this.myLoveMsg" :key="index" class="card">
-                <view class="detail-title">
-                    <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
-                </view>
-                <view class="detail-content">
-                    <view class="detail-info">
-                        <view style="font-size: 40rpx; margin-top: 10rpx">{{item.nickName }}</view>
-                        <view style="margin-right: 10rpx; margin-top: 10rpx">{{item.title }}  {{item.createTime }} </view>
+        <view class="list-wrap">
+            <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
+                <view v-for="(item,index) in this.myLoveMsg" :key="index" class="card">
+                    <view class="detail-title">
+                        <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt=""
+                               @click="toInformationDetail(item)"></image>
                     </view>
-                    <view class="comment-iconlikeCount"> <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
-                        <image class="card-medias" :src="item.medias" mode="aspectFit" alt="" @click="toInformationDetail(item.busId)"></image>
+                    <view class="detail-content">
+                        <view class="detail-info">
+                            <view style="font-size: 40rpx; margin-top: 10rpx">{{item.nickName }}</view>
+                            <view style="margin-right: 10rpx; margin-top: 10rpx">{{item.title }} {{item.createTime }}
+                            </view>
+                        </view>
+                        <view class="comment-iconlikeCount"> <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
+                            <image class="card-medias" :src="item.medias" mode="aspectFit" alt=""
+                                   @click="toInformationDetail(item.busId)"></image>
+                        </view>
                     </view>
                 </view>
-            </view>
-            <view style="margin-top: 5px;text-align: center">
-                <a-button @click="" type="dashed" block>查看更多</a-button>
-            </view>
-        </mescroll-body>
+                <view v-if='isDownLoading' class="load-text">加载中....</view>
+                <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
+            </scroll-view>
+        </view>
     </view>
-
 </template>
 
 <script>
@@ -42,14 +48,20 @@
         components: {},
         data() {
             return {
+                pageInfo: {
+                    num: 0,
+                    size: 10
+                },
+                hasNext: true,
+                isDownLoading: false,
                 backRouteName: 'index',
-                myLoveMsg:[],
+                myLoveMsg: [],
                 fileUrl: configService.fileSaveURL,
+                getMyLoveMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyLoveMsgAnnouncementSend",
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                     queryByUuIdUrl: '/sys/user/queryByUuId',
                     findCommentByIdUrl: '/information/comments/findCommentById',
-                    getMyLoveMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyLoveMsgAnnouncementSend",
                     readLoveMsgAllUrl: "/sys/sysAnnouncementSend/readLoveMsgAll",
                 },
                 FocusFansNumVo: {
@@ -69,8 +81,10 @@
             };
         },
         created() {
+            console.log(9999);
             this.getMyLoveMsgAnnouncementSend();
-
+            //一键已读所有未读的消息
+            this.readLoveMsgAll();
         },
         onLoad(option) {
             //const item = JSON.parse(decodeURIComponent(option.item));
@@ -79,26 +93,41 @@
             //this.loveMsg(this.announcement3); //这是传参后继续调用方法的示例
         },
         methods: {
+            // 触底加载
+            reachBottom() {
+                if (!this.hasNext) return;
+                console.log('//// 触底加载');
+                this.getMyLoveMsgAnnouncementSend();
+            },
             //获取我的点赞消息
             getMyLoveMsgAnnouncementSend() {
-                //console.log("进来了方法33333", item)
-                this.$http.get(this.url.getMyLoveMsgAnnouncementSendUrl, {
-                    params: {
-                            page: 1,
-                            pagesize: 10
-                        }
+                if (this.isDownLoading) return;
+                this.isDownLoading = true;
+                this.pageInfo.num++;
+                const {getMyLoveMsgAnnouncementSendUrl, pageInfo: {num, size}} = this;
+                this.$http.get(getMyLoveMsgAnnouncementSendUrl, {
+                    params: {page: num, pagesize: size}
                 }).then(res => {
-                    if (res.data.success) {
-                        console.log("获取我的点赞消息", res.data.result.records)
-                        this.myLoveMsg = res.data.result.records;
-                        for (let d of this.myLoveMsg) {
-                            d.avatar = this.fileUrl + d.avatar
-                            d.medias = this.fileUrl + d.medias
+                    const {success, result} = res.data;
+                    console.log('。。。。。', result.records);
+                    if (success) {
+                        const {pages, records, current} = result;
+                        if (num === 1) this.myLoveMsg = [];
+                        if (records.length) {
+                            for (const d of records) {
+                                d.avatar = this.fileUrl + d.avatar
+                                d.medias = this.fileUrl + d.medias
+                            }
                         }
-                        this.readLoveMsgAll();
+                        this.myLoveMsg = this.myLoveMsg.concat(records);
+                        this.hasNext = pages > current;
+                        this.isDownLoading = false;
+                    } else {
+                        this.isDownLoading = false;
                     }
                 }).catch(err => {
                     console.log(err);
+                    this.isDownLoading = false;
                 });
             },
             //一键已读点赞信息
@@ -168,10 +197,9 @@
 
 <style lang="scss" scoped>
 
-    /*.container{*/
-    /*    background-color: #ffffff;*/
-    /*}*/
-
+    .list-wrap {
+        height: calc(100vh - 280rpx);
+    }
     .card {
         background-color:  #fff;
         padding: 20rpx 20rpx;
@@ -245,4 +273,12 @@
         //justify-content: space-between;
     }
 
+    .load-text, .noMore {
+        background-color: #fff;
+        text-align: center;
+        padding: 4rpx;
+    }
+    .noMore {
+        color: #ccc;
+    }
 </style>

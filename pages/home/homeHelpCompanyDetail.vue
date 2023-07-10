@@ -21,11 +21,19 @@
             <view class="company-organizationCode">{{model.organizationCode}}</view>
         </view>
         <view class="company">
-            <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="comModel.hasUpLiked == 0" @click="likeCom(comModel.id)">&#xe8ad</view>
-            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else @click="dislikeCom(comModel.id)">&#xe60f</view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="comModel.hasUpLiked == 0"
+                  @click="likeCom(comModel.id)">&#xe8ad
+            </view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
+                  @click="dislikeCom(comModel.id)">&#xe60f
+            </view>
             <view class="company-upLikeCount">{{comModel.upLikeCount}}</view>
-            <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08" v-if="comModel.hasDownLiked == 0" @click="downLikeCom(comModel.id)">&#xe614</view>
-            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else @click="downDisLikeCom(comModel.id)">&#xe644</view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08" v-if="comModel.hasDownLiked == 0"
+                  @click="downLikeCom(comModel.id)">&#xe614
+            </view>
+            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
+                  @click="downDisLikeCom(comModel.id)">&#xe644
+            </view>
             <view class="company-downLikeCount">{{comModel.downLikeCount}}</view>
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
             <span class="company-commentCount">{{comModel.commentCount}}</span>
@@ -34,29 +42,40 @@
         <view class="companyTag">
             <span>#歧视女生</span> <span>#可接受残疾人</span> <span>#体恤员工</span> <span>#米面粮油</span>
         </view>
+        <view class="list-wrap">
+            <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 
-        <view v-for="item in commentsList" :key="index" class="detail">
-            <view class="detail-title">
-                <view>有理有据</view>
-                <image class="comment-avatar round sm" :src="item.avatar" alt=""></image>
-            </view>
+                <view v-for="(item,index) in commentsList" :key="index" class="detail">
+                    <view class="detail-title">
+                        <view>有理有据</view>
+                        <image class="comment-avatar round sm" :src="item.avatar" alt=""></image>
+                    </view>
 
-            <view class="detail-content">
-                <view class="detail-info">
-                    <view style="background-color: antiquewhite;">{{item.nickname}}（在职）</view>
-                    <view>{{item.content}}</view>
-                    <view style="margin-right: 10rpx;">{{item.createDate}} 北京</view>
+                    <view class="detail-content">
+                        <view class="detail-info">
+                            <view style="background-color: antiquewhite;">{{item.nickname}}（在职）</view>
+                            <view>{{item.content}}</view>
+                            <view style="margin-right: 10rpx;">{{item.createDate}} 北京</view>
+                        </view>
+                        <view class="comment-iconlikeCount">
+                            <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;"
+                                  v-if="item.hasUpLiked == 0" @click="likeComment(item.id)">&#xe8ad
+                            </view>
+                            <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
+                                  @click="dislikeComment(item.id)">&#xe60f
+                            </view>
+                            <span class="comment-likeCount">{{item.likeCount}}</span>
+                        </view>
+                    </view>
                 </view>
-                <view class="comment-iconlikeCount">
-                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="item.hasUpLiked == 0" @click="likeComment(item.id)">&#xe8ad</view>
-                    <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else @click="dislikeComment(item.id)">&#xe60f</view>
-                    <span class="comment-likeCount">{{item.likeCount}}</span>
-                </view>
-            </view>
+                <view v-if='isDownLoading' class="load-text">评论加载中....</view>
+                <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快去助力感兴趣的公司吧---</view>
+            </scroll-view>
         </view>
         <view style="width: 100%;height: 100rpx;"></view>
         <view class="footer">
-            <input class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论" @input="onInput(inputValue)"/>
+            <input class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论"
+                   @input="onInput(inputValue)"/>
             <image class="avatar round sm" :src="comModel.avatar" alt=""></image>
             <button class="input-button" form-type="submit" @click="saveComment(inputValue)">发送</button>
         </view>
@@ -69,21 +88,26 @@
     export default {
         name: "helpCompanyDetailForm",
         components: {},
-        props: {
-
-        },
+        props: {},
         data() {
             return {
+                pageInfo: {
+                    num: 0,
+                    size: 10
+                },
+                hasNext: true,
+                isDownLoading: false,
                 companyName: '',
                 NavBarColor: this.NavBarColor,
                 backRouteName: 'index',
+                findPageCommentByIdUrl: "/company/comments/list", //根据助力公司的id拿到所有评论
                 url: {
                     findHelpComByIdUrl: "/company/findHelpComById", //根据助力公司的tianyanchaId拿到详情
                     likeComUrl: "/company/upLike", //向上点赞公司
                     upDislikeComUrl: "/company/upDislike", //取消向上点赞公司
                     downLikeComUrl: "/company/downLike", //向下点赞公司
                     downDislikeComUrl: "/company/downDislike", //取消向下点赞公司
-                    findPageCommentByIdUrl: "/company/comments/list", //根据助力公司的id拿到所有评论
+
                     saveCommentUrl: '/company/comments/saveCommentForCom', //助力详情发布接口
                     likeCommentUrl: '/company/comments/like', //点赞评论
                     dislikeCommentUrl: '/company/comments/dislike', //取消点赞评论
@@ -199,6 +223,12 @@
 
         },
         methods: {
+            // 触底加载
+            reachBottom() {
+                if (!this.hasNext) return;
+                console.log('//// 触底加载');
+                this.findPageCommentById(this.model.tianyanchaId);
+            },
             //根据 tianyanchaId 查询详情
             findHelpComById(tianyanchaId) {
                 //console.log("进来了查询详情方法", tianyanchaId)
@@ -210,32 +240,38 @@
                     if (res.data.success) {
                         console.log("查询详情返回的数据", res);
                         this.comModel = res.data.result;
-                        console.log("赋值以后的数据", this.comModel);
+                        //console.log("赋值以后的数据", this.comModel);
                         this.comModel.avatar = this.fileUrl + res.data.result.avatar
                     }
                 })
             },
-            //获取评论列表
             findPageCommentById(id) {
-                //console.log("进来了获取评论列表方法", id)
-                this.$http.get(this.url.findPageCommentByIdUrl, {
-                    params: {
-                        page: 1,
-                        pagesize: 20,
-                        id: Number(id),
-                    }
+                if (this.isDownLoading) return;
+                this.isDownLoading = true;
+                this.pageInfo.num++;
+                const {findPageCommentByIdUrl, pageInfo: {num, size}} = this;
+                this.$http.get(findPageCommentByIdUrl, {
+                    params: {page: num, pagesize: size, id: Number(id),}
                 }).then(res => {
-                    if (res.data.success) {
-                        //console.log("res.data.result:",res.data.result);
-                        //console.log("数据条数:",res.data.result);
-                        this.commentsList = res.data.result.items;
-                        for (let d of this.commentsList) {
-                            d.avatar = this.fileUrl + d.avatar
+                    const {success, result} = res.data;
+                    console.log('。。。。。', result.items);
+                    if (success) {
+                        const {pages, items, page} = result;
+                        if (num === 1) this.commentsList = [];
+                        if (items.length) {
+                            for (const d of items) {
+                                d.avatar = this.fileUrl + d.avatar
+                            }
                         }
-                        //console.log("数据条数222:",this.inforCommentsList.length);
+                        this.commentsList = this.commentsList.concat(items);
+                        this.hasNext = pages > page;
+                        this.isDownLoading = false;
+                    } else {
+                        this.isDownLoading = false;
                     }
                 }).catch(err => {
                     console.log(err);
+                    this.isDownLoading = false;
                 });
             },
             onInput(value) {
@@ -248,18 +284,14 @@
                             //console.log("value.indexOf(word[i]):",value.indexOf(word[i]))
                             //const result = value.replace(reg, `<span style="color:#f03b2c">${word[i]}</span>`)
                             const result = value.replace(reg, '*')
-                            //console.log("result:",result)
                             value = result
-                            //console.log("value:",value)
                         }
                     }
                 }
                 this.inputValue = value
-                //console.log("置换后value:",value)
             },
             //保存评论 这里有两种评论、一种是对动态 一种是对评论
             saveComment(inputValue) {
-                //console.log("inputValue:",inputValue);
                 //若评论中包含 “*” 或者为空 不允许保存
                 //console.log("inputValue值为空1：", inputValue);
                 if (inputValue === "" || inputValue.indexOf("*") != -1) {
@@ -271,13 +303,10 @@
                     this.$http.post(this.url.saveCommentUrl, HelpCompanyCommentDto).then(res => {
                         //刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
                         if (res.data.success) {
-                            //console.log("33333res:",res.data.result);
                             //回显最新评论数
                             this.comModel.commentCount = res.data.result
-                            //console.log("保存了评论、重新调用评论列表方法11:",this.comModel.id);
-                            //console.log("保存了评论、重新调用评论列表方法22:",this.model.tianyanchaId);
-                            //刷新评论列表
-                            //this.findPageCommentById(this.comModel.id);
+                            //重新赋页码数、并刷新评论列表
+                            this.pageInfo.num = 0;
                             this.findPageCommentById(this.model.tianyanchaId);
                             //置空输入框
                             this.inputValue = '';
@@ -292,7 +321,7 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.comModel.upLikeCount = res.data.result;
-                        //刷新页面
+                        //重新根据 tianyanchaId 查询公司详情
                         this.findHelpComById(this.model.tianyanchaId);
                     }
                 })
@@ -304,7 +333,7 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.comModel.upLikeCount = res.data.result;
-                        //刷新页面
+                        //重新根据 tianyanchaId 查询公司详情
                         this.findHelpComById(this.model.tianyanchaId);
                     }
                 })
@@ -316,7 +345,7 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.comModel.downLikeCount = res.data.result;
-                        //刷新页面
+                        //重新根据 tianyanchaId 查询公司详情
                         this.findHelpComById(this.model.tianyanchaId);
                     }
                 })
@@ -328,7 +357,7 @@
                     if (res.data.success) {
                         console.log("表单数据", res);
                         this.comModel.downLikeCount = res.data.result;
-                        //刷新页面
+                        //重新根据 tianyanchaId 查询公司详情
                         this.findHelpComById(this.model.tianyanchaId);
                     }
                 })
@@ -339,9 +368,8 @@
                 this.$http.get(this.url.likeCommentUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log("表单数据", res);
-                        //this.myCommentForm.likeCount = res.data.result;
-                        //刷新评论列表
-                        //this.findPageCommentById(this.comModel.id);
+                        //重新赋页码数、并刷新评论列表
+                        this.pageInfo.num = 0;
                         this.findPageCommentById(this.model.tianyanchaId);
                     }
                 })
@@ -352,9 +380,8 @@
                 this.$http.get(this.url.dislikeCommentUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log("表单数据", res);
-                        //this.myCommentForm.likeCount = res.data.result;
-                        //刷新评论列表
-                        //this.findPageCommentById(this.comModel.id);
+                        //重新赋页码数、并刷新评论列表
+                        this.pageInfo.num = 0;
                         this.findPageCommentById(this.model.tianyanchaId);
                     }
                 })
@@ -363,14 +390,19 @@
     }
 </script>
 
+
 <style>
+
+    .list-wrap {
+        height: calc(100vh - 280rpx);
+    }
 
     .container{
         background-color: #ffffff;
     }
 
     .company {
-        //margin: 20rpx; /*margin:5px 10px 15px 20px; 依次表示 上右下左*/
+    //margin: 20rpx; /*margin:5px 10px 15px 20px; 依次表示 上右下左*/
         display: flex;
         margin-bottom: 30rpx; /*盒子间的距离*/
         font-weight: bold;
@@ -446,7 +478,7 @@
     }
 
     .detail-title {
-        //display: flex;
+    //display: flex;
         margin-right: 100rpx;
     // justify-content: space-between;
     }
@@ -478,7 +510,7 @@
     //justify-content: space-between;
 
         .comment-likeCount {
-        font-weight: bold;
+            font-weight: bold;
         //margin-right: 80rpx;
             margin-left: 10rpx;
             margin-top: 10rpx;
@@ -494,7 +526,7 @@
         position: absolute;
         font-size: 20rpx;
         margin-top: 15rpx;
-        //margin-right: 10rpx;
+    //margin-right: 10rpx;
         margin-left: 20rpx;
     }
 
@@ -506,7 +538,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        //padding:10rpx;
+    //padding:10rpx;
     }
 
     .input-form{
@@ -532,6 +564,13 @@
     //margin-right: 10rpx;
         margin-left: 520rpx;
     }
-
+    .load-text, .noMore {
+        background-color: #fff;
+        text-align: center;
+        padding: 4rpx;
+    }
+    .noMore {
+        color: #ccc;
+    }
 
 </style>

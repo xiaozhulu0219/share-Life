@@ -2,12 +2,16 @@
 
     <!--消息页-->
     <view class="container">
-        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+<!--        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">-->
+<!--            <block slot="backText"></block>-->
+<!--            <block slot="right" style="margin-left: 2000rpx"> 评论消息</block>-->
+<!--        </cu-custom>-->
+        <cu-custom :bgColor="NavBarColor" :isBack="true">
             <block slot="backText"></block>
-            <block slot="right" style="margin-left: 2000rpx"> 评论消息</block>
+            <block slot="content">评论消息</block>
         </cu-custom>
-        <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
-
+        <view class="list-wrap">
+            <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
             <view v-for="(item,index) in this.myCommentMsg" :key="index" class="card">
                 <view class="detail-title">
                     <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
@@ -24,7 +28,10 @@
                     </view>
                 </view>
             </view>
-        </mescroll-body>
+                <view v-if='isDownLoading' class="load-text">加载中....</view>
+                <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
+            </scroll-view>
+        </view>
     </view>
 
 </template>
@@ -42,14 +49,20 @@
         components: {},
         data() {
             return {
+                pageInfo: {
+                    num: 0,
+                    size: 10
+                },
+                hasNext: true,
+                isDownLoading: false,
                 backRouteName: 'index',
                 myCommentMsg:[],
                 fileUrl: configService.fileSaveURL,
+                getMyCommentMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyCommentMsgAnnouncementSend",
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                     queryByUuIdUrl: '/sys/user/queryByUuId',
                     findCommentByIdUrl: '/information/comments/findCommentById',
-                    getMyCommentMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyCommentMsgAnnouncementSend",
                     readCommentMsgAllUrl: "/sys/sysAnnouncementSend/readCommentMsgAll",
                 },
                 FocusFansNumVo: {
@@ -69,7 +82,10 @@
             };
         },
         created() {
+            console.log(9999);
             this.getMyCommentMsgAnnouncementSend();
+            //一键已读所有未读的消息
+            this.readCommentMsgAll();
 
         },
         onLoad(option) {
@@ -80,26 +96,41 @@
             //this.commentMsg(this.announcement5); //这是传参后继续调用方法的示例
         },
         methods: {
+            // 触底加载
+            reachBottom() {
+                if (!this.hasNext) return;
+                console.log('//// 触底加载');
+                this.getMyCommentMsgAnnouncementSend();
+            },
             //获取我的评论消息
             getMyCommentMsgAnnouncementSend() {
-                //console.log("进来了方法33333", item)
-                this.$http.get(this.url.getMyCommentMsgAnnouncementSendUrl, {
-                    params: {
-                        page: 1,
-                        pagesize: 10
-                    }
+                if (this.isDownLoading) return;
+                this.isDownLoading = true;
+                this.pageInfo.num++;
+                const {getMyCommentMsgAnnouncementSendUrl, pageInfo: {num, size}} = this;
+                this.$http.get(getMyCommentMsgAnnouncementSendUrl, {
+                    params: {page: num, pagesize: size}
                 }).then(res => {
-                    if (res.data.success) {
-                        console.log("获取我的评论消息", res.data.result.records)
-                        this.myCommentMsg = res.data.result.records;
-                        for (let d of this.myCommentMsg) {
-                            d.avatar = this.fileUrl + d.avatar
-                            d.medias = this.fileUrl + d.medias
+                    const {success, result} = res.data;
+                    console.log('。。。。。', result.records);
+                    if (success) {
+                        const {pages, records, current} = result;
+                        if (num === 1) this.myCommentMsg = [];
+                        if (records.length) {
+                            for (const d of records) {
+                                d.avatar = this.fileUrl + d.avatar
+                                d.medias = this.fileUrl + d.medias
+                            }
                         }
-                        this.readCommentMsgAll();
+                        this.myCommentMsg = this.myCommentMsg.concat(records);
+                        this.hasNext = pages > current;
+                        this.isDownLoading = false;
+                    } else {
+                        this.isDownLoading = false;
                     }
                 }).catch(err => {
                     console.log(err);
+                    this.isDownLoading = false;
                 });
             },
             //一键已读评论消息
@@ -135,7 +166,9 @@
 
 
 <style lang="scss" scoped>
-
+    .list-wrap {
+        height: calc(100vh - 280rpx);
+    }
     /*.container{*/
     /*    background-color: #ffffff;*/
     /*}*/
@@ -212,5 +245,12 @@
         //justify-content: space-between;
     }
 
-
+    .load-text, .noMore {
+        background-color: #fff;
+        text-align: center;
+        padding: 4rpx;
+    }
+    .noMore {
+        color: #ccc;
+    }
 </style>

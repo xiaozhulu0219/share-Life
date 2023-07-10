@@ -2,11 +2,16 @@
 
     <!--消息页-->
     <view class="container">
-        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+<!--        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">-->
+<!--            <block slot="backText"></block>-->
+<!--            <block slot="right" style="margin-left: 2000rpx"> 新增关注消息</block>-->
+<!--        </cu-custom>-->
+        <cu-custom :bgColor="NavBarColor" :isBack="true">
             <block slot="backText"></block>
-            <block slot="right" style="margin-left: 2000rpx"> 新增关注消息</block>
+            <block slot="content">新增关注消息</block>
         </cu-custom>
-        <mescroll-body ref="mescrollRef" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
+        <view class="list-wrap">
+            <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 
             <view v-for="(item,index) in this.myFocusMsg" :key="index" class="card">
                 <view class="detail-title">
@@ -34,8 +39,10 @@
                     </view>
                 </view>
             </view>
-
-        </mescroll-body>
+                <view v-if='isDownLoading' class="load-text">加载中....</view>
+                <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
+            </scroll-view>
+        </view>
     </view>
 
 </template>
@@ -53,9 +60,16 @@
         components: {},
         data() {
             return {
+                pageInfo: {
+                    num: 0,
+                    size: 10
+                },
+                hasNext: true,
+                isDownLoading: false,
                 backRouteName: 'index',
                 myFocusMsg:[],
                 fileUrl: configService.fileSaveURL,
+                getMyFocusMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyFocusMsgAnnouncementSend",
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                     queryByUuIdUrl: '/sys/user/queryByUuId',
@@ -63,7 +77,6 @@
                     userFocusUrl: '/information/followuser/userFocus',
                     userUnFocusUrl: '/information/followuser/userUnFocus',
                     FocusORFansUrl: '/information/followuser/FocusORFans',
-                    getMyFocusMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyFocusMsgAnnouncementSend",
                     readFocusMsgAllUrl: "/sys/sysAnnouncementSend/readFocusMsgAll",
                 },
                 FocusFansNumVo: {
@@ -83,8 +96,10 @@
             };
         },
         created() {
+            console.log(9999);
             this.getMyFocusMsgAnnouncementSend();
-
+            //一键已读所有未读的消息
+            this.readFocusMsgAll();
         },
         onLoad(option) {
             //const item = JSON.parse(decodeURIComponent(option.item));
@@ -93,25 +108,40 @@
             //this.focusMsg(this.announcement4); //这是传参后继续调用方法的示例
         },
         methods: {
+            // 触底加载
+            reachBottom() {
+                if (!this.hasNext) return;
+                console.log('//// 触底加载');
+                this.getMyFocusMsgAnnouncementSend();
+            },
             //获取我的新增关注消息
             getMyFocusMsgAnnouncementSend() {
-                //console.log("进来了方法33333", item)
-                this.$http.get(this.url.getMyFocusMsgAnnouncementSendUrl, {
-                    params: {
-                        page: 1,
-                        pagesize: 10
-                    }
+                if (this.isDownLoading) return;
+                this.isDownLoading = true;
+                this.pageInfo.num++;
+                const {getMyFocusMsgAnnouncementSendUrl, pageInfo: {num, size}} = this;
+                this.$http.get(getMyFocusMsgAnnouncementSendUrl, {
+                    params: {page: num, pagesize: size}
                 }).then(res => {
-                    if (res.data.success) {
-                        console.log("获取我的新增关注消息", res.data.result.records)
-                        this.myFocusMsg = res.data.result.records;
-                        for (let d of this.myFocusMsg) {
-                            d.avatar = this.fileUrl + d.avatar
+                    const {success, result} = res.data;
+                    console.log('。。。。。', result.records);
+                    if (success) {
+                        const {pages, records, current} = result;
+                        if (num === 1) this.myFocusMsg = [];
+                        if (records.length) {
+                            for (const d of records) {
+                                d.avatar = this.fileUrl + d.avatar
+                            }
                         }
-                        this.readFocusMsgAll();
+                        this.myFocusMsg = this.myFocusMsg.concat(records);
+                        this.hasNext = pages > current;
+                        this.isDownLoading = false;
+                    } else {
+                        this.isDownLoading = false;
                     }
                 }).catch(err => {
                     console.log(err);
+                    this.isDownLoading = false;
                 });
             },
             //一键已读新增关注消息
@@ -200,7 +230,9 @@
 
 
 <style lang="scss" scoped>
-
+    .list-wrap {
+        height: calc(100vh - 280rpx);
+    }
     /*.container{*/
     /*    background-color: #ffffff;*/
     /*}*/
@@ -277,6 +309,15 @@
         //margin-top: 30rpx;
         display: flex;
         //justify-content: space-between;
+    }
+
+    .load-text, .noMore {
+        background-color: #fff;
+        text-align: center;
+        padding: 4rpx;
+    }
+    .noMore {
+        color: #ccc;
     }
 
 </style>
