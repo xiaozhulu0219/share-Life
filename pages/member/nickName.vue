@@ -28,7 +28,7 @@
                 index: -1,
                 switchC: true,
                 imgList: [],
-                maxLength: 10,
+                maxLength: 12,
                 uploadUrl: '/sys/common/upload',
                 myFormData: {
                     nickName: '',

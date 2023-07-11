@@ -13,7 +13,7 @@
 			<view class="cu-form-group textarea">
 				<textarea placeholder="个性签名" style="width: 18px; height: 200px; " name="input"
 					v-model="myFormData.signature"></textarea>
-          <view class="count-limit"> {{ (myFormData.signature && myFormData.signature.length) || 0 }} / {{ maxLength }}</view>
+          	<view class="count-limit"> {{ (myFormData.signature && myFormData.signature.length) || 0 }} / {{ maxLength }}</view>
 			</view>
 
 		</form>
@@ -27,7 +27,7 @@
 				index: -1,
 				switchC: true,
 				imgList: [],
-        maxLength: 30,
+        		maxLength: 60,
 				uploadUrl: '/sys/common/upload',
 				myFormData: {
 					signature: '',
