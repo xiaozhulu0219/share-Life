@@ -2,12 +2,10 @@
     <view>
         <!--首页引用的modal-->
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
-        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" >
-            <block slot="backText">
+        <commonTab :isBack="true" :backRouterName="backRouteName">
+            <block slot="title"> 搜索
             </block>
-            <view slot="content">搜索</view>
-        </cu-custom>
-
+        </commonTab>
         <form class="search">
             <view class="uni-form-item uni-column">
                 <text class="padding-left text-gray iconfont icon-search"></text>
@@ -30,17 +28,19 @@
     import MescrollMixin from '@/components/mescroll-uni/mescroll-mixins.js';
     import Mixin from '@/common/mixin/Mixin.js';
     import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
+    import commonTab from '../component/commonTab.vue';
 
     export default {
         name: "homeSearch",
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
-        components: {},
+        components: {commonTab},
         data() {
             return {
                 activeTab: {},
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
                 inputValue: '',
+                backRouteName: 'index',
                 searchHistoryList: [{
                     locationName: '反而可能',
                     createTime: '2022-11-30 10:00:00',
