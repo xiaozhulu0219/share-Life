@@ -56,7 +56,7 @@
                         <text :class="activeTab === index ? 'active' : ''">{{item.name}}</text>
                     </view>
                 </view>
-                <swiper :current="activeTab" class="padding" style="height: 100%;">
+                <swiper :current="activeTab" class="padding" style="height: 100%;" circular @change="changeSwiper">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
                         <MyPublishList v-if="index === 0"/>
                         <MyHelpCompanyList v-if="index === 1"/>
@@ -148,6 +148,10 @@
             this.queryHelpComNumByUuId();
         },
         methods: {
+          changeSwiper(e) {
+            const curTab = e.detail.current;
+            this.activeTab = curTab;
+          },
             scan() {
                 console.log('进来了');
                 // #ifndef H5
@@ -214,7 +218,7 @@
             },
             //点击“获赞与收藏”
             tomemberLikeCountModal(item) {
-                console.log('点击了跳转modal',item);
+                console.log('点击了跳转modal', item);
                 uni.navigateTo({
                     url: '/pages/home/memberLikeCountModal?item=' + encodeURIComponent(JSON.stringify(item))
                 });
@@ -246,7 +250,7 @@
                 uni.navigateTo({
                     url: '/pages/setting/setting'
                 });
-            },
+            }
         }
     };
 </script>
