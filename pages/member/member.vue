@@ -5,11 +5,8 @@
             <!-- 头部logo-->
             <view class="UCenter-bg">
                 <view class="padding text-right text-xl text-exit">
-<!--                    <block slot="right"> </block>-->
-                    <view class="iconfont ml-1 search-icon" @click="toSetting()">&#xe8b8</view>
-<!--                    <navigator url="/pages/user/userexit">-->
-<!--                        <text class="cuIcon-exit"></text>-->
-<!--                    </navigator>-->
+                    <view class="iconfont ml-1 search-icon" style="; margin-top: 250rpx"   @click="toSetting()">&#xe8b8</view>
+
                 </view>
                 <view class="padding">
                     <view class="margin-bottom-xl flex personInfo">
@@ -264,7 +261,7 @@
         /* #endif */
         /* background-size: cover; */
         background-color: rgba(0, 0, 0, .5);
-        height: 500 rpx;
+        height: 500rpx;
         /* display: flex; */
         /* justify-content: center; */
         /* padding-top: 40rpx; */
@@ -282,7 +279,7 @@
     } */
 
     .text-exit {
-        margin-top: 30 rpx;
+        margin-top: 30rpx;
         position: absolute;
         top: 10px;
         right: 0;
@@ -290,25 +287,25 @@
     }
 
     .UCenter-bg .edit {
-        padding: 10 rpx 20 rpx;
-        border: 2 rpx solid #fff;
-        border-radius: 30 rpx;
+        padding: 10rpx 20rpx;
+        border: 2rpx solid #fff;
+        border-radius: 30rpx;
     }
 
     .UCenter-bg image {
-        width: 160 rpx;
-        height: 160 rpx;
+        width: 160rpx;
+        height: 160rpx;
     }
 
     .UCenter-bg .personInfo {
         /* background-color: aquamarine; */
-        margin-top: 30 rpx;
+        margin-top: 30rpx;
     }
 
     .UCenter-bg .signature {
-        margin-top: -30 rpx;
+        margin-top: -30rpx;
         width: 100%;
-        height: 110 rpx;
+        height: 110rpx;
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
@@ -317,7 +314,7 @@
     }
 
     .UCenter-bg .personData {
-        margin-top: 30 rpx;
+        margin-top: 30rpx;
     }
 
     .UCenter-bg .gif-wave {
@@ -327,7 +324,7 @@
         left: 0;
         z-index: 99;
         mix-blend-mode: screen;
-        height: 100 rpx;
+        height: 100rpx;
     }
 
     map,
@@ -335,21 +332,21 @@
         left: 0;
         z-index: 99;
         mix-blend-mode: screen;
-        height: 100 rpx;
+        height: 100rpx;
     }
 
     map,
     .mapBox {
-        width: 750 rpx;
-        height: 300 rpx;
+        width: 750rpx;
+        height: 300rpx;
     }
 
     .mine-tab {
         position: relative;
-        top: -50 rpx;
+        top: -50rpx;
         height: calc(100vh - 200rpx - env(safe-area-inset-bottom) / 2);
         background-color: #fff;
-        border-radius: 30 rpx 30 rpx 0 0;
+        border-radius: 30rpx 30rpx 0 0;
     }
 
     .tab-title {
@@ -363,11 +360,11 @@
     }
 
     .png_avatar {
-        max-width: 120px;
-        width: 120px;
-        width: expression(this.width > 120 ? "120px" : this.width);
-        height: 120px;
-        height: expression(this.height > 120 ? "120px" : this.height);
+        max-width: 100px;
+        width: 100px;
+        width: expression(this.width > 100 ? "100px" : this.width);
+        height: 100px;
+        height: expression(this.height > 100 ? "100px" : this.height);
     }
 
 </style>
