@@ -103,6 +103,7 @@
     import myDate from '@/components/my-componets/my-date.vue';
     import configService from '@/common/service/config.service.js';
     import commonTab from '../component/commonTab.vue';
+    import { keyWords } from '../../common/util/constants';
 
     export default {
         name: 'homeInformationDetail',
@@ -182,17 +183,7 @@
                 },
                 fileUrl: configService.fileSaveURL,
                 inforCommentsList: [],
-                inforSonCommentsList: [],
-                keyWords: [
-                    '尼玛', '我操你妈', '我草泥马', '操', '草', '我擦', '尼玛批', 'nm', 'wocaonima', 'cao', 'ca', 'woca', 'nmp', 'nimapi', 'fuck',
-                    '傻逼', '沙北', '傻杯', '鸡巴', '鸡毛', 'sb', 'jb', 'jiba',
-                    '习近平', '军队', '国家领导人', '党', '领袖', '政府', 'zf', 'zhengfu', 'xijinping', 'xjp', 'gjldr', 'guojialingdaoren', 'guojia', 'lingdaoren', 'dang', 'lingxiu',
-                    '毒品', '黄赌毒', '色情', '迷药', '杀', '强奸', '诱奸', '死', 'dupin', 'hdd', 'huangdudu', 'seqing', 'sese', 'se', 'miyao', 'qj', 'qiangjian', 'youjian', 'si',
-                    '尼格', '黑鬼', 'nige', 'heigui',
-                    '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人',
-                    '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人',
-                    '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人', '史无前例', '前无古人'
-                ]
+                inforSonCommentsList: []
             };
         },
         watch: {
@@ -227,23 +218,17 @@
                 this.getInforCommentsList(this.myFormData.inforId);
             },
             onInput(value) {
-                const word = this.keyWords;
                 if (value !== null) {
-                    for (const i in word) {
-                        const reg = new RegExp(word[i], 'g');
-                        //console.log("reg:",reg)
-                        if (value.indexOf(word[i]) != -1) {
-                            //console.log("value.indexOf(word[i]):",value.indexOf(word[i]))
-                            //const result = value.replace(reg, `<span style="color:#f03b2c">${word[i]}</span>`)
-                            const result = value.replace(reg, '*');
-                            //console.log("result:",result)
-                            value = result;
-                            //console.log("value:",value)
-                        }
+                    for (const i in keyWords) {
+                        const reg = new RegExp(keyWords[i], 'g');
+                        value = value.replace(reg, ''.padEnd(keyWords[i].length, '*'));
                     }
                 }
-                this.inputValue = value;
-                //console.log("置换后value:",value)
+                // 数据改变是异步的
+                this.$nextTick(() => {
+                  this.inputValue = value;
+                });
+                console.log('置换后value:', value);
             },
 
             //点击图片进入函数，传入当前列表的索引index
