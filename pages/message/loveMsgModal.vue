@@ -197,7 +197,7 @@
 <style lang="scss" scoped>
 
     .list-wrap {
-        height: calc(100vh - 280rpx);
+        height: calc(114vh - 280rpx);
         margin-top: 100rpx; /*盒子距离顶部的距离*/
     }
 
@@ -222,24 +222,6 @@
         //margin-right: 10rpx;
         margin-left: 20rpx;
     }
-
-    .card-medias {
-        max-width: 55px;
-        width: 55px;
-        width: expression(this.width > 55 ? "55px" : this.width);
-        height: 100px;
-        height: expression(this.height > 100 ? "100px" : this.height);
-        position: absolute;
-        font-size: 20rpx;
-        //margin-top: 1rpx;
-        margin-right: 50rpx;
-        //margin-left: 2rpx;
-    }
-
-    /*.detail {*/
-    /*    padding: 30rpx;*/
-    /*    border-bottom: #eee solid 1rpx;*/
-    /*}*/
 
     .detail-title {
         //display: flex;
@@ -266,13 +248,25 @@
 
     .comment-iconlikeCount {
         //font-weight: bold;
-        margin-right: 110rpx;
+        margin-right: 200rpx;
         //margin-left: 35rpx;
         //margin-top: 30rpx;
-        display: flex;
+        //display: flex;
         //justify-content: space-between;
     }
 
+    .card-medias {
+        max-width: 80px;
+        width: 80px;
+        width: expression(this.width > 80 ? "80px" : this.width);
+        height: 80px;
+        height: expression(this.height > 80 ? "80px" : this.height);
+        position: absolute;
+        //font-size: 20rpx;
+        //margin-top: 1rpx;
+        //margin-right: 50rpx;
+        //margin-left: 2rpx;
+    }
     .load-text, .noMore {
         background-color: #fff;
         text-align: center;
