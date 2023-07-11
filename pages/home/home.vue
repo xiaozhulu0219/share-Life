@@ -7,18 +7,20 @@
         -->
         <commonTab :bgColor="NavBarColor">
           <block slot="title"> ShareLife
-            <view class="iconfont ml-1 search-icon" @click="toSearch(activeTab.value)">&#xe600</view>
           </block>
+            <block slot="right">
+                <view class="iconfont ml-1 search-icon" style="margin-right: 200rpx" @click="toSearch(activeTab.value)">&#xe600</view>
+            </block>
         </commonTab>
 
         <HomeSignModal :getActiveTab="getActiveTab" ></HomeSignModal>
 
-<!--        <KeepAlive>-->
+    <!--  <KeepAlive>-->
   <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
 
   <homeModal  v-else></homeModal>
-<!--</KeepAlive>-->
-<!--        <listComponent v-else></listComponent>-->
+    <!--</KeepAlive>-->
+    <!--  <listComponent v-else></listComponent>-->
         <bottomTab PageCur="home"></bottomTab>
     </view>
 </template>

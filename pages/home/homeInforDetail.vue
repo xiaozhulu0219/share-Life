@@ -1,15 +1,6 @@
 <template>
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view class="container">
-       <!-- <cu-custom style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
-            <block slot="backText"></block>
-            <block slot="title">
-                <image class="medias_avatar" :src="myFormData.avatar" alt=""
-                       @click="toMemberdetail(myFormData.uuId)">
-                </image>
-                {{myCommentForm.nickname}}
-            </block>
-        </cu-custom> -->
         <commonTab :isBack="true" :backRouterName="backRouteName">
           <block slot="title"> <image class="medias_avatar" :src="myFormData.avatar" alt=""
             @click="toMemberdetail(myFormData.uuId)"></image>
