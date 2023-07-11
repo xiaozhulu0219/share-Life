@@ -41,7 +41,7 @@
             };
         },
         created() {
-        // activated() {
+         //activated() {
             console.log(9999);
             this.getHomePublishInforList();
         },

@@ -6,21 +6,22 @@
         所有标签页获取数据公用一个接口，根据传的标签值（类型）后台返回不同的领域的数据
         -->
         <commonTab :bgColor="NavBarColor">
-          <block slot="title"> ShareLife
-          </block>
+            <block slot="title"> ShareLife</block>
             <block slot="right">
-                <view class="iconfont ml-1 search-icon" style="margin-right: 200rpx" @click="toSearch(activeTab.value)">&#xe600</view>
+                <view class="iconfont ml-1 search-icon" style="margin-right: 200rpx" @click="toSearch(activeTab.value)">
+                    &#xe600
+                </view>
             </block>
         </commonTab>
 
-        <HomeSignModal :getActiveTab="getActiveTab" ></HomeSignModal>
+        <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
 
-    <!--  <KeepAlive>-->
-  <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
+<!--        <KeepAlive>-->
+            <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
 
-  <homeModal  v-else></homeModal>
-    <!--</KeepAlive>-->
-    <!--  <listComponent v-else></listComponent>-->
+            <homeModal v-else></homeModal>
+<!--        </KeepAlive>-->
+
         <bottomTab PageCur="home"></bottomTab>
     </view>
 </template>
@@ -144,7 +145,7 @@
                     //     this.$tip.error('提交失败')
                     // });
                 }
-               // this.inputValue = '';
+                // this.inputValue = '';
             },
             // search() {
             //     if (this.inputValue == '') {
@@ -190,7 +191,7 @@
                 const list = await uni.getStorage({
                     key: 'searchList'
                 });
-               // console.log(list[1].data);
+                // console.log(list[1].data);
                 // if (list[1].data) {
                 //     this.searchHistoryList = JSON.parse(list[1].data);
                 // }
@@ -199,20 +200,21 @@
     };
 </script>
 
+
 <style lang="scss" scoped>
-.home-container {
-  width: 100vw;
-  height: 100vh;
-  padding-bottom: 106rpx;
-  padding-top: 100rpx;
-  box-sizing: border-box;
-}
-  .search-icon {
-    color: #fff;
-    margin-left: 10rpx;
-    font-size: 40rpx;
-    font-weight: 700;
-  }
+    .home-container {
+        width: 100vw;
+        height: 100vh;
+        padding-bottom: 106rpx;
+        padding-top: 100rpx;
+        box-sizing: border-box;
+    }
+    .search-icon {
+        color: #fff;
+        margin-left: 10rpx;
+        font-size: 40rpx;
+        font-weight: 700;
+    }
     .home-helpCompany {
         background-color: $uni-bg-color-grey;
         margin-top: 5rpx;
