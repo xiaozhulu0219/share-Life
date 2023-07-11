@@ -13,6 +13,7 @@
 			<view class="cu-form-group textarea">
 				<textarea placeholder="个性签名" style="width: 18px; height: 200px; " name="input"
 					v-model="myFormData.signature"></textarea>
+          <view class="count-limit"> {{ (myFormData.signature && myFormData.signature.length) || 0 }} / {{ maxLength }}</view>
 			</view>
 
 		</form>
@@ -26,37 +27,38 @@
 				index: -1,
 				switchC: true,
 				imgList: [],
-				uploadUrl: "/sys/common/upload",
+        maxLength: 30,
+				uploadUrl: '/sys/common/upload',
 				myFormData: {
 					signature: '',
 					sex: 1,
 					orgCode: '',
 					workNo: '',
-					id: '',
-				},
+					id: ''
+				}
 			};
 		},
 		onLoad: function(option) {
-			console.log("this.$Route.query", this.$Route.query);
-			let query = this.$Route.query
+			console.log('this.$Route.query', this.$Route.query);
+			const query = this.$Route.query;
 			if (query) {
 				this.myFormData = query;
 				Object.keys(this.myFormData).map(key => {
 					if (this.myFormData[key] == '无') {
-						this.myFormData[key] = ''
+						this.myFormData[key] = '';
 					}
-				})
-				console.log("this.myFormData", this.myFormData)
+				});
+				console.log('this.myFormData', this.myFormData);
 			}
 		},
 		methods: {
 			onSubmit() {
-				let myForm = this.myFormData
-				console.log("myForm", myForm)
-				this.myFormData.id = this.$store.getters.userid
-				this.myFormData.signature = this.myFormData.signature
+				const myForm = this.myFormData;
+				console.log('myForm', myForm);
+				this.myFormData.id = this.$store.getters.userid;
+				this.myFormData.signature = this.myFormData.signature;
 
-				console.log('myform', this.myFormData)
+				console.log('myform', this.myFormData);
 				this.$tip.loading();
 				this.$http.get('/sys/editSignature', {
 					params: {
@@ -64,27 +66,27 @@
 						signature: this.myFormData.signature
 					}
 				}).then(res => {
-					console.log(res)
+					console.log(res);
 					this.$tip.loaded();
 					if (res.data.success) {
-						this.$tip.toast('提交成功')
+						this.$tip.toast('提交成功');
 						this.$Router.replace({
 							name: 'memberdetail'
-						})
+						});
 						/* uni.navigateTo({
 						    url: '/pages/user/userdetail'
 						}) */
 					}
 				}).catch(() => {
 					this.$tip.loaded();
-					this.$tip.error('提交失败')
+					this.$tip.error('提交失败');
 				});
 			},
 			DateChange(e) {
-				this.myFormData.birthday = e.detail.value
+				this.myFormData.birthday = e.detail.value;
 			},
 			SwitchC(e) {
-				this.switchC = e.detail.value
+				this.switchC = e.detail.value;
 			},
 			ChooseImage() {
 				var that = this;
@@ -101,9 +103,9 @@
 								that.myFormData.avatar = res.data.message;
 							})
 							.catch(err => {
-								that.$tip.error(err.data.message)
+								that.$tip.error(err.data.message);
 							});
-						this.imgList = res.tempFilePaths
+						this.imgList = res.tempFilePaths;
 					}
 				});
 			},
@@ -121,13 +123,13 @@
 					confirmText: '再见',
 					success: res => {
 						if (res.confirm) {
-							this.imgList.splice(e.currentTarget.dataset.index, 1)
+							this.imgList.splice(e.currentTarget.dataset.index, 1);
 						}
 					}
-				})
+				});
 			}
 		}
-	}
+	};
 </script>
 
 <style>
@@ -141,5 +143,13 @@
 		border-radius: 20px;
 		width: 90%;
 		margin: 0 auto;
+    position: relative;
 	}
+  .count-limit {
+    position: absolute;
+    bottom: 10rpx;
+    right: 10rpx;
+      font-size: 14rpx;
+      color: #666;
+    }
 </style>
