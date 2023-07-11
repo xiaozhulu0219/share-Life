@@ -11,29 +11,30 @@
                 <view class="card-loveMessage">
                     <view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;"
                           @click="loveMsg()"></view>
-                    <view class="card-loveCount">赞和收藏</view>
-                    <view class="card-loveCount">{{this.msg3Count}}</view>
-<!--                    <view class="card-loveCount">{{this.announcement3}}</view>-->
+                    <view class="card-love">赞和收藏</view>
+                    <view class="card-love-back" v-if="this.msg3Count != 0">
+                        <view class="card-loveCount">{{this.msg3Count}}</view>
+                    </view>
                 </view>
                 <view class="card-focusMessage">
                     <view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;"
                           @click="focusMsg()"></view>
-                    <view class="card-focusCount">新增关注</view>
-                    <view class="card-focusCount">{{this.msg4Count}}</view>
+                    <view class="card-focus">新增关注</view>
+                    <view class="card-focus-back" v-if="this.msg4Count != 0">
+                        <view class="card-focusCount" >{{this.msg4Count}}</view>
+                    </view>
                 </view>
                 <view class="card-commentMessage">
                     <view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;"
                           @click="commentMsg()"></view>
-                    <view class="card-commentCount">评论和@</view>
-                    <view class="card-commentCount">{{this.msg5Count}}</view>
-<!--                    <view class="card-loveCount">{{this.announcement5}}</view>-->
+                    <view class="card-comment">评论和@</view>
+                    <view class="card-comment-back"  v-if="this.msg5Count !=0 ">
+                        <view class="card-commentCount">{{this.msg5Count}}</view>
+                    </view>
                 </view>
-
             </view>
-<!--            <view>{{this.announcement3}}</view>-->
-<!--                            <view>{{this.announcement5}}</view>-->
-<!--                            <view>{{this.announcement4}}</view>-->
         </view>
+
         <bottomTab PageCur="message"></bottomTab>
     </view>
 
@@ -50,8 +51,8 @@
         name: 'message',
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
-          bottomTab,
-          commonTab,
+            bottomTab,
+            commonTab,
         },
         data() {
             return {
@@ -60,12 +61,12 @@
                 announcement3: [],
                 announcement4: [],
                 announcement5: [],
-               // msg1Count: "0",
-               // msg2Count: "0",
+                // msg1Count: "0",
+                // msg2Count: "0",
                 msg3Count: '0',
                 msg4Count: '0',
                 msg5Count: '0',
-               // msg1Title: "通知(0)",
+                // msg1Title: "通知(0)",
                 //msg2Title: "",
                 msg3Title: '',
                 msg4Title: '',
@@ -167,6 +168,7 @@
     };
 </script>
 
+
 <style lang="scss" scoped>
 
     .container{
@@ -193,12 +195,33 @@
                 margin-bottom: 30rpx; /*盒子间的距离*/
                 margin-left: 50rpx;
 
-                .card-loveCount {
+                .card-love {
                     font-weight: bold;
                     //display: inline-block;
                     //margin-bottom: 30rpx; /*盒子间的距离*/
                     margin-left: -20rpx;
                     margin-top: 40rpx;
+                }
+                .card-loveCount {
+                    font-weight: bold;
+                    //display: inline-block;
+                    //margin-bottom: 30rpx; /*盒子间的距离*/
+                    //position: absolute; //绝对定位
+                    //margin-left: 85rpx;
+                    //margin-top: -130rpx;
+                    color: white;
+                }
+                .card-love-back {
+                    //height: 30rpx;
+                    // width: 30rpx;
+                    border-radius: 50%;
+                    background: red;
+                    position: absolute; //绝对定位
+                    margin-left: 85rpx;
+                    margin-top: -130rpx;
+                    text-align: center;
+                    //line-height: 30rpx;
+                    padding: 10rpx 20rpx;//上下左右
                 }
             }
 
@@ -208,13 +231,34 @@
                 margin-bottom: 30rpx; /*盒子间的距离*/
                 margin-left: 160rpx;
 
-                .card-focusCount {
+                .card-focus {
                     font-weight: bold;
                     //display: inline-block;
                     //margin-bottom: 30rpx; /*盒子间的距离*/
                     margin-left: -20rpx;
                     margin-top: 40rpx;
                 }
+                .card-focusCount {
+                    font-weight: bold;
+                    //position: absolute; //绝对定位
+                    //margin-left: 85rpx;
+                    //margin-top: -130rpx;
+                    color: white;
+                }
+                .card-focus-back {
+                    //height: 30rpx;
+                    // width: 30rpx;
+                    border-radius: 50%;
+                    background: red;
+                    position: absolute; //绝对定位
+                    margin-left: 85rpx;
+                    margin-top: -130rpx;
+                    text-align: center;
+                    //line-height: 30rpx;
+                    padding: 10rpx 20rpx;//上下左右
+                }
+
+
             }
 
             .card-commentMessage {
@@ -223,12 +267,31 @@
                 margin-bottom: 30rpx; /*盒子间的距离*/
                 margin-left: 160rpx;
 
-                .card-commentCount {
+                .card-comment {
                     font-weight: bold;
                     //display: inline-block;
                     //margin-bottom: 30rpx; /*盒子间的距离*/
                     margin-left: -20rpx;
                     margin-top: 40rpx;
+                }
+                .card-commentCount {
+                    font-weight: bold;
+                    //position: absolute; //绝对定位
+                    //margin-left: 85rpx;
+                    //margin-top: -130rpx;
+                    color: white;
+                }
+                .card-comment-back {
+                    //height: 30rpx;
+                    // width: 30rpx;
+                    border-radius: 50%;
+                    background: red;
+                    position: absolute; //绝对定位
+                    margin-left: 85rpx;
+                    margin-top: -130rpx;
+                    text-align: center;
+                    //line-height: 30rpx;
+                    padding: 10rpx 20rpx;//上下左右
                 }
             }
         }

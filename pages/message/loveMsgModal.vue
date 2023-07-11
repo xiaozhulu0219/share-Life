@@ -1,14 +1,11 @@
 <template>
     <!--消息页-->
     <view class="container">
-        <!--        <cu-custom :bgColor="NavBarColor" style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">-->
-        <!--            <block slot="backText"></block>-->
-        <!--            <block slot="right" style="margin-left: 2000rpx"> 获赞消息</block>-->
-        <!--        </cu-custom>-->
-        <cu-custom :bgColor="NavBarColor" :isBack="true">
-            <block slot="backText"></block>
-            <block slot="content">获赞消息</block>
-        </cu-custom>
+        <commonTab :isBack="true" :backRouterName="backRouteName">
+            <block slot="title">
+                获赞消息
+            </block>
+        </commonTab>
 
         <view class="list-wrap">
             <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
@@ -41,11 +38,13 @@
     import Mixin from '@/common/mixin/Mixin.js';
     import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
     import configService from '@/common/service/config.service.js'
+    import commonTab from '../component/commonTab.vue';
 
     export default {
         name: 'loveMsgModal',
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
-        components: {},
+        components: {
+            commonTab},
         data() {
             return {
                 pageInfo: {
@@ -54,7 +53,7 @@
                 },
                 hasNext: true,
                 isDownLoading: false,
-                backRouteName: 'index',
+                backRouteName: 'message',
                 myLoveMsg: [],
                 fileUrl: configService.fileSaveURL,
                 getMyLoveMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyLoveMsgAnnouncementSend",
@@ -199,14 +198,16 @@
 
     .list-wrap {
         height: calc(100vh - 280rpx);
+        margin-top: 100rpx; /*盒子距离顶部的距离*/
     }
+
     .card {
         background-color:  #fff;
-        padding: 20rpx 20rpx;
+        //padding: 20rpx 20rpx;
         border-radius: 20rpx;
         margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 100rpx; /*盒子距离顶部的距离*/
-        line-height: 35rpx; /*行高*/
+        margin-top: 10rpx; /*盒子距离顶部的距离*/
+        line-height: 85rpx; /*行高*/
     }
 
     .card-avatar {
@@ -226,8 +227,8 @@
         max-width: 55px;
         width: 55px;
         width: expression(this.width > 55 ? "55px" : this.width);
-        height: 55px;
-        height: expression(this.height > 55 ? "55px" : this.height);
+        height: 100px;
+        height: expression(this.height > 100 ? "100px" : this.height);
         position: absolute;
         font-size: 20rpx;
         //margin-top: 1rpx;
@@ -235,10 +236,10 @@
         //margin-left: 2rpx;
     }
 
-    .detail {
-        padding: 30rpx;
-        border-bottom: #eee solid 1rpx;
-    }
+    /*.detail {*/
+    /*    padding: 30rpx;*/
+    /*    border-bottom: #eee solid 1rpx;*/
+    /*}*/
 
     .detail-title {
         //display: flex;
@@ -257,7 +258,6 @@
         flex-direction: column;
         align-items: flex-start;
     }
-
 
     .detail-icon {
         width: 40rpx;
@@ -278,6 +278,7 @@
         text-align: center;
         padding: 4rpx;
     }
+
     .noMore {
         color: #ccc;
     }
