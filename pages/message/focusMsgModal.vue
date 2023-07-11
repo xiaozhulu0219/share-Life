@@ -9,7 +9,6 @@
         </commonTab>
         <view class="list-wrap">
             <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
-
             <view v-for="(item,index) in this.myFocusMsg" :key="index" class="card">
                 <view class="detail-title">
                     <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toMemberdetail(item.uuId)"></image>
@@ -32,12 +31,11 @@
                         <button class="edit text-sm" @click="unFocusUser(item.uuId)" v-else-if="item.iffocus == 3">
                             互相关注
                         </button>
-
                     </view>
                 </view>
             </view>
                 <view v-if='isDownLoading' class="load-text">加载中....</view>
-                <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
+                <view v-if="!isDownLoading && !hasNext" class="noMore">---多多互动，才会收获更多的关注呦---</view>
             </scroll-view>
         </view>
     </view>
