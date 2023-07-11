@@ -40,7 +40,8 @@
                 fileUrl: configService.fileSaveURL
             };
         },
-        activated() {
+        created() {
+        // activated() {
             console.log(9999);
             this.getHomePublishInforList();
         },
