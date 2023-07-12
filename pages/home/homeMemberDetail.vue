@@ -64,7 +64,7 @@
                         <text :class="activeTab === index ? 'active' : ''">{{item.name}}</text>
                     </view>
                 </view>
-                <swiper :current="activeTab" class="padding" style="height: 100%;">
+                <swiper :current="activeTab" class="padding" style="height: 100%;" @change="changeSwiper">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
 
                         <view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde" class="card-PublishInfor"
@@ -185,6 +185,10 @@
             this.queryHelpComNumByUuId(item);
         },
         methods: {
+            changeSwiper(e) {
+                const curTab = e.detail.current;
+                this.activeTab = curTab;
+            },
             scan() {
                 console.log('进来了');
                 // #ifndef H5
