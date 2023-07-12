@@ -14,6 +14,7 @@
                     <view class="img" @tap="changeAvatar">
                         <!--	<img src="../../static/avatar_boy.png" mode="" class="png round" style="width: 90px;height: 90px;top: 20%;left: 50%;"></img>-->
                         <image class="cu-avatar round sm" :src="fileUrl+personalMsg.avatar" alt="" style="width: 90px;height: 90px;top: 20%;left: 50%;"></image>
+                        <text class="cuIcon-cameraaddfill cameraadd"></text>
                     </view>
                 </view>
             </view>
@@ -344,5 +345,17 @@
 
     .img {
         cursor: pointer;
+        margin-top: -45rpx;
     }
+
+    .cameraadd {
+        //cursor: pointer;
+        margin-top: -20rpx;
+        border-radius: 50%;
+        margin-left: 255rpx;
+        //margin-right: 255rpx;
+        margin-bottom: 20rpx;
+
+    }
+
 </style>
