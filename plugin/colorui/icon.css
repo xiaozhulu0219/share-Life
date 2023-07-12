@@ -41,1186 +41,1487 @@
 	/* iOS 4.1- */
 }
 
-.cuIcon-appreciate:before {
-	content: "\e644";
-}
-
-.cuIcon-check:before {
-	content: "\e645";
-}
-
-.cuIcon-close:before {
-	content: "\e646";
-}
-
+/* 编辑图标 */
 .cuIcon-edit:before {
 	content: "\e649";
 }
 
-.cuIcon-emoji:before {
-	content: "\e64a";
-}
-
+/* 五角星图标 */
 .cuIcon-favorfill:before {
 	content: "\e64b";
 }
 
+/* 五角星图标 */
 .cuIcon-favor:before {
 	content: "\e64c";
 }
 
-.cuIcon-loading:before {
-	content: "\e64f";
-}
-
+/* 定位图标 */
 .cuIcon-locationfill:before {
 	content: "\e650";
 }
 
+/* 定位图标 */
 .cuIcon-location:before {
 	content: "\e651";
 }
 
-.cuIcon-phone:before {
-	content: "\e652";
+/* 关闭图标 */
+.cuIcon-close:before {
+	content: "\e646";
 }
 
-.cuIcon-roundcheckfill:before {
-	content: "\e656";
-}
-
-.cuIcon-roundcheck:before {
-	content: "\e657";
-}
-
+/* 圆圈中间关闭标志图标 */
 .cuIcon-roundclosefill:before {
 	content: "\e658";
 }
 
+/* 圆圈中间关闭标志图标 */
 .cuIcon-roundclose:before {
 	content: "\e659";
 }
 
-.cuIcon-roundrightfill:before {
-	content: "\e65a";
-}
-
-.cuIcon-roundright:before {
-	content: "\e65b";
-}
-
-.cuIcon-search:before {
-	content: "\e65c";
-}
-
+/* 出租车图标 */
 .cuIcon-taxi:before {
 	content: "\e65d";
 }
 
+/* 时钟，表，时间图标 */
 .cuIcon-timefill:before {
 	content: "\e65e";
 }
 
+/* 时钟，表，时间图标 */
 .cuIcon-time:before {
 	content: "\e65f";
 }
 
-.cuIcon-unfold:before {
-	content: "\e661";
-}
-
+/* 警告图标 */
 .cuIcon-warnfill:before {
 	content: "\e662";
 }
 
+/* 警告图标 */
 .cuIcon-warn:before {
 	content: "\e663";
 }
 
-.cuIcon-camerafill:before {
-	content: "\e664";
-}
-
-.cuIcon-camera:before {
-	content: "\e665";
-}
-
+/* 评论，消息图标 */
 .cuIcon-commentfill:before {
 	content: "\e666";
 }
 
+/* 评论，消息图标 */
 .cuIcon-comment:before {
 	content: "\e667";
 }
 
+/* 喜欢，点赞图标 */
 .cuIcon-likefill:before {
 	content: "\e668";
 }
 
+/* 喜欢，点赞图标 */
 .cuIcon-like:before {
 	content: "\e669";
 }
 
-.cuIcon-notificationfill:before {
-	content: "\e66a";
-}
-
-.cuIcon-notification:before {
-	content: "\e66b";
-}
-
+/* 秩序，上下箭头 图标 */
 .cuIcon-order:before {
 	content: "\e66c";
 }
 
+/* 啥也不像图标 */
 .cuIcon-samefill:before {
 	content: "\e66d";
 }
 
+/* 啥也不像图标 */
 .cuIcon-same:before {
 	content: "\e66e";
 }
 
-.cuIcon-deliver:before {
-	content: "\e671";
-}
-
+/* 一朵花图标 */
 .cuIcon-evaluate:before {
 	content: "\e672";
 }
 
+/* 支付图标-啥也不像 */
 .cuIcon-pay:before {
 	content: "\e673";
 }
 
+/* 类似发送邮件的图标 */
 .cuIcon-send:before {
 	content: "\e675";
 }
 
-.cuIcon-shop:before {
-	content: "\e676";
-}
-
+/* 车票图标 */
 .cuIcon-ticket:before {
 	content: "\e677";
 }
 
-.cuIcon-back:before {
-	content: "\e679";
-}
-
-.cuIcon-cascades:before {
-	content: "\e67c";
-}
-
-.cuIcon-discover:before {
-	content: "\e67e";
-}
-
-.cuIcon-list:before {
-	content: "\e682";
-}
-
-.cuIcon-more:before {
-	content: "\e684";
-}
-
+/* 扫描二维码图标 */
 .cuIcon-scan:before {
 	content: "\e689";
 }
 
-.cuIcon-settings:before {
-	content: "\e68a";
-}
-
+/* 疑问，问题图标 */
 .cuIcon-questionfill:before {
 	content: "\e690";
 }
 
+/* 疑问，问题图标 */
 .cuIcon-question:before {
 	content: "\e691";
 }
 
-.cuIcon-shopfill:before {
-	content: "\e697";
-}
-
-.cuIcon-form:before {
-	content: "\e699";
-}
-
-.cuIcon-pic:before {
-	content: "\e69b";
-}
-
+/* 漏斗，过滤器图标 */
 .cuIcon-filter:before {
 	content: "\e69c";
 }
 
+/* 脚印图标 */
 .cuIcon-footprint:before {
 	content: "\e69d";
 }
 
-.cuIcon-top:before {
-	content: "\e69e";
-}
-
-.cuIcon-pulldown:before {
-	content: "\e69f";
-}
-
-.cuIcon-pullup:before {
-	content: "\e6a0";
-}
-
-.cuIcon-right:before {
-	content: "\e6a3";
-}
-
+/* 刷新图标 */
 .cuIcon-refresh:before {
 	content: "\e6a4";
 }
 
-.cuIcon-moreandroid:before {
-	content: "\e6a5";
-}
-
-.cuIcon-deletefill:before {
-	content: "\e6a6";
-}
-
-.cuIcon-refund:before {
-	content: "\e6ac";
-}
-
-.cuIcon-cart:before {
-	content: "\e6af";
-}
-
+/* 二维码图标 */
 .cuIcon-qrcode:before {
 	content: "\e6b0";
 }
 
+/* 像二维码图标 */
+.cuIcon-list:before {
+	content: "\e682";
+}
+
+/* 像二维码图标 */
+.cuIcon-cascades:before {
+	content: "\e67c";
+}
+
+/* 闹钟，提醒，响铃图标 */
 .cuIcon-remind:before {
 	content: "\e6b2";
 }
 
+/* 删除图标 */
 .cuIcon-delete:before {
 	content: "\e6b4";
 }
 
-.cuIcon-profile:before {
-	content: "\e6b7";
+/* 删除图标 */
+.cuIcon-deletefill:before {
+	content: "\e6a6";
 }
 
-.cuIcon-home:before {
-	content: "\e6b8";
+/* 购物车 */
+.cuIcon-cart:before {
+	content: "\e6af";
 }
 
+/* 购物车 */
 .cuIcon-cartfill:before {
 	content: "\e6b9";
 }
 
+/* 发现星球图标 */
+.cuIcon-discover:before {
+	content: "\e67e";
+}
+
+/* 发现星球图标 */
 .cuIcon-discoverfill:before {
 	content: "\e6ba";
 }
 
+/* 首页图标 */
+.cuIcon-home:before {
+	content: "\e6b8";
+}
+
+/* 首页图标 */
 .cuIcon-homefill:before {
 	content: "\e6bb";
 }
 
-.cuIcon-message:before {
-	content: "\e6bc";
-}
 
+/* 通讯录图标 */
 .cuIcon-addressbook:before {
 	content: "\e6bd";
 }
 
+/* 链接图标 */
 .cuIcon-link:before {
 	content: "\e6bf";
 }
 
+/* 上锁 */
 .cuIcon-lock:before {
 	content: "\e6c0";
 }
 
+/* 解锁图标 */
 .cuIcon-unlock:before {
 	content: "\e6c2";
 }
 
+/* vip图标 */
 .cuIcon-vip:before {
 	content: "\e6c3";
 }
 
+/* 新浪微博图标 */
 .cuIcon-weibo:before {
 	content: "\e6c4";
 }
 
-.cuIcon-activity:before {
-	content: "\e6c5";
-}
-
-.cuIcon-friendaddfill:before {
-	content: "\e6c9";
-}
-
-.cuIcon-friendadd:before {
-	content: "\e6ca";
-}
-
-.cuIcon-friendfamous:before {
-	content: "\e6cb";
-}
-
-.cuIcon-friend:before {
-	content: "\e6cc";
-}
-
-.cuIcon-goods:before {
-	content: "\e6cd";
-}
-
-.cuIcon-selection:before {
-	content: "\e6ce";
-}
-
-.cuIcon-explore:before {
-	content: "\e6d2";
-}
-
-.cuIcon-present:before {
-	content: "\e6d3";
-}
-
-.cuIcon-squarecheckfill:before {
-	content: "\e6d4";
-}
-
+/* 方形图标 */
 .cuIcon-square:before {
 	content: "\e6d5";
 }
 
+/* 方形中间有个√图标 */
 .cuIcon-squarecheck:before {
 	content: "\e6d6";
 }
 
+/* √图标，对钩。√ 正确，勾  */
+.cuIcon-check:before {
+	content: "\e645";
+}
+
+/* 检查，圆形中间有个√图标 */
+.cuIcon-roundcheckfill:before {
+	content: "\e656";
+}
+
+/* 检查，圆形中间有个√图标 */
+.cuIcon-roundcheck:before {
+	content: "\e657";
+}
+
+/* 方形中间有个√图标 */
+.cuIcon-squarecheckfill:before {
+	content: "\e6d4";
+}
+
+/* 圆圈图标 */
 .cuIcon-round:before {
 	content: "\e6d7";
 }
 
+/* 类似于发布键的圆形加号图标 */
 .cuIcon-roundaddfill:before {
 	content: "\e6d8";
 }
 
+/* 类似于发布键的圆形加号图标 */
 .cuIcon-roundadd:before {
 	content: "\e6d9";
 }
 
+/* 类似于发布键的加号图标 */
 .cuIcon-add:before {
 	content: "\e6da";
 }
 
-.cuIcon-notificationforbidfill:before {
-	content: "\e6db";
+/* 望远镜 */
+.cuIcon-explore:before {
+	content: "\e6d2";
 }
 
+/* 望远镜 */
 .cuIcon-explorefill:before {
 	content: "\e6dd";
 }
 
-.cuIcon-fold:before {
-	content: "\e6de";
-}
-
+/* 游戏手柄图标 */
 .cuIcon-game:before {
 	content: "\e6df";
 }
 
-.cuIcon-redpacket:before {
-	content: "\e6e0";
+/* 选择图标 */
+.cuIcon-selection:before {
+	content: "\e6ce";
 }
 
+/* 选择图标 */
 .cuIcon-selectionfill:before {
 	content: "\e6e1";
 }
 
-.cuIcon-similar:before {
-	content: "\e6e2";
-}
-
+/* 点赞图标 */
 .cuIcon-appreciatefill:before {
 	content: "\e6e3";
 }
 
+/* 点赞图标 */
+.cuIcon-appreciate:before {
+	content: "\e644";
+}
+
+/* 信息，消息图标 */
 .cuIcon-infofill:before {
 	content: "\e6e4";
 }
 
+/* 信息，消息图标 */
 .cuIcon-info:before {
 	content: "\e6e5";
 }
 
-.cuIcon-forwardfill:before {
-	content: "\e6ea";
+/* 消息图标 */
+.cuIcon-message:before {
+	content: "\e6bc";
 }
 
-.cuIcon-forward:before {
-	content: "\e6eb";
-}
-
-.cuIcon-rechargefill:before {
-	content: "\e6ec";
-}
-
-.cuIcon-recharge:before {
-	content: "\e6ed";
-}
-
-.cuIcon-vipcard:before {
-	content: "\e6ee";
-}
-
+/* 话筒图标 */
 .cuIcon-voice:before {
 	content: "\e6ef";
 }
 
+/* 话筒图标 */
 .cuIcon-voicefill:before {
 	content: "\e6f0";
 }
 
-.cuIcon-friendfavor:before {
-	content: "\e6f1";
-}
-
+/* 无线网 wifi图标 */
 .cuIcon-wifi:before {
 	content: "\e6f2";
 }
 
+/* 分享图标 */
 .cuIcon-share:before {
 	content: "\e6f3";
 }
 
-.cuIcon-wefill:before {
-	content: "\e6f4";
-}
-
-.cuIcon-we:before {
-	content: "\e6f5";
-}
-
+/* 闪电图标-自动 */
 .cuIcon-lightauto:before {
 	content: "\e6f6";
 }
 
+/* 闪电图标--禁止 */
 .cuIcon-lightforbid:before {
 	content: "\e6f7";
 }
 
+/* 闪电图标 */
 .cuIcon-lightfill:before {
 	content: "\e6f8";
 }
 
-.cuIcon-camerarotate:before {
-	content: "\e6f9";
-}
-
+/* 闪电图标 */
 .cuIcon-light:before {
 	content: "\e6fa";
 }
 
+/* 条形码图标 */
 .cuIcon-barcode:before {
 	content: "\e6fb";
 }
 
+/* 关闭手电筒图标 */
 .cuIcon-flashlightclose:before {
 	content: "\e6fc";
 }
 
+/* 打开手电筒图标 */
 .cuIcon-flashlightopen:before {
 	content: "\e6fd";
 }
 
+/* 搜索图标 */
 .cuIcon-searchlist:before {
 	content: "\e6fe";
 }
 
-.cuIcon-service:before {
-	content: "\e6ff";
+/* 搜索图标 */
+.cuIcon-search:before {
+	content: "\e65c";
 }
 
+/* 排序图标 */
 .cuIcon-sort:before {
 	content: "\e700";
 }
 
-.cuIcon-down:before {
-	content: "\e703";
-}
-
-.cuIcon-mobile:before {
-	content: "\e704";
-}
-
-.cuIcon-mobilefill:before {
-	content: "\e705";
-}
-
+/* 复制图标 */
 .cuIcon-copy:before {
 	content: "\e706";
 }
 
+/* 秒表图标 */
 .cuIcon-countdownfill:before {
 	content: "\e707";
 }
 
+/* 秒表图标 */
 .cuIcon-countdown:before {
 	content: "\e708";
 }
 
-.cuIcon-noticefill:before {
-	content: "\e709";
-}
-
-.cuIcon-notice:before {
-	content: "\e70a";
-}
-
+/* 奖杯图标 */
 .cuIcon-upstagefill:before {
 	content: "\e70e";
 }
 
+/* 奖杯图标 */
 .cuIcon-upstage:before {
 	content: "\e70f";
 }
 
+/* 奶瓶图标 */
 .cuIcon-babyfill:before {
 	content: "\e710";
 }
 
+/* 奶瓶图标 */
 .cuIcon-baby:before {
 	content: "\e711";
 }
 
+/* 品牌图标--黑色 */
 .cuIcon-brandfill:before {
 	content: "\e712";
 }
 
+/* 品牌图标 */
 .cuIcon-brand:before {
 	content: "\e713";
 }
 
+/* 像钻石图标 */
 .cuIcon-choicenessfill:before {
 	content: "\e714";
 }
 
+/* 像钻石图标 */
 .cuIcon-choiceness:before {
 	content: "\e715";
 }
 
+/* 衣服图标--黑色 */
 .cuIcon-clothesfill:before {
 	content: "\e716";
 }
 
+/* 衣服图标 */
 .cuIcon-clothes:before {
 	content: "\e717";
 }
 
+/* 电灯泡图标--黑色 */
 .cuIcon-creativefill:before {
 	content: "\e718";
 }
 
+/* 电灯泡图标 */
 .cuIcon-creative:before {
 	content: "\e719";
 }
 
-.cuIcon-female:before {
-	content: "\e71a";
-}
-
+/* 键盘图标 */
 .cuIcon-keyboard:before {
 	content: "\e71b";
 }
 
+/* 女人的图标 */
+.cuIcon-female:before {
+	content: "\e71a";
+}
+
+/* 男人的图标 */
 .cuIcon-male:before {
 	content: "\e71c";
 }
 
-.cuIcon-newfill:before {
-	content: "\e71d";
-}
-
-.cuIcon-new:before {
-	content: "\e71e";
-}
-
-.cuIcon-pullleft:before {
-	content: "\e71f";
-}
-
-.cuIcon-pullright:before {
-	content: "\e720";
-}
-
-.cuIcon-rankfill:before {
-	content: "\e721";
-}
-
-.cuIcon-rank:before {
-	content: "\e722";
-}
-
+/* 花枯萎，花蔫了的图标图标 */
 .cuIcon-bad:before {
 	content: "\e723";
 }
 
-.cuIcon-cameraadd:before {
-	content: "\e724";
-}
-
+/* 像射击的瞄准镜口图标 */
 .cuIcon-focus:before {
 	content: "\e725";
 }
 
-.cuIcon-friendfill:before {
-	content: "\e726";
+/* 照相机图标--黑色 */
+.cuIcon-camerafill:before {
+	content: "\e664";
 }
 
+/* 照相机图标 */
+.cuIcon-camera:before {
+	content: "\e665";
+}
+
+/* 照相机旋转图标 */
+.cuIcon-camerarotate:before {
+	content: "\e6f9";
+}
+
+/* 新增，照相机图标 */
+.cuIcon-cameraadd:before {
+	content: "\e724";
+}
+
+/* 新增，照相机图标--黑色 */
 .cuIcon-cameraaddfill:before {
 	content: "\e727";
 }
 
+/* 四个方块，应用，app图标 */
 .cuIcon-apps:before {
 	content: "\e729";
 }
 
+/* 油漆刷子，粉刷图标--黑色 */
 .cuIcon-paintfill:before {
 	content: "\e72a";
 }
 
+/* 油漆刷子，粉刷图标 */
 .cuIcon-paint:before {
 	content: "\e72b";
 }
 
-.cuIcon-picfill:before {
-	content: "\e72c";
+/* 礼物，包装盒图标 */
+.cuIcon-present:before {
+	content: "\e6d3";
 }
 
-.cuIcon-refresharrow:before {
-	content: "\e72d";
-}
-
-.cuIcon-colorlens:before {
-	content: "\e6e6";
-}
-
-.cuIcon-markfill:before {
-	content: "\e730";
-}
-
-.cuIcon-mark:before {
-	content: "\e731";
-}
-
+/* 礼物，包装盒图标--黑色 */
 .cuIcon-presentfill:before {
 	content: "\e732";
 }
 
+/* 调转车头，掉头线标志图标 */
 .cuIcon-repeal:before {
 	content: "\e733";
 }
 
+/* 专辑，图库，相册图标 */
 .cuIcon-album:before {
 	content: "\e734";
 }
 
-.cuIcon-peoplefill:before {
-	content: "\e735";
+/* 图片，图库，照片图标 */
+.cuIcon-pic:before {
+	content: "\e69b";
 }
 
-.cuIcon-people:before {
-	content: "\e736";
+/* 图片，图库，照片图标--黑色 */
+.cuIcon-picfill:before {
+	content: "\e72c";
+}
+/* 客服图标 */
+.cuIcon-service:before {
+	content: "\e6ff";
 }
 
+/* 客服图标--黑色 */
 .cuIcon-servicefill:before {
 	content: "\e737";
 }
 
-.cuIcon-repair:before {
-	content: "\e738";
-}
-
+/* 文件袋图标 */
 .cuIcon-file:before {
 	content: "\e739";
 }
 
+/* 工具，修复，修补，设置图标 */
+.cuIcon-repair:before {
+	content: "\e738";
+}
+
+/* 工具，修复，修补，设置图标--黑色 */
 .cuIcon-repairfill:before {
 	content: "\e73a";
 }
 
-.cuIcon-taoxiaopu:before {
-	content: "\e73b";
+/* 设置图标 */
+.cuIcon-settings:before {
+	content: "\e68a";
 }
 
-.cuIcon-weixin:before {
-	content: "\e612";
-}
-
-.cuIcon-attentionfill:before {
-	content: "\e73c";
-}
-
-.cuIcon-attention:before {
-	content: "\e73d";
-}
-
-.cuIcon-commandfill:before {
-	content: "\e73e";
-}
-
-.cuIcon-command:before {
-	content: "\e73f";
-}
-
-.cuIcon-communityfill:before {
-	content: "\e740";
-}
-
-.cuIcon-community:before {
-	content: "\e741";
-}
-
-.cuIcon-read:before {
-	content: "\e742";
-}
-
-.cuIcon-calendar:before {
-	content: "\e74a";
-}
-
-.cuIcon-cut:before {
-	content: "\e74b";
-}
-
-.cuIcon-magic:before {
-	content: "\e74c";
-}
-
-.cuIcon-backwardfill:before {
-	content: "\e74d";
-}
-
-.cuIcon-playfill:before {
-	content: "\e74f";
-}
-
-.cuIcon-stop:before {
-	content: "\e750";
-}
-
-.cuIcon-tagfill:before {
-	content: "\e751";
-}
-
-.cuIcon-tag:before {
-	content: "\e752";
-}
-
-.cuIcon-group:before {
-	content: "\e753";
-}
-
-.cuIcon-all:before {
-	content: "\e755";
-}
-
-.cuIcon-backdelete:before {
-	content: "\e756";
-}
-
-.cuIcon-hotfill:before {
-	content: "\e757";
-}
-
-.cuIcon-hot:before {
-	content: "\e758";
-}
-
-.cuIcon-post:before {
-	content: "\e759";
-}
-
-.cuIcon-radiobox:before {
-	content: "\e75b";
-}
-
-.cuIcon-rounddown:before {
-	content: "\e75c";
-}
-
-.cuIcon-upload:before {
-	content: "\e75d";
-}
-
-.cuIcon-writefill:before {
-	content: "\e760";
-}
-
-.cuIcon-write:before {
-	content: "\e761";
-}
-
-.cuIcon-radioboxfill:before {
-	content: "\e763";
-}
-
-.cuIcon-punch:before {
-	content: "\e764";
-}
-
-.cuIcon-shake:before {
-	content: "\e765";
-}
-
-.cuIcon-move:before {
-	content: "\e768";
-}
-
-.cuIcon-safe:before {
-	content: "\e769";
-}
-
-.cuIcon-activityfill:before {
-	content: "\e775";
-}
-
-.cuIcon-crownfill:before {
-	content: "\e776";
-}
-
-.cuIcon-crown:before {
-	content: "\e777";
-}
-
-.cuIcon-goodsfill:before {
-	content: "\e778";
-}
-
-.cuIcon-messagefill:before {
-	content: "\e779";
-}
-
-.cuIcon-profilefill:before {
-	content: "\e77a";
-}
-
-.cuIcon-sound:before {
-	content: "\e77b";
-}
-
-.cuIcon-sponsorfill:before {
-	content: "\e77c";
-}
-
-.cuIcon-sponsor:before {
-	content: "\e77d";
-}
-
-.cuIcon-upblock:before {
-	content: "\e77e";
-}
-
-.cuIcon-weblock:before {
-	content: "\e77f";
-}
-
-.cuIcon-weunblock:before {
-	content: "\e780";
-}
-
-.cuIcon-my:before {
-	content: "\e78b";
-}
-
-.cuIcon-myfill:before {
-	content: "\e78c";
-}
-
-.cuIcon-emojifill:before {
-	content: "\e78d";
-}
-
-.cuIcon-emojiflashfill:before {
-	content: "\e78e";
-}
-
-.cuIcon-flashbuyfill:before {
-	content: "\e78f";
-}
-
-.cuIcon-text:before {
-	content: "\e791";
-}
-
-.cuIcon-goodsfavor:before {
-	content: "\e794";
-}
-
-.cuIcon-musicfill:before {
-	content: "\e795";
-}
-
-.cuIcon-musicforbidfill:before {
-	content: "\e796";
-}
-
-.cuIcon-card:before {
-	content: "\e624";
-}
-
-.cuIcon-triangledownfill:before {
-	content: "\e79b";
-}
-
-.cuIcon-triangleupfill:before {
-	content: "\e79c";
-}
-
-.cuIcon-roundleftfill-copy:before {
-	content: "\e79e";
-}
-
-.cuIcon-font:before {
-	content: "\e76a";
-}
-
-.cuIcon-title:before {
-	content: "\e82f";
-}
-
-.cuIcon-recordfill:before {
-	content: "\e7a4";
-}
-
-.cuIcon-record:before {
-	content: "\e7a6";
-}
-
-.cuIcon-cardboardfill:before {
-	content: "\e7a9";
-}
-
-.cuIcon-cardboard:before {
-	content: "\e7aa";
-}
-
-.cuIcon-formfill:before {
-	content: "\e7ab";
-}
-
-.cuIcon-coin:before {
-	content: "\e7ac";
-}
-
-.cuIcon-cardboardforbid:before {
-	content: "\e7af";
-}
-
-.cuIcon-circlefill:before {
-	content: "\e7b0";
-}
-
-.cuIcon-circle:before {
-	content: "\e7b1";
-}
-
-.cuIcon-attentionforbid:before {
-	content: "\e7b2";
-}
-
-.cuIcon-attentionforbidfill:before {
-	content: "\e7b3";
-}
-
-.cuIcon-attentionfavorfill:before {
-	content: "\e7b4";
-}
-
-.cuIcon-attentionfavor:before {
-	content: "\e7b5";
-}
-
-.cuIcon-titles:before {
-	content: "\e701";
-}
-
-.cuIcon-icloading:before {
-	content: "\e67a";
-}
-
-.cuIcon-full:before {
-	content: "\e7bc";
-}
-
-.cuIcon-mail:before {
-	content: "\e7bd";
-}
-
-.cuIcon-peoplelist:before {
-	content: "\e7be";
-}
-
-.cuIcon-goodsnewfill:before {
-	content: "\e7bf";
-}
-
-.cuIcon-goodsnew:before {
-	content: "\e7c0";
-}
-
-.cuIcon-medalfill:before {
-	content: "\e7c1";
-}
-
-.cuIcon-medal:before {
-	content: "\e7c2";
-}
-
-.cuIcon-newsfill:before {
-	content: "\e7c3";
-}
-
-.cuIcon-newshotfill:before {
-	content: "\e7c4";
-}
-
-.cuIcon-newshot:before {
-	content: "\e7c5";
-}
-
-.cuIcon-news:before {
-	content: "\e7c6";
-}
-
-.cuIcon-videofill:before {
-	content: "\e7c7";
-}
-
-.cuIcon-video:before {
-	content: "\e7c8";
-}
-
-.cuIcon-exit:before {
-	content: "\e7cb";
-}
-
-.cuIcon-skinfill:before {
-	content: "\e7cc";
-}
-
-.cuIcon-skin:before {
-	content: "\e7cd";
-}
-
-.cuIcon-moneybagfill:before {
-	content: "\e7ce";
-}
-
-.cuIcon-usefullfill:before {
-	content: "\e7cf";
-}
-
-.cuIcon-usefull:before {
-	content: "\e7d0";
-}
-
-.cuIcon-moneybag:before {
-	content: "\e7d1";
-}
-
-.cuIcon-redpacket_fill:before {
-	content: "\e7d3";
-}
-
-.cuIcon-subscription:before {
-	content: "\e7d4";
-}
-
-.cuIcon-loading1:before {
-	content: "\e633";
-}
-
-.cuIcon-github:before {
-	content: "\e692";
-}
-
-.cuIcon-global:before {
-	content: "\e7eb";
-}
-
+/* 设置图标 */
 .cuIcon-settingsfill:before {
 	content: "\e6ab";
 }
 
-.cuIcon-back_android:before {
-	content: "\e7ed";
+/* 淘宝商店店铺标志图标 */
+.cuIcon-taoxiaopu:before {
+	content: "\e73b";
 }
 
+/* 商店图标 */
+.cuIcon-shopfill:before {
+	content: "\e697";
+}
+
+/* 商店图标 */
+.cuIcon-shop:before {
+	content: "\e676";
+}
+
+/* 阅读图标 */
+.cuIcon-read:before {
+	content: "\e742";
+}
+
+/* 日历，文件袋图标 */
+.cuIcon-calendar:before {
+	content: "\e74a";
+}
+
+/* 剪刀图标 */
+.cuIcon-cut:before {
+	content: "\e74b";
+}
+
+/* 魔法棒，魔术图标 */
+.cuIcon-magic:before {
+	content: "\e74c";
+}
+
+/* 打标签图标--黑色 */
+.cuIcon-tagfill:before {
+	content: "\e751";
+}
+
+/* 打标签图标 */
+.cuIcon-tag:before {
+	content: "\e752";
+}
+
+/* 像一款车的标志，四根黑竖线 */
+.cuIcon-all:before {
+	content: "\e755";
+}
+
+/* 两根黑色竖线图标 */
+.cuIcon-stop:before {
+	content: "\e750";
+}
+
+/* 等级，三根竖线图标--黑色 */
+.cuIcon-rankfill:before {
+	content: "\e721";
+}
+
+/* 等级，三根竖线图标 */
+.cuIcon-rank:before {
+	content: "\e722";
+}
+
+/* 竖排三个黑点图标 */
+.cuIcon-moreandroid:before {
+	content: "\e6a5";
+}
+
+/* 横排三个黑点图标 */
+.cuIcon-more:before {
+	content: "\e684";
+}
+
+/* 向后跳转，向前图标 */
+.cuIcon-forward:before {
+	content: "\e6eb";
+}
+
+/* 向后跳转，向前图标 */
+.cuIcon-forwardfill:before {
+	content: "\e6ea";
+}
+
+/* 删除，回退图标 */
+.cuIcon-backdelete:before {
+	content: "\e756";
+}
+
+/* 热火，火焰，热度图标---黑色 */
+.cuIcon-hotfill:before {
+	content: "\e757";
+}
+
+/* 热火，火焰，热度图标 */
+.cuIcon-hot:before {
+	content: "\e758";
+}
+
+/* 写信，编辑图标 */
+.cuIcon-post:before {
+	content: "\e759";
+}
+
+
+/* 黑色笔图标 */
+.cuIcon-writefill:before {
+	content: "\e760";
+}
+
+/* 白色笔图标 */
+.cuIcon-write:before {
+	content: "\e761";
+}
+
+/* 黑圆圈中间一个白孔图标，像射箭的靶子 */
+.cuIcon-radioboxfill:before {
+	content: "\e763";
+}
+
+/* 白色圈中间黑点图标 */
+.cuIcon-radiobox:before {
+	content: "\e75b";
+}
+
+/* 像座机一样的图标，翻译说是打孔 */
+.cuIcon-punch:before {
+	content: "\e764";
+}
+
+/* 手机抖动，震动图标 */
+.cuIcon-shake:before {
+	content: "\e765";
+}
+
+
+/* 安全卫士，网安，像优盾一样的图标 */
+.cuIcon-safe:before {
+	content: "\e769";
+}
+
+/* 活动旗帜图标 */
+.cuIcon-activity:before {
+	content: "\e6c5";
+}
+
+/* 活动旗帜图标 */
+.cuIcon-activityfill:before {
+	content: "\e775";
+}
+
+/* 王冠图标--黑色 */
+.cuIcon-crownfill:before {
+	content: "\e776";
+}
+
+/* 王冠图标 */
+.cuIcon-crown:before {
+	content: "\e777";
+}
+
+/* 捐钱，捐赠的图标--黑色 */
+.cuIcon-sponsorfill:before {
+	content: "\e77c";
+}
+
+/* 捐钱，捐赠的图标 */
+.cuIcon-sponsor:before {
+	content: "\e77d";
+}
+
+/* 类似于回到顶部的图标 */
+.cuIcon-upblock:before {
+	content: "\e77e";
+}
+
+/* 中间像爱心，周围无线信号发射的图标--传播爱的图标 */
+.cuIcon-weblock:before {
+	content: "\e77f";
+}
+
+/* 爱心发散图标 */
+.cuIcon-we:before {
+	content: "\e6f5";
+}
+
+/* 爱心发散图标--黑色 */
+.cuIcon-wefill:before {
+	content: "\e6f4";
+}
+
+/* 中间像爱心，周围无线信号发射的图标--传播爱的图标 */
+.cuIcon-weunblock:before {
+	content: "\e780";
+}
+
+/* 添加好友，人员图标 */
+.cuIcon-friendaddfill:before {
+	content: "\e6c9";
+}
+
+/* 添加好友，人员图标 */
+.cuIcon-friendadd:before {
+	content: "\e6ca";
+}
+
+/* 特殊好友，人员标记，人员图标 */
+.cuIcon-friendfamous:before {
+	content: "\e6cb";
+}
+
+/* 人员图标 */
+.cuIcon-friend:before {
+	content: "\e6cc";
+}
+
+/* 人员图标 */
+.cuIcon-friendfavor:before {
+	content: "\e6f1";
+}
+
+/* 人员图标 */
+.cuIcon-friendfill:before {
+	content: "\e726";
+}
+
+/* 人员图标--黑色 */
+.cuIcon-peoplefill:before {
+	content: "\e735";
+}
+
+/* 人员图标 */
+.cuIcon-people:before {
+	content: "\e736";
+}
+
+/* 通讯录人员图标 */
+.cuIcon-my:before {
+	content: "\e78b";
+}
+
+/* 通讯录人员图标---黑色 */
+.cuIcon-myfill:before {
+	content: "\e78c";
+}
+
+/* 通讯录人员的黑色图标 */
+.cuIcon-profilefill:before {
+	content: "\e77a";
+}
+
+/* 人员图标 */
+.cuIcon-profile:before {
+	content: "\e6b7";
+}
+
+/* 群组，群聊，消息图标图标-黑色 */
+.cuIcon-communityfill:before {
+	content: "\e740";
+}
+
+/* 群组，群聊，消息图标图标 */
+.cuIcon-community:before {
+	content: "\e741";
+}
+
+/* 消息图标 */
+.cuIcon-messagefill:before {
+	content: "\e779";
+}
+
+/* 微信标志，消息标志图标 */
+.cuIcon-weixin:before {
+	content: "\e612";
+}
+
+/* 命令图标，消息中间带个钥匙图标--黑色 */
+.cuIcon-commandfill:before {
+	content: "\e73e";
+}
+
+/* 命令图标，消息中间带个钥匙图标 */
+.cuIcon-command:before {
+	content: "\e73f";
+}
+
+/* 还是像消息一样的图标--黑色 */
+.cuIcon-markfill:before {
+	content: "\e730";
+}
+
+/* 还是像消息一样的图标 */
+.cuIcon-mark:before {
+	content: "\e731";
+}
+
+/* 消息图标--黑色 */
+.cuIcon-newfill:before {
+	content: "\e71d";
+}
+
+/* 消息图标 */
+.cuIcon-new:before {
+	content: "\e71e";
+}
+
+/* 人员群组图标，白色 */
+.cuIcon-group:before {
+	content: "\e753";
+}
+
+/* 好友人员图标 */
+.cuIcon-peoplelist:before {
+	content: "\e7be";
+}
+
+/* 人员销户图标 */
 .cuIcon-expressman:before {
 	content: "\e7ef";
 }
 
+/* emoj笑脸图标 */
+.cuIcon-emoji:before {
+	content: "\e64a";
+}
+
+/* emoj黑色笑脸图标 */
+.cuIcon-emojifill:before {
+	content: "\e78d";
+}
+
+/* emoj黑色笑脸图标 */
+.cuIcon-emojiflashfill:before {
+	content: "\e78e";
+}
+
+/* give me five 的举手图标--黑色 */
+.cuIcon-flashbuyfill:before {
+	content: "\e78f";
+}
+
+/* 信纸一样的图标 */
+.cuIcon-text:before {
+	content: "\e791";
+}
+
+/* 音乐图标--黑色 */
+.cuIcon-musicfill:before {
+	content: "\e795";
+}
+
+/* 禁止音乐图标 */
+.cuIcon-musicforbidfill:before {
+	content: "\e796";
+}
+
+/* 可以代表输入法的图标 */
+.cuIcon-font:before {
+	content: "\e76a";
+}
+
+/* 摄像机图标--黑色 */
+.cuIcon-recordfill:before {
+	content: "\e7a4";
+}
+
+/* 摄像机图标 */
+.cuIcon-record:before {
+	content: "\e7a6";
+}
+
+/* 表单图标--黑色 */
+.cuIcon-formfill:before {
+	content: "\e7ab";
+}
+
+/* 表单图标 */
+.cuIcon-form:before {
+	content: "\e699";
+}
+
+/* 像影院眼镜的图标--黑色 */
+.cuIcon-cardboardfill:before {
+	content: "\e7a9";
+}
+
+/* 像影院眼镜的图标 */
+.cuIcon-cardboard:before {
+	content: "\e7aa";
+}
+
+/* 像禁止影院眼镜的图标 */
+.cuIcon-cardboardforbid:before {
+	content: "\e7af";
+}
+
+/* 像电子秤的四个角的方块图标--黑色 */
+.cuIcon-circlefill:before {
+	content: "\e7b0";
+}
+
+/* 像电子秤的四个角的方块图标 */
+.cuIcon-similar:before {
+	content: "\e6e2";
+}
+
+/* 像电子秤的四个角的方块图标 */
+.cuIcon-circle:before {
+	content: "\e7b1";
+}
+
+/* 禁止看的图标--眼睛画禁止线 */
+.cuIcon-attentionforbid:before {
+	content: "\e7b2";
+}
+
+/* 禁止看的图标--眼睛画禁止线--黑色 */
+.cuIcon-attentionforbidfill:before {
+	content: "\e7b3";
+}
+
+/* 注意图标--眼睛盯着，还有着重符号的图标-黑色 */
+.cuIcon-attentionfavorfill:before {
+	content: "\e7b4";
+}
+
+/* 注意图标--眼睛盯着，还有着重符号的图标 */
+.cuIcon-attentionfavor:before {
+	content: "\e7b5";
+}
+
+/* 盯着看，眼睛图标--黑色 */
+.cuIcon-attentionfill:before {
+	content: "\e73c";
+}
+
+/* 盯着看，眼睛图标 */
+.cuIcon-attention:before {
+	content: "\e73d";
+}
+
+/* 黑点图标--消息中显示评论内容前边的一个黑点图标 */
+.cuIcon-title:before {
+	content: "\e82f";
+}
+
+/* 消息中显示评论内容前边的那个竖杠图标 */
+.cuIcon-titles:before {
+	content: "\e701";
+}
+
+/* 横线图标 */
+.cuIcon-move:before {
+	content: "\e768";
+}
+
+/* 向四周的放大图标 */
+.cuIcon-full:before {
+	content: "\e7bc";
+}
+
+/* 邮件图标 */
+.cuIcon-mail:before {
+	content: "\e7bd";
+}
+
+/* 购物袋，商品的提拉袋图标-黑色 */
+.cuIcon-goodsnewfill:before {
+	content: "\e7bf";
+}
+
+/* 购物袋，商品袋图标--白色 */
+.cuIcon-goodsfavor:before {
+	content: "\e794";
+}
+
+/* 购物袋，商品的提拉袋图标 */
+.cuIcon-goodsnew:before {
+	content: "\e7c0";
+}
+
+/* 购物袋图标--黑色 */
+.cuIcon-goodsfill:before {
+	content: "\e778";
+}
+
+/* 购物袋，袋子图标 */
+.cuIcon-goods:before {
+	content: "\e6cd";
+}
+
+/* 奖牌图标-黑色 */
+.cuIcon-medalfill:before {
+	content: "\e7c1";
+}
+
+/* 奖牌图标 */
+.cuIcon-medal:before {
+	content: "\e7c2";
+}
+
+/* 像日历首页的那种图标-黑色 */
+.cuIcon-newshotfill:before {
+	content: "\e7c4";
+}
+
+/* 像日历首页的那种图标 */
+.cuIcon-newshot:before {
+	content: "\e7c5";
+}
+
+/* 新闻图标-像报纸一样的卡片 */
+.cuIcon-news:before {
+	content: "\e7c6";
+}
+
+/* 新闻图标-像报纸一样的卡片-黑色 */
+.cuIcon-newsfill:before {
+	content: "\e7c3";
+}
+
+/* 卡片，身份证图标 */
+.cuIcon-vipcard:before {
+	content: "\e6ee";
+}
+
+/* 视频图标-黑色 */
+.cuIcon-videofill:before {
+	content: "\e7c7";
+}
+
+/* 视频图标 */
+.cuIcon-video:before {
+	content: "\e7c8";
+}
+
+/* 退出图标 */
+.cuIcon-exit:before {
+	content: "\e7cb";
+}
+
+/* 向下箭头图标 */
+.cuIcon-unfold:before {
+	content: "\e661";
+}
+
+/* 向下箭头图标 */
+.cuIcon-triangledownfill:before {
+	content: "\e79b";
+}
+
+/* 向下的箭头图标 */
+.cuIcon-refresharrow:before {
+	content: "\e72d";
+}
+
+/* 向上箭头的图标 */
+.cuIcon-triangleupfill:before {
+	content: "\e79c";
+}
+
+/* 向右的黑色实心箭头图标 */
+.cuIcon-playfill:before {
+	content: "\e74f";
+}
+
+/* 向左的回退图标 */
+.cuIcon-back:before {
+	content: "\e679";
+}
+
+/* 向左箭头带圆圈的图标 */
+.cuIcon-pullleft:before {
+	content: "\e71f";
+}
+
+/* 向右箭头带圆圈的图标 */
+.cuIcon-pullright:before {
+	content: "\e720";
+}
+
+/* 向右箭头 */
+.cuIcon-roundrightfill:before {
+	content: "\e65a";
+}
+
+/* 向右箭头 */
+.cuIcon-roundright:before {
+	content: "\e65b";
+}
+
+/* 向左快退的双箭头图标图标 */
+.cuIcon-backwardfill:before {
+	content: "\e74d";
+}
+
+/* 左退图标-带外圈的-黑色 */
+.cuIcon-roundleftfill-copy:before {
+	content: "\e79e";
+}
+
+
+/* 向上箭头图标 */
+.cuIcon-fold:before {
+	content: "\e6de";
+}
+
+/* 向下箭头，到底部图标 */
+.cuIcon-down:before {
+	content: "\e703";
+}
+
+/* 向下的圆形下拉，评论下拉图标 */
+.cuIcon-rounddown:before {
+	content: "\e75c";
+}
+
+
+/* 返回头部箭头 */
+.cuIcon-top:before {
+	content: "\e69e";
+}
+
+/* 下拉箭头 */
+.cuIcon-pulldown:before {
+	content: "\e69f";
+}
+
+/* 上拉箭头 */
+.cuIcon-pullup:before {
+	content: "\e6a0";
+}
+
+/* 向右箭头 */
+.cuIcon-right:before {
+	content: "\e6a3";
+}
+
+/* 上传图标 */
+.cuIcon-upload:before {
+	content: "\e75d";
+}
+
+/* 颜色盘，色彩图标 */
+.cuIcon-colorlens:before {
+	content: "\e6e6";
+}
+
+/* 颜色盘，色彩选择的图标 */
+.cuIcon-skin:before {
+	content: "\e7cd";
+}
+
+/* 颜色盘，色彩选择的图标-黑色 */
+.cuIcon-skinfill:before {
+	content: "\e7cc";
+}
+
+/* 黑色钱袋子图标 */
+.cuIcon-moneybagfill:before {
+	content: "\e7ce";
+}
+
+/* 硬币图标-一个圆圈，中间一个人民币的币字 */
+.cuIcon-coin:before {
+	content: "\e7ac";
+}
+
+/* 金钱，钱币图标 */
+.cuIcon-rechargefill:before {
+	content: "\e6ec";
+}
+
+/* 金钱，钱币图标 */
+.cuIcon-recharge:before {
+	content: "\e6ed";
+}
+
+/* 金钱流转，钱币图标 */
+.cuIcon-refund:before {
+	content: "\e6ac";
+}
+
+/* 白色钱袋子图标 */
+.cuIcon-moneybag:before {
+	content: "\e7d1";
+}
+
+/* 朝上的实心三角图标 */
+.cuIcon-usefullfill:before {
+	content: "\e7cf";
+}
+
+/* 朝上的空心三角图标 */
+.cuIcon-usefull:before {
+	content: "\e7d0";
+}
+
+/* 红包图标，钱袋子图标 */
+.cuIcon-redpacket_fill:before {
+	content: "\e7d3";
+}
+
+/* 钱袋子图标 */
+.cuIcon-redpacket:before {
+	content: "\e6e0";
+}
+
+/* 无线网信号图标 */
+.cuIcon-subscription:before {
+	content: "\e7d4";
+}
+
+/* github的logo图标 */
+.cuIcon-github:before {
+	content: "\e692";
+}
+
+/* 地球图标 */
+.cuIcon-global:before {
+	content: "\e7eb";
+}
+
+/* 返回键图标 */
+.cuIcon-back_android:before {
+	content: "\e7ed";
+}
+
+/* 一朵花图标 */
 .cuIcon-evaluate_fill:before {
 	content: "\e7f0";
 }
 
+/* 聊天群组图标 */
 .cuIcon-group_fill:before {
 	content: "\e7f5";
 }
 
+/* 视频快进图标 */
 .cuIcon-play_forward_fill:before {
 	content: "\e7f6";
 }
 
+/* 货车图标 */
 .cuIcon-deliver_fill:before {
 	content: "\e7f7";
 }
 
+
+/* 货车图标 */
+.cuIcon-deliver:before {
+	content: "\e671";
+}
+
+/* 铃声静音图标 */
 .cuIcon-notice_forbid_fill:before {
 	content: "\e7f8";
 }
 
+/* 铃声禁止，静音 */
+.cuIcon-notificationforbidfill:before {
+	content: "\e6db";
+}
+
+/* 铃声，提醒图标 */
+.cuIcon-noticefill:before {
+	content: "\e709";
+}
+
+/* 铃声，提醒图标 */
+.cuIcon-notice:before {
+	content: "\e70a";
+}
+
+/* 声音图标 */
+.cuIcon-sound:before {
+	content: "\e77b";
+}
+
+/* 铃声图标 */
+.cuIcon-notificationfill:before {
+	content: "\e66a";
+}
+
+/* 铃声图标 */
+.cuIcon-notification:before {
+	content: "\e66b";
+}
+
+/* git分支图标 */
 .cuIcon-fork:before {
 	content: "\e60c";
 }
 
+/* 像一个上传图标 */
 .cuIcon-pick:before {
 	content: "\e7fa";
 }
 
+/* 像身份证一样的圆形图标 */
 .cuIcon-wenzi:before {
 	content: "\e6a7";
 }
 
+/* 像身份证一样的方形图标 */
+.cuIcon-card:before {
+	content: "\e624";
+}
+
+/* 黑块图标 */
 .cuIcon-ellipse:before {
 	content: "\e600";
 }
 
+/* 二维码图标 */
 .cuIcon-qr_code:before {
 	content: "\e61b";
 }
 
+/* 电话图标 */
+.cuIcon-phone:before {
+	content: "\e652";
+}
+
+/* 电话，手机图标 */
 .cuIcon-dianhua:before {
 	content: "\e64d";
 }
 
+/* 手机图标 */
+.cuIcon-mobile:before {
+	content: "\e704";
+}
+
+/* 手机图标 */
+.cuIcon-mobilefill:before {
+	content: "\e705";
+}
+
+/* 不知道怎么描述的图标 */
 .cuIcon-cuIcon:before {
 	content: "\e602";
 }
 
+/* 转圈加载图标 */
 .cuIcon-loading2:before {
 	content: "\e7f1";
 }
 
+/* 转圈加载图标 */
+.cuIcon-loading:before {
+	content: "\e64f";
+}
+
+/* 同样是加载图标 */
+.cuIcon-loading1:before {
+	content: "\e633";
+}
+
+/* 加载图标 */
+.cuIcon-icloading:before {
+	content: "\e67a";
+}
+
+/* 一个像录音机的图标 */
 .cuIcon-btn:before {
 	content: "\e601";
 }
