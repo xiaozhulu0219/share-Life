@@ -12,7 +12,7 @@
             </view>
 
             <view class="cu-form-group textarea">
-				<textarea placeholder="个性签名" style="width: 18px; height: 200px; " name="input"
+				<textarea placeholder="个性签名" style="width: 18px; height: 200px; " name="input" :maxlength="maxLength"
                           v-model="myFormData.signature" @input="onInput(myFormData.signature)"></textarea>
                 <view class="count-limit"> {{ (myFormData.signature && myFormData.signature.length) || 0 }} / {{ maxLength }}
                 </view>

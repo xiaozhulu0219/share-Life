@@ -4,7 +4,10 @@
             <view v-for="(item,index) in homeList" :key="index" class="card">
                 <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""
                        @click="toInformationDetail(item)"></image>
-                <view class="card-text" @click="toInformationDetail(item)">{{item.textContent.substr(0, 35) }}</view>
+                <view class="card-text" @click="toInformationDetail(item)">
+                  {{ contentFormat(item.textContent) }}
+                <view class="colpose"></view>
+                </view>
                 <view class="card-line">
                     <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt="" @click="toMemberdetail(item.uuId)"></image>
                     <view class="card-nickname">{{item.nickname.substr(0, 12)}}</view>
@@ -37,8 +40,15 @@
                 loveInforUrl: '/information/movements/love',
                 homeListUrl: '/information/movements/findHomePublishInforList',
                 homeList: [], // 上拉加载的配置(可选, 绝大部分情况无需配置)
-                fileUrl: configService.fileSaveURL
+                fileUrl: configService.fileSaveURL,
             };
+        },
+        computed: {
+          contentFormat() {
+            return function(content) {
+              return `${content.substring(0, 36)}${content.length > 36 ? '...' : ''}`;
+            };
+          }
         },
         created() {
          //activated() {
