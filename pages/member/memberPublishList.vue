@@ -1,4 +1,5 @@
 <template>
+	<!--个人页的一些页面--我的发布-->
 	<view class="list-wrap">
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 			<view v-for="(item,index) in myPublishInforList" :key="index" class="card" @click="toMemInformationDetail(item)">

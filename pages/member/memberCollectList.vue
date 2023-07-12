@@ -1,4 +1,5 @@
 <template>
+	<!--个人页的一些页面--我的收藏-->
 	<view class="list-wrap">
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 			<view v-for="(item,index) in MyCollectList" :key="index" class="card" @click="toMemInformationDetail(item)">
