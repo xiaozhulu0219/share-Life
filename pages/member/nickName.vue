@@ -11,7 +11,7 @@
                 七天内可修改一次名字
             </view>
             <view class="cu-form-group" style="border-radius: 10px;width: 95%;margin: 0 auto;">
-                <input placeholder="请输入昵称" name="input" v-model="myFormData.nickName" :maxlength="maxLength"/>
+                <input placeholder="请输入昵称" name="input" v-model="myFormData.nickName" :maxlength="maxLength" @input="onInput(myFormData.nickName)"/>
                 <view class="count-limit"> {{ (myFormData.nickName && myFormData.nickName.length) || 0 }} / {{ maxLength }}</view>
             </view>
             <view class="title text-grey "
@@ -22,18 +22,14 @@
 </template>
 
 <script>
+    import { keyWords } from '../../common/util/constants';
     export default {
         data() {
             return {
                 index: -1,
-                switchC: true,
-                imgList: [],
                 maxLength: 12,
-                uploadUrl: '/sys/common/upload',
                 myFormData: {
                     nickName: '',
-                    orgCode: '',
-                    workNo: '',
                     id: ''
                 }
             };
@@ -43,29 +39,6 @@
             const query = this.$Route.query;
             if (query) {
                 this.myFormData = query;
-                if (this.myFormData.sex == '女') {
-                    this.switchC = false;
-                } else if (this.myFormData.sex == '男') {
-                    this.switchC = true;
-                }
-                if (this.myFormData.avatar) {
-                    this.imgList = [this.myFormData.avatar];
-                }
-                // if (!this.myFormData.birthday) {
-                // 	this.myFormData.birthday = '无'
-                // }
-                // if (this.myFormData.identity == '普通成员') {
-                // 	this.myFormData.identity = 1
-                // } else if (this.myFormData.identity == '上级') {
-                // 	this.myFormData.identity = 2
-                // }
-                if (this.myFormData.status == '正常') {
-                    this.myFormData.status = 1;
-                } else if (this.myFormData.status == '冻结') {
-                    this.myFormData.status = 2;
-                }
-                this.Avatar = this.myFormData.avatar;
-
                 Object.keys(this.myFormData).map(key => {
                     if (this.myFormData[key] == '无') {
                         this.myFormData[key] = '';
@@ -75,8 +48,24 @@
             }
         },
         methods: {
+            onInput(value) {
+                if (value !== null) {
+                    for (const i in keyWords) {
+                        const reg = new RegExp(keyWords[i], 'g');
+                        value = value.replace(reg, ''.padEnd(keyWords[i].length, '*'));
+                    }
+                }
+                // 数据改变是异步的
+                this.$nextTick(() => {
+                    this.myFormData.nickName = value;
+                });
+                console.log('置换后value:', value);
+            },
             onSubmit() {
                 const myForm = this.myFormData;
+                if (this.myFormData.nickName === '' || this.myFormData.nickName.indexOf('*') != -1) {
+                    console.log('昵称出现了违规词语、已被拦截：', this.myFormData.nickName);
+                } else {
                 console.log('myForm', myForm);
                 this.$tip.loading();
                 this.$http.get('/sys/editNickName', {
@@ -100,65 +89,21 @@
                     this.$tip.loaded();
                     this.$tip.error('提交失败');
                 });
+                }
             },
-            DateChange(e) {
-                this.myFormData.birthday = e.detail.value;
-            },
-            SwitchC(e) {
-                this.switchC = e.detail.value;
-            },
-            ChooseImage() {
-                var that = this;
-                uni.chooseImage({
-                    count: 4, //默认9
-                    sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-                    sourceType: ['album'], //从相册选择
-                    success: (res) => {
-                        that.$http.upload(that.$config.apiUrl + that.uploadUrl, {
-                            filePath: res.tempFilePaths[0],
-                            name: 'file'
-                        })
-                            .then(res => {
-                                that.myFormData.avatar = res.data.message;
-                            })
-                            .catch(err => {
-                                that.$tip.error(err.data.message);
-                            });
-                        this.imgList = res.tempFilePaths;
-                    }
-                });
-            },
-            ViewImage(e) {
-                uni.previewImage({
-                    urls: this.imgList,
-                    current: e.currentTarget.dataset.url
-                });
-            },
-            DelImg(e) {
-                uni.showModal({
-                    title: '召唤师',
-                    content: '确定要删除这段回忆吗？',
-                    cancelText: '再看看',
-                    confirmText: '再见',
-                    success: res => {
-                        if (res.confirm) {
-                            this.imgList.splice(e.currentTarget.dataset.index, 1);
-                        }
-                    }
-                });
-            }
         }
     };
 </script>
 
 <style>
+
     .cu-form-group .title {
         min-width: calc(4em + 15px);
     }
+
     .count-limit {
       font-size: 14rpx;
       color: #666;
     }
-    .save {
-    }
+
 </style>
