@@ -7,14 +7,18 @@
             <!--				<block slot="content">我的动态</block>-->
 
             <block slot="right">
-                <button class="cu-btn block bg-gray margin-tb-sm " size="small" v-if="this.pubOrLove==1" @click="toInforPublishForm(myFormData)">
-                    编辑  <!--跳新页面还是到informationForm.vue 而且可编辑 还可设置可见状态-->
-                </button>
+                <view @click="showModal" class="cuIcon-more"></view>
             </block>
-            <block slot="right">
-                <button class="cu-btn block bg-gray margin-tb-sm" type="warn" size="mini" v-if="this.pubOrLove==1" @click="deleteInfor(myFormData)">删除
-                </button>
-            </block>
+
+<!--            <block slot="right">-->
+<!--                <button class="cu-btn block bg-gray margin-tb-sm " size="small" v-if="this.pubOrLove==1" @click="toInforPublishForm(myFormData)">-->
+<!--                    编辑  &lt;!&ndash;跳新页面还是到informationForm.vue 而且可编辑 还可设置可见状态&ndash;&gt;-->
+<!--                </button>-->
+<!--            </block>-->
+<!--            <block slot="right">-->
+<!--                <button class="cu-btn block bg-gray margin-tb-sm" type="warn" size="mini" v-if="this.pubOrLove==1" @click="deleteInfor(myFormData)">删除-->
+<!--                </button>-->
+<!--            </block>-->
 
         </cu-custom>
         <view class="card">
@@ -72,16 +76,19 @@
                 </view>
             </view>
         </view>
+        <ToEditPublishPopup ref='toEditPublishPopup'></ToEditPublishPopup>
+
     </view>
 </template>
 
 <script>
     import myDate from '@/components/my-componets/my-date.vue'
     import configService from '@/common/service/config.service.js'
+    import ToEditPublishPopup from './toEditPublishPopup.vue';
 
     export default {
         name: "memberInforDetail",
-        components: {myDate},
+        components: {myDate,ToEditPublishPopup},
         props: {
             formData: {
                 type: Object,
@@ -172,6 +179,9 @@
             //this.findPublishInfor(this.publishId); 这是传参后继续调用方法的示例
         },
         methods: {
+            showModal() {
+                this.$refs.toEditPublishPopup.showModal();
+            },
             //点击图片进入函数，传入当前列表的索引index
             TanPreviewImage(indexa) {
                 uni.previewImage({ // 预览图片  图片路径必须是一个数组 => ["http://21111889:8970/6_1597822634094.png"]
@@ -212,38 +222,6 @@
                         this.myCommentForm = res.data.result;
                     }
                 })
-            },
-            //带数据跳转到编辑页
-            toInforPublishForm(myFormData) {
-                console.log("点击带数据跳转到编辑页：", myFormData)
-                uni.navigateTo({
-                    url: '/pages/information/inforPublishForm?item=' + encodeURIComponent(JSON.stringify(myFormData))
-                })
-            },
-            //点击删除按钮
-            deleteInfor(item) {
-                console.log("点击了删除按钮：", item)
-                uni.showModal({
-                    title: '确认删除吗？',
-                    success: res => {
-                        if (res.confirm) {
-                            console.log('用户点击确定', item);
-                            this.$http.delete(this.url.deleteInforUrl + '?id=' + item.inforId).then(res => {
-                                console.log("结果数据", res)
-                                if (res.data.success) {
-                                    console.log("删除成功", item.inforId);
-                                    uni.navigateTo({
-                                        url: '/pages/member/member'
-                                    })
-                                }
-                            }).catch(e => {
-                                console.log("al delUrl请求错误2", e)
-                            })
-                        } else if (res.cancel) {
-                            console.log('用户点击取消');
-                        }
-                    }
-                });
             },
             //获取评论列表
             getInforCommentsList(inforId) {
