@@ -1198,17 +1198,17 @@
 	content: "\e7cb";
 }
 
-/* 向下箭头图标 */
+/* 向下箭头（单头）图标 */
 .cuIcon-unfold:before {
 	content: "\e661";
 }
 
-/* 向下箭头图标 */
+/* 向下箭头图标（向下的尖方块） */
 .cuIcon-triangledownfill:before {
 	content: "\e79b";
 }
 
-/* 向下的箭头图标 */
+/* 向下的箭头图标（单箭头） */
 .cuIcon-refresharrow:before {
 	content: "\e72d";
 }

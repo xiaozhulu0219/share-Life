@@ -61,8 +61,8 @@
                                 <view class="comment-likeCount">{{item.likeCount}}</view>
                             </view>
                         </view>
-                        <view class="iconfont ml-1" style="font-size: 40rpx;  margin-left: 200rpx"
-                              @click="getSonCommentsList(item)">&#xe631
+                        <view class="cuIcon-triangledownfill" style="font-size: 40rpx;  margin-left: 200rpx"
+                              @click="getSonCommentsList(item)" v-if="item.sonCommentSum>0">
                         </view>
                         <!--  <view>展开{{}}条回复</view>-->
                         <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
