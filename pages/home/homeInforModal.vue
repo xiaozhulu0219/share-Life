@@ -8,7 +8,7 @@
                 <view class="card-line">
                     <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt="" @click="toMemberdetail(item.uuId)"></image>
                     <view class="card-nickname">{{item.nickname.substr(0, 12)}}</view>
-                    <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx">&#xe60b</view>
+                    <view class="cuIcon-location" style="margin-top: 8rpx"> </view>
                     <view class="card-ipAddress">{{item.ipAddress}}</view>
                     <view class="cuIcon-like" style="color: #fbbd08 ; margin-top: 8rpx" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)"></view>
                     <view class="cuIcon-likefill" style="color: #dd524d ; margin-top: 8rpx" v-else @click="unloveInfor(item.inforId,index)"></view>

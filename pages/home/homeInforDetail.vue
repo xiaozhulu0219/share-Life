@@ -18,7 +18,7 @@
 
             <view class="card-line">
                 <view class="card-createDate">{{myCommentForm.createDate}}</view>
-                <view class="iconfont ml-1" style="color: #dd524d;"> &#xe636</view>
+                <view class="cuIcon-location"> </view>
                 <view class="card-ipAddress">{{myFormData.ipAddress}}</view>
             </view>
 
@@ -35,7 +35,7 @@
                 <view class="cuIcon-likefill" style="font-size: 45rpx; color: #dd524d;" v-else
                       @click="unloveInfor(myCommentForm.inforId)"></view>
                 <view class="card-loveCount">{{myCommentForm.loveCount}}</view>
-                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;">&#xe601</view>
+                <view class="cuIcon-comment" style="font-size: 45rpx;"></view>
                 <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
             </view>
 
@@ -417,7 +417,7 @@
                         console.log('表单数据', res);
                         //this.myCommentForm.likeCount = res.data.result;
                         //重新赋页码数、并刷新评论列表
-                        this.pageInfo.num = 0;
+                        //this.pageInfo.num = 0;
                         this.getInforCommentsList(this.myFormData.inforId);
                     }
                 });
@@ -430,7 +430,7 @@
                         console.log('表单数据', res);
                         //this.myCommentForm.likeCount = res.data.result;
                         //重新赋页码数、并刷新评论列表
-                        this.pageInfo.num = 0;
+                        //this.pageInfo.num = 0;
                         this.getInforCommentsList(this.myFormData.inforId);
                     }
                 });
