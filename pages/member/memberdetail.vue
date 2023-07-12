@@ -10,7 +10,7 @@
 
             <!-- list列表 -->
             <view class="cu-list menu">
-                <view class="cu-item animation-slide-bottom" :style="[{animationDelay: '0.1s'}]">
+                <view class="cu-item" :style="[{animationDelay: '0.1s'}]">
                     <view class="img" @tap="changeAvatar">
                         <!--	<img src="../../static/avatar_boy.png" mode="" class="png round" style="width: 90px;height: 90px;top: 20%;left: 50%;"></img>-->
                         <image class="cu-avatar round sm" :src="fileUrl+personalMsg.avatar" alt="" style="width: 90px;height: 90px;top: 20%;left: 50%;"></image>
@@ -19,7 +19,7 @@
             </view>
 
             <view class="cu-list menu">
-                <navigator class="cu-item arrow animation-slide-bottom"
+                <navigator class="cu-item arrow"
                            :url="`/pages/member/nickName?query=${JSON.stringify(this.personalMsg)}`"
                            :style="[{animationDelay: '0.2s'}]">
                     <view class="content">
@@ -32,7 +32,7 @@
             </view>
 
             <view class="cu-list menu">
-                <navigator class="cu-item arrow animation-slide-bottom"
+                <navigator class="cu-item arrow"
                            :url="`/pages/member/sex?query=${this.personalMsg.sexNum}`"
                            :style="[{animationDelay: '0.3s'}]">
                     <view class="content">
@@ -45,7 +45,7 @@
             </view>
 
             <view class="cu-list menu">
-                <navigator class="cu-item arrow animation-slide-bottom"
+                <navigator class="cu-item arrow"
                            :url="`/pages/member/signature?query=${JSON.stringify(this.personalMsg)}`"
                            :style="[{animationDelay: '0.4s'}]">
                     <view class="content">
@@ -69,13 +69,13 @@
 
             <!--  这个是配字典将来可以滚动选择  -->
             <view class="cu-list menu">
-                <secondPickerVue label="职    业："
+                <secondPickerVue label="职    业"
                                  class="text-grey" v-model="personalMsg.job"
                                  placeholder="请选择职业"></secondPickerVue>
             </view>
 
             <view class="cu-list menu">
-                <navigator class="cu-item arrow animation-slide-bottom"
+                <navigator class="cu-item arrow"
                            :url="`/pages/member/dreamCompanySign?query=${JSON.stringify(this.personalMsg.dreamCompanySign)}`"
                            :style="[{animationDelay: '0.8s'}]">
                     <view class="content">
@@ -103,7 +103,6 @@
 </template>
 
 <script>
-    // const job_type = [{text:'程序员',value:'1'},{text:'医生',value:'2'},{text:'宇航员',value:'3'},{text:'老师',value:'4'},{text:'销售',value:'5'}];
     import api from '@/api/api.js';
     import appSelect from '@/components/my-componets/appSelect.vue';
     import secondPickerVue from '@/components/my-componets/secondPicker.vue';

@@ -1395,7 +1395,8 @@ button.cuIcon.lg {
 
 .cu-list.menu {
 	display: block;
-	overflow: hidden
+	overflow: hidden;
+	margin-top: 8upx
 }
 
 .cu-list.menu.sm-border>.cu-item:after {
