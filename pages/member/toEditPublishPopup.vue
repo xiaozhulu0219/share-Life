@@ -15,7 +15,7 @@
                 </view>
                 <view class="seeType">
                     <text class="cuIcon-post icon-style"></text>
-                    <view class="icon-text">权限设置</view>
+                    <view class="icon-text">权限</view>
                 </view>
             </view>
 
@@ -111,7 +111,8 @@
     }
 
 	.icon-text {
-        justify-content: space-between;
+        //justify-content: space-between;
+        text-align:center;
         font-size: 30rpx;
         font-weight: bold;
         //margin-left: 20rpx;

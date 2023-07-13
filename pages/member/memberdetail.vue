@@ -5,7 +5,6 @@
             <cu-custom bgColor="bg-gradual-pink" :isBack="true">
                 <block slot="backText">返回</block>
                 <block slot="content">编辑资料</block>
-                <!--<view slot="right"  @tap="rightClick">编辑</view>-->
             </cu-custom>
 
             <!-- list列表 -->
@@ -109,7 +108,6 @@
     import secondPickerVue from '@/components/my-componets/secondPicker.vue';
     import myImageUpload from '@/components/my-componets/my-image-upload.vue';
     import myDate from '@/components/my-componets/my-date.vue';
-    import {ACCESS_TOKEN} from '@/common/util/constants.js';
     import configService from '@/common/service/config.service.js'
 
     export default {
@@ -133,8 +131,6 @@
                     identity: ''
                 },
                 userUrl: '/sys/user/queryById',
-                positionUrl: '/sys/position/list',
-                departUrl: '/sys/user/userDepartList',
                 editAvatarUrl: '/sys/editAvatar',
                 fileUrl: configService.fileSaveURL,
                 imgList: [],
@@ -156,9 +152,6 @@
             },
             rightClick() {
                 this.$Router.push({name: 'memberedit', params: this.personalMsg});
-                /* uni.navigateTo({
-                    url: '/pages/user/useredit?item='+item
-                }); */
             },
             loadinfo() {
                 this.$tip.loading();
@@ -178,30 +171,6 @@
                     this.$tip.loaded();
                     console.log('请求错误', e);
                 });
-
-                this.$http.get(this.departUrl, {params: {userId: this.$store.getters.userid}}).then(res => {
-                    if (res.success) {
-                        for (const item of res.result) {
-                            this.personalMsg.orgCode = item.title;
-                            this.personalMsg.departIds = item.title;
-                        }
-                    }
-                }).catch(e => {
-                    console.log('请求错误', e);
-                });
-
-                this.$http.get(this.positionUrl).then(res => {
-                    if (res.success) {
-                        const postArr = res.result.records;
-                        for (const item of postArr) {
-                            if (this.personalMsg.post == item.code) {
-                                this.personalMsg.post = item.name;
-                            }
-                        }
-                    }
-                }).catch(e => {
-                    console.log('请求错误', e);
-                });
             },
             // 更换头像
             changeAvatar() {
@@ -216,28 +185,6 @@
                     }
                 });
             },
-            // 上传头像
-            // uploadAvatar(tempFilePaths) {
-            //     console.log('tempFilePaths///',tempFilePaths );
-            //     uni.uploadFile({
-            //         filePath: tempFilePaths,
-            //         name: 'file',
-            //         url: this.$config.apiUrl + '/sys/common/upload',
-            //         formData: {
-            //             id: this.$store.getters.userid,
-            //             avatar: tempFilePaths
-            //         },
-            //         header: {
-            //             token: uni.getStorageSync(ACCESS_TOKEN)
-            //         },
-            //         success: (result) => {
-            //             console.log("result",result);
-            //         },
-            //         fail: (res) => {
-            //             this.$tip.error('头像更换出错');
-            //         }
-            //     });
-            // },
             // 上传头像
             uploadAvatar(tempFilePaths) {
                 console.log('tempFilePaths///',tempFilePaths );
