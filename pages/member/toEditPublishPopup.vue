@@ -92,16 +92,19 @@
         //display: inline;
         margin-left: 20rpx;
 		margin-right: 220rpx;
+        //position: absolute; //绝对定位
 	}
 
     .delete {
         //display: inline;
         margin-right: 190rpx;
+        //position: absolute; //绝对定位
     }
 
     .seeType {
         //display: inline;
         //margin-right: 50rpx;
+        //position: absolute; //绝对定位
     }
 
     .icon-style {

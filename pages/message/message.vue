@@ -217,8 +217,8 @@
                     border-radius: 50%;
                     background: red;
                     position: absolute; //绝对定位
-                    margin-left: 85rpx;
-                    margin-top: -130rpx;
+                    margin-left: 70rpx;
+                    margin-top: -140rpx;
                     text-align: center;
                     //line-height: 30rpx;
                     padding: 10rpx 20rpx;//上下左右
@@ -251,8 +251,8 @@
                     border-radius: 50%;
                     background: red;
                     position: absolute; //绝对定位
-                    margin-left: 85rpx;
-                    margin-top: -130rpx;
+                    margin-left: 70rpx;
+                    margin-top: -140rpx;
                     text-align: center;
                     //line-height: 30rpx;
                     padding: 10rpx 20rpx;//上下左右
@@ -287,8 +287,8 @@
                     border-radius: 50%;
                     background: red;
                     position: absolute; //绝对定位
-                    margin-left: 85rpx;
-                    margin-top: -130rpx;
+                    margin-left: 70rpx;
+                    margin-top: -140rpx;
                     text-align: center;
                     //line-height: 30rpx;
                     padding: 10rpx 20rpx;//上下左右
