@@ -27,10 +27,6 @@
 				isDownLoading: false,
 				findMyCollectPageUrl: '/information/movements/findMyCollectPage',
 				MyCollectList: [],
-				//unloveInforUrl: '/information/movements/unlove',
-				//loveInforUrl: '/information/movements/love',
-				//homeListUrl: '/information/movements/findHomePublishInforList',
-				//homeList: [], // 上拉加载的配置(可选, 绝大部分情况无需配置)
 				fileUrl: configService.fileSaveURL,
 			};
 		},
@@ -92,9 +88,11 @@
 </script>
 
 <style lang="scss" scoped>
+
 	.list-wrap {
 		height: calc(100vh - 280rpx);
 	}
+
 	.card {
 		background-color: $uni-bg-color-grey;
 		padding: 20rpx 20rpx;
@@ -115,17 +113,12 @@
 			font-size: 20rpx;
 		}
 	}
+
 	.medias_size {
 		max-width: 180px;
 		width: 180px;
-		// width:expression(this.width > 180 ? "180px" : this.width);
 		height: 180px;
-		// height:expression(this.height > 180 ? "180px" : this.height);
 		overflow:hidden;
-		/*text-align:center;*/
-		/*width: 21rpx;*/
-		/*height: 21rpx;*/
-		/*border-radius: 8rpx;*/
 		margin-bottom: 20rpx; /*盒子间的距离*/
 	}
 	.load-text, .noMore {

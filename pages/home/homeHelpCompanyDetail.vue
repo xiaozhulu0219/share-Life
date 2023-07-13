@@ -108,7 +108,6 @@
                     upDislikeComUrl: "/company/upDislike", //取消向上点赞公司
                     downLikeComUrl: "/company/downLike", //向下点赞公司
                     downDislikeComUrl: "/company/downDislike", //取消向下点赞公司
-
                     saveCommentUrl: '/company/comments/saveCommentForCom', //助力详情发布接口
                     likeCommentUrl: '/company/comments/like', //点赞评论
                     dislikeCommentUrl: '/company/comments/dislike', //取消点赞评论

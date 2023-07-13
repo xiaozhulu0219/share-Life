@@ -139,27 +139,11 @@
 							url: '/pages/home/homeHelpCompanyDetail?item=' + encodeURIComponent(JSON.stringify(item))
 						})
 			},
-			// confirmHelp(item) {
-			// 	console.log("11111：",item)
-			// 	console.log("22222：",item.tianyanchaId)
-			// 	this.$http.get(this.url.toEvaluate, {
-			// 		params: {
-			// 			tianyanchaId:Number(item.tianyanchaId),
-			// 		}
-			// 	}).then(res => {
-			// 		//console.log("33333：",this.model)
-			// 		console.log("444444：",res.data.result)
-			// 		if (res.data.success) {
-			// 			uni.navigateTo({
-			// 				url: '/pages/home/homeHelpCompanyDetail?item=' + encodeURIComponent(JSON.stringify(res.data.result))
-			// 			})
-			// 		}
-			// 	})
-			// },
 		}
 	}
 </script>
 <style>
+
 	.search {
 		display: flex;
 		align-items: center;
@@ -169,7 +153,6 @@
 
 	.iptbox {
 		flex: 1;
-		/* background-color:#ccc; */
 		padding-left: 20px;
 		height: 40px;
 		border: 1px solid #ccc;
@@ -204,7 +187,6 @@
 		.card-title {
 			font-weight: bold;
 			font-size: 38rpx;
-		//margin-top: 100rpx; /*盒子距离顶部的距离*/
 		}
 
 		.card-text {

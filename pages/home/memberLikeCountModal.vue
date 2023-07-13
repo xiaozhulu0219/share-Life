@@ -43,6 +43,7 @@
         background: rgba(0,0,0,0.4);
         display: flex;
     }
+
     .content {
       margin: auto;
         width: 400rpx;
