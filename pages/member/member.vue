@@ -31,10 +31,13 @@
                                 <text>{{FocusFansNumVo.fansCount}}</text>
                                 <text :style="{color:'#ddd'}">粉丝</text>
                             </view>
-                            <view class="flex flex-direction align-center margin-right-xl" @click="tomemberLikeCountModal(FocusFansNumVo)">
+                            <view class="flex flex-direction align-center margin-right-xl" @click="showLikeModel=true">
                                 <text>{{FocusFansNumVo.loveCollectCount}}</text>
                                 <text :style="{color:'#ddd'}">获赞与收藏</text>
                             </view>
+                            <!-- 获赞收藏弹框 -->
+                            <memberLikeCountModal :show="showLikeModel" :FocusFansNumVo="FocusFansNumVo" @close="showLikeModel=false"></memberLikeCountModal>
+                            
                             <view class="flex flex-direction align-center margin-right-xl" @click="toHelpCom(personalList.uuId)">
                                 <text>{{HelpCompanyNumVo.helpComCount}}</text>
                                 <text :style="{color:'#ddd'}">助力</text>
@@ -80,6 +83,8 @@
     import MyLoveInforList from './memberLoveInforList';
     import configService from '@/common/service/config.service.js';
     import bottomTab from '../component/bottomTab.vue';
+    import memberLikeCountModal from '../home/memberLikeCountModal.vue'
+    
 
     export default {
         name: 'member',
@@ -88,10 +93,12 @@
             MyHelpCompanyList,
             MyCollectList,
             MyLoveInforList,
-            bottomTab
+            bottomTab,
+            memberLikeCountModal
         },
         data() {
             return {
+              showLikeModel: false, // 是否显示获赞弹框
                 activeTab: 0,
                 tabs: [{
                     id: 1,
@@ -215,13 +222,6 @@
                 //console.log("进来了666", myFormData)
                 uni.navigateTo({
                     url: '/pages/member/fansModal?item=' + uuID
-                });
-            },
-            //点击“获赞与收藏”
-            tomemberLikeCountModal(item) {
-                console.log('点击了跳转modal', item);
-                uni.navigateTo({
-                    url: '/pages/home/memberLikeCountModal?item=' + encodeURIComponent(JSON.stringify(item))
                 });
             },
             //获取用户的粉丝和关注和获赞与收藏数量

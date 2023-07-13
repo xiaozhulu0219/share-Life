@@ -9,13 +9,17 @@
                 <view class="colpose"></view>
                 </view>
                 <view class="card-line">
+                  <view class="left">
                     <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt="" @click="toMemberdetail(item.uuId)"></image>
                     <view class="card-nickname">{{item.nickname.substr(0, 12)}}</view>
-                    <view class="cuIcon-location" style="margin-top: 8rpx"> </view>
+                  </view>
+                  <view class="right">
+                    <view class="cuIcon-location"> </view>
                     <view class="card-ipAddress">{{item.ipAddress}}</view>
-                    <view class="cuIcon-like" style="color: #fbbd08 ; margin-top: 8rpx" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)"></view>
-                    <view class="cuIcon-likefill" style="color: #dd524d ; margin-top: 8rpx" v-else @click="unloveInfor(item.inforId,index)"></view>
+                    <view class="cuIcon-like" style="color: #fbbd08" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)"></view>
+                    <view class="cuIcon-likefill" style="color: #dd524d" v-else @click="unloveInfor(item.inforId,index)"></view>
                     <view class="card-loveCount">{{item.loveCount}}</view>
+                  </view>
                 </view>
             </view>
             <view v-if='isDownLoading' class="load-text">加载中....</view>
@@ -142,13 +146,9 @@
     }
     .card {
         background-color:  #fff;
-        //background-color: $uni-bg-color-grey;
         padding: 20rpx 20rpx;
         border-radius: 20rpx;
-        //margin-bottom: 10rpx;/*盒子间的距离*/
-        //margin-top: 10rpx; /*盒子距离顶部的距离*/
-        line-height: 35rpx;  /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
+        line-height: 35rpx;
         border-bottom: #eee solid 5rpx;
 
         .card-line {
@@ -158,23 +158,22 @@
 
         .card-nickname {
             font-weight: bold;
-            margin-right: 80rpx;
-            margin-left: 10rpx;
-            margin-top: 8rpx;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 80%;
+            overflow: hidden;
         }
 
-        .card-ipAddress {
+        .card-ipAddress, .card-loveCount {
             font-weight: bold;
-            margin-right: 100rpx;
-            margin-left: 10rpx;
-            margin-top: 8rpx;
+            margin-left: 8rpx;
         }
-
+        .card-ipAddress {
+          margin-right: 50rpx;
+        }
         .card-loveCount {
             font-weight: bold;
-            //margin-right: 80rpx;
-            margin-left: 10rpx;
-            margin-top: 8rpx;
+            margin-left: 8rpx;
         }
 
         .card-text {
@@ -219,5 +218,18 @@
     }
     .noMore {
         color: #ccc;
+    }
+    .left,.right {
+      display: flex;
+      align-items: center;
+      flex: 1;
+    }
+    .left {
+      overflow: hidden;
+      flex: 2;
+    }
+    .right{
+      flex-shrink: 0;
+      flex: 1;
     }
 </style>

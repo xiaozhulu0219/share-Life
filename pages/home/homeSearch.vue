@@ -7,11 +7,11 @@
             </block>
         </commonTab>
         <form class="search">
-            <view class="uni-form-item uni-column">
-                <text class="padding-left text-gray iconfont icon-search"></text>
+            <!-- <view class="uni-form-item uni-column"> -->
+                <text class=" text-gray iconfont icon-search"></text>
                 <input class="uni-input" v-model="inputValue" maxlength="100" placeholder="请输入搜索内容"/>
                 <button form-type="submit" @click="searchList(inputValue)">搜索</button>
-            </view>
+            <!-- </view> -->
         </form>
 
         <view v-for="(item,index) in 5" :key="index" class="detail">

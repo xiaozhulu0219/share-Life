@@ -29,10 +29,12 @@
                                 <text :style="{color:'#ddd'}">粉丝</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl"
-                                  @click="tomemberLikeCountModal(FocusFansNumVo)">
+                                  @click="showLikeModel=true">
                                 <text>{{FocusFansNumVo.loveCollectCount}}</text>
                                 <text :style="{color:'#ddd'}">获赞与收藏</text>
                             </view>
+                            <!-- 获赞收藏弹框 -->
+                            <memberLikeCountModal :show="showLikeModel" @close="showLikeModel=false" :FocusFansNumVo="FocusFansNumVo"></memberLikeCountModal>
                             <view class="flex flex-direction align-center margin-right-xl">
                                 <text>{{HelpCompanyNumVo.helpComCount}}</text>
                                 <text :style="{color:'#ddd'}">助力</text>
@@ -101,12 +103,13 @@
 <script>
     import api from '@/api/api';
     import configService from '@/common/service/config.service.js'
-
+    import memberLikeCountModal from './memberLikeCountModal.vue'
     export default {
         name: 'homeMemberDetail',
-        components: {},
+        components: {memberLikeCountModal},
         data() {
             return {
+              showLikeModel: false, // 是否显示获赞弹框
                 iffocus: '',//0未关注对方、 1、我的关注、2、我的粉丝、3、互相关注 4、就是当前用户
                 activeTab: 0,
                 tabs: [{
@@ -368,13 +371,6 @@
             clickTab(index) {
                 if (this.activeTab === index) return;
                 this.activeTab = index;
-            },
-            //点击“获赞与收藏”
-            tomemberLikeCountModal(item) {
-                console.log("点击了跳转modal");
-                uni.navigateTo({
-                    url: '/pages/home/memberLikeCountModal?item=' + encodeURIComponent(JSON.stringify(item))
-                })
             },
             //获取用户的粉丝和关注和获赞与收藏数量
             queryfocusFansByUuId(uuId) {
