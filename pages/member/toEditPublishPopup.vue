@@ -1,22 +1,24 @@
 <template>
     <!--我的动态点击右上角的三个黑点按钮弹出来的modal-->
     <uni-popup ref="popup" type="bottom">
-        <view class="popup-card bg-white">
+        <view class="popup-card bg-gray">
             <view class="padding text-right cuIcon-close" @tap="closeModal"></view>
-            <view class="flex">
+
+            <view class="icon-line-list">
                 <view class="edit" @click="toInforPublishForm(myFormData)">
-                    <text class="cuIcon-edit"></text>
-                    <view>编辑</view>
+                    <text class="cuIcon-edit icon-style"></text>
+                    <view class="icon-text">编辑</view>
                 </view>
                 <view class="delete" @click="deleteInfor(myFormData)">
-                    <text class="cuIcon-delete" style="font-size: 40rpx; margin-left: 40rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
-                    <view>删除</view>
+                    <text class="cuIcon-delete icon-style"></text>
+                    <view class="icon-text">删除</view>
                 </view>
                 <view class="seeType">
-                    <text class="cuIcon-post" style="font-size: 40rpx; margin-left: 40rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
-                    <view>权限设置</view>
+                    <text class="cuIcon-post icon-style"></text>
+                    <view class="icon-text">权限设置</view>
                 </view>
             </view>
+
         </view>
     </uni-popup>
 </template>
@@ -75,36 +77,45 @@
 </script>
 
 <style lang='scss'>
-	.popup-card {
-		//margin: 0 auto 40rpx;
+
+    .popup-card {
 		width: 100%;
 		height: 400rpx;
 		border-radius: 18rpx;
+	}
+
+    .icon-line-list {
+        display: flex;
 	}
 
 	.edit {
-		//margin: 0 auto 40rpx;
-		width: 100%;
-		height: 400rpx;
-		border-radius: 18rpx;
-		//display: inline;
-		//display: flex;
-		//justify-content: space-between;
-		//margin-left: 80rpx;
-		//flex-direction: column;
-		//align-items: flex-start;
+        //display: inline;
+        margin-left: 20rpx;
+		margin-right: 220rpx;
 	}
 
-	.delete {
-        width: 100%;
-        height: 400rpx;
-        border-radius: 18rpx;
-	}
+    .delete {
+        //display: inline;
+        margin-right: 190rpx;
+    }
 
-	.seeType {
-        width: 100%;
-        height: 400rpx;
-        border-radius: 18rpx;
+    .seeType {
+        //display: inline;
+        //margin-right: 50rpx;
+    }
+
+    .icon-style {
+        font-size: 80rpx;
+        //background: #e1d7f0;
+        background: white;
+    }
+
+	.icon-text {
+        justify-content: space-between;
+        font-size: 30rpx;
+        font-weight: bold;
+        //margin-left: 20rpx;
+        margin-top: 15rpx;
 	}
 
 </style>

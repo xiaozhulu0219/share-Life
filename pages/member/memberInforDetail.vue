@@ -4,21 +4,10 @@
         <cu-custom  style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
             <block slot="backText">
             </block>
-            <!--				<block slot="content">我的动态</block>-->
 
-            <block slot="right">
+            <block slot="right" v-if="this.pubOrLove==1">
                 <view @click="showModal" class="cuIcon-more"></view>
             </block>
-
-<!--            <block slot="right">-->
-<!--                <button class="cu-btn block bg-gray margin-tb-sm " size="small" v-if="this.pubOrLove==1" @click="toInforPublishForm(myFormData)">-->
-<!--                    编辑  &lt;!&ndash;跳新页面还是到informationForm.vue 而且可编辑 还可设置可见状态&ndash;&gt;-->
-<!--                </button>-->
-<!--            </block>-->
-<!--            <block slot="right">-->
-<!--                <button class="cu-btn block bg-gray margin-tb-sm" type="warn" size="mini" v-if="this.pubOrLove==1" @click="deleteInfor(myFormData)">删除-->
-<!--                </button>-->
-<!--            </block>-->
 
         </cu-custom>
         <view class="card">
@@ -159,7 +148,6 @@
             }
         },
         created() {
-            //this.initFormData();
             this.findPublishInfor(this.myFormData.inforId);
             this.getInforCommentsList(this.myFormData.inforId);
         },
@@ -175,8 +163,6 @@
                 // 如果相等 赋值为1 代表是我的发布
                 this.pubOrLove = 1;
             }
-            //console.log("myFormData", this.myFormData.id);
-            //this.findPublishInfor(this.publishId); 这是传参后继续调用方法的示例
         },
         methods: {
             showModal() {
@@ -278,7 +264,6 @@
         margin-bottom: 10rpx; /*盒子间的距离*/
         margin-top: 100rpx; /*盒子距离顶部的距离*/
         line-height: 35rpx; /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
 
         .card-line {
             font-weight: bold;
@@ -329,12 +314,8 @@
 
         .comment {
             background-color: #fff;
-            //padding: 20rpx 20rpx;
-            //border-radius: 20rpx;
             margin-bottom: 10rpx; /*盒子间的距离*/
             margin-top: 30rpx; /*盒子距离顶部的距离*/
-            //line-height: 35rpx; /*行高*/
-            //margin-bottom: 16px; /*内容和标题间的间距*/
 
             //这个虽然目前没用但是要留下来、这个是绝对位置的样式
             .comment-parent {
@@ -362,44 +343,28 @@
                 }
 
                 .comment-nickcon {
-                    //font-weight: bold;
-                    //margin-right: 80rpx;
                     margin-left: 70rpx;
-                    //display: flex;
-                    //justify-content: space-between;
 
                     .comment-nickname {
                         font-size: 30rpx;
                         color: #6e6e6e;
-                        //font-weight: bold;
-                        //margin-right: 80rpx;
-                        //margin-left: 40rpx;
                     }
 
                     .comment-content {
                         font-size: 35rpx;
                         color: #2c2c2c;
-                        //font-weight: bold;
-                        //margin-right: 10rpx;
-                        //margin-left: 40rpx;
                     }
                     .comment-createDate {
-                        //margin-right: 80rpx;
                         margin-left: 10rpx;
                         display: flex;
                     }
                 }
                 .comment-iconlikeCount {
-                    //font-weight: bold;
                     margin-right: 25rpx;
-                    //margin-left: 35rpx;
                     margin-top: 30rpx;
                     display: flex;
-                    //justify-content: space-between;
 
                     .comment-likeCount {
-                        //font-weight: bold;
-                        //margin-right: 80rpx;
                         margin-left: 10rpx;
                     }
                 }
@@ -407,18 +372,10 @@
             }
 
             .comment-son {
-                /*position: absolute; 绝对定位*/
-                /*left: 20rpx;*/
-                /*font-size: 20rpx;*/
                 display: flex;
                 justify-content: space-between;
                 margin-left: 85rpx;
 
-                /*.card-line {*/
-                /*    font-weight: bold;*/
-                /*    display: flex;*/
-                /*    margin-bottom: 30rpx; !*盒子间的距离*!*/
-                /*}*/
                 .comment-avatar {
                     max-width: 25px;
                     width: 25px;
@@ -432,44 +389,30 @@
                 }
 
                 .comment-nickcon {
-                    //font-weight: bold;
                     margin-right: 80rpx;
                     margin-left: 40rpx;
 
                     .comment-nickname {
                         font-size: 30rpx;
                         color: #6e6e6e;
-                        //font-weight: bold;
-                        //margin-right: 80rpx;
-                        //margin-left: 40rpx;
                     }
 
                     .comment-content {
                         font-size: 35rpx;
                         color: #2c2c2c;
-                        //font-weight: bold;
                         margin-right: 10rpx;
-                        //margin-left: 40rpx;
                     }
                     .comment-createDate {
-                        //margin-right: 80rpx;
                         margin-left: 60rpx;
-                        //display: flex;
-                        //justify-content: space-between;
                     }
                 }
 
                 .comment-iconlikeCount {
-                    //font-weight: bold;
                     margin-right: 25rpx;
                     margin-top: 30rpx;
-                    //margin-left: 35rpx;
                     display: flex;
-                    //justify-content: space-between;
 
                     .comment-likeCount {
-                        //font-weight: bold;
-                        //margin-right: 80rpx;
                         margin-left: 10rpx;
                     }
                 }
@@ -486,12 +429,8 @@
         height: 300px;
         height: expression(this.height > 300 ? "300px" : this.height);
         overflow: hidden;
-        //text-align:center;
         display: block;
         margin: 0 auto;
-        /*width: 21rpx;*/
-        /*height: 21rpx;*/
-        /*border-radius: 8rpx;*/
         margin-bottom: 30rpx; /*盒子间的距离*/
     }
 
@@ -502,8 +441,6 @@
         height: 30px;
         height: expression(this.height > 30 ? "30px" : this.height);
         overflow: hidden;
-        //margin-right: 10rpx;
-        // margin-left: 2rpx;
         display: inline;
         float: left;
     }
