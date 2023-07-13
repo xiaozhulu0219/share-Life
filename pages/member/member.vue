@@ -40,11 +40,6 @@
                                 <text :style="{color:'#ddd'}">助力</text>
                             </view>
                         </view>
-<!--                        <navigator url="/pages/member/memberdetail">-->
-<!--                            <view class="edit text-sm">-->
-<!--                                编辑资料-->
-<!--                            </view>-->
-<!--                        </navigator>-->
                     </view>
                 </view>
             </view>

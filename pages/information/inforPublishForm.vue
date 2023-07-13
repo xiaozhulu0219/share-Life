@@ -4,7 +4,6 @@
         <!--标题和返回-->
         <cu-custom isBack="t" :backRouterName="backRouteName">
             <block slot="backText">
-<!--                <view class="cuIcon-roundclose"></view>-->
             </block>
             <block slot="content">发动态</block>
             <block slot="right">
@@ -117,20 +116,8 @@
             const item = JSON.parse(decodeURIComponent(option.item));
             this.myFormData = item
             console.log("编辑页带进来的数据", item)
-            //this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {
-            // initFormData() {
-            //     if (this.formData) {
-            //         let dataId = this.formData.dataId;
-            //         this.$http.get(this.url.queryById, {params: {id: dataId}}).then((res) => {
-            //             if (res.data.success) {
-            //                 console.log("表单数据", res);
-            //                 this.model = res.data.result;
-            //             }
-            //         })
-            //     }
-            // },
 
             //失焦
             shijiao() {

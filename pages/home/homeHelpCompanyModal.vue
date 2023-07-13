@@ -39,10 +39,6 @@
                 isDownLoading: false,
                 comListUrl: '/company/findHomeComList',
                 homeComList: [],
-                //unloveInforUrl: '/information/movements/unlove',
-                //loveInforUrl: '/information/movements/love',
-                //homeListUrl: '/information/movements/findHomePublishInforList',
-                //homeList: [], // 上拉加载的配置(可选, 绝大部分情况无需配置)
                 fileUrl: configService.fileSaveURL,
             };
         },
@@ -108,30 +104,20 @@
     }
     .card {
         background-color:  $uni-bg-color-grey;
-        //background-color: $uni-bg-color-grey;
-        //padding: 20rpx 20rpx;
         border-radius: 20rpx;
         margin-bottom: 10rpx;/*盒子间的距离*/
         margin-top: 25rpx; /*盒子距离顶部的距离*/
         line-height: 65rpx;  /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
         margin-left: 20rpx;
         border-bottom: #eee solid 5rpx;
-        //background-color: $uni-bg-color-grey;
-        //padding: 20rpx 20rpx;
-        //border-radius: 20rpx;
-        //margin-bottom: 20rpx;
 
         .card-title {
             font-weight: bold;
             font-size: 38rpx;
-            //margin-top: 100rpx; /*盒子距离顶部的距离*/
         }
 
         .card-line {
-            //font-weight: bold;
             display: flex;
-            //margin-left: 20rpx;
         }
 
         .card-text {

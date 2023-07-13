@@ -175,26 +175,18 @@
     }
 
     .card-createDate {
-        //font-weight: bold;
         font-size: 20rpx;
-        //right: 20rpx;
-        //margin-left: 550rpx;
     }
 
     .card-nickname {
         font-weight: bold;
-        //position: absolute;
-        //right: 20rpx;
         font-size: 35rpx;
-        //margin-left: 100rpx;
     }
+
     .card-signature {
-        //font-weight: bold;
-        //position: absolute;
-        //right: 20rpx;
         font-size: 28rpx;
-        //margin-left: 100rpx;
     }
+
     .fans-avatar {
         max-width: 50px;
         width: 50px;
@@ -203,8 +195,6 @@
         height: expression(this.height > 50 ? "50px" : this.height);
         position: absolute;
         font-size: 20rpx;
-        //margin-top: 5rpx;
-        //margin-right: 10rpx;
         margin-left: 20rpx;
     }
 

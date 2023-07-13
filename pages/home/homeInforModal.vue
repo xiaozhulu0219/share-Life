@@ -142,13 +142,9 @@
     }
     .card {
         background-color:  #fff;
-        //background-color: $uni-bg-color-grey;
         padding: 20rpx 20rpx;
         border-radius: 20rpx;
-        //margin-bottom: 10rpx;/*盒子间的距离*/
-        //margin-top: 10rpx; /*盒子距离顶部的距离*/
         line-height: 35rpx;  /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
         border-bottom: #eee solid 5rpx;
 
         .card-line {
@@ -172,7 +168,6 @@
 
         .card-loveCount {
             font-weight: bold;
-            //margin-right: 80rpx;
             margin-left: 10rpx;
             margin-top: 8rpx;
         }
@@ -181,7 +176,6 @@
             font-size: 36rpx;
             margin-bottom: 10rpx; /*盒子间的距离*/
             line-height: 55rpx;  /*行高*/
-            //margin-bottom: 16px; /*内容和标题间的间距*/
         }
 
         .card-location {
@@ -193,31 +187,26 @@
         .card-avatar {
             max-width: 20px;
             width: 20px;
-            // width: expression(this.width > 20 ? "20px" : this.width);
             height: 20px;
-            // height: expression(this.height > 20 ? "20px" : this.height);
         }
 
     }
     .medias_size {
         max-width: 180px;
         width: 180px;
-        // width:expression(this.width > 180 ? "180px" : this.width);
         height: 180px;
-        // height:expression(this.height > 180 ? "180px" : this.height);
         overflow:hidden;
-        /*text-align:center;*/
-        /*width: 21rpx;*/
-        /*height: 21rpx;*/
-        /*border-radius: 8rpx;*/
         margin-bottom: 20rpx; /*盒子间的距离*/
     }
+
     .load-text, .noMore {
         background-color: #fff;
         text-align: center;
         padding: 4rpx;
     }
+
     .noMore {
         color: #ccc;
     }
+
 </style>

@@ -193,21 +193,16 @@
                     console.log('watch', this.cur);
                     this.userId = this.$store.getters.userid;
                     this.uuId = this.$store.getters.uuId;
-                    //this.load();
-                    console.log('uuId666：', this.uuId);
-                    console.log('userId888：', this.userId);
                 }
             }
         },
         created() {
-            //this.initFormData();
             this.getInforCommentsList(this.myFormData.inforId);
             this.findPublishInfor(this.myFormData.inforId);
         },
         onLoad(option) {
             const item = JSON.parse(decodeURIComponent(option.item));
             this.myFormData = item;
-            //console.log("输出item", item)
             this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {
@@ -325,7 +320,7 @@
             toMemberdetail(myFormData) {
                 console.log('进来了666应该是uuid', myFormData);
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
-                //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
+                //判断如果跳转的动态页的uuid 不是当前登录用户的  那就跳到用户的个人页
                 if (this.uuId == myFormData) {
                     uni.navigateTo({
                         url: '/pages/member/member'
@@ -349,7 +344,6 @@
                     this.$http.post(this.url.saveCommentUrl, InforCommentDto).then(res => {
                         //刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
                         if (res.data.success) {
-                            //console.log("33333res:",res.data.result);
                             //回显最新评论数
                             this.myCommentForm.commentCount = res.data.result;
                             //刷新评论列表
@@ -440,6 +434,7 @@
 </script>
 
 <style lang="scss" scoped>
+
     .list-wrap {
         height: calc(100vh - 280rpx);
     }
@@ -455,7 +450,6 @@
         margin-bottom: 10rpx; /*盒子间的距离*/
         margin-top: 100rpx; /*盒子距离顶部的距离*/
         line-height: 35rpx; /*行高*/
-        //margin-bottom: 16px; /*内容和标题间的间距*/
 
         .card-line {
             font-weight: bold;
@@ -502,26 +496,14 @@
 
         .comment {
             background-color: #fff;
-            //padding: 20rpx 20rpx;
-            //border-radius: 20rpx;
             margin-bottom: 10rpx; /*盒子间的距离*/
             margin-top: 30rpx; /*盒子距离顶部的距离*/
-            //line-height: 35rpx; /*行高*/
-            //margin-bottom: 16px; /*内容和标题间的间距*/
 
             //这个虽然目前没用但是要留下来、这个是绝对位置的样式
             .comment-parent {
-                /*position: absolute; 绝对定位*/
-                /*left: 20rpx;*/
-                /*font-size: 20rpx;*/
                 display: flex;
                 justify-content: space-between;
 
-                /*.card-line {*/
-                /*    font-weight: bold;*/
-                /*    display: flex;*/
-                /*    margin-bottom: 30rpx; !*盒子间的距离*!*/
-                /*}*/
                 .comment-avatar {
                     max-width: 25px;
                     width: 25px;
@@ -535,44 +517,28 @@
                 }
 
                 .comment-nickcon {
-                    //font-weight: bold;
-                    //margin-right: 80rpx;
                     margin-left: 80rpx;
-                    //display: flex;
-                    //justify-content: space-between;
 
                     .comment-nickname {
                         font-size: 30rpx;
                         color: #6e6e6e;
-                        //font-weight: bold;
-                        //margin-right: 80rpx;
-                        //margin-left: 40rpx;
                     }
 
                     .comment-content {
                         font-size: 35rpx;
                         color: #2c2c2c;
-                        //font-weight: bold;
-                        //margin-right: 10rpx;
-                        //margin-left: 40rpx;
                     }
                     .comment-createDate {
-                        //margin-right: 80rpx;
                         margin-left: 10rpx;
                         display: flex;
                     }
                 }
                 .comment-iconlikeCount {
-                    //font-weight: bold;
                     margin-right: 25rpx;
-                    //margin-left: 35rpx;
                     margin-top: 30rpx;
                     display: flex;
-                    //justify-content: space-between;
 
                     .comment-likeCount {
-                        //font-weight: bold;
-                        //margin-right: 80rpx;
                         margin-left: 10rpx;
                     }
                 }
@@ -580,18 +546,10 @@
             }
 
             .comment-son {
-                /*position: absolute; 绝对定位*/
-                /*left: 20rpx;*/
-                /*font-size: 20rpx;*/
                 display: flex;
                 justify-content: space-between;
                 margin-left: 85rpx;
 
-                /*.card-line {*/
-                /*    font-weight: bold;*/
-                /*    display: flex;*/
-                /*    margin-bottom: 30rpx; !*盒子间的距离*!*/
-                /*}*/
                 .comment-avatar {
                     max-width: 25px;
                     width: 25px;
@@ -605,44 +563,30 @@
                 }
 
                 .comment-nickcon {
-                    //font-weight: bold;
                     margin-right: 80rpx;
                     margin-left: 40rpx;
 
                     .comment-nickname {
                         font-size: 30rpx;
                         color: #6e6e6e;
-                        //font-weight: bold;
-                        //margin-right: 80rpx;
-                        //margin-left: 40rpx;
                     }
 
                     .comment-content {
                         font-size: 35rpx;
                         color: #2c2c2c;
-                        //font-weight: bold;
                         margin-right: 10rpx;
-                        //margin-left: 40rpx;
                     }
                     .comment-createDate {
-                        //margin-right: 80rpx;
                         margin-left: 60rpx;
-                        //display: flex;
-                        //justify-content: space-between;
                     }
                 }
 
                 .comment-iconlikeCount {
-                    //font-weight: bold;
                     margin-right: 25rpx;
                     margin-top: 30rpx;
-                    //margin-left: 35rpx;
                     display: flex;
-                    //justify-content: space-between;
 
                     .comment-likeCount {
-                        //font-weight: bold;
-                        //margin-right: 80rpx;
                         margin-left: 10rpx;
                     }
                 }
@@ -658,12 +602,8 @@
         height: 300px;
         height: expression(this.height > 300 ? "300px" : this.height);
         overflow: hidden;
-        //text-align:center;
         display: block;
         margin: 0 auto;
-        /*width: 21rpx;*/
-        /*height: 21rpx;*/
-        /*border-radius: 8rpx;*/
         margin-bottom: 30rpx; /*盒子间的距离*/
     }
 
@@ -674,8 +614,6 @@
         height: 30px;
         height: expression(this.height > 30 ? "30px" : this.height);
         overflow: hidden;
-        //margin-right: 10rpx;
-        // margin-left: 2rpx;
         display: inline;
         float: left;
     }
@@ -688,11 +626,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        //padding:0rpx;
     }
 
     .input-form{
-        //display: flex;
         width: 250px;
         height: 40px;
     }
@@ -726,7 +662,9 @@
         text-align: center;
         padding: 4rpx;
     }
+
     .noMore {
         color: #ccc;
     }
+
 </style>

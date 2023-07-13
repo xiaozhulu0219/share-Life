@@ -83,7 +83,6 @@
             };
         },
         // created() {
-        //     this.getHomePublishComList();
         //     this.getHomePublishInforList();
         // },
         methods: {

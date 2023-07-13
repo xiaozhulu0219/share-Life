@@ -57,7 +57,6 @@
                 </view>
             </view>
 
-            <!-- <view class="cu-tabbar-height"></view> -->
             <view class="mine-tab">
                 <view class="tab-title flex justify-center">
                     <view class="padding-sm" v-for="(item,index) in tabs" :key="index" @tap="clickTab(index)">
@@ -72,9 +71,7 @@
                             <image class="medias_size" :src="ite.medias[0]" mode="widthFix" alt=""></image>
                             <view>{{ ite.textContent.substr(0, 35) }}</view>
                         </view>
-                        <!--                        <MemberPublishListModal v-if="index === 0"/>-->
 
-                        <!--                        <MemberHelpCompanyListModal v-if="index === 1"/>-->
                         <view v-for="(ite,inde) in focusOrFansHelpList" :key="inde" class="card-Help"
                               v-if="index === 1">
                             <view class="card-title">{{ite.companyName}}</view>
@@ -99,7 +96,6 @@
 </template>
 
 <script>
-    import api from '@/api/api';
     import configService from '@/common/service/config.service.js'
 
     export default {
@@ -289,7 +285,6 @@
                             }
                             d.medias = arr2
                         }
-                        //console.log("数据条数222:",this.myPublishInforList.length);
                     }
                 }).catch(err => {
                     console.log(err);
@@ -355,11 +350,6 @@
                     if (res.data.success) {
                         //console.log("两个用户的关注关系是：", res.data.result);
                         this.iffocus = res.data.result;
-
-                        //初始化判断这个页面是不是自己的  是自己的就把“关注”按钮去掉
-                        // if (this.uuId === uuId) {
-                        //     this.iffocus = "4"
-                        // }
                         console.log("两个用户的关注关系是：", this.iffocus);
                     }
                 })
@@ -404,6 +394,7 @@
 </script>
 
 <style>
+
     .UCenter-bg {
         background-color: rgba(0, 0, 0, .5);
         height: 500rpx;
@@ -523,10 +514,6 @@
         height: 180px;
         height:expression(this.height > 180 ? "180px" : this.height);
         overflow:hidden;
-        /*text-align:center;*/
-        /*width: 21rpx;*/
-        /*height: 21rpx;*/
-        /*border-radius: 8rpx;*/
     }
 
     .card-Help {

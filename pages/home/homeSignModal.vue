@@ -55,48 +55,35 @@
 </script>
 
 <style lang="scss" scoped>
-.menu-scroll {
-  width: 100vw;
-}
-.menu-tab {
-  height: 80rpx;
-  width: 100vw;
-  background-color: #fff;
 
-  .menu-wrap {
-    display: flex;
-    align-items: center;
-    height: 100%;
-  }
-  .tab {
-    color: #666;
-		font-size: 36rpx;
-    min-width: 100rpx;
-    text-align: center;
-    flex-shrink: 0;
-  }
-  .active {
-    color: #000;
-		font-weight: bold;
-  }
-}
+	.menu-scroll {
+	  width: 100vw;
+	}
 
-	// .uni-swiper-tab {
-	// 	white-space: nowrap;
-	// 	width: 100%;
-	// 	// top: 180rpx;
-	// 	// position: fixed;
-	// }
+	.menu-tab {
+	  height: 80rpx;
+	  width: 100vw;
+	  background-color: #fff;
 
-	// .tab-title {
-	// 	color: #666;
-	// 	width: 90%;
-	// 	margin-top: -30rpx;
-	// 	font-size: 36rpx;
-	// }
+	  .menu-wrap {
+		display: flex;
+		align-items: center;
+		height: 100%;
+	  }
 
-	// .tab-title text.active {
-	// 	color: #000;
-	// 	font-weight: bold;
-	// }
+	  .tab {
+		color: #666;
+			font-size: 36rpx;
+		min-width: 100rpx;
+		text-align: center;
+		flex-shrink: 0;
+	  }
+
+	  .active {
+		color: #000;
+			font-weight: bold;
+	  }
+
+	}
+
 </style>

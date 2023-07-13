@@ -40,11 +40,13 @@
 </script>
 
 <style>
+
     page {
         width: 100%;
         height: 100%;
         background: rgba(0,0,0,0.4);
     }
+
     .mask {
         width: 100%;
         height: 100%;
@@ -53,6 +55,7 @@
         justify-content: center;
         align-items: center;
     }
+
     .content {
         width: 600rpx;
         height: 800rpx;
