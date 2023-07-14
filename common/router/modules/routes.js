@@ -224,13 +224,14 @@ const routes = [{
         meta: {
             title: 'success'
         }
-    },
-    {
-        path: '/pages/addressbook/member',
-        name: 'member',
-        meta: {
-            title: 'member'
-        }
-    }
+     }
+    // ,
+    // {
+    //     path: '/pages/addressbook/member',
+    //     name: 'member',
+    //     meta: {
+    //         title: 'member'
+    //     }
+    // }
 ];
 export default routes;
