@@ -2,14 +2,14 @@
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view class="container">
         <commonTab :isBack="true" :backRouterName="backRouteName">
-            <block slot="title"> <image class="medias_avatar" :src="myFormData.avatar" alt="" @click="toMemberdetail(myFormData.uuId)" style="margin-right: 20rpx"></image>
+            <block slot="title"> <image class="medias_avatar round" :src="myFormData.avatar" alt="" @click="toMemberdetail(myFormData.uuId)" style="margin-right: 20rpx"></image>
                 {{myCommentForm.nickname}}
             </block>
         </commonTab>
         <view class="card">
-            <swiper indicator-dots indicator-color="#008c8c" indicator-active-color="red">
-                <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
-                    <image :src="item" @click="TanPreviewImage(index)" mode="aspectFit"></image>
+            <swiper indicator-dots   indicator-color="#94afce" indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
+                <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index" >
+                    <image :src="item" @click="TanPreviewImage(index)" mode="aspectFit" style="height: 980rpx;width: 720rpx"></image>
                 </swiper-item>
             </swiper>
 
@@ -103,7 +103,6 @@
     import configService from '@/common/service/config.service.js';
     import commonTab from '../component/commonTab.vue';
     import { keyWords } from '../../common/util/constants';
-
     export default {
         name: 'homeInformationDetail',
         components: {
@@ -120,6 +119,7 @@
         },
         data() {
             return {
+
                 pageInfo: {
                     num: 0,
                     size: 10
@@ -594,24 +594,12 @@
 
     }
 
-    .medias_size {
-        max-width: 300px;
-        width: 300px;
-        width: expression(this.width > 300 ? "300px" : this.width);
-        height: 300px;
-        height: expression(this.height > 300 ? "300px" : this.height);
-        overflow: hidden;
-        display: block;
-        margin: 0 auto;
-        margin-bottom: 30rpx; /*盒子间的距离*/
-    }
-
     .medias_avatar {
-        max-width: 30px;
-        width: 30px;
-        width: expression(this.width > 30 ? "30px" : this.width);
-        height: 30px;
-        height: expression(this.height > 30 ? "30px" : this.height);
+        max-width: 35px;
+        width: 35px;
+        width: expression(this.width > 35 ? "35px" : this.width);
+        height: 35px;
+        height: expression(this.height > 35 ? "35px" : this.height);
         overflow: hidden;
         display: inline;
         float: left;
