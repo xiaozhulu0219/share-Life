@@ -37,7 +37,7 @@
                             </view>
                             <!-- 获赞收藏弹框 -->
                             <memberLikeCountModal :show="showLikeModel" :FocusFansNumVo="FocusFansNumVo" @close="showLikeModel=false"></memberLikeCountModal>
-                            
+
                             <view class="flex flex-direction align-center margin-right-xl" @click="toHelpCom(personalList.uuId)">
                                 <text>{{HelpCompanyNumVo.helpComCount}}</text>
                                 <text :style="{color:'#ddd'}">助力</text>
@@ -78,8 +78,8 @@
     import MyLoveInforList from './memberLoveInforList';
     import configService from '@/common/service/config.service.js';
     import bottomTab from '../component/bottomTab.vue';
-    import memberLikeCountModal from '../home/memberLikeCountModal.vue'
-    
+    import memberLikeCountModal from './memberLikeCountModal.vue'
+
 
     export default {
         name: 'member',

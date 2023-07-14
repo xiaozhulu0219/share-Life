@@ -99,7 +99,7 @@
 
 <script>
     import configService from '@/common/service/config.service.js'
-    import memberLikeCountModal from './memberLikeCountModal.vue'
+    import memberLikeCountModal from '../member/memberLikeCountModal.vue'
     export default {
         name: 'homeMemberDetail',
         components: {memberLikeCountModal},
