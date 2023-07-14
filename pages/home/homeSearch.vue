@@ -1,25 +1,26 @@
 <template>
-    <view>
+    <view class="search-page">
         <!--首页引用的modal-->
         <!-- 这个modal 用户点击哪个标签 拿到value  作为参数 传到列表接口，然后拿回数据作展示  目前默认穿回来的数据字段都是一样的-->
         <commonTab :isBack="true" :backRouterName="backRouteName">
             <block slot="title"> 搜索
             </block>
         </commonTab>
-        <form class="search">
-            <!-- <view class="uni-form-item uni-column"> -->
-                <text class=" text-gray iconfont icon-search"></text>
-                <input class="uni-input" v-model="inputValue" maxlength="100" placeholder="请输入搜索内容"/>
-                <button form-type="submit" @click="searchList(inputValue)">搜索</button>
-            <!-- </view> -->
-        </form>
-
-        <view v-for="(item,index) in 5" :key="index" class="detail">
+        <view class="search">
+          <text class="text-gray iconfont icon-search"></text>
+          <input class="uni-input" v-model="inputValue" maxlength="100" placeholder="请输入搜索内容"/>
+          <button class="btn" form-type="submit" @click="searchList(inputValue)">搜索</button>
+        </view>
+        <view class="search-scroll">
+          <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
+          <view v-for="(item,index) in 5" :key="index" class="detail">
             <view class="detail-content">
                 这个搜索页以后看看做一些什么样的数据展示、
                 可以是自己的搜索记录、热搜、红黑榜等等，
                 如果是动态进来的展示一些点赞多的动态， 如果是助力进来的展示热门公司以及红黑榜
             </view>
+        </view>
+        </scroll-view>
         </view>
     </view>
 </template>
@@ -73,6 +74,9 @@
             //const item = JSON.parse(decodeURIComponent(option.item));
         },
         methods: {
+          reachBottom(){
+
+          },
             //搜索点击接口
             searchList(inputValue) {
                 //拿到值传递给查询列表的接口，然后查询结果出来以后，跳转到对应界面
@@ -132,22 +136,53 @@
 
 
 <style lang="scss" scoped>
+.search-page {
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  padding-top: 110rpx;
+  background-color: #fff;
+}
+.search-scroll {
+  height: calc(100vh - 200rpx);
+}
 
     // 搜索框
     .search {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
-        height: 100rpx;
-        margin: 0;
-        position: fixed;
-        margin-top: 150rpx; /*盒子距离顶部的距离*/
+        position: relative;
+        .icon-search {
+          position: absolute;
+          left: 34rpx;
+          top: 30rpx;
+          font-size: 30rpx!important;
+        }
+        .uni-input {
+          flex: 6;
+          background-color: #f0f0f0;
+          margin-right: 20rpx;
+          height: 76rpx;
+          border-radius: 38rpx;
+          box-sizing: border-box;
+          padding: 0 20rpx 0 56rpx;
+          margin-left: 20rpx;
+        }
+        .btn {
+          flex: 1;
+          flex-shrink: 0;
+          background-color: #fff;
+          color: #0081ff;
+        }
+        .btn::after{
+          border: none;
+        }
     }
 
     .detail {
-        //padding: 30rpx;
-        border-bottom: #eee solid 1rpx;
+        padding: 30rpx;
+        border-bottom: #ccc solid 1rpx;
         margin-top: 300rpx;
     }
 
