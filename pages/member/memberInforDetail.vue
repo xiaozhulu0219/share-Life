@@ -13,9 +13,12 @@
         <view class="card">
             <view class="iptbox">
                 <!-- <image  class="medias_size" :src="myFormData.medias[0]" mode="widthFix"  alt=""></image>-->
-                <view class="uni-list" v-for="(item, index) in myFormData.medias" :index="index" :key="index">
-                    <image :src="item" @click="TanPreviewImage(index)" mode="scaleToFill"></image>
-                </view>
+
+                <swiper indicator-dots   indicator-color="#94afce" indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
+                    <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index" >
+                        <image :src="item" mode="aspectFit" style="height: 980rpx;width: 720rpx"></image>
+                    </swiper-item>
+                </swiper>
                 <view class="card-text">{{myFormData.textContent}}</view>
 
                 <view class="card-line">
@@ -169,36 +172,36 @@
                 this.$refs.toEditPublishPopup.showModal();
             },
             //点击图片进入函数，传入当前列表的索引index
-            TanPreviewImage(indexa) {
-                uni.previewImage({ // 预览图片  图片路径必须是一个数组 => ["http://21111889:8970/6_1597822634094.png"]
-                    current: indexa,//这里是判断到点击列表上的某个图片，就读取索引的图片
-                    urls: this.myFormData.medias,//这是整个内容的图片数组，放一个数组里，就可以左右切换了
-                    longPressActions: { //长按保存图片到相册
-                        itemList: ['保存图片'],
-                        success: (data) => {
-                            console.log(data);
-                            uni.saveImageToPhotosAlbum({ //保存图片到相册
-                                filePath: payUrl,
-                                success: function () {
-                                    uni.showToast({
-                                        icon: 'success',
-                                        title: '保存成功'
-                                    })
-                                },
-                                fail: (err) => {
-                                    uni.showToast({
-                                        icon: 'none',
-                                        title: '保存失败，请重新尝试'
-                                    })
-                                }
-                            });
-                        },
-                        fail: (err) => {
-                            console.log(err.errMsg);
-                        }
-                    }
-                });
-            },
+            // TanPreviewImage(indexa) {
+            //     uni.previewImage({ // 预览图片  图片路径必须是一个数组 => ["http://21111889:8970/6_1597822634094.png"]
+            //         current: indexa,//这里是判断到点击列表上的某个图片，就读取索引的图片
+            //         urls: this.myFormData.medias,//这是整个内容的图片数组，放一个数组里，就可以左右切换了
+            //         longPressActions: { //长按保存图片到相册
+            //             itemList: ['保存图片'],
+            //             success: (data) => {
+            //                 console.log(data);
+            //                 uni.saveImageToPhotosAlbum({ //保存图片到相册
+            //                     filePath: payUrl,
+            //                     success: function () {
+            //                         uni.showToast({
+            //                             icon: 'success',
+            //                             title: '保存成功'
+            //                         })
+            //                     },
+            //                     fail: (err) => {
+            //                         uni.showToast({
+            //                             icon: 'none',
+            //                             title: '保存失败，请重新尝试'
+            //                         })
+            //                     }
+            //                 });
+            //             },
+            //             fail: (err) => {
+            //                 console.log(err.errMsg);
+            //             }
+            //         }
+            //     });
+            // },
             //根据id获取详情
             findPublishInfor(inforId) {
                 console.log("进来了方法", inforId)

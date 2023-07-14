@@ -57,26 +57,31 @@
 </script>
 
 <style lang="scss" scoped>
-.nav-wrap {
-  height: 100rpx;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  z-index: 99;
-  left: 0;
-  right: 0;
-  top: 0;
-}
-.back, .action {
-  width: 50rpx;
-  flex-shrink: 0;
-  text-align: center;
-}
-.title {
-  flex: 1;
-  flex-grow: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
+	.nav-wrap {
+	  height: 100rpx;
+	  display: flex;
+	  align-items: center;
+	  position: fixed;
+	  z-index: 99;
+	  left: 0;
+	  right: 0;
+	  top: 0;
+	}
+
+	.back, .action {
+	  width: 50rpx;
+	  flex-shrink: 0;
+	  text-align: center;
+	}
+
+	.title {
+	  flex: 1;
+	  flex-grow: 1;
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  font-size: 45rpx;
+	}
+
 </style>

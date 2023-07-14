@@ -2,8 +2,8 @@
     <view class="list-wrap">
         <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
             <view v-for="(item,index) in homeList" :key="index" class="card">
-                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""
-                       @click="toInformationDetail(item)"></image>
+<!--                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>-->
+                <image class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toInformationDetail(item)"></image>
                 <view class="card-text" @click="toInformationDetail(item)">
                   {{ contentFormat(item.textContent) }}
                 <view class="colpose"></view>
@@ -50,7 +50,7 @@
         computed: {
           contentFormat() {
             return function(content) {
-              return `${content.substring(0, 36)}${content.length > 36 ? '...' : ''}`;
+              return `${content.substring(0, 38)}${content.length > 38 ? ' ...' : ''}`;
             };
           }
         },
