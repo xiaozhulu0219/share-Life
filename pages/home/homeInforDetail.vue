@@ -2,10 +2,9 @@
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view class="container">
         <commonTab :isBack="true" :backRouterName="backRouteName">
-          <block slot="title"> <image class="medias_avatar" :src="myFormData.avatar" alt=""
-            @click="toMemberdetail(myFormData.uuId)" style="margin-right: 20rpx"></image>
-            {{myCommentForm.nickname}}
-          </block>
+            <block slot="title"> <image class="medias_avatar" :src="myFormData.avatar" alt="" @click="toMemberdetail(myFormData.uuId)" style="margin-right: 20rpx"></image>
+                {{myCommentForm.nickname}}
+            </block>
         </commonTab>
         <view class="card">
             <swiper indicator-dots indicator-color="#008c8c" indicator-active-color="red">
@@ -221,7 +220,7 @@
                 }
                 // 数据改变是异步的
                 this.$nextTick(() => {
-                  this.inputValue = value;
+                    this.inputValue = value;
                 });
                 console.log('置换后value:', value);
             },
