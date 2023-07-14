@@ -81,7 +81,7 @@
         },
         data() {
             return {
-                maxLength: 1000,
+                maxLength: 500,
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
                 loading: false,
