@@ -7,6 +7,7 @@
                 <view class="card-title">{{item.companyName.substr(0, 18)}}</view>
                 <view class="card-text">{{item.legalPerson}}</view>
                 <view class="card-text">{{item.registerTime.substr(0, 15)}}</view>
+                <view class="card-text">{{item.bussinessAddress}}</view>
                 <view class="card-text">{{item.companyStatus}}</view>
                 <view class="card-line">
                     <view class="card-text">{{item.registeredCapital}}</view>

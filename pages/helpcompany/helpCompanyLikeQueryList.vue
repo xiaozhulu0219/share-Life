@@ -27,6 +27,7 @@
 						<view class="card-title">{{item.companyName}}</view>
 						<view class="card-text">{{item.bussinessAddress}}</view>
 						<view class="card-text">{{item.legalPerson}}</view>
+						<view class="card-text">{{item.registerTime.substr(0,15)}}</view>
 						<view class="card-text">{{item.companyStatus}}</view>
 						<view class="card-text">{{item.registeredCapital}}</view>
 
@@ -103,7 +104,7 @@
 				this.model.companyName = []
 				this.companyName = null
 				this.queryParam = {}
-				this.loadList(1)
+				//this.loadList(1)
 				this.model.listData = [] //模糊搜索列表
 				this.listData = []
 			},
