@@ -19,7 +19,7 @@
                     <view class="cu-form-group textarea">
                         <textarea :placeholder="'你可以在这里:\n1.爆料职场新鲜事 \n2.分享面试跳槽经验 \n3.与同行交流、吐槽解压'"
                                   style="width: 18px; height: 400px;" name="input"
-                                  v-model="myFormData.textContent" maxlength="-1">
+                                  v-model="myFormData.textContent" :maxlength="maxLength" @input="onInput(myFormData.textContent)">
                         </textarea>
                     </view>
                     <view class="bottom_bar">
@@ -66,6 +66,7 @@
 <script>
     import myDate from '@/components/my-componets/my-date.vue'
     import myImageUpload from '@/components/my-componets/my-image-upload.vue'
+    import { keyWords } from '../../common/util/constants';
 
     export default {
         name: "inforPublishForm",
@@ -80,6 +81,7 @@
         },
         data() {
             return {
+                maxLength: 100,
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
                 loading: false,
@@ -118,7 +120,19 @@
             console.log("编辑页带进来的数据", item)
         },
         methods: {
-
+            onInput(value) {
+                if (value !== null) {
+                    for (const i in keyWords) {
+                        const reg = new RegExp(keyWords[i], 'g');
+                        value = value.replace(reg, ''.padEnd(keyWords[i].length, '*'));
+                    }
+                }
+                // 数据改变是异步的
+                this.$nextTick(() => {
+                    this.myFormData.textContent = value;
+                });
+                console.log('置换后value:', value);
+            },
             //失焦
             shijiao() {
                 if (this.text == '') {
@@ -165,6 +179,11 @@
                 this.loadList(1)
             },
             submit() {
+                //若评论中包含 “*” 或者为空 不允许保存
+                //console.log("inputValue值为空1：", inputValue);
+                if (this.myFormData.textContent === '' || this.myFormData.textContent.indexOf('*') != -1) {
+                    console.log('动态内容出现了违规词语、已被拦截：', this.myFormData.textContent);
+                } else {
                 console.log('medias2', this.myFormData.medias)
                 this.$http.post(this.url.submitUrl, this.myFormData, {}).then(res => {
                     console.log('myFormData', this.myFormData)
@@ -184,7 +203,7 @@
                         });
                     }
                 })
-            }
+            }}
         }
     }
 </script>
