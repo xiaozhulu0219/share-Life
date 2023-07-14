@@ -3,7 +3,7 @@
     <view class="container">
         <commonTab :isBack="true" :backRouterName="backRouteName">
           <block slot="title"> <image class="medias_avatar" :src="myFormData.avatar" alt=""
-            @click="toMemberdetail(myFormData.uuId)"></image>
+            @click="toMemberdetail(myFormData.uuId)" style="margin-right: 20rpx"></image>
             {{myCommentForm.nickname}}
           </block>
         </commonTab>
@@ -84,7 +84,7 @@
                         </view>
                     </view>
                     <view v-if='isDownLoading' class="load-text">评论加载中....</view>
-                    <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快去发表你的态度吧---</view>
+                    <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快快留下你的赞美吧---</view>
 
                 </scroll-view>
             </view>
