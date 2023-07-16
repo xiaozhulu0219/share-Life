@@ -7,12 +7,17 @@
             </block>
         </commonTab>
         <view class="card">
-            <swiper indicator-dots   indicator-color="#94afce" indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
+
+            <swiper  v-if="myFormData.medias.length>1" indicator-dots indicator-color="#94afce" indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
                 <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index" >
                     <image :src="item" @click="TanPreviewImage(index)" mode="aspectFit" style="height: 980rpx;width: 720rpx"></image>
                 </swiper-item>
             </swiper>
-
+            <swiper  v-else  style="height: 1000rpx;width: 750rpx">
+                <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index" >
+                    <image :src="item" @click="TanPreviewImage(index)" mode="aspectFit" style="height: 980rpx;width: 720rpx"></image>
+                </swiper-item>
+            </swiper>
             <view class="card-text">{{myFormData.textContent}}</view>
 
             <view class="card-line">
@@ -202,6 +207,9 @@
         onLoad(option) {
             const item = JSON.parse(decodeURIComponent(option.item));
             this.myFormData = item;
+            console.log('this.myFormData1:',this.myFormData);
+            console.log('this.myFormData2:',this.myFormData.medias);
+            console.log('this.myFormData3:',this.myFormData.medias.length);
             this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {

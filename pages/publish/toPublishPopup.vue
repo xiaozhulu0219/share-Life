@@ -53,7 +53,7 @@
 <style lang='scss'>
 
 	.popup-card {
-		margin: 0 auto;
+		margin: 0 auto 45rpx;
 		width: 90%;
 		height: 350rpx;
 		border-radius: 35rpx;

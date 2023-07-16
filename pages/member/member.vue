@@ -57,8 +57,8 @@
 <!--                <swiper :current="activeTab" class="padding" style="height: 100%;" circular @change="changeSwiper">-->
                 <swiper :current="activeTab" class="padding" style="height: 100%;"  @change="changeSwiper">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
-                        <MyHelpCompanyList v-if="index === 0"/>
-                        <MyPublishList v-if="index === 1"/>
+                        <MyPublishList v-if="index === 0"/>
+                        <MyHelpCompanyList v-if="index === 1"/>
                         <MyCollectList v-if="index === 2"/>
                         <MyLoveInforList v-if="index === 3"/>
                         <view v-if="index !== 0 && index !== 1 && index !== 3" class="swiper-item">收藏列表功能暂时还未开发</view>
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-    import api from '@/api/api';
+
     import MyPublishList from './memberPublishList';
     import MyHelpCompanyList from './memberHelpCompanyList';
     import MyCollectList from './memberCollectList';
@@ -97,10 +97,10 @@
                 activeTab: 0,
                 tabs: [{
                     id: 1,
-                    name: '我的助力'
+                    name: '我的动态'
                 } ,{
                     id: 2,
-                    name: '我的动态'
+                    name: '我的助力'
                 }, {
                     id: 3,
                     name: '收藏'
