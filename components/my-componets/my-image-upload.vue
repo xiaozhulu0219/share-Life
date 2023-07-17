@@ -30,12 +30,11 @@
 		name: 'MyImageUpoad',
 		props: {
 			value: {type:String,default:''},
-			label:{type:String,default:'图片上传'},
+			label:{type:String,default:'上传图片'},
 			maxImg: {
 				type: Number,
 				default: 9
 			},
-
 		},
 		mounted:function(){
 			if (this.value.split(',')!=''){
@@ -57,24 +56,26 @@
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: ['album','camera'], //从相册选择
 					success: (res) => {
-						uni.uploadFile({
-							url: `${configService.fileUploadURL}`,
-							filePath: res.tempFilePaths[0],
-							name: 'file',
-							success: (uploadFileRes) => {
-								console.log('filePath:',res.tempFilePaths[0] );
-								let path = JSON.parse(uploadFileRes.data).message
-								this.pathlist.push(path);
-								console.log('path:',path);
-								this.$emit('input',this.pathlist.join(','))
-								//console.log('res.tempFilePaths:',res.tempFilePaths);
-								if (this.imgList.length != 0) {
-									this.imgList = this.imgList.concat(res.tempFilePaths)
-								} else {
-									this.imgList = res.tempFilePaths
+						for (let i = 0; i < res.tempFilePaths.length; i++) {
+							uni.uploadFile({
+								url: `${configService.fileUploadURL}`,
+								filePath: res.tempFilePaths[i],
+								name: 'file',
+								success: (uploadFileRes) => {
+									let path = JSON.parse(uploadFileRes.data).message
+									this.pathlist.push(path);
+									this.$emit('input',this.pathlist.join(','))
 								}
-							}
-						})
+							})
+							//这是之前的
+							// if (this.imgList.length != 0) {
+							// 	this.imgList = this.imgList.concat(res.tempFilePaths)
+							// } else {
+							// 	this.imgList = res.tempFilePaths
+							// }
+							//这是为了同时可选择多张做的修改后的版本
+							this.imgList = res.tempFilePaths
+						}
 					}
 				});
 			},
