@@ -8,13 +8,15 @@
         </commonTab>
         <view class="search">
           <text class="text-gray iconfont icon-search"></text>
-          <input class="uni-input" v-model="inputValue" maxlength="100" placeholder="请输入搜索内容"/>
+          <input class="uni-input" v-model="inputValue" maxlength="100" v-if="activeTab == 2" placeholder="输入感兴趣的公司简称"></input>
+          <input class="uni-input" v-model="inputValue" maxlength="100" v-else placeholder="请输入感兴趣的动态内容"></input>
           <button class="btn" form-type="submit" @click="searchList(inputValue)">搜索</button>
         </view>
         <view class="search-scroll">
           <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
           <view v-for="(item,index) in 5" :key="index" class="detail">
             <view class="detail-content">
+                {{activeTab}}
                 这个搜索页以后看看做一些什么样的数据展示、
                 可以是自己的搜索记录、热搜、红黑榜等等，
                 如果是动态进来的展示一些点赞多的动态， 如果是助力进来的展示热门公司以及红黑榜
@@ -37,7 +39,7 @@
         components: {commonTab},
         data() {
             return {
-                activeTab: {},
+                activeTab: '',
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
                 inputValue: '',
@@ -70,12 +72,14 @@
             //this.getHomePublishInforList();
         },
         onLoad(option) {
-            console.log("params过来了", option)
+            const item = JSON.parse(decodeURIComponent(option.item));
+            console.log("params过来了", item)
+            //this.activeTab = option;
+            //console.log("params过来了", this.activeTab)
             //const item = JSON.parse(decodeURIComponent(option.item));
         },
         methods: {
           reachBottom(){
-
           },
             //搜索点击接口
             searchList(inputValue) {

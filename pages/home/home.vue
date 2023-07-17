@@ -8,9 +8,7 @@
         <commonTab :bgColor="NavBarColor">
             <block slot="title"> ShareLife</block>
             <block slot="right">
-                <view class="iconfont ml-1 search-icon" style="margin-right: 200rpx" @click="toSearch(activeTab.value)">
-                    &#xe600
-                </view>
+                <view class="cuIcon-search search-icon" @click="toSearch(activeTab.value)"></view>
             </block>
         </commonTab>
 
@@ -94,7 +92,8 @@
             toSearch(item) {
                 console.log('首页的activeTab.value进来了', item);
                 uni.navigateTo({
-                    url: '/pages/home/homeSearch?item=' + item
+                   // url: '/pages/home/homeSearch?item=' + item
+                    url: '/pages/home/homeSearch?item=' + encodeURIComponent(JSON.stringify(item))
                 });
             },
             handleStatus(status, type) {
@@ -210,9 +209,10 @@
     }
     .search-icon {
         color: #fff;
-        margin-left: 10rpx;
-        font-size: 40rpx;
-        font-weight: 700;
+       //margin-left: 10rpx;
+        margin-right: 10rpx; //没生效
+        font-size: 50rpx;
+        //font-weight: 700;
     }
     .home-helpCompany {
         background-color: $uni-bg-color-grey;
