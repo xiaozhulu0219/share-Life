@@ -8,7 +8,7 @@
         </commonTab>
         <view class="search">
           <text class="text-gray iconfont icon-search"></text>
-          <input class="uni-input" v-model="inputValue" maxlength="100" v-if="activeTab == 2" placeholder="输入感兴趣的公司简称"></input>
+          <input class="uni-input" v-model="inputValue" maxlength="100" v-if="activeTab == 2" placeholder="请输入感兴趣的公司简称"></input>
           <input class="uni-input" v-model="inputValue" maxlength="100" v-else placeholder="请输入感兴趣的动态内容"></input>
           <button class="btn" form-type="submit" @click="searchList(inputValue)">搜索</button>
         </view>
@@ -36,7 +36,7 @@
     export default {
         name: "homeSearch",
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
-        components: {commonTab},
+        components: { commonTab },
         data() {
             return {
                 activeTab: '',
@@ -70,14 +70,14 @@
         },
         created() {
             //this.getHomePublishInforList();
+            const { activeKey } = this.$route.query;
+            this.activeTab = activeKey;
+            console.log("拿到了activeKey", activeKey)
         },
-        onLoad(option) {
-            const item = JSON.parse(decodeURIComponent(option.item));
-            console.log("params过来了", item)
-            //this.activeTab = option;
-            //console.log("params过来了", this.activeTab)
+        //onLoad(option) {
             //const item = JSON.parse(decodeURIComponent(option.item));
-        },
+            //console.log("params过来了", item)
+        //},
         methods: {
           reachBottom(){
           },

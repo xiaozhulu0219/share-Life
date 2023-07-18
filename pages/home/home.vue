@@ -89,11 +89,11 @@
                 console.log('切换tab1', item.value);
                 console.log('切换tab2', this.activeTab.value);
             },
-            toSearch(item) {
-                console.log('首页的activeTab.value进来了', item);
+            toSearch(activeKey) {
+                console.log('首页的activeTab.value进来了', activeKey);
                 uni.navigateTo({
-                   // url: '/pages/home/homeSearch?item=' + item
-                    url: '/pages/home/homeSearch?item=' + encodeURIComponent(JSON.stringify(item))
+                    url: '/pages/home/homeSearch?activeKey=' + activeKey
+                    //url: '/pages/home/homeSearch?item=' + encodeURIComponent(JSON.stringify(item))
                 });
             },
             handleStatus(status, type) {

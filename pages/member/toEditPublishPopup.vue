@@ -30,6 +30,12 @@
         data() {
             return {};
         },
+        props: {
+            myFormData: {
+                type: Object,
+                default: () => ({})
+            }
+        },
         created() {
 
         },

@@ -5,7 +5,7 @@
         <cu-custom isBack="t" :backRouterName="backRouteName">
             <block slot="backText">
             </block>
-            <block slot="content">发动态</block>
+            <block slot="content">{{ myFormData.id ? '编辑动态' : '发动态'}}</block>
             <block slot="right">
                 <button class="cu-btn block bg-gray margin-tb-sm " size="small" @click="submit">
                     发布
@@ -90,15 +90,16 @@
                 backRouteName: 'index',
                 url: {
                     submitUrl: '/information/movements/savePublish',
+                    editUrl: '/information/movements/editPublish',
                 },
                 text: '',
-                vBlock: "block",
+                vBlock: 'block',
                 toupiao: false,
-                voteBc: "white",
+                voteBc: 'white',
                 voteList: [
-                    {id: 1, content: ''},
-                    {id: 2, content: ''},
-                    {id: 3, content: ''}
+                    { id: 1, content: '' },
+                    { id: 2, content: '' },
+                    { id: 3, content: '' }
                 ],
                 myFormData: {
                     latitude: '',
@@ -115,9 +116,11 @@
             this.shijiao();
         },
         onLoad(option) {
-            const item = JSON.parse(decodeURIComponent(option.item));
+            //const item = JSON.parse(decodeURIComponent(option.item));
+            if (option.item) {
+                const item = JSON.parse(decodeURIComponent(option.item));
             this.myFormData = item
-            console.log("编辑页带进来的数据", item)
+            console.log("编辑页带进来的数据", item)}
         },
         methods: {
             onInput(value) {
@@ -137,33 +140,33 @@
             shijiao() {
                 if (this.text == '') {
                     uni.createSelectorQuery().select('.default_text').boundingClientRect(() => {
-                        this.vBlock = "block"
+                        this.vBlock = 'block'
                     })
                 } else {
-                    this.vBlock = "none"
+                    this.vBlock = 'none'
                 }
             },
             //聚焦
             jujiao() {
-                const that = this
+                const that = this;
                 if (this.text != '') {
                     uni.createSelectorQuery().select('.default_text').boundingClientRect(() => {
-                        that.vBlock = "none"
+                        that.vBlock = 'none'
                     })
 
                 }
             },
             //投票
             vote() {
-                console.log("投票")
+                console.log('投票')
                 this.toupiao = true;
-                this.voteBc = "gray";
+                this.voteBc = 'gray';
             },
             //关闭投票
             closeVote() {
-                console.log("关闭投票")
+                console.log('关闭投票')
                 this.toupiao = false;
-                this.voteBc = "white";
+                this.voteBc = 'white';
             },
             //添加观点
             addIdea() {
@@ -172,11 +175,11 @@
             },
             clear() {
                 // 重置
-                this.sysOrgCode = []
-                this.model.sysOrgCode = []
-                this.sysOrgCode = null
-                this.queryParam = {}
-                this.loadList(1)
+                this.sysOrgCode = [];
+                this.model.sysOrgCode = [];
+                this.sysOrgCode = null;
+                this.queryParam = {};
+                this.loadList(1);
             },
             submit() {
                 //若评论中包含 “*” 或者为空 不允许保存
@@ -185,7 +188,7 @@
                     console.log('动态内容出现了违规词语、已被拦截：', this.myFormData.textContent);
                 } else {
                 console.log('medias2', this.myFormData.medias)
-                this.$http.post(this.url.submitUrl, this.myFormData, {}).then(res => {
+                this.$http.post(this.myFormData.id ? this.url.editUrl : this.url.submitUrl, this.myFormData, {}).then(res => {
                     console.log('myFormData', this.myFormData)
                     console.log('res', res);
                     if (res.data.success) {

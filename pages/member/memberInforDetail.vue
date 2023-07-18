@@ -73,7 +73,7 @@
                 </view>
             </view>
         </view>
-        <ToEditPublishPopup ref='toEditPublishPopup'></ToEditPublishPopup>
+        <ToEditPublishPopup ref='toEditPublishPopup' :myFormData="myFormData"></ToEditPublishPopup>
 
     </view>
 </template>
@@ -108,15 +108,15 @@
                     findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
                 },
                 text: '',
-                vBlock: "block",
+                vBlock: 'block',
                 toupiao: false,
-                voteBc: "white",
+                voteBc: 'white',
                 voteList: [
                     {id: 1, content: ''},
                     {id: 2, content: ''},
                     {id: 3, content: ''}
                 ],
-                publishId: "",
+                publishId: '',
                 myFormData: {
                     latitude: '',
                     longitude: '',
@@ -125,7 +125,7 @@
                     textContent: '',
                     uuId: '',
                     avatar: '',
-                    id: '',
+                    id: ''
                 },
                 myCommentForm: {
                     latitude: '',
@@ -134,13 +134,13 @@
                     medias: '',
                     textContent: '',
                     uuId: '',
-                    avatar: '',
+                    avatar: ''
                 },
                 fileUrl: configService.fileSaveURL,
                 inforCommentsList: [],
                 inforSonCommentsList: [],
                 pubOrLove: '',
-            }
+            };
         },
         watch: {
             cur: {
@@ -231,7 +231,7 @@
                         //console.log("res.data.result:",res.data.result);
                         console.log("数据条数:", res.data.result);
                         this.inforCommentsList = res.data.result.items;
-                        for (let d of this.inforCommentsList) {
+                        for (const d of this.inforCommentsList) {
                             d.avatar = this.fileUrl + d.avatar
                         }
                     }
@@ -250,7 +250,7 @@
                     if (res.data.success) {
                         //console.log("33333res:",res.data.result);
                         this.inforSonCommentsList = res.data.result;
-                        for (let d of this.inforSonCommentsList) {
+                        for (const d of this.inforSonCommentsList) {
                             d.avatar = this.fileUrl + d.avatar
                         }
                     }

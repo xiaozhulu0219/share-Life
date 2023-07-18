@@ -215,14 +215,14 @@
     .left,.right {
       display: flex;
       align-items: center;
-      flex: 1;
+      //flex: 1;
     }
     .left {
       overflow: hidden;
-      flex: 2;
+      flex: 3;
     }
     .right{
       flex-shrink: 0;
-      flex: 1;
+      flex: 2;
     }
 </style>
