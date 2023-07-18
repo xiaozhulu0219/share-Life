@@ -46,7 +46,6 @@
                             <view class="cuIcon-like" style="color: #fbbd08" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)"></view>
                             <view class="cuIcon-likefill" style="color: #dd524d" v-else @click="unloveInfor(item.inforId,index)"></view>
                             <view class="card-loveCount">{{item.loveCount}}</view>
-                            <view class="card-loveCount">{{item.loveCount}}</view>
                         </view>
                     </view>
                 </view>

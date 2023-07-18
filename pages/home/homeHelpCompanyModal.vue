@@ -16,10 +16,9 @@
                         <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else-if="item.hotValue > 20">&#xe60d</view>
                         <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else>&#xe646</view>
                     </view>
-                    <view class="card-hotValue">{{item.hotValue}}</view>
+                    <view class="card-hotValue" v-show="item.hotValue > 0">{{item.hotValue}}</view>
                 </view>
             </view>
-
             <view v-if='isDownLoading' class="load-text">加载中....</view>
             <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
         </scroll-view>
