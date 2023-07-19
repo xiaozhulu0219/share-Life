@@ -86,7 +86,7 @@
 				shape: '', //round 圆形
 				loading: false,
 				password: '12345678',
-				phoneNo: '16600251650',
+				//phoneNo: '16600251650',
 				//phoneNo: '15288888888',
 				phoneNo: '',
 				smsCode: '',
