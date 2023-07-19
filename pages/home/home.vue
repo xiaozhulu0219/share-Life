@@ -8,7 +8,7 @@
         <commonTab :bgColor="NavBarColor">
             <block slot="title"> ShareLife</block>
             <block slot="right">
-                <view class="cuIcon-search search-icon" @click="toSearch(activeTab.value)"></view>
+                <view class="cuIcon-search search-icon" @click="toSearch()"></view>
             </block>
         </commonTab>
 
@@ -89,8 +89,9 @@
                 console.log('切换tab1', item.value);
                 console.log('切换tab2', this.activeTab.value);
             },
-            toSearch(activeKey) {
-                console.log('首页的activeTab.value进来了', activeKey);
+            toSearch() {
+                const activeKey = this.activeTab.value
+                console.log('首页的标签value拿到了:', activeKey);
                 uni.navigateTo({
                     url: '/pages/home/homeSearch?activeKey=' + activeKey
                     //url: '/pages/home/homeSearch?item=' + encodeURIComponent(JSON.stringify(item))

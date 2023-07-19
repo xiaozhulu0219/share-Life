@@ -118,16 +118,27 @@
             }
         },
         created() {
-            //this.getHomePublishInforList();
-            const { activeKey } = this.$route.query;
-            this.activeTab = activeKey;
-            console.log("拿到了activeKey", activeKey)
+            //这个方法放在这里 这样获取，真机的时候不行
+            //const { activeKey } = this.$route.query;
+            //this.activeTab = activeKey;
+            //console.log("拿到了activeKey", activeKey)
             this.getPopularPublishInforList();
         },
-        //onLoad(option) {
-            //const item = JSON.parse(decodeURIComponent(option.item));
-            //console.log("params过来了", item)
-        //},
+        onShow(){
+            let routes = getCurrentPages(); // 获取当前打开过的页面路由数组
+            let curRoute = routes[routes.length - 1].route //获取当前页面路由
+            console.log("当前页面的路由",curRoute);
+            let curParam = routes[routes.length - 1].options; //获取路由参数
+            console.log("当前页面的参数",curParam);
+            console.log("当前页面的参数22:",curParam.activeKey);
+            this.activeTab = curParam.activeKey;
+        },
+        // onLoad(option) { 在这里 onLoad 拿不到传递过来的参数，只能换 onShow
+        //     const item = JSON.parse(decodeURIComponent(option));
+        //     const item2 = JSON.parse(decodeURIComponent(option.activeKey));
+        //     console.log("params过来了11", item)
+        //     console.log("params过来了22", item2)
+        // },
         methods: {
             // 触底加载
             reachBottom() {
@@ -135,7 +146,7 @@
                 console.log('//// 触底加载');
                 this.getPopularPublishInforList();
             },
-            //当失聪动态页进来时，默认获取的最热门动态的接口
+            //当是从动态页进来时，默认获取的最热门动态的接口
             getPopularPublishInforList() {
                 if (this.isDownLoading) return;
                 this.isDownLoading = true;
