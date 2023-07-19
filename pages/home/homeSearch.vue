@@ -219,15 +219,8 @@
                 });
             },
             //搜索点击接口
-            searchList(inputValue) {
-                //拿到值传递给查询列表的接口，然后查询结果出来以后，跳转到对应界面
-                console.log("进来了111", inputValue)
-                uni.navigateTo({
-                    url: '/pages/home/homeSearchResultPage?item=' + encodeURIComponent(JSON.stringify(inputValue))
-                })
-            },
             //这是之前关于搜索页面的一些方法、包括展示历史搜索记录、清空等 以后还得用、现在技术不行 暂时搁置
-            search() {
+            searchList() {
                 if (this.inputValue == '') {
                     uni.showModal({
                         title: '搜索内容不能为空'
@@ -251,6 +244,15 @@
                             key: 'searchList',
                             data: JSON.stringify(this.searchHistoryList)
                         });
+                    }
+                    if(this.activeTab == 2){
+                        uni.navigateTo({
+                            url: '/pages/home/homeComSearchResultPage?item=' + encodeURIComponent(JSON.stringify(this.inputValue))
+                        })
+                    }else{
+                        uni.navigateTo({
+                            url: '/pages/home/homeInforSearchResultPage?item=' + encodeURIComponent(JSON.stringify(this.inputValue))
+                        })
                     }
                 }
                 this.inputValue = '';
@@ -277,16 +279,19 @@
 
 
 <style lang="scss" scoped>
-.search-page {
+
+    .search-page {
   height: 100vh;
   width: 100vw;
   box-sizing: border-box;
   padding-top: 110rpx;
   background-color: #fff;
 }
+
 .search-scroll {
   height: calc(100vh - 200rpx);
 }
+
 
     // 搜索框
     .search {
@@ -334,6 +339,7 @@
 
 .list-wrap {
     height: calc(100vh - 280rpx);
+    margin-top: 200rpx;
 }
 .card {
     background-color:  #fff;
