@@ -177,10 +177,17 @@ const routes = [{
         }
     },
     {
-        path: '/pages/home/homeSearchResultPage',
-        name: 'homeSearchResultPage',
+        path: '/pages/home/homeInforSearchResultPage',
+        name: 'homeInforSearchResultPage',
         meta: {
             title: '动态搜索结果展示页'
+        }
+    },
+    {
+        path: '/pages/home/homeComSearchResultPage',
+        name: 'homeComSearchResultPage',
+        meta: {
+            title: '助力搜索结果展示页'
         }
     },
     {

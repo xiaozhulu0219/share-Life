@@ -219,7 +219,11 @@
       "style": {}
     },
     {
-      "path": "pages/home/homeSearchResultPage",
+      "path": "pages/home/homeInforSearchResultPage",
+      "style": {}
+    },
+    {
+      "path": "pages/home/homeComSearchResultPage",
       "style": {}
     },
     {
