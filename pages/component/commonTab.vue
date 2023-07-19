@@ -59,6 +59,7 @@
 <style lang="scss" scoped>
 
 	.nav-wrap {
+		min-width:54px ;
 	  height: 100rpx;
 	  display: flex;
 	  align-items: center;

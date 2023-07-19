@@ -5,6 +5,7 @@
         至于modal的命名无所谓， 比如第一个modal是心理方面的 在返回的标签中 心理是1 那就将1作为参数获取列表
         所有标签页获取数据公用一个接口，根据传的标签值（类型）后台返回不同的领域的数据
         -->
+		        <!-- <scroll-view scroll-y class="page"> -->
         <commonTab :bgColor="NavBarColor">
             <block slot="title"> ShareLife</block>
             <block slot="right">
@@ -13,14 +14,13 @@
         </commonTab>
 
         <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
-
-<!--        <KeepAlive>-->
-            <homeHelpCompanyModal class="home-helpCompany" v-if="activeTab.value==2"></homeHelpCompanyModal>
-
-            <homeModal v-else></homeModal>
+           
+		   <homeHelpCompanyModal v-if="activeTab.value==2" class="home-helpCompany" ></homeHelpCompanyModal>
+          <homeModal v-else></homeModal>
 <!--        </KeepAlive>-->
 
         <bottomTab PageCur="home"></bottomTab>
+		<!-- </scroll-view> -->
     </view>
 </template>
 
@@ -84,6 +84,11 @@
         //     this.getHomePublishInforList();
         // },
         methods: {
+			// changeSwiper(e) {
+			//   const curTab = e.detail.current;
+			//    console.log('1111111111111', curTab);
+			//   this.getActiveTab(curTab+1)
+			// },
             getActiveTab(item) {
                 this.activeTab = item;
                 console.log('切换tab1', item.value);

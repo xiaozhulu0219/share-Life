@@ -10,13 +10,15 @@
                 <view class="card-text">{{item.bussinessAddress}}</view>
                 <view class="card-text">{{item.companyStatus}}</view>
                 <view class="card-line">
-                    <view class="card-text">{{item.registeredCapital}}</view>
-                    <view class="card-icon">
-                        <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-if="item.hotValue > 60">&#xe627</view>
-                        <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else-if="item.hotValue > 20">&#xe60d</view>
-                        <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;  margin-left: 260rpx" v-else>&#xe646</view>
-                    </view>
-                    <view class="card-hotValue" v-show="item.hotValue > 0">{{item.hotValue}}</view>
+                    <view class="card-text cart-flex">{{item.registeredCapital}}</view>
+                   <view class="card-icons">
+					   <view class="card-icon">
+					       <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;" v-if="item.hotValue > 60">&#xe627</view>
+					       <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;" v-else-if="item.hotValue > 20">&#xe60d</view>
+					       <view class="iconfont ml-1" style="font-size: 60rpx; color: #dd524d;" v-else>&#xe646</view>
+					   </view>
+					   <view class="card-hotValue" v-show="item.hotValue > 0">{{item.hotValue}}</view>
+				   </view>
                 </view>
             </view>
             <view v-if='isDownLoading' class="load-text">加载中....</view>
@@ -100,7 +102,9 @@
 
 <style lang="scss" scoped>
     .list-wrap {
+		width: 100%;
         height: calc(100vh - 280rpx);
+		overflow: hidden;
     }
     .card {
         background-color:  $uni-bg-color-grey;
@@ -117,23 +121,31 @@
         }
 
         .card-line {
+			width: 100%;
+			padding-right: 30rpx;
             display: flex;
+			align-items: center;
+			justify-content: space-between;
         }
 
         .card-text {
             font-size: 32rpx;
         }
-
+		.card-icons{
+			width: 150rpx;
+			display: absolute;
+			display: flex;	
+			align-items: center;
+			padding-bottom: 5rpx;
+		}
         .card-icon {
-            position: absolute;
+			display: relative;
             right: 120rpx;
             font-size: 20rpx;
         }
 
         .card-hotValue {
-            position: absolute;
-            font-weight: bold;
-            right: 35rpx;
+			margin-left: 15rpx;
             margin-top: 8rpx;
         }
 

@@ -14,11 +14,15 @@
                     <view class="card-nickname">{{item.nickname.substr(0, 12)}}</view>
                   </view>
                   <view class="right">
-                    <view class="cuIcon-location"> </view>
-                    <view class="card-ipAddress">{{item.ipAddress}}</view>
-                    <view class="cuIcon-like" style="color: #fbbd08" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)"></view>
-                    <view class="cuIcon-likefill" style="color: #dd524d" v-else @click="unloveInfor(item.inforId,index)"></view>
-                    <view class="card-loveCount">{{item.loveCount}}</view>
+                  <view class="cart-flex card-width">
+					  <view class="cuIcon-location"> </view>
+					  <view class="card-ipAddress">{{item.ipAddress}}</view>
+				  </view>
+				   <view class="cart-flex">
+					   <view class="cuIcon-like" style="color: #fbbd08" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)"></view>
+					   <view class="cuIcon-likefill" style="color: #dd524d" v-else @click="unloveInfor(item.inforId,index)"></view>
+					   <view class="card-loveCount">{{item.loveCount}}</view>
+				   </view>
                   </view>
                 </view>
             </view>
@@ -75,7 +79,7 @@
                     params: { page: num, pagesize: size }
                 }).then(res => {
                     const { success, result } = res.data;
-                    console.log('。。。。。', result.items);
+                    console.log('。。。。。', result.items,'数据');
                     if (success) {
                         const { pages, items, page } = result;
                         if (num === 1) this.homeList = [];
@@ -150,7 +154,11 @@
         border-radius: 20rpx;
         line-height: 35rpx;  /*行高*/
         border-bottom: #eee solid 5rpx;
-
+			.cart-flex{
+				display: flex;
+				align-items: center;
+				// justify-content: space-between
+			}
         .card-line {
             font-weight: bold;
             display: flex;
@@ -175,7 +183,10 @@
             font-weight: bold;
             margin-left: 8rpx;
         }
-
+       .card-width{
+		   width: 200rpx;
+		   text-align: center
+	   }
         .card-text {
             font-size: 36rpx;
             margin-bottom: 10rpx; /*盒子间的距离*/

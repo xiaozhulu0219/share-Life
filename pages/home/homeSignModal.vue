@@ -5,7 +5,7 @@
 			<view class="menu-wrap">
 				<view v-for="(item, index) in tabs"
           :class="[{'active' : activeTab === index}, 'tab']" :key="index"
-          @tap="clickTab(item)">
+          @tap="clickTab(item,index)">
 					{{ item.title }}
 				</view>
 			</view>
@@ -42,9 +42,12 @@
 			});
 		},
 		methods: {
-			clickTab(item) {
-				if (this.activeTab === item.value - 1) return;
-				this.activeTab = item.value - 1;
+			clickTab(item,index) {
+				// if (this.activeTab === item.value - 1) return;
+						if (this.activeTab === index) return;
+				// this.activeTab = item.value - 1;
+				this.activeTab =index;
+				console.log(this.activeTab)
 				this.getActiveTab(item);
 			},
 			scroll(e) {
@@ -74,7 +77,7 @@
 	  .tab {
 		color: #666;
 			font-size: 36rpx;
-		min-width: 100rpx;
+		min-width: 130rpx;
 		text-align: center;
 		flex-shrink: 0;
 	  }

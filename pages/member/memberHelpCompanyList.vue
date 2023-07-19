@@ -5,9 +5,13 @@
 
             <view v-for="(item,index) in myHelpList" :key="index" class="card">
                 <view class="card-title">{{item.companyName}}</view>
-                <view v-for="(ite,inde) in item.commentVoList" :key="inde" class="">
-                    <view class="card-location">{{ite.commentCreateDate}}</view>
-                    <view class="card-text">{{ite.content}}</view>
+				 <view v-if="item.commentVoList.length>1" class="card-divider"></view>
+                <view v-for="(ite,inde) in item.commentVoList" :key="inde">
+                   <view class="card-main">
+					   <view class="card-text">{{ite.content}}</view>
+					    <view class="card-location">{{ite.commentCreateDate}}</view>
+				   </view>
+					 <view v-if="item.commentVoList.length>1" class="card-divider"></view>
                 </view>
             </view>
 
@@ -71,6 +75,7 @@
                             }
                         }
                         this.myHelpList = this.myHelpList.concat(items);
+						console.log(this.myHelpList,'');
                         this.hasNext = pages > page;
                         this.isDownLoading = false;
                     } else {
@@ -106,14 +111,29 @@
         }
 
         .card-text {
+			// height: 20rpx;
             font-size: 20rpx;
+			flex:0.8
         }
 
         .card-location {
-            position: absolute;
-            right: 20rpx;
+            // position: absolute;
+            // right: 20rpx;
+			flex:0.2;
             font-size: 20rpx;
+			width: 300rpx;
         }
+		.card-main{
+			width: 100%;
+		    display: flex;
+			align-items: flex-end;
+			// justify-content: space-between;
+		}
+			
+		.card-divider{
+			height: 10rpx;
+			 border-bottom:1px dashed #CCC
+		}
     }
     .load-text, .noMore {
         background-color: #fff;

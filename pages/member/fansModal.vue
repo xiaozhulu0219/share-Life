@@ -8,23 +8,28 @@
         <mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
                        @down="downCallback" @up="upCallback">
             <view v-for="(item,index) in myFansList" :key="index" class="card">
-                <image class="fans-avatar round sm" :src="fileUrl+item.avatar" alt=""  @click="toMemberdetail(item.uuId)"></image>
-                <view class="card-info">
-                    <view class="card-nickname">{{item.nickname}}</view>
-                    <view class="card-signature">{{item.signature}}</view>
-                    <view class="card-createDate">{{item.createDate}}</view>
-                    <button class="edit text-sm" @click="focusUser(item.uuId)" v-if="item.cover == 0">
-                        关注
-                    </button>
-                    <button class="edit text-sm" @click="unFocusUser(item.uuId)" v-else-if="item.cover == 1">
-                        取消关注
-                    </button>
-                    <button class="edit text-sm" @click="focusUser(item.uuId)" v-else-if="item.cover == 2">
-                        回关
-                    </button>
-                    <button class="edit text-sm" @click="unFocusUser(item.uuId)" v-else-if="item.cover == 3">
-                        互相关注
-                    </button>
+              <view class="card-info">
+                <image class="fans-avatar round " :src="fileUrl+item.avatar" alt="" @click="toMemberdetail(item.uuId)"></image>
+          	 <view>
+          		 <view class="card-nickname">{{item.nickname}}</view>
+          		 <view class="card-signature more-lines-omission">{{item.signature}}</view>
+          		 <view class="card-createDate">{{item.createDate}}</view>
+          	 </view>
+          	</view>
+             <view class="card-width">
+          	   <button class="edit text-sm" @click="focusUser(item.uuId)" v-if="item.cover == 0">
+          		   关注
+          	   </button>
+          	   <button class="edit text-sm" @click="unFocusUser(item.uuId)" v-else-if="item.cover == 1">
+          		   取消关注
+          	   </button>
+          	   <button class="edit text-sm" @click="focusUser(item.uuId)" v-else-if="item.cover == 2">
+          		   回关
+          	   </button>
+          	   <button class="edit text-sm" @click="unFocusUser(item.uuId)" v-else-if="item.cover == 3">
+          		   互相关注
+          	   </button>
+             </view>
                 </view>
             </view>
         </mescroll-body>
@@ -156,7 +161,6 @@
 
 
 <style lang='scss'>
-
     .card {
         padding: 30rpx;
         border-bottom: #eee solid 1rpx;
@@ -165,6 +169,8 @@
         border-radius: 20rpx;
         margin-bottom: 20rpx;
         display: flex;
+		justify-content: space-between;
+		align-items: center;
     }
 
     .card-info {
@@ -175,18 +181,26 @@
     }
 
     .card-createDate {
+        //font-weight: bold;
         font-size: 20rpx;
+        //right: 20rpx;
+        //margin-left: 550rpx;
     }
 
     .card-nickname {
         font-weight: bold;
+        //position: absolute;
+        //right: 20rpx;
         font-size: 35rpx;
+        //margin-left: 100rpx;
     }
-
     .card-signature {
+        //font-weight: bold;
+        //position: absolute;
+        //right: 20rpx;
         font-size: 28rpx;
+        //margin-left: 100rpx;
     }
-
     .fans-avatar {
         max-width: 50px;
         width: 50px;
@@ -195,9 +209,26 @@
         height: expression(this.height > 50 ? "50px" : this.height);
         position: absolute;
         font-size: 20rpx;
-        margin-left: 20rpx;
+		transform: translateX(-150rpx);
+     /*   //margin-top: 5rpx;
+        //margin-right: 10rpx;
+        margin-left: 20rpx; */
     }
-
-
+    .card-main{
+	    display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.card-width{
+		min-width:76px ;
+	}
+	.more-lines-omission{
+		max-width: 160px;
+	    overflow:hidden;
+	    text-overflow:ellipsis;
+	    display:-webkit-box;
+	    -webkit-line-clamp:2;
+	    -webkit-box-orient:vertical;
+	}
 
 </style>

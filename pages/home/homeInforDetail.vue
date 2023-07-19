@@ -42,7 +42,7 @@
                 <view class="cuIcon-comment" style="font-size: 45rpx;"></view>
                 <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
             </view>
-
+			<view class="card-divider"></view>
             <view class="list-wrap">
                 <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 
@@ -661,5 +661,9 @@
     .noMore {
         color: #ccc;
     }
+	.card-divider{
+		height: 10rpx;
+		 border-bottom:1px dashed #CCC
+	}
 
 </style>
