@@ -18,6 +18,8 @@
                         <view class="margin-left-xl flex flex-sub flex-direction justify-around">
                             <text class="text-bold">{{personalList.nickName}}</text>
                             <text :class="[{'cuIcon-male text-blue': personalList.sex === 1},{'cuIcon-female text-pink': personalList.sex === 2}]"></text>
+<!--                            <view class="cuIcon-location"> </view>-->
+                            <view class="card-ipAddress">ip属地：{{personalList.ipAddress}}</view>
                         </view>
                     </view>
                     <text class="flex flex-sub flex-direction signature">{{personalList.signature}}</text>
