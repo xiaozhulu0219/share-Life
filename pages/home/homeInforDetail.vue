@@ -78,8 +78,12 @@
                                     <view class="comment-content">{{ sonitem.content }}</view>
                                     <view class="comment-createDate">{{sonitem.createDate}}</view>
                                 </view>
+
                                 <view class="comment-iconlikeCount">
-                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
+                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
+                                          v-if="sonitem.hasLiked == 0" @click="likeSonComment(sonitem.id)">&#xe8ad
+                                    </view>
+                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
                                           @click="likeSonComment(sonitem.id)">&#xe60f
                                     </view>
                                     <view class="comment-likeCount">{{sonitem.likeCount}}</view>
@@ -305,23 +309,37 @@
                     this.isDownLoading = false;
                 });
             },
-            //获取评论的评论列表
+            //获取评论的子级评论列表
             getSonCommentsList(item) {
+                if (this.isDownLoading) return;
+                this.isDownLoading = true;
+                this.pageInfo.num++;
+                const { findSonCommentListPageUrl, pageInfo: { num, size } } = this;
                 this.$http.get(this.findSonCommentListPageUrl, {
-                    params: {
-                        id: item.id
-                    }
+                    params: { page: 1, pagesize: 10, id: item.id }
                 }).then(res => {
-                    if (res.data.success) {
-                        //console.log("33333res:",res.data.result);
-                        this.inforSonCommentsList = res.data.result;
-                        for (const d of this.inforSonCommentsList) {
-                            d.avatar = this.fileUrl + d.avatar;
+                    const { success, result } = res.data;
+                    console.log('。。。。。', result.items);
+                    if (success) {
+                        const { pages, items, page } = result;
+                        if (num === 1) this.inforSonCommentsList = [];
+                        if (items.length) {
+                            for (const d of items) {
+                                d.avatar = this.fileUrl + d.avatar;
+                            }
                         }
-                        //console.log("数据:",this.inforSonCommentsList);
+                        this.inforSonCommentsList = this.inforSonCommentsList.concat(items);
+                        this.hasNext = pages > page;
+                        this.isDownLoading = false;
+
+                        console.log('子级评论列表', this.inforSonCommentsList);
+
+                    } else {
+                        this.isDownLoading = false;
                     }
                 }).catch(err => {
                     console.log(err);
+                    this.isDownLoading = false;
                 });
             },
             //点击头像跳转用户详情
