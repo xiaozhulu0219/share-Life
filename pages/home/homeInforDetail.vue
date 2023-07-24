@@ -52,7 +52,7 @@
                                    @click="toMemberdetail(item.uuId)"></image>
                             <view class="comment-nickcon">
                                 <view class="comment-nickname">{{ item.nickname }}</view>
-                                <view class="comment-content">{{ item.content }}</view>
+                                <view class="comment-content" >{{ item.content }}</view>
                                 <view class="comment-createDate">{{item.createDate}}</view>
                             </view>
                             <view class="comment-iconlikeCount">
@@ -66,7 +66,7 @@
                             </view>
                         </view>
                         <view class="cuIcon-triangledownfill" style="font-size: 40rpx;  margin-left: 200rpx"
-                              @click="getSonCommentsList(item)" v-if="item.sonCommentSum>0">
+                              @click="getSonCommentsList(item)" v-if="item.hasChild=1">
                         </view>
                         <!--  <view>展开{{}}条回复</view>-->
                         <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
@@ -138,10 +138,11 @@
                 arr: [],
                 inputValue: '',
                 findInforCommentsPageUrl: '/information/comments/list',
+                findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
-                    findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
                     saveCommentUrl: '/information/comments/saveCommentForInfor',
+                    saveCommentForCommentUrl: '/information/comments/saveCommentForComment',
                     likeCommentUrl: '/information/comments/like',
                     dislikeCommentUrl: '/information/comments/dislike',
                     likeSonCommentUrl: '/information/comments/like',
@@ -306,7 +307,7 @@
             },
             //获取评论的评论列表
             getSonCommentsList(item) {
-                this.$http.get(this.url.findSonCommentListPageUrl, {
+                this.$http.get(this.findSonCommentListPageUrl, {
                     params: {
                         id: item.id
                     }
@@ -356,6 +357,27 @@
                             //刷新评论列表
                             this.getInforCommentsList(this.myFormData.inforId);
                             //console.log('当前页数是：', this.pageInfo.num);
+                            //置空输入框
+                            this.inputValue = '';
+                        }
+                    });
+                }
+            },
+            //保存对评论进行的评论
+            saveCommentForComment(publishId,inputValue) {
+                //若评论中包含 “*” 或者为空 不允许保存
+                //console.log("inputValue值为空1：", inputValue);
+                if (inputValue === '' || inputValue.indexOf('*') != -1) {
+                    console.log('评论出现了违规词语、已被拦截：', inputValue);
+                } else {
+                    const InforCommentDto = {};
+                    InforCommentDto.publishId = publishId; //这个应该是评论的id
+                    InforCommentDto.comment = inputValue;
+                    this.$http.post(this.url.saveCommentForCommentUrl, InforCommentDto).then(res => {
+                        //刷新子级留言列表  并将输入框文字置空
+                        if (res.data.success) {
+                            //刷新子级评论列表
+                            this.getSonCommentsList(publishId);//拿的也不是动态id  而应该是评论的id
                             //置空输入框
                             this.inputValue = '';
                         }
