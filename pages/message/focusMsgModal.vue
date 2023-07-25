@@ -66,9 +66,7 @@
                 fileUrl: configService.fileSaveURL,
                 getMyFocusMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyFocusMsgAnnouncementSend",
                 url: {
-                    findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                     queryByUuIdUrl: '/sys/user/queryByUuId',
-                    findCommentByIdUrl: '/information/comments/findCommentById',
                     userFocusUrl: '/information/followuser/userFocus',
                     userUnFocusUrl: '/information/followuser/userUnFocus',
                     FocusORFansUrl: '/information/followuser/FocusORFans',
@@ -99,7 +97,6 @@
         onLoad(option) {
             //const item = JSON.parse(decodeURIComponent(option.item));
             //this.announcement4 = item
-            //console.log("输出item", item)
             //this.focusMsg(this.announcement4); //这是传参后继续调用方法的示例
         },
         methods: {
@@ -153,15 +150,9 @@
             //点击头像跳转用户详情
             toMemberdetail(myFormData) {
                 console.log("进来了666应该是uuid", myFormData)
-                // if(this.uuId == myFormData){
-                //     uni.navigateTo({
-                //         url: '/pages/member/member'
-                //     })
-                // }else{
                     uni.navigateTo({
                         url: '/pages/home/homeMemberDetail?item=' + encodeURIComponent(JSON.stringify(myFormData))
                     })
-               // }
             },
             //点击关注按钮、关注用户
             focusUser(item) {
@@ -209,11 +200,6 @@
                     if (res.data.success) {
                         //console.log("两个用户的关注关系是：", res.data.result);
                         this.announcement4 = res.data.result;
-
-                        //初始化判断这个页面是不是自己的  是自己的就把“关注”按钮去掉
-                        // if (this.uuId === uuId) {
-                        //     this.iffocus = "4"
-                        // }
                         console.log("两个用户的关注关系是：", this.iffocus);
                     }
                 })
@@ -229,9 +215,6 @@
         height: calc(114vh - 280rpx);
         margin-top: 100rpx; /*盒子距离顶部的距离*/
     }
-    /*.container{*/
-    /*    background-color: #ffffff;*/
-    /*}*/
 
     .card {
         background-color:  #fff;

@@ -12,7 +12,7 @@
                 <view v-for="(item,index) in this.myLoveMsg" :key="index" class="card">
                     <view class="detail-title">
                         <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt=""
-                               @click="toInformationDetail(item)"></image>
+                               @click="toInformationDetail(item.busId)"></image>
                     </view>
                     <view class="detail-content">
                         <view class="detail-info">
@@ -58,9 +58,7 @@
                 fileUrl: configService.fileSaveURL,
                 getMyLoveMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyLoveMsgAnnouncementSend",
                 url: {
-                    findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                     queryByUuIdUrl: '/sys/user/queryByUuId',
-                    findCommentByIdUrl: '/information/comments/findCommentById',
                     readLoveMsgAllUrl: "/sys/sysAnnouncementSend/readLoveMsgAll",
                 },
                 FocusFansNumVo: {
@@ -108,7 +106,7 @@
                     params: {page: num, pagesize: size}
                 }).then(res => {
                     const {success, result} = res.data;
-                    console.log('。。。。。', result.records);
+                    //console.log('。。。。。', result.records);
                     if (success) {
                         const {pages, records, current} = result;
                         if (num === 1) this.myLoveMsg = [];
@@ -140,48 +138,8 @@
                     console.log(err);
                 });
             },
-            //根据inforId查询动态详情----  TODO 需要注意的是即使点赞的是评论，在赞里边跳转的也是 评论所在的动态，而不是评论本身
-            findPublishInfor(inforId) {
-                //console.log("进来了方法", inforId)
-                this.$http.get(this.url.findPublishInforByIdUrl, {params: {id: inforId}}).then((res) => {
-                    if (res.data.success) {
-                        console.log("表单数据", res);
-                        this.myCommentForm = res.data.result;
-                    }
-                })
-            },
-            //根据uuId查询用户详情
-            findPersonInfor(uuId) {
-                console.log("进来了方法", uuId)
-                this.$http.get(this.queryByUuIdUrl, {params: {uuId: uuId}}).then((res) => {
-                    if (res.data.success) {
-                        this.personalList = res.data.result;
-                        //console.log("this.personalList.avatar", this.personalList.avatar);
-                        //console.log("res.data.result.avatar", res.data.result.avatar);
-                        console.log("查询个人信息返回的数据是：", res.data.result);
-                        if (res.data.result.avatar === "") {
-                            console.log("头像不存在")
-                        } else {
-                            console.log("有头像", res.data.result.avatar)
-                        }
-                    }
-                })
-            },
-            //根据评论的id查询评论的内容
-            findComment(item) {
-                //console.log("进来了方法33333", item)
-                this.$http.get(this.url.findCommentByIdUrl, {params: {id: item.id}}).then(res => {
-                    if (res.data.success) {
-                        //this.inforSonCommentsList = res.data.result;
-                        //console.log("数据:",this.inforSonCommentsList);
-                        //console.log("数据条数222:",this.inforSonCommentsList.length);
-                    }
-                }).catch(err => {
-                    console.log(err);
-                });
-            },
             toInformationDetail(item) {
-                //console.log("进来了111", item)
+                console.log("获赞点击消息拿到动态id", item)
                 //进来的是  busId 名字要换为 inforId
                 this.FocusFansNumVo.inforId = item
                 uni.navigateTo({

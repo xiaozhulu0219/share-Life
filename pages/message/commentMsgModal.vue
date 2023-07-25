@@ -11,7 +11,7 @@
             <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
             <view v-for="(item,index) in this.myCommentMsg" :key="index" class="card">
                 <view class="detail-title">
-                    <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>
+                    <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toInformationDetail(item.busId)"></image>
                 </view>
                 <view class="detail-content">
                     <view class="detail-info">
@@ -58,9 +58,7 @@
                 fileUrl: configService.fileSaveURL,
                 getMyCommentMsgAnnouncementSendUrl: "/sys/sysAnnouncementSend/getMyCommentMsgAnnouncementSend",
                 url: {
-                    findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                     queryByUuIdUrl: '/sys/user/queryByUuId',
-                    findCommentByIdUrl: '/information/comments/findCommentById',
                     readCommentMsgAllUrl: "/sys/sysAnnouncementSend/readCommentMsgAll",
                 },
                 FocusFansNumVo: {
@@ -89,9 +87,7 @@
         onLoad(option) {
             //const item = JSON.parse(decodeURIComponent(option.item));
             //this.announcement5 = item
-            //console.log("输出item", item)
-            //this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
-            //this.commentMsg(this.announcement5); //这是传参后继续调用方法的示例
+            //this.commentMsg(this.announcement5);
         },
         methods: {
             // 触底加载
@@ -141,14 +137,6 @@
                 }).catch(err => {
                     console.log(err);
                 });
-            },
-            commentMsg(list){
-                //console.log("初始list数组", list)
-                for (let d of list) {
-                    d.avatar = this.fileUrl + d.avatar
-                    d.medias = this.fileUrl + d.medias
-                    //d.medias = arr2
-                }
             },
             toInformationDetail(item) {
                 //console.log("进来了111", item)
