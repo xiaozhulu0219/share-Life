@@ -52,7 +52,7 @@
                                    @click="toMemberdetail(item.uuId)"></image>
                             <view class="comment-nickcon">
                                 <view class="comment-nickname">{{ item.nickname }}</view>
-                                <view class="comment-content" >{{ item.content }}</view>
+                                <view class="comment-content" @click="tofocus(item.id)">{{ item.content }}</view>
                                 <view class="comment-createDate">{{item.createDate}}</view>
                             </view>
                             <view class="comment-iconlikeCount">
@@ -99,7 +99,7 @@
 
         </view>
         <view class="footer">
-            <input class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论"
+            <input :focus="focus" class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论"
                    @input="onInput(inputValue)"/>
             <button class="input-button" form-type="submit" @click="saveComment(inputValue)">发送</button>
         </view>
@@ -112,6 +112,7 @@
     import configService from '@/common/service/config.service.js';
     import commonTab from '../component/commonTab.vue';
     import { keyWords } from '../../common/util/constants';
+
     export default {
         name: 'homeInformationDetail',
         components: {
@@ -126,9 +127,11 @@
                 required: false
             }
         },
+
         data() {
             return {
-
+                focus:false,
+                isfocus:true,
                 pageInfo: {
                     num: 0,
                     size: 10
@@ -166,6 +169,7 @@
                     { id: 3, content: '' }
                 ],
                 publishId: '',
+                commentId: '',
                 myFormData: {
                     latitude: '',
                     longitude: '',
@@ -218,6 +222,27 @@
             this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {
+            tofocus(commentId){
+                this.focus = false;
+                this.$nextTick(()=>{
+                    this.focus = true;
+                    }
+                )
+                this.commentId=commentId;
+                //this.saveCommentForComment(commentId,);
+                console.log('//// 点击了');
+                console.log('//// 第一次',this.focus);
+            },
+            saveComment(inputValue){
+                if(this.focus){
+                    console.log('//// 第二次',this.focus);
+                    const commentId = this.commentId
+                    console.log('this.commentId拿到了',this.commentId);
+                    this.saveCommentForComment(commentId,inputValue);
+                }else{
+                    this.saveCommentForInfor(inputValue);
+                }
+            },
             // 触底加载
             reachBottom() {
                 if (!this.hasNext) return;
@@ -357,8 +382,9 @@
                     });
                 }
             },
+
             //保存评论 这里有两种评论、一种是对动态 一种是对评论
-            saveComment(inputValue) {
+            saveCommentForInfor(inputValue) {
                 //若评论中包含 “*” 或者为空 不允许保存
                 //console.log("inputValue值为空1：", inputValue);
                 if (inputValue === '' || inputValue.indexOf('*') != -1) {
@@ -382,20 +408,22 @@
                 }
             },
             //保存对评论进行的评论
-            saveCommentForComment(publishId,inputValue) {
+            saveCommentForComment(commentId,inputValue) {
+                console.log('调用了保存对评论进行的评论111：', inputValue);
+                console.log('调用了保存对评论进行的评论222：', commentId);
                 //若评论中包含 “*” 或者为空 不允许保存
                 //console.log("inputValue值为空1：", inputValue);
                 if (inputValue === '' || inputValue.indexOf('*') != -1) {
                     console.log('评论出现了违规词语、已被拦截：', inputValue);
                 } else {
                     const InforCommentDto = {};
-                    InforCommentDto.publishId = publishId; //这个应该是评论的id
+                    InforCommentDto.commentId = commentId; //这个应该是评论的id
                     InforCommentDto.comment = inputValue;
                     this.$http.post(this.url.saveCommentForCommentUrl, InforCommentDto).then(res => {
                         //刷新子级留言列表  并将输入框文字置空
                         if (res.data.success) {
                             //刷新子级评论列表
-                            this.getSonCommentsList(publishId);//拿的也不是动态id  而应该是评论的id
+                            this.getSonCommentsList(commentId);//拿的也不是动态id  而应该是评论的id
                             //置空输入框
                             this.inputValue = '';
                         }
