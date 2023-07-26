@@ -75,7 +75,7 @@
                                        @click="toMemberdetail(sonitem.uuId)"></image>
                                 <view class="comment-nickcon">
                                     <view class="comment-nickname">{{ sonitem.nickname }}</view>
-                                    <view class="comment-content">{{ sonitem.content }}</view>
+                                    <view class="comment-content" @click="tofocus(sonitem.id)">{{ sonitem.content }}</view>
                                     <view class="comment-createDate">{{sonitem.createDate}}</view>
                                 </view>
 
