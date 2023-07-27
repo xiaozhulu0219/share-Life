@@ -73,39 +73,40 @@
                             </view>
                         </view>
 
-                        <view v-if="item.hasChild=='1'" class="comments-more">
+                        <view v-if="item.hasChild=='1'" >
                             <text v-if="loadingState=='loadmore'" style="margin-left: 150rpx; font-size:30rpx;">
                                 —展开{{item.childCommentList.length}}条回复—
                             </text>
                             <!-- <text v-if="loadingState!='loadmore'">{{loadingState=="nomore"?"收起":"展开更多"}}</text>-->
                             <view v-if="loadingState=='loadmore'" class="cuIcon-triangledownfill" @click="showMore"
                                   style="font-size: 40rpx;  margin-left: 200rpx"></view>
-                        </view>
-                        <view v-if="item.hasChild=='1' && zhankai==true" v-for="(sonitem,inde) in item.childCommentList"
-                              :key=inde>
-                            <view class="comment-son">
-                                <image class="comment-avatar round sm" :src="fileUrl+sonitem.avatar" alt=""
-                                       @click="toMemberdetail(sonitem.uuId)"></image>
-                                <view class="comment-nickcon">
-                                    <view class="comment-nickname">{{ sonitem.nickname }}</view>
-                                    <view class="comment-content" @click="tofocus(item.id)">{{ sonitem.content }}</view>
-                                    <view class="comment-createDate">
-                                        {{sonitem.createDate}}
-                                        <text style="margin-left: 20rpx" @click="tofocus(item.id)">回复</text>
-                                    </view>
-                                </view>
 
-                                <view class="comment-iconlikeCount">
-                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
-                                          v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id)">&#xe8ad
+                            <view v-if="zhankai==true" v-for="(sonitem,inde) in item.childCommentList" :key=inde>
+                                <view class="comment-son">
+                                    <image class="comment-avatar round sm" :src="fileUrl+sonitem.avatar" alt=""
+                                           @click="toMemberdetail(sonitem.uuId)"></image>
+                                    <view class="comment-nickcon">
+                                        <view class="comment-nickname">{{ sonitem.nickname }}</view>
+                                        <view class="comment-content" @click="tofocus(item.id)">{{ sonitem.content }}</view>
+                                        <view class="comment-createDate">
+                                            {{sonitem.createDate}}
+                                            <text style="margin-left: 20rpx" @click="tofocus(item.id)">回复</text>
+                                        </view>
                                     </view>
-                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
-                                          v-else @click="dislikeComment(sonitem.id)">&#xe60f
+
+                                    <view class="comment-iconlikeCount">
+                                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
+                                              v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id)">&#xe8ad
+                                        </view>
+                                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
+                                              v-else @click="dislikeComment(sonitem.id)">&#xe60f
+                                        </view>
+                                        <view class="comment-likeCount">{{sonitem.likeCount}}</view>
                                     </view>
-                                    <view class="comment-likeCount">{{sonitem.likeCount}}</view>
                                 </view>
                             </view>
                         </view>
+
                     </view>
                     <view class="card-divider"></view>
                     <view v-if='isDownLoading' class="load-text">评论加载中....</view>
