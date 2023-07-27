@@ -3,7 +3,8 @@
         <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
             <view v-for="(item,index) in homeList" :key="index" class="card">
 <!--                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>-->
-                <image class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toInformationDetail(item)"></image>
+                <image v-if="item.medias.length>0" class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toInformationDetail(item)"></image>
+                <image v-else class="nomedias_size"></image>
                 <view class="card-text" @click="toInformationDetail(item)">
                   {{ contentFormat(item.textContent) }}
                 <view class="colpose"></view>
@@ -211,6 +212,14 @@
         width: 180px;
         height: 180px;
         overflow:hidden;
+        margin-bottom: 20rpx; /*盒子间的距离*/
+    }
+
+    .nomedias_size {
+        //max-width: 80px;
+        //width: 80px;
+        height: 80px;
+        //overflow:hidden;
         margin-bottom: 20rpx; /*盒子间的距离*/
     }
 

@@ -14,7 +14,7 @@
         </commonTab>
 
         <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
-           
+
 		   <homeHelpCompanyModal v-if="activeTab.value==2" class="home-helpCompany" ></homeHelpCompanyModal>
           <homeModal v-else></homeModal>
 <!--        </KeepAlive>-->
@@ -56,6 +56,16 @@
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
                 inputValue: '',
+                tabs: [{
+                    id: 1,
+                    name: '关注'   //展示助力和动态两个tab
+                } ,{
+                    id: 2,
+                    name: '首页'   //展示现在的从字典获取的tab
+                }, {
+                    id: 3,
+                    name: '热门'    //热门公司、热门动态
+                }],
                 searchHistoryList: [{
                     locationName: '反而可能',
                     createTime: '2022-11-30 10:00:00',
