@@ -50,7 +50,6 @@
             <view class="card-divider"></view>
             <view class="list-wrap">
                 <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
-
                     <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
                         <view class="comment-parent">
                             <image class="comment-avatar round sm" :src="item.avatar" alt=""
@@ -58,8 +57,9 @@
                             <view class="comment-nickcon">
                                 <view class="comment-nickname">{{ item.nickname }}</view>
                                 <view class="comment-content" @click="tofocus(item.id)">{{ item.content }}</view>
-                                <view class="comment-createDate">{{item.createDate}}
-                                    <text class="comments-replay-btn" @click="tofocus(item.id)">回复</text>
+                                <view class="comment-createDate">
+                                    {{item.createDate}}
+                                    <text style="margin-left: 20rpx" @click="tofocus(item.id)">回复</text>
                                 </view>
                             </view>
                             <view class="comment-iconlikeCount">
@@ -74,21 +74,24 @@
                         </view>
 
                         <view v-if="item.hasChild=='1'" class="comments-more">
-<!--                            <text >—</text>-->
-                            <text v-if="loadingState=='loadmore'" style="margin-left: 150rpx;font-size:36rpx;">—展开{{item.childCommentList.length}}条回复—</text>
-<!--                            <text v-if="loadingState!='loadmore'">{{loadingState=="nomore"?"收起":"展开更多"}}</text>-->
-                            <view v-if="loadingState=='loadmore'" class="cuIcon-triangledownfill" @click="showMore" style="font-size: 40rpx;  margin-left: 200rpx"></view>
+                            <text v-if="loadingState=='loadmore'" style="margin-left: 150rpx; font-size:30rpx;">
+                                —展开{{item.childCommentList.length}}条回复—
+                            </text>
+                            <!-- <text v-if="loadingState!='loadmore'">{{loadingState=="nomore"?"收起":"展开更多"}}</text>-->
+                            <view v-if="loadingState=='loadmore'" class="cuIcon-triangledownfill" @click="showMore"
+                                  style="font-size: 40rpx;  margin-left: 200rpx"></view>
                         </view>
-                        <view v-if="item.hasChild=='1' && zhankai==true" v-for="(sonitem,inde) in item.childCommentList" :key=inde>
+                        <view v-if="item.hasChild=='1' && zhankai==true" v-for="(sonitem,inde) in item.childCommentList"
+                              :key=inde>
                             <view class="comment-son">
-                                <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
+                                <image class="comment-avatar round sm" :src="fileUrl+sonitem.avatar" alt=""
                                        @click="toMemberdetail(sonitem.uuId)"></image>
                                 <view class="comment-nickcon">
                                     <view class="comment-nickname">{{ sonitem.nickname }}</view>
                                     <view class="comment-content" @click="tofocus(item.id)">{{ sonitem.content }}</view>
                                     <view class="comment-createDate">
                                         {{sonitem.createDate}}
-                                        <text class="comments-replay-btn" @click="tofocus(item.id)">回复</text>
+                                        <text style="margin-left: 20rpx" @click="tofocus(item.id)">回复</text>
                                     </view>
                                 </view>
 
@@ -96,53 +99,29 @@
                                     <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
                                           v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id)">&#xe8ad
                                     </view>
-                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
-                                          @click="dislikeComment(sonitem.id)">&#xe60f
+                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
+                                          v-else @click="dislikeComment(sonitem.id)">&#xe60f
                                     </view>
                                     <view class="comment-likeCount">{{sonitem.likeCount}}</view>
                                 </view>
                             </view>
                         </view>
-                        <!--                        <view v-for="(sonitem,inde) in item.childCommentList" :key="inde">-->
-                        <!--                            <view class="comment-son">-->
-                        <!--                                <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""-->
-                        <!--                                       @click="toMemberdetail(sonitem.uuId)"></image>-->
-                        <!--                                <view class="comment-nickcon">-->
-                        <!--                                    <view class="comment-nickname">{{ sonitem.nickname }}</view>-->
-                        <!--                                    <view class="comment-content" @click="tofocus(item.id)">{{ sonitem.content }}</view>-->
-                        <!--                                    <view class="comment-createDate">-->
-                        <!--                                        {{sonitem.createDate}}-->
-                        <!--                                        <text class="comments-replay-btn" @click="tofocus(item.id)">回复</text>-->
-                        <!--                                    </view>-->
-                        <!--                                </view>-->
-
-                        <!--                                <view class="comment-iconlikeCount">-->
-                        <!--                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"-->
-                        <!--                                          v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id)">&#xe8ad-->
-                        <!--                                    </view>-->
-                        <!--                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else-->
-                        <!--                                          @click="dislikeComment(sonitem.id)">&#xe60f-->
-                        <!--                                    </view>-->
-                        <!--                                    <view class="comment-likeCount">{{sonitem.likeCount}}</view>-->
-                        <!--                                </view>-->
-                        <!--                            </view>-->
-                        <!--                        </view>-->
-
-
                     </view>
                     <view class="card-divider"></view>
                     <view v-if='isDownLoading' class="load-text">评论加载中....</view>
                     <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快快留下你的赞美吧---</view>
 
                 </scroll-view>
-            </view>
 
+            </view>
         </view>
+
         <view class="footer">
             <input :focus="focus" class="input-form" v-model="inputValue" maxlength="200" placeholder="最多输入200评论"
                    @input="onInput(inputValue)"/>
             <button class="input-button" form-type="submit" @click="saveComment(inputValue)">发送</button>
         </view>
+
     </view>
 
 </template>
@@ -266,7 +245,7 @@
         methods: {
             showMore() {
                 this.zhankai = true
-                this.loadingState ='nomore'
+                this.loadingState = 'nomore'
             },
             tofocus(commentId) {
                 this.focus = false;
@@ -686,8 +665,7 @@
                 }
 
                 .comment-nickcon {
-                    margin-right: 80rpx;
-                    margin-left: 40rpx;
+                    margin-left: 60rpx;
 
                     .comment-nickname {
                         font-size: 30rpx;
@@ -697,13 +675,12 @@
                     .comment-content {
                         font-size: 35rpx;
                         color: #2c2c2c;
-                        margin-right: 10rpx;
                     }
                     .comment-createDate {
-                        margin-left: 60rpx;
+                        margin-left: 10rpx;
+                        display: flex;
                     }
                 }
-
                 .comment-iconlikeCount {
                     margin-right: 25rpx;
                     margin-top: 30rpx;
