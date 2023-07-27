@@ -53,7 +53,9 @@
                             <view class="comment-nickcon">
                                 <view class="comment-nickname">{{ item.nickname }}</view>
                                 <view class="comment-content" @click="tofocus(item.id)">{{ item.content }}</view>
-                                <view class="comment-createDate">{{item.createDate}}</view>
+                                <view class="comment-createDate" >{{item.createDate}}
+                                    <text class="comments-replay-btn" @click="tofocus(item.id)">回复</text>
+                                </view>
                             </view>
                             <view class="comment-iconlikeCount">
                                 <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
@@ -65,18 +67,21 @@
                                 <view class="comment-likeCount">{{item.likeCount}}</view>
                             </view>
                         </view>
-                        <view class="cuIcon-triangledownfill" style="font-size: 40rpx;  margin-left: 200rpx"
-                              @click="getSonCommentsList(item)" v-if="item.hasChild=1">
-                        </view>
+<!--                        <view class="cuIcon-triangledownfill" style="font-size: 40rpx;  margin-left: 200rpx"-->
+<!--                              @click="getSonCommentsList(item)" v-if="item.hasChild=1">-->
+<!--                        </view>-->
                         <!--  <view>展开{{}}条回复</view>-->
-                        <view v-for="(sonitem,index) in inforSonCommentsList" :key="index">
+                        <view v-for="(sonitem,inde) in item.childCommentList" :key="inde">
                             <view class="comment-son">
                                 <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
                                        @click="toMemberdetail(sonitem.uuId)"></image>
                                 <view class="comment-nickcon">
                                     <view class="comment-nickname">{{ sonitem.nickname }}</view>
-                                    <view class="comment-content" @click="tofocus(sonitem.id)">{{ sonitem.content }}</view>
-                                    <view class="comment-createDate">{{sonitem.createDate}}</view>
+                                    <view class="comment-content" @click="tofocus(item.id)">{{ sonitem.content }}</view>
+                                    <view class="comment-createDate">
+                                        {{sonitem.createDate}}
+                                        <text class="comments-replay-btn" @click="tofocus(item.id)">回复</text>
+                                    </view>
                                 </view>
 
                                 <view class="comment-iconlikeCount">
@@ -89,6 +94,13 @@
                                     <view class="comment-likeCount">{{sonitem.likeCount}}</view>
                                 </view>
                             </view>
+                        </view>
+
+                        <view class="comments-more" @click="showMore()">
+                            <text style="margin-right: 10rpx;font-size:36rpx;">—</text>
+                            <text v-if="loadingState=='loadmore'">展开{{item.childCommentList.length}}条回复</text>
+                            <text v-if="loadingState!='loadmore'">{{loadingState=="nomore"?"收起":"展开更多"}}</text>
+                            <view class="cuIcon-triangledownfill"  @click="loadingComment" style="font-size: 40rpx;  margin-left: 200rpx"></view>
                         </view>
                     </view>
                     <view v-if='isDownLoading' class="load-text">评论加载中....</view>
@@ -130,6 +142,7 @@
 
         data() {
             return {
+                loadingState: 'loadmore', //加载前值为loadmore，没有数据为nomore
                 focus:false,
                 isfocus:true,
                 pageInfo: {
@@ -145,7 +158,7 @@
                 arr: [],
                 inputValue: '',
                 findInforCommentsPageUrl: '/information/comments/list',
-                findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
+                //findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
                 url: {
                     findPublishInforByIdUrl: '/information/movements/findPublishInforById',
                     saveCommentUrl: '/information/comments/saveCommentForInfor',
@@ -222,6 +235,13 @@
             this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {
+            showMore() {
+                console.log('加载更多')
+                //this.loadingState ='loadmore'
+            },
+            loadingComment() {
+                this.loadingState = 'nomore'
+            },
             tofocus(commentId){
                 this.focus = false;
                 this.$nextTick(()=>{
@@ -335,38 +355,38 @@
                 });
             },
             //获取评论的子级评论列表
-            getSonCommentsList(item) {
-                if (this.isDownLoading) return;
-                this.isDownLoading = true;
-                this.pageInfo.num++;
-                const { findSonCommentListPageUrl, pageInfo: { num, size } } = this;
-                this.$http.get(this.findSonCommentListPageUrl, {
-                    params: { page: 1, pagesize: 10, id: item.id }
-                }).then(res => {
-                    const { success, result } = res.data;
-                    console.log('。。。。。', result.items);
-                    if (success) {
-                        const { pages, items, page } = result;
-                        if (num === 1) this.inforSonCommentsList = [];
-                        if (items.length) {
-                            for (const d of items) {
-                                d.avatar = this.fileUrl + d.avatar;
-                            }
-                        }
-                        this.inforSonCommentsList = this.inforSonCommentsList.concat(items);
-                        this.hasNext = pages > page;
-                        this.isDownLoading = false;
-
-                        console.log('子级评论列表', this.inforSonCommentsList);
-
-                    } else {
-                        this.isDownLoading = false;
-                    }
-                }).catch(err => {
-                    console.log(err);
-                    this.isDownLoading = false;
-                });
-            },
+            // getSonCommentsList(item) {
+            //     if (this.isDownLoading) return;
+            //     this.isDownLoading = true;
+            //     this.pageInfo.num++;
+            //     const { findSonCommentListPageUrl, pageInfo: { num, size } } = this;
+            //     this.$http.get(this.findSonCommentListPageUrl, {
+            //         params: { page: 1, pagesize: 10, id: item.id }
+            //     }).then(res => {
+            //         const { success, result } = res.data;
+            //         console.log('。。。。。', result.items);
+            //         if (success) {
+            //             const { pages, items, page } = result;
+            //             if (num === 1) this.inforSonCommentsList = [];
+            //             if (items.length) {
+            //                 for (const d of items) {
+            //                     d.avatar = this.fileUrl + d.avatar;
+            //                 }
+            //             }
+            //             this.inforSonCommentsList = this.inforSonCommentsList.concat(items);
+            //             this.hasNext = pages > page;
+            //             this.isDownLoading = false;
+            //
+            //             console.log('子级评论列表', this.inforSonCommentsList);
+            //
+            //         } else {
+            //             this.isDownLoading = false;
+            //         }
+            //     }).catch(err => {
+            //         console.log(err);
+            //         this.isDownLoading = false;
+            //     });
+            // },
             //点击头像跳转用户详情
             toMemberdetail(myFormData) {
                 console.log('进来了666应该是uuid', myFormData);
