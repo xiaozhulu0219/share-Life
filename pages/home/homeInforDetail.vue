@@ -59,7 +59,8 @@
                                 <view class="comment-content" @click="tofocus(item.id)">{{ item.content }}</view>
                                 <view class="comment-createDate">
                                     {{item.createDate}}
-                                    <text style="margin-left: 20rpx" @click="tofocus(item.id)">回复</text>
+                                    <view style="margin-left: 15rpx">{{ item.ipAddress }}</view>
+                                    <text style="margin-left: 15rpx" @click="tofocus(item.id)">回复</text>
                                 </view>
                             </view>
                             <view class="comment-iconlikeCount">
@@ -90,7 +91,8 @@
                                         <view class="comment-content" @click="tofocus(item.id)">{{ sonitem.content }}</view>
                                         <view class="comment-createDate">
                                             {{sonitem.createDate}}
-                                            <text style="margin-left: 20rpx" @click="tofocus(item.id)">回复</text>
+                                            <view style="margin-left: 15rpx">{{ sonitem.ipAddress }}</view>
+                                            <text style="margin-left: 15rpx" @click="tofocus(item.id)">回复</text>
                                         </view>
                                     </view>
 
