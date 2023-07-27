@@ -2,27 +2,32 @@
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view class="container">
         <commonTab :isBack="true" :backRouterName="backRouteName">
-            <block slot="title"> <image class="medias_avatar round" :src="myFormData.avatar" alt="" @click="toMemberdetail(myFormData.uuId)" style="margin-right: 20rpx"></image>
+            <block slot="title">
+                <image class="medias_avatar round" :src="myFormData.avatar" alt=""
+                       @click="toMemberdetail(myFormData.uuId)" style="margin-right: 20rpx"></image>
                 {{myCommentForm.nickname}}
             </block>
         </commonTab>
         <view class="card">
 
-            <swiper  v-if="myFormData.medias.length>1" indicator-dots indicator-color="#94afce" indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
-                <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index" >
-                    <image :src="item" @click="TanPreviewImage(index)" mode="aspectFit" style="height: 980rpx;width: 720rpx"></image>
+            <swiper v-if="myFormData.medias.length>1" indicator-dots indicator-color="#94afce"
+                    indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
+                <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
+                    <image :src="item" @click="TanPreviewImage(index)" mode="aspectFit"
+                           style="height: 980rpx;width: 720rpx"></image>
                 </swiper-item>
             </swiper>
-            <swiper  v-else  style="height: 1000rpx;width: 750rpx">
-                <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index" >
-                    <image :src="item" @click="TanPreviewImage(index)" mode="aspectFit" style="height: 980rpx;width: 720rpx"></image>
+            <swiper v-else style="height: 1000rpx;width: 750rpx">
+                <swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
+                    <image :src="item" @click="TanPreviewImage(index)" mode="aspectFit"
+                           style="height: 980rpx;width: 720rpx"></image>
                 </swiper-item>
             </swiper>
             <view class="card-text">{{myFormData.textContent}}</view>
 
             <view class="card-line">
                 <view class="card-createDate">{{myCommentForm.createDate}}</view>
-                <view class="cuIcon-location"> </view>
+                <view class="cuIcon-location"></view>
                 <view class="card-ipAddress">{{myFormData.ipAddress}}</view>
             </view>
 
@@ -42,7 +47,7 @@
                 <view class="cuIcon-comment" style="font-size: 45rpx;"></view>
                 <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
             </view>
-			<view class="card-divider"></view>
+            <view class="card-divider"></view>
             <view class="list-wrap">
                 <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 
@@ -53,7 +58,7 @@
                             <view class="comment-nickcon">
                                 <view class="comment-nickname">{{ item.nickname }}</view>
                                 <view class="comment-content" @click="tofocus(item.id)">{{ item.content }}</view>
-                                <view class="comment-createDate" >{{item.createDate}}
+                                <view class="comment-createDate">{{item.createDate}}
                                     <text class="comments-replay-btn" @click="tofocus(item.id)">回复</text>
                                 </view>
                             </view>
@@ -67,11 +72,14 @@
                                 <view class="comment-likeCount">{{item.likeCount}}</view>
                             </view>
                         </view>
-<!--                        <view class="cuIcon-triangledownfill" style="font-size: 40rpx;  margin-left: 200rpx"-->
-<!--                              @click="getSonCommentsList(item)" v-if="item.hasChild=1">-->
-<!--                        </view>-->
-                        <!--  <view>展开{{}}条回复</view>-->
-                        <view v-for="(sonitem,inde) in item.childCommentList" :key="inde">
+
+                        <view v-if="item.hasChild=='1'" class="comments-more">
+<!--                            <text >—</text>-->
+                            <text v-if="loadingState=='loadmore'" style="margin-left: 150rpx;font-size:36rpx;">—展开{{item.childCommentList.length}}条回复—</text>
+<!--                            <text v-if="loadingState!='loadmore'">{{loadingState=="nomore"?"收起":"展开更多"}}</text>-->
+                            <view v-if="loadingState=='loadmore'" class="cuIcon-triangledownfill" @click="showMore" style="font-size: 40rpx;  margin-left: 200rpx"></view>
+                        </view>
+                        <view v-if="item.hasChild=='1' && zhankai==true" v-for="(sonitem,inde) in item.childCommentList" :key=inde>
                             <view class="comment-son">
                                 <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""
                                        @click="toMemberdetail(sonitem.uuId)"></image>
@@ -86,23 +94,43 @@
 
                                 <view class="comment-iconlikeCount">
                                     <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
-                                          v-if="sonitem.hasLiked == 0" @click="likeSonComment(sonitem.id)">&#xe8ad
+                                          v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id)">&#xe8ad
                                     </view>
                                     <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
-                                          @click="likeSonComment(sonitem.id)">&#xe60f
+                                          @click="dislikeComment(sonitem.id)">&#xe60f
                                     </view>
                                     <view class="comment-likeCount">{{sonitem.likeCount}}</view>
                                 </view>
                             </view>
                         </view>
+                        <!--                        <view v-for="(sonitem,inde) in item.childCommentList" :key="inde">-->
+                        <!--                            <view class="comment-son">-->
+                        <!--                                <image class="comment-avatar round sm" :src="sonitem.avatar" alt=""-->
+                        <!--                                       @click="toMemberdetail(sonitem.uuId)"></image>-->
+                        <!--                                <view class="comment-nickcon">-->
+                        <!--                                    <view class="comment-nickname">{{ sonitem.nickname }}</view>-->
+                        <!--                                    <view class="comment-content" @click="tofocus(item.id)">{{ sonitem.content }}</view>-->
+                        <!--                                    <view class="comment-createDate">-->
+                        <!--                                        {{sonitem.createDate}}-->
+                        <!--                                        <text class="comments-replay-btn" @click="tofocus(item.id)">回复</text>-->
+                        <!--                                    </view>-->
+                        <!--                                </view>-->
 
-                        <view class="comments-more" @click="showMore()">
-                            <text style="margin-right: 10rpx;font-size:36rpx;">—</text>
-                            <text v-if="loadingState=='loadmore'">展开{{item.childCommentList.length}}条回复</text>
-                            <text v-if="loadingState!='loadmore'">{{loadingState=="nomore"?"收起":"展开更多"}}</text>
-                            <view class="cuIcon-triangledownfill"  @click="loadingComment" style="font-size: 40rpx;  margin-left: 200rpx"></view>
-                        </view>
+                        <!--                                <view class="comment-iconlikeCount">-->
+                        <!--                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"-->
+                        <!--                                          v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id)">&#xe8ad-->
+                        <!--                                    </view>-->
+                        <!--                                    <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else-->
+                        <!--                                          @click="dislikeComment(sonitem.id)">&#xe60f-->
+                        <!--                                    </view>-->
+                        <!--                                    <view class="comment-likeCount">{{sonitem.likeCount}}</view>-->
+                        <!--                                </view>-->
+                        <!--                            </view>-->
+                        <!--                        </view>-->
+
+
                     </view>
+                    <view class="card-divider"></view>
                     <view v-if='isDownLoading' class="load-text">评论加载中....</view>
                     <view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快快留下你的赞美吧---</view>
 
@@ -123,7 +151,7 @@
     import myDate from '@/components/my-componets/my-date.vue';
     import configService from '@/common/service/config.service.js';
     import commonTab from '../component/commonTab.vue';
-    import { keyWords } from '../../common/util/constants';
+    import {keyWords} from '../../common/util/constants';
 
     export default {
         name: 'homeInformationDetail',
@@ -143,8 +171,9 @@
         data() {
             return {
                 loadingState: 'loadmore', //加载前值为loadmore，没有数据为nomore
-                focus:false,
-                isfocus:true,
+                zhankai: false,
+                focus: false,
+                isfocus: true,
                 pageInfo: {
                     num: 0,
                     size: 10
@@ -165,7 +194,7 @@
                     saveCommentForCommentUrl: '/information/comments/saveCommentForComment',
                     likeCommentUrl: '/information/comments/like',
                     dislikeCommentUrl: '/information/comments/dislike',
-                    likeSonCommentUrl: '/information/comments/like',
+                    //likeSonCommentUrl: '/information/comments/like',
                     deleteCommentUrl: '/information/comments/deleteComment',
                     likeInforUrl: '/information/movements/like',
                     dislikeInforUrl: '/information/movements/dislike',
@@ -177,9 +206,9 @@
                 toupiao: false,
                 voteBc: 'white',
                 voteList: [
-                    { id: 1, content: '' },
-                    { id: 2, content: '' },
-                    { id: 3, content: '' }
+                    {id: 1, content: ''},
+                    {id: 2, content: ''},
+                    {id: 3, content: ''}
                 ],
                 publishId: '',
                 commentId: '',
@@ -229,37 +258,34 @@
         onLoad(option) {
             const item = JSON.parse(decodeURIComponent(option.item));
             this.myFormData = item;
-            console.log('this.myFormData1:',this.myFormData);
-            console.log('this.myFormData2:',this.myFormData.medias);
-            console.log('this.myFormData3:',this.myFormData.medias.length);
+            console.log('this.myFormData1:', this.myFormData);
+            console.log('this.myFormData2:', this.myFormData.medias);
+            console.log('this.myFormData3:', this.myFormData.medias.length);
             this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
         },
         methods: {
             showMore() {
-                console.log('加载更多')
-                //this.loadingState ='loadmore'
+                this.zhankai = true
+                this.loadingState ='nomore'
             },
-            loadingComment() {
-                this.loadingState = 'nomore'
-            },
-            tofocus(commentId){
+            tofocus(commentId) {
                 this.focus = false;
-                this.$nextTick(()=>{
-                    this.focus = true;
+                this.$nextTick(() => {
+                        this.focus = true;
                     }
                 )
-                this.commentId=commentId;
+                this.commentId = commentId;
                 //this.saveCommentForComment(commentId,);
                 console.log('//// 点击了');
-                console.log('//// 第一次',this.focus);
+                console.log('//// 第一次', this.focus);
             },
-            saveComment(inputValue){
-                if(this.focus){
-                    console.log('//// 第二次',this.focus);
+            saveComment(inputValue) {
+                if (this.focus) {
+                    console.log('//// 第二次', this.focus);
                     const commentId = this.commentId
-                    console.log('this.commentId拿到了',this.commentId);
-                    this.saveCommentForComment(commentId,inputValue);
-                }else{
+                    console.log('this.commentId拿到了', this.commentId);
+                    this.saveCommentForComment(commentId, inputValue);
+                } else {
                     this.saveCommentForInfor(inputValue);
                 }
             },
@@ -294,7 +320,7 @@
                             console.log(data);
                             uni.saveImageToPhotosAlbum({ //保存图片到相册
                                 filePath: payUrl,
-                                success: function() {
+                                success: function () {
                                     uni.showToast({
                                         icon: 'success',
                                         title: '保存成功'
@@ -317,7 +343,7 @@
             //根据inforId查询详情
             findPublishInfor(inforId) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.findPublishInforByIdUrl, { params: { id: inforId } }).then((res) => {
+                this.$http.get(this.url.findPublishInforByIdUrl, {params: {id: inforId}}).then((res) => {
                     if (res.data.success) {
                         console.log('表单数据', res);
                         this.myCommentForm = res.data.result;
@@ -329,18 +355,19 @@
                 if (this.isDownLoading) return;
                 this.isDownLoading = true;
                 this.pageInfo.num++;
-                const { findInforCommentsPageUrl, pageInfo: { num, size } } = this;
+                const {findInforCommentsPageUrl, pageInfo: {num, size}} = this;
                 this.$http.get(findInforCommentsPageUrl, {
-                    params: { page: num, pagesize: size, id: inforId }
+                    params: {page: num, pagesize: size, id: inforId}
                 }).then(res => {
-                    const { success, result } = res.data;
+                    const {success, result} = res.data;
                     console.log('。。。。。', result.items);
                     if (success) {
-                        const { pages, items, page } = result;
+                        const {pages, items, page} = result;
                         if (num === 1) this.inforCommentsList = [];
                         if (items.length) {
                             for (const d of items) {
                                 d.avatar = this.fileUrl + d.avatar;
+                                console.log('每条数据子级评论的第一条是', d.childCommentList[0]);
                             }
                         }
                         this.inforCommentsList = this.inforCommentsList.concat(items);
@@ -428,7 +455,7 @@
                 }
             },
             //保存对评论进行的评论
-            saveCommentForComment(commentId,inputValue) {
+            saveCommentForComment(commentId, inputValue) {
                 console.log('调用了保存对评论进行的评论111：', inputValue);
                 console.log('调用了保存对评论进行的评论222：', commentId);
                 //若评论中包含 “*” 或者为空 不允许保存
@@ -453,7 +480,7 @@
             //点赞动态
             likeInfor(id) {
                 console.log('进来了点赞动态方法', id);
-                this.$http.get(this.url.likeInforUrl, { params: { id: id } }).then((res) => {
+                this.$http.get(this.url.likeInforUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log('表单数据', res);
                         this.myCommentForm.likeCount = res.data.result;
@@ -465,7 +492,7 @@
             //取消点赞动态
             dislikeInfor(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.dislikeInforUrl, { params: { id: id } }).then((res) => {
+                this.$http.get(this.url.dislikeInforUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log('表单数据', res);
                         this.myCommentForm.likeCount = res.data.result;
@@ -477,7 +504,7 @@
             //喜欢动态
             loveInfor(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.loveInforUrl, { params: { id: id } }).then((res) => {
+                this.$http.get(this.url.loveInforUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log('表单数据', res);
                         this.myCommentForm.loveCount = res.data.result;
@@ -489,7 +516,7 @@
             //取消喜欢动态
             unloveInfor(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.unloveInforUrl, { params: { id: id } }).then((res) => {
+                this.$http.get(this.url.unloveInforUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log('表单数据', res);
                         this.myCommentForm.loveCount = res.data.result;
@@ -501,7 +528,7 @@
             //点赞评论
             likeComment(id) {
                 console.log('进来了点赞评论方法', id);
-                this.$http.get(this.url.likeCommentUrl, { params: { id: id } }).then((res) => {
+                this.$http.get(this.url.likeCommentUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log('表单数据', res);
                         //this.myCommentForm.likeCount = res.data.result;
@@ -514,7 +541,7 @@
             //取消点赞评论
             dislikeComment(id) {
                 //console.log("进来了方法", inforId)
-                this.$http.get(this.url.dislikeCommentUrl, { params: { id: id } }).then((res) => {
+                this.$http.get(this.url.dislikeCommentUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
                         console.log('表单数据', res);
                         //this.myCommentForm.likeCount = res.data.result;
@@ -527,6 +554,7 @@
         }
     };
 </script>
+
 
 <style lang="scss" scoped>
 
@@ -749,9 +777,9 @@
     .noMore {
         color: #ccc;
     }
-	.card-divider{
-		height: 10rpx;
-		 border-bottom:1px dashed #CCC
-	}
+    .card-divider{
+        height: 10rpx;
+        border-bottom:1px dashed #CCC
+    }
 
 </style>
