@@ -14,7 +14,8 @@
 					</view>
           <!-- 手机号密码登录 start -->
 					<view v-if="loginWay==1" class="cu-form-group margin-top shadow-warp" :class="[{'round': shape == 'round'}]">
-						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>密{{"\u3000"}}码:</view>
+<!--						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>密{{"\u3000"}}码:</view>-->
+						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>密码:</view>
 						<input class="uni-input" placeholder="请输入密码" :password="!showPassword" v-model="password" />
 						<view class="action text-lg">
 							<text :class="[showPassword ? 'cuIcon-attention' : 'cuIcon-attentionforbid']" @click="changePassword"></text>
