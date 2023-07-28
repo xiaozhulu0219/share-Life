@@ -9,7 +9,7 @@
 			<view class="box padding-lr-xl login-paddingtop" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
 				<block>
 					<view class="cu-form-group margin-top  shadow-warp" :class="[shape=='round'?'round':'']">
-						<view class="title"><text class="cuIcon-people margin-right-xs"></text>手机号:</view>
+						<view class="title"><text class="cuIcon-people margin-right-xs"></text>账号:</view>
 						<input placeholder="请输入手机号" name="input" type="number" maxlength="11" v-model="phoneNo" />
 					</view>
           <!-- 手机号密码登录 start -->

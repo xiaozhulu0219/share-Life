@@ -8,7 +8,7 @@
 		<view class="xw-login-form">
 			<form @submit="register" :rules="rules" ref="registerForm">
 				<view class="xw-login-form-item">
-					<view class="xw-login-form-label">手机号</view>
+					<view class="xw-login-form-label">账号</view>
 					<input class="xw-login-form-input" maxlength="11" placeholder="请填写手机号" type="text" name="mobile" v-model="mobile" />
 					<view class="login-form-icon login-form-seepass" @click="mobile=''" v-if="mobile.length">
 						<text class='cuIcon-close'></text>
