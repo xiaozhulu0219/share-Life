@@ -12,13 +12,18 @@
                 <view class="cuIcon-search search-icon" @click="toSearch()"></view>
             </block>
         </commonTab>
-
+			 <!-- 以下位置是导航条 -->
         <HomeSignModal :getActiveTab="getActiveTab"></HomeSignModal>
-
-		   <homeHelpCompanyModal v-if="activeTab.value==2" class="home-helpCompany" ></homeHelpCompanyModal>
-          <homeModal v-else></homeModal>
+			 <!-- <button type="default" @click="pageNext">测试</button> -->
+			 <!-- 下方是正文内容 -->
+			 <view class="" @touchstart="handleDragStart"
+			 @touchend="handleDragEnd">
+			 	<homeHelpCompanyModal v-if="activeTab.value==2" class="home-helpCompany" ></homeHelpCompanyModal>
+			 	<homeModal v-else></homeModal>
+			 </view>
+		   
 <!--        </KeepAlive>-->
-
+			 <!-- <button type="default" @click="pageNext">测试2</button> -->
         <bottomTab PageCur="home"></bottomTab>
 		<!-- </scroll-view> -->
     </view>
@@ -34,9 +39,9 @@
     import bottomTab from '../component/bottomTab.vue';
     import commonTab from '../component/commonTab.vue';
     import listComponent from './components/listComponent.vue';
-
+	import mySwiper from "@/patch/swiper.js"
     export default {
-        mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
+        mixins: [MescrollMixin, Mixin, MescrollMoreMixin,mySwiper],
         components: {
             HomeSignModal,
             homeModal,
@@ -99,6 +104,11 @@
 			//    console.log('1111111111111', curTab);
 			//   this.getActiveTab(curTab+1)
 			// },
+			
+			pageNext(){
+				console.log( this.activeTab.value,"目标输出")
+				this.activeTab.value =2;
+			},
             getActiveTab(item) {
                 this.activeTab = item;
                 console.log('切换tab1', item.value);

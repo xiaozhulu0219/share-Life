@@ -2,12 +2,21 @@
     <view class="list-wrap">
         <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
             <view v-for="(item,index) in homeList" :key="index" class="card">
-<!--                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>-->
-                <image v-if="item.medias.length>0" class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toInformationDetail(item)"></image>
-                <image v-else class="nomedias_size"></image>
+				<view v-if="item.imgIsNull"  class="space-for-no-img">
+					
+				</view>
+				<view   v-if="!item.imgIsNull" >
+					<image  v-if="item.medias.length>0" class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toInformationDetail(item)"></image>
+					<image v-else class="nomedias_size"></image>
+				</view>
+               <!-- <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image> -->
+                
                 <view class="card-text" @click="toInformationDetail(item)">
                   {{ contentFormat(item.textContent) }}
                 <view class="colpose"></view>
+				<view v-if="item.imgIsNull"  class="space-for-no-img">
+					
+				</view>
                 </view>
                 <view class="card-line">
                   <view class="left">
@@ -43,6 +52,7 @@
                     num: 0,
                     size: 10
                 },
+				imageList:[],
                 hasNext: true,
                 isDownLoading: false,
                 unloveInforUrl: '/information/movements/unlove',
@@ -66,6 +76,9 @@
         },
         methods: {
             // 触底加载
+			imgLoad(e){
+				console.log("图片加载了")
+			},
             reachBottom() {
                 if (!this.hasNext) return;
                 console.log('//// 触底加载');
@@ -80,12 +93,17 @@
                     params: { page: num, pagesize: size }
                 }).then(res => {
                     const { success, result } = res.data;
+					console.log(res.data,"<---")
                     console.log('。。。。。', result.items,'数据');
                     if (success) {
                         const { pages, items, page } = result;
                         if (num === 1) this.homeList = [];
                         if (items.length) {
                             for (const d of items) {
+								if(d.medias===''){
+									d.imgIsNull=true
+								}
+								
                                 const arr = d?.medias?.split(',');
                                 const arr2 = [];
                                 for (let e of arr) {
@@ -94,9 +112,12 @@
                                 }
                                 d.avatar = this.fileUrl + d.avatar;
                                 d.medias = arr2;
+								
                             }
                         }
+						console.log(this.homeList,"1")
                         this.homeList = this.homeList.concat(items);
+					console.log(this.homeList,"2")
                         this.hasNext = pages > page;
                         this.isDownLoading = false;
                     } else {
@@ -146,8 +167,15 @@
 </script>
 
 <style lang="scss" scoped>
+	.space-for-no-img{
+			height:30rpx;
+			width: 100%;
+	}
     .list-wrap {
         height: calc(100vh - 280rpx);
+		.no_img{
+			margin-bottom: 50rpx;
+		}
     }
     .card {
         background-color:  #fff;
@@ -172,7 +200,7 @@
             width: 80%;
             overflow: hidden;
         }
-
+		
         .card-ipAddress, .card-loveCount {
             font-weight: bold;
             margin-left: 8rpx;
@@ -205,6 +233,7 @@
             width: 20px;
             height: 20px;
         }
+		
 
     }
     .medias_size {
@@ -216,9 +245,9 @@
     }
 
     .nomedias_size {
-        //max-width: 80px;
-        //width: 80px;
-        height: 80px;
+        // max-width: 80px;
+        width: 80px;
+        // height: 80px;
         //overflow:hidden;
         margin-bottom: 20rpx; /*盒子间的距离*/
     }
