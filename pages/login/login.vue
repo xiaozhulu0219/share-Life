@@ -9,12 +9,13 @@
 			<view class="box padding-lr-xl login-paddingtop" :style="[{animation: 'show ' + 0.6+ 's 1'}]">
 				<block>
 					<view class="cu-form-group margin-top  shadow-warp" :class="[shape=='round'?'round':'']">
-						<view class="title"><text class="cuIcon-people margin-right-xs"></text>手机号:</view>
+						<view class="title"><text class="cuIcon-people margin-right-xs"></text>账号:</view>
 						<input placeholder="请输入手机号" name="input" type="number" maxlength="11" v-model="phoneNo" />
 					</view>
           <!-- 手机号密码登录 start -->
 					<view v-if="loginWay==1" class="cu-form-group margin-top shadow-warp" :class="[{'round': shape == 'round'}]">
-						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>密{{"\u3000"}}码:</view>
+<!--						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>密{{"\u3000"}}码:</view>-->
+						<view class="title"><text class="cuIcon-lock margin-right-xs"></text>密码:</view>
 						<input class="uni-input" placeholder="请输入密码" :password="!showPassword" v-model="password" />
 						<view class="action text-lg">
 							<text :class="[showPassword ? 'cuIcon-attention' : 'cuIcon-attentionforbid']" @click="changePassword"></text>
