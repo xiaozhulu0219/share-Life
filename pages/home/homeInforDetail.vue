@@ -42,84 +42,83 @@
 				<view class="card-ipAddress">{{myFormData.ipAddress}}</view>
 			</view>
 
-			<view class="card-line">
-				<view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLiked == 0"
-					@click="likeInfor(myCommentForm.id)">&#xe8ad
-				</view>
-				<view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
-					@click="dislikeInfor(myCommentForm.id)">&#xe60f
-				</view>
-				<view class="card-likeCount">{{myCommentForm.likeCount}}</view>
-				<view class="cuIcon-like" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLoved == 0"
-					@click="loveInfor(myCommentForm.inforId)"></view>
-				<view class="cuIcon-likefill" style="font-size: 45rpx; color: #dd524d;" v-else
-					@click="unloveInfor(myCommentForm.inforId)"></view>
-				<view class="card-loveCount">{{myCommentForm.loveCount}}</view>
-				<view class="cuIcon-comment" style="font-size: 45rpx;"></view>
-				<view class="card-commentCount">{{myCommentForm.commentCount}}</view>
-			</view>
-			<view class="card-divider"></view>
-			<view class="list-wrap">
-				<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
-					<view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
-						<view class="comment-parent">
-							<image class="comment-avatar round sm" :src="item.avatar" alt=""
-								@click="toMemberdetail(item.uuId)"></image>
-							<view class="comment-nickcon">
-								<view class="comment-nickname">{{ item.nickname }}</view>
-								<view class="comment-content" @click="tofocus(item.id)">{{ item.content }}</view>
-								<view class="comment-createDate">
-									{{item.createDate}}
-									<view style="margin-left: 15rpx">{{ item.ipAddress }}</view>
-									<text style="margin-left: 15rpx" @click="tofocus(item.id)">回复</text>
-								</view>
-							</view>
-							<view class="comment-iconlikeCount">
-								<view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
-									v-if="item.hasLiked == 0" @click="likeComment(item.id)">&#xe8ad
-								</view>
-								<view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
-									@click="dislikeComment(item.id)">&#xe60f
-								</view>
-								<view class="comment-likeCount">{{item.likeCount}}</view>
-							</view>
-						</view>
+            <view class="card-line">
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLiked == 0"
+                      @click="likeInfor(myCommentForm.id)">&#xe8ad
+                </view>
+                <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
+                      @click="dislikeInfor(myCommentForm.id)">&#xe60f
+                </view>
+                <view class="card-likeCount">{{myCommentForm.likeCount}}</view>
+                <view class="cuIcon-like" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLoved == 0"
+                      @click="loveInfor(myCommentForm.inforId)"></view>
+                <view class="cuIcon-likefill" style="font-size: 45rpx; color: #dd524d;" v-else
+                      @click="unloveInfor(myCommentForm.inforId)"></view>
+                <view class="card-loveCount">{{myCommentForm.loveCount}}</view>
+                <view class="cuIcon-comment" style="font-size: 45rpx;"></view>
+                <view class="card-commentCount">{{myCommentForm.commentCount}}</view>
+            </view>
+            <view class="card-divider"></view>
+            <view class="list-wrap">
+                <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
+                    <view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
+                        <view class="comment-parent">
+                            <image class="comment-avatar round sm" :src="item.avatar" alt=""
+                                   @click="toMemberdetail(item.uuId)"></image>
+                            <view class="comment-nickcon">
+                                <view class="comment-nickname">{{ item.nickname }}</view>
+                                <view class="comment-content" @click="tofocus(item.id)">{{ item.content }}</view>
+                                <view class="comment-createDate">
+                                    {{item.createDate}}
+                                    <view style="margin-left: 15rpx">{{ item.ipAddress }}</view>
+                                    <text style="margin-left: 15rpx" @click="tofocus(item.id)">回复</text>
+                                </view>
+                            </view>
+                            <view class="comment-iconlikeCount">
+                                <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
+                                      v-if="item.hasLiked == 0" @click="likeComment(item.id,index,oneLevelComment)">&#xe8ad
+                                </view>
+                                <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
+                                      @click="dislikeComment(item.id,index,oneLevelComment)">&#xe60f
+                                </view>
+                                <view class="comment-likeCount">{{item.likeCount}}</view>
+                            </view>
+                        </view>
 
-						<view v-if="item.hasChild=='1'">
-							<text v-if="loadingState=='loadmore'" style="margin-left: 150rpx; font-size:30rpx;">
-								—展开{{item.childCommentList.length}}条回复—
-							</text>
-							<!-- <text v-if="loadingState!='loadmore'">{{loadingState=="nomore"?"收起":"展开更多"}}</text>-->
-							<view v-if="loadingState=='loadmore'" class="cuIcon-triangledownfill" @click="showMore"
-								style="font-size: 40rpx;  margin-left: 200rpx"></view>
+                        <view v-if="item.hasChild=='1'" >
+                            <text v-if="loadingState=='loadmore'" style="margin-left: 150rpx; font-size:30rpx;">
+                                —展开{{item.childCommentList.length}}条回复—
+                            </text>
+                            <!-- <text v-if="loadingState!='loadmore'">{{loadingState=="nomore"?"收起":"展开更多"}}</text>-->
+                            <view v-if="loadingState=='loadmore'" class="cuIcon-triangledownfill" @click="showMore"
+                                  style="font-size: 40rpx;  margin-left: 200rpx"></view>
 
-							<view v-if="zhankai==true" v-for="(sonitem,inde) in item.childCommentList" :key=inde>
-								<view class="comment-son">
-									<image class="comment-avatar round sm" :src="fileUrl+sonitem.avatar" alt=""
-										@click="toMemberdetail(sonitem.uuId)"></image>
-									<view class="comment-nickcon">
-										<view class="comment-nickname">{{ sonitem.nickname }}</view>
-										<view class="comment-content" @click="tofocus(item.id)">{{ sonitem.content }}
-										</view>
-										<view class="comment-createDate">
-											{{sonitem.createDate}}
-											<view style="margin-left: 15rpx">{{ sonitem.ipAddress }}</view>
-											<text style="margin-left: 15rpx" @click="tofocus(item.id)">回复</text>
-										</view>
-									</view>
+                            <view v-if="zhankai==true" v-for="(sonitem,inde) in item.childCommentList" :key=inde>
+                                <view class="comment-son">
+                                    <image class="comment-avatar round sm" :src="fileUrl+sonitem.avatar" alt=""
+                                           @click="toMemberdetail(sonitem.uuId)"></image>
+                                    <view class="comment-nickcon">
+                                        <view class="comment-nickname">{{ sonitem.nickname }}</view>
+                                        <view class="comment-content" @click="tofocus(item.id)">{{ sonitem.content }}</view>
+                                        <view class="comment-createDate">
+                                            {{sonitem.createDate}}
+                                            <view style="margin-left: 15rpx">{{ sonitem.ipAddress }}</view>
+                                            <text style="margin-left: 15rpx" @click="tofocus(item.id)">回复</text>
+                                        </view>
+                                    </view>
 
-									<view class="comment-iconlikeCount">
-										<view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
-											v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id)">&#xe8ad
-										</view>
-										<view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
-											@click="dislikeComment(sonitem.id)">&#xe60f
-										</view>
-										<view class="comment-likeCount">{{sonitem.likeCount}}</view>
-									</view>
-								</view>
-							</view>
-						</view>
+                                    <view class="comment-iconlikeCount">
+                                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
+                                              v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id,index,inde,twoLevelComment)">&#xe8ad
+                                        </view>
+                                        <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
+                                              v-else @click="dislikeComment(sonitem.id,index,inde,twoLevelComment)">&#xe60f
+                                        </view>
+                                        <view class="comment-likeCount">{{sonitem.likeCount}}</view>
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
 
 					</view>
 					<view class="card-divider"></view>
@@ -169,6 +168,8 @@
 				zhankai: false,
 				focus: false,
 				isfocus: true,
+                oneLevelComment:1,
+                twoLevelComment:2,
 				pageInfo: {
 					num: 0,
 					size: 10
@@ -453,153 +454,154 @@
 				}
 			},
 
-			//保存评论 这里有两种评论、一种是对动态 一种是对评论
-			saveCommentForInfor(inputValue) {
-				//若评论中包含 “*” 或者为空 不允许保存
-				//console.log("inputValue值为空1：", inputValue);
-				if (inputValue === '' || inputValue.indexOf('*') != -1) {
-					console.log('评论出现了违规词语、已被拦截：', inputValue);
-				} else {
-					const InforCommentDto = {};
-					InforCommentDto.publishId = this.myCommentForm.id;
-					InforCommentDto.comment = inputValue;
-					this.$http.post(this.url.saveCommentUrl, InforCommentDto).then(res => {
-						//刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
-						if (res.data.success) {
-							//回显最新评论数
-							this.myCommentForm.commentCount = res.data.result;
-							//刷新评论列表
-							this.getInforCommentsList(this.myFormData.inforId);
-							//console.log('当前页数是：', this.pageInfo.num);
-							//置空输入框
-							this.inputValue = '';
-						}
-					});
-				}
-			},
-			//保存对评论进行的评论
-			saveCommentForComment(commentId, inputValue) {
-				console.log('调用了保存对评论进行的评论111：', inputValue);
-				console.log('调用了保存对评论进行的评论222：', commentId);
-				//若评论中包含 “*” 或者为空 不允许保存
-				//console.log("inputValue值为空1：", inputValue);
-				if (inputValue === '' || inputValue.indexOf('*') != -1) {
-					console.log('评论出现了违规词语、已被拦截：', inputValue);
-				} else {
-					const InforCommentDto = {};
-					InforCommentDto.commentId = commentId; //这个应该是评论的id
-					InforCommentDto.comment = inputValue;
-					this.$http.post(this.url.saveCommentForCommentUrl, InforCommentDto).then(res => {
-						//刷新子级留言列表  并将输入框文字置空
-						if (res.data.success) {
-							//刷新子级评论列表
-							this.getSonCommentsList(commentId); //拿的也不是动态id  而应该是评论的id
-							//置空输入框
-							this.inputValue = '';
-						}
-					});
-				}
-			},
-			//点赞动态
-			likeInfor(id) {
-				console.log('进来了点赞动态方法', id);
-				this.$http.get(this.url.likeInforUrl, {
-					params: {
-						id: id
-					}
-				}).then((res) => {
-					if (res.data.success) {
-						console.log('表单数据', res);
-						this.myCommentForm.likeCount = res.data.result;
-						//刷新页面
-						this.findPublishInfor(this.myFormData.inforId);
-					}
-				});
-			},
-			//取消点赞动态
-			dislikeInfor(id) {
-				//console.log("进来了方法", inforId)
-				this.$http.get(this.url.dislikeInforUrl, {
-					params: {
-						id: id
-					}
-				}).then((res) => {
-					if (res.data.success) {
-						console.log('表单数据', res);
-						this.myCommentForm.likeCount = res.data.result;
-						//刷新页面
-						this.findPublishInfor(this.myFormData.inforId);
-					}
-				});
-			},
-			//喜欢动态
-			loveInfor(id) {
-				//console.log("进来了方法", inforId)
-				this.$http.get(this.url.loveInforUrl, {
-					params: {
-						id: id
-					}
-				}).then((res) => {
-					if (res.data.success) {
-						console.log('表单数据', res);
-						this.myCommentForm.loveCount = res.data.result;
-						//刷新页面
-						this.findPublishInfor(this.myFormData.inforId);
-					}
-				});
-			},
-			//取消喜欢动态
-			unloveInfor(id) {
-				//console.log("进来了方法", inforId)
-				this.$http.get(this.url.unloveInforUrl, {
-					params: {
-						id: id
-					}
-				}).then((res) => {
-					if (res.data.success) {
-						console.log('表单数据', res);
-						this.myCommentForm.loveCount = res.data.result;
-						//刷新页面
-						this.findPublishInfor(this.myFormData.inforId);
-					}
-				});
-			},
-			//点赞评论
-			likeComment(id) {
-				console.log('进来了点赞评论方法', id);
-				this.$http.get(this.url.likeCommentUrl, {
-					params: {
-						id: id
-					}
-				}).then((res) => {
-					if (res.data.success) {
-						console.log('表单数据', res);
-						//this.myCommentForm.likeCount = res.data.result;
-						//重新赋页码数、并刷新评论列表
-						//this.pageInfo.num = 0;
-						this.getInforCommentsList(this.myFormData.inforId);
-					}
-				});
-			},
-			//取消点赞评论
-			dislikeComment(id) {
-				//console.log("进来了方法", inforId)
-				this.$http.get(this.url.dislikeCommentUrl, {
-					params: {
-						id: id
-					}
-				}).then((res) => {
-					if (res.data.success) {
-						console.log('表单数据', res);
-						//this.myCommentForm.likeCount = res.data.result;
-						//重新赋页码数、并刷新评论列表
-						//this.pageInfo.num = 0;
-						this.getInforCommentsList(this.myFormData.inforId);
-					}
-				});
-			}
-		}
-	};
+            //保存评论 这里有两种评论、一种是对动态 一种是对评论
+            saveCommentForInfor(inputValue) {
+                //若评论中包含 “*” 或者为空 不允许保存
+                //console.log("inputValue值为空1：", inputValue);
+                if (inputValue === '' || inputValue.indexOf('*') != -1) {
+                    console.log('评论出现了违规词语、已被拦截：', inputValue);
+                } else {
+                    const InforCommentDto = {};
+                    InforCommentDto.publishId = this.myCommentForm.id;
+                    InforCommentDto.comment = inputValue;
+                    this.$http.post(this.url.saveCommentUrl, InforCommentDto).then(res => {
+                        //刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
+                        if (res.data.success) {
+                            //回显最新评论数
+                            this.myCommentForm.commentCount = res.data.result;
+                            //刷新评论列表
+                            this.getInforCommentsList(this.myFormData.inforId);
+                            //console.log('当前页数是：', this.pageInfo.num);
+                            //置空输入框
+                            this.inputValue = '';
+                        }
+                    });
+                }
+            },
+            //保存对评论进行的评论
+            saveCommentForComment(commentId, inputValue) {
+                console.log('调用了保存对评论进行的评论111：', inputValue);
+                console.log('调用了保存对评论进行的评论222：', commentId);
+                //若评论中包含 “*” 或者为空 不允许保存
+                //console.log("inputValue值为空1：", inputValue);
+                if (inputValue === '' || inputValue.indexOf('*') != -1) {
+                    console.log('评论出现了违规词语、已被拦截：', inputValue);
+                } else {
+                    const InforCommentDto = {};
+                    InforCommentDto.commentId = commentId; //这个应该是评论的id
+                    InforCommentDto.comment = inputValue;
+                    this.$http.post(this.url.saveCommentForCommentUrl, InforCommentDto).then(res => {
+                        //刷新子级留言列表  并将输入框文字置空
+                        if (res.data.success) {
+                            //刷新子级评论列表
+                            this.getSonCommentsList(commentId);//拿的也不是动态id  而应该是评论的id
+                            //置空输入框
+                            this.inputValue = '';
+                        }
+                    });
+                }
+            },
+            //点赞动态
+            likeInfor(id) {
+                console.log('进来了点赞动态方法', id);
+                this.$http.get(this.url.likeInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log('表单数据', res);
+                        this.myCommentForm.likeCount = res.data.result;
+                        //刷新页面
+                        //this.findPublishInfor(this.myFormData.inforId);
+                        this.myCommentForm.hasLiked=1;
+                    }
+                });
+            },
+            //取消点赞动态
+            dislikeInfor(id) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.url.dislikeInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log('表单数据', res);
+                        this.myCommentForm.likeCount = res.data.result;
+                        //刷新页面
+                        //this.findPublishInfor(this.myFormData.inforId);
+                        this.myCommentForm.hasLiked=0;
+                    }
+                });
+            },
+            //喜欢动态
+            loveInfor(id) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.url.loveInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log('表单数据', res);
+                        this.myCommentForm.loveCount = res.data.result;
+                        //刷新页面
+                        //this.findPublishInfor(this.myFormData.inforId);
+                        this.myCommentForm.hasLoved=1;
+                    }
+                });
+            },
+            //取消喜欢动态
+            unloveInfor(id) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.url.unloveInforUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log('表单数据', res);
+                        this.myCommentForm.loveCount = res.data.result;
+                        //刷新页面
+                        //this.findPublishInfor(this.myFormData.inforId);
+                        this.myCommentForm.hasLoved=0;
+                    }
+                });
+            },
+            //点赞评论
+            likeComment(id,index,inde,levelComment) {
+                console.log('进来了点赞评论方法', id);
+                this.$http.get(this.url.likeCommentUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log('表单数据', res);
+                        //this.myCommentForm.likeCount = res.data.result;
+                        //重新赋页码数、并刷新评论列表
+                        //this.pageInfo.num = 0;
+                        //this.getInforCommentsList(this.myFormData.inforId);
+                        if(levelComment==1){
+                            //一级评论
+                            this.inforCommentsList[index].likeCount=res.data.result;
+                            this.inforCommentsList[index].hasLiked = 1;
+
+                        }else{
+                            //二级
+                            this.inforCommentsList[index].childCommentList[inde].likeCount=res.data.result;
+                            this.inforCommentsList[index].childCommentList[inde].hasLiked = 1;
+                        }
+
+                    }
+                });
+            },
+            //取消点赞评论
+            dislikeComment(id,index,inde,levelComment) {
+                //console.log("进来了方法", inforId)
+                this.$http.get(this.url.dislikeCommentUrl, {params: {id: id}}).then((res) => {
+                    if (res.data.success) {
+                        console.log('表单数据', res);
+                        //this.myCommentForm.likeCount = res.data.result;
+                        //重新赋页码数、并刷新评论列表
+                        //this.pageInfo.num = 0;
+                        //this.getInforCommentsList(this.myFormData.inforId);
+                        if(levelComment==1){
+                            //一级评论
+                            this.inforCommentsList[index].likeCount=res.data.result;
+                            this.inforCommentsList[index].hasLiked = 0;
+
+                        }else{
+                            //二级
+                            this.inforCommentsList[index].childCommentList[inde].likeCount=res.data.result;
+                            this.inforCommentsList[index].childCommentList[inde].hasLiked = 0;
+                        }
+                    }
+                });
+            }
+        }
+    };
 </script>
 
 

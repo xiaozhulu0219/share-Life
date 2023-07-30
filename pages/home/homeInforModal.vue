@@ -134,18 +134,25 @@
                 });
             },
             //喜欢动态
-            loveInfor(id) {
+            loveInfor(id,index) {
                 this.$http.get(this.loveInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        this.getHomePublishInforList();
+                        //this.getHomePublishInforList();
+                        //console.log('喜欢动态11', res);
+                        this.homeList[index].loveCount=res.data.result;
+                        this.homeList[index].hasLoved = 1;
+                        console.log('喜欢动态22', this.homeList[index].hasLoved);
                     }
                 });
             },
             //取消喜欢动态
-            unloveInfor(id) {
+            unloveInfor(id,index) {
                 this.$http.get(this.unloveInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
-                        this.getHomePublishInforList();
+                        //this.getHomePublishInforList();
+                        this.homeList[index].loveCount=res.data.result;
+                        this.homeList[index].hasLoved = 0;
+                        console.log('取消喜欢动态', this.homeList[index].hasLoved);
                     }
                 });
             },
