@@ -65,10 +65,10 @@
                             </view>
                             <view class="comment-iconlikeCount">
                                 <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
-                                      v-if="item.hasLiked == 0" @click="likeComment(item.id)">&#xe8ad
+                                      v-if="item.hasLiked == 0" @click="likeComment(item.id,index,oneLevelComment)">&#xe8ad
                                 </view>
                                 <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
-                                      @click="dislikeComment(item.id)">&#xe60f
+                                      @click="dislikeComment(item.id,index,oneLevelComment)">&#xe60f
                                 </view>
                                 <view class="comment-likeCount">{{item.likeCount}}</view>
                             </view>
@@ -98,10 +98,10 @@
 
                                     <view class="comment-iconlikeCount">
                                         <view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
-                                              v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id)">&#xe8ad
+                                              v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id,index,inde,twoLevelComment)">&#xe8ad
                                         </view>
                                         <view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;"
-                                              v-else @click="dislikeComment(sonitem.id)">&#xe60f
+                                              v-else @click="dislikeComment(sonitem.id,index,inde,twoLevelComment)">&#xe60f
                                         </view>
                                         <view class="comment-likeCount">{{sonitem.likeCount}}</view>
                                     </view>
@@ -156,6 +156,8 @@
                 zhankai: false,
                 focus: false,
                 isfocus: true,
+                oneLevelComment:1,
+                twoLevelComment:2,
                 pageInfo: {
                     num: 0,
                     size: 10
@@ -467,7 +469,8 @@
                         console.log('表单数据', res);
                         this.myCommentForm.likeCount = res.data.result;
                         //刷新页面
-                        this.findPublishInfor(this.myFormData.inforId);
+                        //this.findPublishInfor(this.myFormData.inforId);
+                        this.myCommentForm.hasLiked=1;
                     }
                 });
             },
@@ -479,7 +482,8 @@
                         console.log('表单数据', res);
                         this.myCommentForm.likeCount = res.data.result;
                         //刷新页面
-                        this.findPublishInfor(this.myFormData.inforId);
+                        //this.findPublishInfor(this.myFormData.inforId);
+                        this.myCommentForm.hasLiked=0;
                     }
                 });
             },
@@ -491,7 +495,8 @@
                         console.log('表单数据', res);
                         this.myCommentForm.loveCount = res.data.result;
                         //刷新页面
-                        this.findPublishInfor(this.myFormData.inforId);
+                        //this.findPublishInfor(this.myFormData.inforId);
+                        this.myCommentForm.hasLoved=1;
                     }
                 });
             },
@@ -503,12 +508,13 @@
                         console.log('表单数据', res);
                         this.myCommentForm.loveCount = res.data.result;
                         //刷新页面
-                        this.findPublishInfor(this.myFormData.inforId);
+                        //this.findPublishInfor(this.myFormData.inforId);
+                        this.myCommentForm.hasLoved=0;
                     }
                 });
             },
             //点赞评论
-            likeComment(id) {
+            likeComment(id,index,inde,levelComment) {
                 console.log('进来了点赞评论方法', id);
                 this.$http.get(this.url.likeCommentUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
@@ -516,12 +522,23 @@
                         //this.myCommentForm.likeCount = res.data.result;
                         //重新赋页码数、并刷新评论列表
                         //this.pageInfo.num = 0;
-                        this.getInforCommentsList(this.myFormData.inforId);
+                        //this.getInforCommentsList(this.myFormData.inforId);
+                        if(levelComment==1){
+                            //一级评论
+                            this.inforCommentsList[index].likeCount=res.data.result;
+                            this.inforCommentsList[index].hasLiked = 1;
+
+                        }else{
+                            //二级
+                            this.inforCommentsList[index].childCommentList[inde].likeCount=res.data.result;
+                            this.inforCommentsList[index].childCommentList[inde].hasLiked = 1;
+                        }
+
                     }
                 });
             },
             //取消点赞评论
-            dislikeComment(id) {
+            dislikeComment(id,index,inde,levelComment) {
                 //console.log("进来了方法", inforId)
                 this.$http.get(this.url.dislikeCommentUrl, {params: {id: id}}).then((res) => {
                     if (res.data.success) {
@@ -529,7 +546,17 @@
                         //this.myCommentForm.likeCount = res.data.result;
                         //重新赋页码数、并刷新评论列表
                         //this.pageInfo.num = 0;
-                        this.getInforCommentsList(this.myFormData.inforId);
+                        //this.getInforCommentsList(this.myFormData.inforId);
+                        if(levelComment==1){
+                            //一级评论
+                            this.inforCommentsList[index].likeCount=res.data.result;
+                            this.inforCommentsList[index].hasLiked = 0;
+
+                        }else{
+                            //二级
+                            this.inforCommentsList[index].childCommentList[inde].likeCount=res.data.result;
+                            this.inforCommentsList[index].childCommentList[inde].hasLiked = 0;
+                        }
                     }
                 });
             }
