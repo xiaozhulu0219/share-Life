@@ -19,6 +19,10 @@
 					<button type="default" size="mini" plain="true" @click="sbmitComment">发表</button>
 				</view> -->
 			</view>
+			<view class="submit-box" @click="handleChange">
+				发送
+				
+			</view>
 			<!-- <view class="" style="width: 100%;height: 30rpx; background-color: black;"> -->
 		
 		</view>
@@ -146,7 +150,6 @@
 		bottom:0;
 		left:0;
 		display: flex;
-		background-color: #ddd;
 		/* border-radius: 20px 20px 0 0; */
 		width: 100%;
 		transition: 200ms;
@@ -158,15 +161,26 @@
 
 	}
 
-	.test-btn {
-		flex: 1 1;
+	.submit-box{
+		width: 15%;
+		height:60%;
+		/* border:1px solid #ccc; */
+		flex: 0 0 auto;
+		margin:0 10rpx;
+		border-radius:30rpx ;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: rgb(21,173,198);
+		color: #fff;
 	}
-
+	
 	.input-box {
-		width: 90%;
+		/* width: 90%; */
+		flex: 1 1 auto;
 		height:60%;
 		border:1px solid #ccc;
-		margin: 0 auto;
+		margin: 0 10rpx;
 		border-radius: 30rpx;
 		background-color: #fff;
 		display: flex;
