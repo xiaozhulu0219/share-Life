@@ -1,6 +1,6 @@
 <template>
 	<!--这个是首页点击动态后跳转的动态详情页-->
-	<view class="container" >
+	<view class="container">
 		<commonTab :isBack="true" :backRouterName="backRouteName">
 			<block slot="title">
 				<image class="medias_avatar round" :src="myFormData.avatar" alt=""
@@ -8,7 +8,7 @@
 				{{myCommentForm.nickname}}
 			</block>
 		</commonTab>
-		<view class="card" >
+		<view class="card">
 			<view v-if="myFormData.imgIsNull" class="space-for-no-img">
 
 			</view>
@@ -101,12 +101,15 @@
 									<view class="comment-nickcon">
 										<view class="comment-nickname">{{ sonitem.nickname }}</view>
 										<view class="comment-content" @click="tofocus(item.id,sonitem,'replayto')">
-										<text class="replay-name" v-if="sonitem.commentedNickName">回复<text class="replay-name-inner">{{sonitem.commentedNickName}} :</text> </text>  {{ sonitem.content }}
+											<text class="replay-name" v-if="sonitem.commentedNickName">回复<text
+													class="replay-name-inner">{{sonitem.commentedNickName}} :</text>
+											</text> {{ sonitem.content }}
 										</view>
 										<view class="comment-createDate">
 											{{sonitem.createDate}}
 											<view style="margin-left: 15rpx">{{ sonitem.ipAddress }}</view>
-											<text style="margin-left: 15rpx" @click="tofocus(item.id,sonitem,'replayto')">回复</text>
+											<text style="margin-left: 15rpx"
+												@click="tofocus(item.id,sonitem,'replayto')">回复</text>
 										</view>
 									</view>
 
@@ -129,11 +132,11 @@
 					<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快快留下你的赞美吧---</view>
 
 				</scroll-view>
-				
+
 			</view>
 			<view class="space">
 				<!-- 一个底部的垫片 -->
-				
+
 			</view>
 		</view>
 
@@ -158,12 +161,8 @@
 
 		</view>
 		<view class="">
-			<commentPanel 
-			ref="commentPanel"
-			:isShow="commentShow" 
-			@cancelComment="handleCancelComment"
-				@commentSubmit="handleCommentSubmit" 
-				:placeholderText="placeholderText"></commentPanel>
+			<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
+				@commentSubmit="handleCommentSubmit" :placeholderText="placeholderText"></commentPanel>
 		</view>
 
 
@@ -207,11 +206,11 @@
 				focus: false,
 				isfocus: true,
 				pageInfo: {
-					num: 0,
+					num: 1,
 					size: 10
 				},
 				// 回复具体的昵称
-				targetNickname:'',
+				targetNickname: '',
 				hasNext: true,
 				isDownLoading: false,
 				CustomBar: this.CustomBar,
@@ -308,7 +307,7 @@
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
 		},
 		methods: {
-			
+
 			handleCancelComment() {
 				this.commentShow = false;
 			},
@@ -318,17 +317,17 @@
 				this.placeholderText = '评论字数最多输入200字'
 
 			},
-			handleCommentSubmit(inputVal,callback) {
+			handleCommentSubmit(inputVal, callback) {
 				// 拿到子组件传递的评论数据
 				// 向后端传递
 				// console.log(inputVal, "子组件传递");
-				
+
 				// console.log(`是否是直接评论`, this.isDirectedComment)
-				if(callback){
+				if (callback) {
 					callback();
 				}
 				uni.showLoading({
-					title:"loading..."
+					title: "loading..."
 				})
 				if (this.isDirectedComment) {
 					console.log('直接回复');
@@ -354,7 +353,7 @@
 				// 代表需要加载更多评论
 
 			},
-			tofocus(commentId, target,para) {
+			tofocus(commentId, target, para) {
 				// console.log(commentId, "--》评论")
 				// 拿到
 				// console.log(target.nickname)
@@ -368,17 +367,17 @@
 				} else {
 					this.placeholderText = `评论字数最多输入200字`
 				}
-				if(para==='replayto'){
+				if (para === 'replayto') {
 					// 点击二级回复 判断目标是否是自己的回复
 					// console.log(target.uuId,this.uuId,"回复的二级回复是否是自己的")
-					if(target.uuId !== this.uuId){
+					if (target.uuId !== this.uuId) {
 						// 回复的不是自己的二级回复
-						this.targetNickname=target.nickname;
-					}else{
-						this.targetNickname='';
+						this.targetNickname = target.nickname;
+					} else {
+						this.targetNickname = '';
 					}
-				}else{
-					this.targetNickname='';
+				} else {
+					this.targetNickname = '';
 				}
 				// 调出评论面板
 				// 更改是否是直接评论
@@ -407,7 +406,8 @@
 			reachBottom() {
 				if (!this.hasNext) return;
 				console.log('//// 触底加载');
-				this.getInforCommentsList(this.myFormData.inforId);
+				// 触底加载增加一个参数
+				this.getInforCommentsList(this.myFormData.inforId,true);
 			},
 			onInput(value) {
 				if (value !== null) {
@@ -469,12 +469,18 @@
 				});
 			},
 			//获取评论列表
-			getInforCommentsList(inforId, page = false) {
+			getInforCommentsList(inforId, isPageTurn = false) {
 				if (this.isDownLoading) return;
 				this.isDownLoading = true;
 				// 这里 如果普通刷新不应该让页数加一
 				// this.pageInfo.num++;
-
+				// 判断当前是否属于触底加载
+				if (isPageTurn) {
+					// 如果是触底加载
+					//当前的页面页数加一
+					this.pageInfo.num += 1;
+				}
+				// console.log("加载第",this.pageInfo.num,"的数据")
 				const {
 					findInforCommentsPageUrl,
 					pageInfo: {
@@ -513,7 +519,7 @@
 						// 这里要区分是属于普通增加评论还是进行翻页 
 						// 如果是翻页就需要push新的数据
 						// 如果只是请求增加一条数据 就整个改
-						if (page) {
+						if (isPageTurn) {
 							// 翻页的逻辑
 							const tempArr = [...this.inforCommentsList];
 							tempArr.push(...items);
@@ -522,7 +528,7 @@
 							// 重新赋值数组
 							this.inforCommentsList = [...items]
 						}
-
+						console.log("页数", page, pages)
 						// this.inforCommentsList = this.inforCommentsList.concat(items);
 						uni.hideLoading()
 						console.log(this.inforCommentsList, "评论列表")
@@ -538,58 +544,75 @@
 			},
 			//获取评论的子级评论列表
 			getSonCommentsList(item) {
-			    if (this.isDownLoading) return;
-			    this.isDownLoading = true;
-			    this.pageInfo.num++;
-			    const { findSonCommentListPageUrl, pageInfo: { num, size } } = this;
-			    this.$http.get(this.findSonCommentListPageUrl, {
+				if (this.isDownLoading) return;
+				this.isDownLoading = true;
+				this.pageInfo.num++;
+				const {
+					findSonCommentListPageUrl,
+					pageInfo: {
+						num,
+						size
+					}
+				} = this;
+				this.$http.get(this.findSonCommentListPageUrl, {
 					// 这里是item直接就代表目标id
-			        params: { page: 1, pagesize: 10, id: item }
-			    }).then(res => {
-					
-			        const { success, result } = res.data;
+					params: {
+						page: 1,
+						pagesize: 10,
+						id: item
+					}
+				}).then(res => {
+
+					const {
+						success,
+						result
+					} = res.data;
 					// console.log(res,"结果")
-			        console.log('。。。。。', result.items);
-			        if (success) {
-			            const { pages, items, page } = result;
-			            if (num === 1) this.inforSonCommentsList = [];
-			            if (items.length) {
-			                for (const d of items) {
-			                    d.avatar = this.fileUrl + d.avatar;
-			                }
-			            }
+					console.log('。。。。。', result.items);
+					if (success) {
+						const {
+							pages,
+							items,
+							page
+						} = result;
+						if (num === 1) this.inforSonCommentsList = [];
+						if (items.length) {
+							for (const d of items) {
+								d.avatar = this.fileUrl + d.avatar;
+							}
+						}
 						// console.log(items,"拿到子评论")
 						// 在当前一级评论列表找到当前数组重新赋值
-						const targetIndex = this.inforCommentsList.findIndex((it)=>{
-							return it.id===item
+						const targetIndex = this.inforCommentsList.findIndex((it) => {
+							return it.id === item
 						})
-						if(targetIndex !== -1){
+						if (targetIndex !== -1) {
 							// 找到了index
-							 this.inforCommentsList[targetIndex].childCommentList = [...items];
-							 // console.log(this.inforCommentsList);
-							 // 判断是否是刚刚添加的评论 如果是的话就更改展开状态
-							 if(this.inforCommentsList[targetIndex].childCommentList.length===1){
-								 // 第一条二级评论刚刚添加
-								 this.inforCommentsList[targetIndex].hasChild = '1'
-								 this.inforCommentsList[targetIndex].loadMoreStatus=true
-								 this.inforCommentsList[targetIndex].loadingState = 'nomore'
-							 }
+							this.inforCommentsList[targetIndex].childCommentList = [...items];
+							// console.log(this.inforCommentsList);
+							// 判断是否是刚刚添加的评论 如果是的话就更改展开状态
+							if (this.inforCommentsList[targetIndex].childCommentList.length === 1) {
+								// 第一条二级评论刚刚添加
+								this.inforCommentsList[targetIndex].hasChild = '1'
+								this.inforCommentsList[targetIndex].loadMoreStatus = true
+								this.inforCommentsList[targetIndex].loadingState = 'nomore'
+							}
 						}
-					
-			            this.inforSonCommentsList = this.inforSonCommentsList.concat(items);
+
+						this.inforSonCommentsList = this.inforSonCommentsList.concat(items);
 						uni.hideLoading()
-			            this.hasNext = pages > page;
-			            this.isDownLoading = false;
-			
-			            console.log('子级评论列表', this.inforSonCommentsList);
-			
-			        } else {
-			            this.isDownLoading = false;
-			        }
-			    }).catch(err => {
-			        console.log(err);
-			        this.isDownLoading = false;
-			    });
+						this.hasNext = pages > page;
+						this.isDownLoading = false;
+
+						console.log('子级评论列表', this.inforSonCommentsList);
+
+					} else {
+						this.isDownLoading = false;
+					}
+				}).catch(err => {
+					console.log(err);
+					this.isDownLoading = false;
+				});
 			},
 			//点击头像跳转用户详情
 			toMemberdetail(myFormData) {
@@ -644,13 +667,13 @@
 					console.log('评论出现了违规词语、已被拦截：', inputValue);
 				} else {
 					const InforCommentDto = {};
-					
+
 					InforCommentDto.commentId = commentId; //这个应该是评论的id
 					InforCommentDto.comment = inputValue;
-					if(this.targetNickname!==''){
-						InforCommentDto.commentedNickName=this.targetNickname;
+					if (this.targetNickname !== '') {
+						InforCommentDto.commentedNickName = this.targetNickname;
 					}
-					console.log(InforCommentDto,"提交对象")
+					console.log(InforCommentDto, "提交对象")
 					this.$http.post(this.url.saveCommentForCommentUrl, InforCommentDto).then(res => {
 						//刷新子级留言列表  并将输入框文字置空
 						if (res.data.success) {
@@ -659,7 +682,7 @@
 							// 也需要重新渲染界面 但是只找到当前这条评论的子评论进行渲染
 							console.log(commentId, "评论id<---")
 							// 针对评论id为commentId进行的评论,
-							this.targetNickname=''
+							this.targetNickname = ''
 							//进行请求评论列表 拿到rawdata 做数组操作来更改
 
 
@@ -776,6 +799,7 @@
 
 <style lang="scss" scoped>
 	@import url("//at.alicdn.com/t/c/font_4189769_b7ngzgwe98s.css");
+
 	.space-for-no-img {
 		height: 30rpx;
 		width: 100%;
@@ -982,7 +1006,8 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		.foot-panel-inner{
+
+		.foot-panel-inner {
 			height: 60%;
 			width: 90%;
 			border: 1px solid #ccc;
@@ -991,17 +1016,19 @@
 			background-color: #fff;
 			display: flex;
 			align-items: center;
-			.foot-inner-left{
-				width:10%;
-				flex:0 0 auto;
+
+			.foot-inner-left {
+				width: 10%;
+				flex: 0 0 auto;
 				text-align: center;
 			}
-			.foot-inner-right{
+
+			.foot-inner-right {
 				flex: 1 1 auto;
 			}
 		}
 	}
-	
+
 
 	.input-form {
 		width: 250px;
@@ -1048,15 +1075,17 @@
 		height: 10rpx;
 		border-bottom: 1px dashed #CCC
 	}
-	.space{
-		height:70px;
-		width:100%;
-		background-color: #fff;
+
+	.space {
+		height: 70px;
+		width: 100%;
+		background-color: transparent;
 	}
-	.replay-name{
-		.replay-name-inner{
-			color:#333;
-			font-size:1em;
+
+	.replay-name {
+		.replay-name-inner {
+			color: #333;
+			font-size: 1em;
 			font-weight: bold;
 			margin-left: 10rpx;
 		}

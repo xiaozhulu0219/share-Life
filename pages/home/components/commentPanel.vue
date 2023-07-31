@@ -1,11 +1,11 @@
 <template>
-	<view class="comment-panel-container" :class="{show:isShow}">
+	<view class="comment-panel-container" :class="{show:isShow}" @transitionend="tEnd">
 		<view class="" style="text-align: right;">
 			<text class="iconfont icon-guanbi" @click="cancelComment" style="font-size: 0.8em;"></text>
 		</view>
 		<view class="input-box">
-			<input type="text" class="input-box-inner" v-model="inputVal" :placeholder="placeholderText"
-				maxlength="200">
+			<input ref="commentInput" :focus="inpFocus"  type="text" class="input-box-inner" v-model="inputVal" 
+				:placeholder="placeholderText" maxlength="200">
 			<view class="test-btn">
 				<button type="default" size="mini" plain="true" @click="sbmitComment">发表</button>
 			</view>
@@ -24,12 +24,50 @@
 			return {
 				// isShow:false
 				inputVal: '',
-
+				inpFocus: false
 			}
 
 		},
 
+		// watch: {
+		// 	// 监听
+		// 	'isShow': {
+		// 		handler(newVal, oldVal) {
+		// 			// 监听isshow时间自动对焦
+		// 			if (newVal) {
+		// 				// 面板显示
+		// 				console.log("显示")
+		// 				this.inputFocus()
+		// 				this.inpFocus = true;
+		// 				setTimeout(()=>{
+		// 					this.inpFocus = true;
+		// 				},100)
+		// 				// console.log();
+						
+		// 				// this.$refs.commentInput.focus=true
+		// 			}else{
+		// 				this.inpFocus = false
+		// 			}
+		// 		}
+		// 	}
+		// },
 		methods: {
+			tEnd(){
+				if(this.isShow){
+					// console.log("聚焦");
+					this.inpFocus = true;
+				}else{
+					this.inpFocus = false;
+				}
+			},
+			// inputFocus() {
+			// 	this.$nextTick(() => {
+			// 		// console.log()
+			// 		// this.$refs.commentInput.focus=true
+			// 		this.inpFocus = true
+					
+			// 	})
+			// },
 			cancelComment() {
 				// 取消评论
 				this.$emit("cancelComment");
@@ -104,7 +142,7 @@
 	.input-box-inner {
 		width: 80%;
 		flex: 0 0 auto;
-		
+
 	}
 
 	.comment-panel-container.show {
