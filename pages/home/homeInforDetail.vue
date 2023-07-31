@@ -160,12 +160,12 @@
 			</view>
 
 		</view>
-		<view class="">
+
+
+		
 			<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
 				@commentSubmit="handleCommentSubmit" :placeholderText="placeholderText"></commentPanel>
-		</view>
-
-
+		
 
 
 	</view>
@@ -407,7 +407,7 @@
 				if (!this.hasNext) return;
 				console.log('//// 触底加载');
 				// 触底加载增加一个参数
-				this.getInforCommentsList(this.myFormData.inforId,true);
+				this.getInforCommentsList(this.myFormData.inforId, true);
 			},
 			onInput(value) {
 				if (value !== null) {
