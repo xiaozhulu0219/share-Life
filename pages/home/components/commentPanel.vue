@@ -142,9 +142,10 @@
 	}
 	.comment-panel-container {
 		flex:0 0 auto;
-		height: 100rpx;
+		height: 120rpx;
 		/* padding: 20rpx 30rpx; */
-		background-color: #eee;
+		background-color: #fff;
+		border-top: 1px solid #ddd;
 		box-sizing: border-box;
 		position: absolute;
 		bottom:0;
@@ -167,7 +168,7 @@
 		/* border:1px solid #ccc; */
 		flex: 0 0 auto;
 		margin:0 10rpx;
-		border-radius:30rpx ;
+		border-radius:40rpx ;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -178,11 +179,11 @@
 	.input-box {
 		/* width: 90%; */
 		flex: 1 1 auto;
-		height:60%;
-		border:1px solid #ccc;
+		height:70%;
+		/* border:1px solid #ccc; */
 		margin: 0 10rpx;
-		border-radius: 30rpx;
-		background-color: #fff;
+		border-radius: 40rpx;
+		background-color: #eee;
 		display: flex;
 		align-items: center;
 		/* background-color */
@@ -194,9 +195,8 @@
 	}
 
 	.input-box-inner {
-		width: 80%;
 		flex: 1 1 auto;
-		font-size: 0.9em;
+		font-size: 1em;
 	}
 	.box-inner-left{
 		width:10%;

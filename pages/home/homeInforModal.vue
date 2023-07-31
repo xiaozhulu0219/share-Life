@@ -20,7 +20,7 @@
                 </view>
                 <view class="card-line">
                   <view class="left">
-                    <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt="" @click="toMemberdetail(item.uuId)"></image>
+                    <image class="card-avatar round" :src="item.avatar" mode="aspectFill" alt="" @click="toMemberdetail(item.uuId)"></image>
                     <view class="card-nickname">{{item.nickname.substr(0, 12)}}</view>
                   </view>
                   <view class="right">
@@ -74,6 +74,7 @@
             console.log(9999);
             this.getHomePublishInforList();
         },
+		
         methods: {
             // 触底加载
 			imgLoad(e){
