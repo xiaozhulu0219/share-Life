@@ -60,8 +60,11 @@
 			</view>
 			<view class="card-divider"></view>
 			<view class="list-wrap">
-				<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
-					<view v-for="(item,index) in inforCommentsList" :key="index" class="comment">
+				<scroll-view scroll-y 
+				@scrolltolower="reachBottom" 
+				style="height: 100%;" 
+				:scroll-top="scrollTop">
+					<view v-for="(item,index) in commentRenderList" :key="index" class="comment">
 						<view class="comment-parent">
 							<image class="comment-avatar round sm" :src="item.avatar" alt=""
 								@click="toMemberdetail(item.uuId)"></image>
@@ -127,7 +130,7 @@
 						</view>
 
 					</view>
-					<view class="card-divider"></view>
+					<view v-if="inforCommentsList.length>0" class="card-divider"></view>
 					<view v-if='isDownLoading' class="load-text">评论加载中....</view>
 					<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多评论了，快快留下你的赞美吧---</view>
 
@@ -160,11 +163,11 @@
 			</view>
 
 		</view>
-		<view class="">
-			<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
-				@commentSubmit="handleCommentSubmit" :placeholderText="placeholderText"></commentPanel>
-		</view>
 
+
+
+		<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
+			@commentSubmit="handleCommentSubmit" :placeholderText="placeholderText"></commentPanel>
 
 
 
@@ -198,6 +201,9 @@
 
 		data() {
 			return {
+				// 重置当前的滚动条
+				alreadyComment:[],
+				scrollTop: 0,
 				isDirectedComment: false,
 				commentShow: false,
 				placeholderText: '评论字数最多输入200字',
@@ -282,6 +288,21 @@
 				inforSonCommentsList: []
 			};
 		},
+		computed:{
+			commentRenderList(){
+			return 	this.inforCommentsList.map((item)=>{
+					//评论是否进行过二级评论
+					const tempChild = [...item.childCommentList];
+					const temObj = {...item,childCommentList:tempChild}
+					if(this.alreadyComment.includes(item.id)){
+						temObj.loadMoreStatus=true;
+						temObj.loadingState = 'nomore';
+
+					}
+					return temObj
+				})
+			}
+		},
 		watch: {
 			cur: {
 				immediate: true,
@@ -307,7 +328,7 @@
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
 		},
 		methods: {
-
+			
 			handleCancelComment() {
 				this.commentShow = false;
 			},
@@ -407,7 +428,7 @@
 				if (!this.hasNext) return;
 				console.log('//// 触底加载');
 				// 触底加载增加一个参数
-				this.getInforCommentsList(this.myFormData.inforId,true);
+				this.getInforCommentsList(this.myFormData.inforId, true);
 			},
 			onInput(value) {
 				if (value !== null) {
@@ -469,7 +490,8 @@
 				});
 			},
 			//获取评论列表
-			getInforCommentsList(inforId, isPageTurn = false) {
+			async getInforCommentsList(inforId, isPageTurn = false) {
+				console.log("当前页数", this.pageInfo.num)
 				if (this.isDownLoading) return;
 				this.isDownLoading = true;
 				// 这里 如果普通刷新不应该让页数加一
@@ -531,7 +553,7 @@
 						console.log("页数", page, pages)
 						// this.inforCommentsList = this.inforCommentsList.concat(items);
 						uni.hideLoading()
-						console.log(this.inforCommentsList, "评论列表")
+						// console.log(this.inforCommentsList, "评论列表")
 						this.hasNext = pages > page;
 						this.isDownLoading = false;
 					} else {
@@ -631,7 +653,7 @@
 			},
 
 			//保存评论 这里有两种评论、一种是对动态 一种是对评论
-			saveCommentForInfor(inputValue) {
+			 saveCommentForInfor(inputValue) {
 				//若评论中包含 “*” 或者为空 不允许保存
 				//console.log("inputValue值为空1：", inputValue);
 				if (inputValue === '' || inputValue.indexOf('*') != -1) {
@@ -639,8 +661,9 @@
 				} else {
 					const InforCommentDto = {};
 					InforCommentDto.publishId = this.myCommentForm.id;
+					console.log(InforCommentDto.publishId, "评论id")
 					InforCommentDto.comment = inputValue;
-					this.$http.post(this.url.saveCommentUrl, InforCommentDto).then(res => {
+					this.$http.post(this.url.saveCommentUrl, InforCommentDto).then(async res => {
 						//刷新留言列表、并将返回的评论数量 回显页面上 并将输入框文字置空
 						if (res.data.success) {
 							//回显最新评论数
@@ -648,11 +671,17 @@
 							console.log("请求成功数据", res.data)
 
 							//刷新评论列表
-							this.getInforCommentsList(this.myFormData.inforId);
+							// 重置页数
+							this.pageInfo.num = 1;
+							// 滚动条置为0
+							await  this.getInforCommentsList(this.myFormData.inforId);
+							this.scrollTop  = this.scrollTop===0?1:0
 							console.log(this.myFormData, 'myFormData')
-							//console.log('当前页数是：', this.pageInfo.num);
+
+							console.log('当前页数是：', this.pageInfo.num);
 							//置空输入框
 							this.inputValue = '';
+
 						}
 					});
 				}
@@ -677,6 +706,9 @@
 					this.$http.post(this.url.saveCommentForCommentUrl, InforCommentDto).then(res => {
 						//刷新子级留言列表  并将输入框文字置空
 						if (res.data.success) {
+							// 记录评论的这个一级对象
+							this.alreadyComment.push(commentId);
+							// 在进行请求的时候匹配这个id 进行展开
 							//刷新子级评论列表
 							this.getSonCommentsList(commentId); //拿的也不是动态id  而应该是评论的id
 							// 也需要重新渲染界面 但是只找到当前这条评论的子评论进行渲染
@@ -998,9 +1030,10 @@
 	}
 
 	.foot-panel {
-		height: 100rpx;
+		height: 120rpx;
 		width: 100%;
-		background-color: #eee;
+		background-color: #fff;
+		border-top: 1px solid #ddd;
 		position: fixed;
 		bottom: 0;
 		display: flex;
@@ -1008,12 +1041,12 @@
 		align-items: center;
 
 		.foot-panel-inner {
-			height: 60%;
+			height: 70%;
 			width: 90%;
-			border: 1px solid #ccc;
+			// border: 1px solid #ccc;
 			margin: 0 auto;
-			border-radius: 30rpx;
-			background-color: #fff;
+			border-radius: 40rpx;
+			background-color: #eee;
 			display: flex;
 			align-items: center;
 
@@ -1024,6 +1057,7 @@
 			}
 
 			.foot-inner-right {
+				font-size: 1em;
 				flex: 1 1 auto;
 			}
 		}
