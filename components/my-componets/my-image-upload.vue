@@ -29,31 +29,32 @@
 	import configService from '../../common/service/config.service.js'
 	export default {
 		name: 'MyImageUpoad',
-		props: {
-			value: {
-				type: String,
-				default: ''
-			},
-			label: {
-				type: String,
-				default: '上传图片'
-			},
-			maxImg: {
-				type: Number,
-				default: 9
-			},
-		},
-		mounted: function() {
-			if (this.value.split(',') != '') {
-				this.value.split(',').forEach(res => {
-					this.imgList.push(baseurl + res)
-				})
-			}
+		// props: {
+		// 	value: {
+		// 		// type: Array,
+		// 		// default: []
+		// 	},
+		// 	label: {
+		// 		type: String,
+		// 		default: '上传图片'
+		// 	},
+		// 	maxImg: {
+		// 		type: Number,
+		// 		default: 9
+		// 	},
+		// },
+		props: ['value'],
+		mounted() {
+			this.value.forEach(res => {
+				this.imgList.push(res)
+			})
 		},
 		data() {
 			return {
 				imgList: [],
 				pathlist: [],
+				label: '上传图片',
+				maxImg: 9
 			}
 		},
 		methods: {
