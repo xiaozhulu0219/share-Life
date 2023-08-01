@@ -180,6 +180,7 @@
 	import configService from '@/common/service/config.service.js';
 	import commonTab from '../component/commonTab.vue';
 	import commentPanel from "./components/commentPanel.vue"
+	import {emit} from "../../common/util/eventBus.js"
 	import {
 		keyWords
 	} from '../../common/util/constants';
@@ -202,6 +203,7 @@
 		data() {
 			return {
 				// 重置当前的滚动条
+				fatherIndex:0,
 				alreadyComment:[],
 				scrollTop: 0,
 				isDirectedComment: false,
@@ -320,7 +322,9 @@
 			this.findPublishInfor(this.myFormData.inforId);
 		},
 		onLoad(option) {
+			console.log(option,"父级传递过来的参数")
 			const item = JSON.parse(decodeURIComponent(option.item));
+			this.fatherIndex = option.index
 			this.myFormData = item;
 			console.log('this.myFormData1:', this.myFormData);
 			console.log('this.myFormData2:', this.myFormData.medias);
@@ -739,6 +743,7 @@
 						this.myCommentForm.likeCount = res.data.result;
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
+						
 					}
 				});
 			},
@@ -771,6 +776,8 @@
 						this.myCommentForm.loveCount = res.data.result;
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
+						console.log("看下面")
+						emit("likeEvent",id,this.fatherIndex)
 					}
 				});
 			},
@@ -804,6 +811,8 @@
 						//重新赋页码数、并刷新评论列表
 						//this.pageInfo.num = 0;
 						this.getInforCommentsList(this.myFormData.inforId);
+						// 运行父级事件
+						
 					}
 				});
 			},

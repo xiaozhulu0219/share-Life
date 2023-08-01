@@ -1,20 +1,19 @@
 <template>
     <view class="list-wrap">
         <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
-            <view v-for="(item,index) in homeList" :key="index" class="card">
-				<view v-if="item.imgIsNull"  class="space-for-no-img">
-					
+            <view v-for="(item,index) in homeList" :key="index" class="card" >
+				<view v-if="item.imgIsNull"  class="space-for-no-img" @click="toInformationDetail(item,index)">
 				</view>
-				<view   v-if="!item.imgIsNull" >
-					<image  v-if="item.medias.length>0" class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toInformationDetail(item)"></image>
+				<view   v-if="!item.imgIsNull" @click="toInformationDetail(item,index)">
+					<image  v-if="item.medias.length>0" class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toInformationDetail(item,index)"></image>
 					<image v-else class="nomedias_size"></image>
 				</view>
                <!-- <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image> -->
                 
-                <view class="card-text" @click="toInformationDetail(item)">
+                <view class="card-text">
                   {{ contentFormat(item.textContent) }}
                 <view class="colpose"></view>
-				<view v-if="item.imgIsNull"  class="space-for-no-img">
+				<view v-if="item.imgIsNull"  class="space-for-no-img" >
 					
 				</view>
                 </view>
@@ -44,7 +43,7 @@
 
 <script>
     import configService from '@/common/service/config.service.js';
-
+	import {subscrib} from "../../common/util/eventBus.js"
     export default {
         data() {
             return {
@@ -68,13 +67,30 @@
               return `${content.substring(0, 38)}${content.length > 38 ? ' ...' : ''}`;
             };
           }
+		  
         },
         created() {
          //activated() {
             console.log(9999);
             this.getHomePublishInforList();
+			// 注册eventBus
+			subscrib('likeEvent',(id,index)=>{
+				console.log("运行了父级的点赞事件");
+				// console.log(this.homeList,"是否能拿到数据")
+				// console.log(id,index)
+				// 找到inforid 把里面的hasLoved变成1
+				this.homeList[index].hasLoved = 1;
+				this.homeList[index].loveCount+=1;
+				
+			}),
+			subscrib('dislikeEvent',(id,index)=>{
+				console.log("运行了父级的取消点赞事件");
+				// console.log(this.homeList,"是否能拿到数据")
+				this.homeList[index].hasLoved = 0;
+				this.homeList[index].loveCount-=1;
+			})
         },
-		
+	    
         methods: {
             // 触底加载
 			imgLoad(e){
@@ -129,13 +145,14 @@
                     this.isDownLoading = false;
                 });
             },
-            toInformationDetail(item) {
+            toInformationDetail(item,index) {
                 uni.navigateTo({
-                    url: '/pages/home/homeInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
+                    url: '/pages/home/homeInforDetail?index='+index+'&item=' + encodeURIComponent(JSON.stringify(item))
                 });
             },
             //喜欢动态
             loveInfor(id,index) {
+				console.log(index,"直接点赞的index")
                 this.$http.get(this.loveInforUrl, { params: { id: id } }).then((res) => {
                     if (res.data.success) {
                         //this.getHomePublishInforList();
@@ -158,6 +175,7 @@
                 });
             },
             //点击头像跳转用户详情
+
             toMemberdetail(myFormData) {
                 //判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
                 if (this.$store.getters.uuId == myFormData) {
