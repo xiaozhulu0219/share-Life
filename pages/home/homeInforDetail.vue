@@ -60,10 +60,7 @@
 			</view>
 			<view class="card-divider"></view>
 			<view class="list-wrap">
-				<scroll-view scroll-y 
-				@scrolltolower="reachBottom" 
-				style="height: 100%;" 
-				:scroll-top="scrollTop">
+				<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;" :scroll-top="scrollTop">
 					<view v-for="(item,index) in commentRenderList" :key="index" class="comment">
 						<view class="comment-parent">
 							<image class="comment-avatar round sm" :src="item.avatar" alt=""
@@ -118,10 +115,11 @@
 
 									<view class="comment-iconlikeCount">
 										<view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
-											v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id)">&#xe8ad
+											v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id,item.id)">
+											&#xe8ad
 										</view>
 										<view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
-											@click="dislikeComment(sonitem.id)">&#xe60f
+											@click="dislikeComment(sonitem.id,item.id)">&#xe60f
 										</view>
 										<view class="comment-likeCount">{{sonitem.likeCount}}</view>
 									</view>
@@ -180,7 +178,9 @@
 	import configService from '@/common/service/config.service.js';
 	import commonTab from '../component/commonTab.vue';
 	import commentPanel from "./components/commentPanel.vue"
-	import {emit} from "../../common/util/eventBus.js"
+	import {
+		emit
+	} from "../../common/util/eventBus.js"
 	import {
 		keyWords
 	} from '../../common/util/constants';
@@ -203,8 +203,8 @@
 		data() {
 			return {
 				// 重置当前的滚动条
-				fatherIndex:0,
-				alreadyComment:[],
+				fatherIndex: 0,
+				alreadyComment: [],
 				scrollTop: 0,
 				isDirectedComment: false,
 				commentShow: false,
@@ -290,14 +290,17 @@
 				inforSonCommentsList: []
 			};
 		},
-		computed:{
-			commentRenderList(){
-			return 	this.inforCommentsList.map((item)=>{
+		computed: {
+			commentRenderList() {
+				return this.inforCommentsList.map((item) => {
 					//评论是否进行过二级评论
 					const tempChild = [...item.childCommentList];
-					const temObj = {...item,childCommentList:tempChild}
-					if(this.alreadyComment.includes(item.id)){
-						temObj.loadMoreStatus=true;
+					const temObj = {
+						...item,
+						childCommentList: tempChild
+					}
+					if (this.alreadyComment.includes(item.id)) {
+						temObj.loadMoreStatus = true;
 						temObj.loadingState = 'nomore';
 
 					}
@@ -322,7 +325,7 @@
 			this.findPublishInfor(this.myFormData.inforId);
 		},
 		onLoad(option) {
-			console.log(option,"父级传递过来的参数")
+			console.log(option, "父级传递过来的参数")
 			const item = JSON.parse(decodeURIComponent(option.item));
 			this.fatherIndex = option.index
 			this.myFormData = item;
@@ -332,7 +335,7 @@
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
 		},
 		methods: {
-			
+
 			handleCancelComment() {
 				this.commentShow = false;
 			},
@@ -495,6 +498,7 @@
 			},
 			//获取评论列表
 			async getInforCommentsList(inforId, isPageTurn = false) {
+				console.log("进行了请求全部评论")
 				console.log("当前页数", this.pageInfo.num)
 				if (this.isDownLoading) return;
 				this.isDownLoading = true;
@@ -583,8 +587,6 @@
 				this.$http.get(this.findSonCommentListPageUrl, {
 					// 这里是item直接就代表目标id
 					params: {
-						page: 1,
-						pagesize: 10,
 						id: item
 					}
 				}).then(res => {
@@ -593,17 +595,14 @@
 						success,
 						result
 					} = res.data;
-					// console.log(res,"结果")
-					console.log('。。。。。', result.items);
+					console.log(res, "结果")
+					console.log('。。。。。', result);
+					// result 就是结果数组
 					if (success) {
-						const {
-							pages,
-							items,
-							page
-						} = result;
+
 						if (num === 1) this.inforSonCommentsList = [];
-						if (items.length) {
-							for (const d of items) {
+						if (result.length) {
+							for (const d of result) {
 								d.avatar = this.fileUrl + d.avatar;
 							}
 						}
@@ -614,7 +613,7 @@
 						})
 						if (targetIndex !== -1) {
 							// 找到了index
-							this.inforCommentsList[targetIndex].childCommentList = [...items];
+							this.inforCommentsList[targetIndex].childCommentList = [...result];
 							// console.log(this.inforCommentsList);
 							// 判断是否是刚刚添加的评论 如果是的话就更改展开状态
 							if (this.inforCommentsList[targetIndex].childCommentList.length === 1) {
@@ -625,12 +624,12 @@
 							}
 						}
 
-						this.inforSonCommentsList = this.inforSonCommentsList.concat(items);
+						this.inforSonCommentsList = this.inforSonCommentsList.concat(result);
 						uni.hideLoading()
-						this.hasNext = pages > page;
+						// this.hasNext = pages > page;
 						this.isDownLoading = false;
 
-						console.log('子级评论列表', this.inforSonCommentsList);
+						// console.log('子级评论列表', this.inforSonCommentsList);
 
 					} else {
 						this.isDownLoading = false;
@@ -657,7 +656,7 @@
 			},
 
 			//保存评论 这里有两种评论、一种是对动态 一种是对评论
-			 saveCommentForInfor(inputValue) {
+			saveCommentForInfor(inputValue) {
 				//若评论中包含 “*” 或者为空 不允许保存
 				//console.log("inputValue值为空1：", inputValue);
 				if (inputValue === '' || inputValue.indexOf('*') != -1) {
@@ -678,8 +677,8 @@
 							// 重置页数
 							this.pageInfo.num = 1;
 							// 滚动条置为0
-							await  this.getInforCommentsList(this.myFormData.inforId);
-							this.scrollTop  = this.scrollTop===0?1:0
+							await this.getInforCommentsList(this.myFormData.inforId);
+							this.scrollTop = this.scrollTop === 0 ? 1 : 0
 							console.log(this.myFormData, 'myFormData')
 
 							console.log('当前页数是：', this.pageInfo.num);
@@ -711,6 +710,7 @@
 						//刷新子级留言列表  并将输入框文字置空
 						if (res.data.success) {
 							// 记录评论的这个一级对象
+							console.log("这里.....")
 							this.alreadyComment.push(commentId);
 							// 在进行请求的时候匹配这个id 进行展开
 							//刷新子级评论列表
@@ -743,7 +743,7 @@
 						this.myCommentForm.likeCount = res.data.result;
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
-						
+
 					}
 				});
 			},
@@ -777,7 +777,7 @@
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
 						console.log("看下面")
-						emit("likeEvent",id,this.fatherIndex)
+						emit("likeEvent", id, this.fatherIndex)
 					}
 				});
 			},
@@ -794,42 +794,107 @@
 						this.myCommentForm.loveCount = res.data.result;
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
+						emit("dislikeEvent", id, this.fatherIndex)
 					}
 				});
 			},
 			//点赞评论
-			likeComment(id) {
+			likeComment(id, parentId) {
 				console.log('进来了点赞评论方法', id);
+				// 
+				// uni.showLoading({
+				// 	title:"加载中"
+				// })
+
 				this.$http.get(this.url.likeCommentUrl, {
 					params: {
 						id: id
 					}
 				}).then((res) => {
 					if (res.data.success) {
-						console.log('表单数据', res);
+						// console.log("进行点赞")
+						// console.log('表单数据', res);
+						// console.log("点赞结果", res.data.result)
+						let targetIndex;
+						if (!parentId) {
+							// 直接进行点赞
+							// 找到当前的列表进行更改
+							targetIndex = this.inforCommentsList.findIndex(item => {
+								return item.id == id
+							})
+							// console.log(targetIndex, "修改的点赞index")
+							this.inforCommentsList[targetIndex].hasLiked = 1
+							this.inforCommentsList[targetIndex].likeCount = res.data.result
+						} else {
+							// 在二级评论进行点赞
+							//首先找到一级的index
+							const tempIndex = this.inforCommentsList.findIndex(item => {
+								return item.id == parentId
+							})
+							// console.log(tempIndex, "点赞第几个一级评论");
+							const parentObj = this.inforCommentsList[tempIndex];
+							// 找到具体的二级评论索引
+							targetIndex = parentObj.childCommentList.findIndex(item => {
+								return item.id === id
+							})
+							// console.log("点赞的子评论是", targetIndex)
+							// 找到这条数据
+							parentObj.childCommentList[targetIndex].hasLiked = 1;
+							parentObj.childCommentList[targetIndex].likeCount = res.data.result
+							// 
+						}
+						// uni.hideLoading()
 						//this.myCommentForm.likeCount = res.data.result;
 						//重新赋页码数、并刷新评论列表
 						//this.pageInfo.num = 0;
-						this.getInforCommentsList(this.myFormData.inforId);
-						// 运行父级事件
-						
+						// this.getInforCommentsList(this.myFormData.inforId);
+
 					}
 				});
 			},
 			//取消点赞评论
-			dislikeComment(id) {
+			dislikeComment(id, parentId) {
 				//console.log("进来了方法", inforId)
+				// uni.showLoading({
+				// 	title:"加载中"
+				// })
+				
+
 				this.$http.get(this.url.dislikeCommentUrl, {
 					params: {
 						id: id
 					}
 				}).then((res) => {
 					if (res.data.success) {
-						console.log('表单数据', res);
+						// console.log("取消点赞")
+						// console.log('表单数据', res);
+						// console.log("点赞结果", res.data.result)
+						let targetIndex
+						if (!parentId) {
+							// console.log("直接进行取消点赞")
+							targetIndex = this.inforCommentsList.findIndex(item => {
+								return item.id == id
+							});
+							this.inforCommentsList[targetIndex].hasLiked = 0;
+							this.inforCommentsList[targetIndex].likeCount = res.data.result;
+						} else {
+							// 对子评论进行取消点赞
+							const tempIndex = this.inforCommentsList.findIndex(item => {
+								return item.id == parentId
+							});
+							const parentObj = this.inforCommentsList[tempIndex];
+							targetIndex = parentObj.childCommentList.findIndex(item => {
+								return item.id === id
+							})
+							parentObj.childCommentList[targetIndex].hasLiked = 0;
+							parentObj.childCommentList[targetIndex].likeCount = res.data.result
+
+						}
+						// uni.hideLoading()
 						//this.myCommentForm.likeCount = res.data.result;
 						//重新赋页码数、并刷新评论列表
 						//this.pageInfo.num = 0;
-						this.getInforCommentsList(this.myFormData.inforId);
+						// this.getInforCommentsList(this.myFormData.inforId);
 					}
 				});
 			}
