@@ -10,7 +10,8 @@
 		</view>
 		<view class="cu-form-group">
 			<view class="grid col-4 grid-square flex-sub">
-				<view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage" :data-url="imgList[index]">
+				<view class="bg-img" v-for="(item,index) in imgList" :key="index" @tap="ViewImage"
+					:data-url="imgList[index]">
 					<image :src="imgList[index]" mode="aspectFill"></image>
 					<view class="cu-tag bg-red" @tap.stop="DelImg" :data-index="index">
 						<text class='cuIcon-close'></text>
@@ -28,25 +29,32 @@
 	import configService from '../../common/service/config.service.js'
 	export default {
 		name: 'MyImageUpoad',
-		props: {
-			value: {type:String,default:''},
-			label:{type:String,default:'上传图片'},
-			maxImg: {
-				type: Number,
-				default: 9
-			},
-		},
-		mounted:function(){
-			if (this.value.split(',')!=''){
-				this.value.split(',').forEach(res=>{
-					this.imgList.push(baseurl+res)
-				})
-			}
+		// props: {
+		// 	value: {
+		// 		// type: Array,
+		// 		// default: []
+		// 	},
+		// 	label: {
+		// 		type: String,
+		// 		default: '上传图片'
+		// 	},
+		// 	maxImg: {
+		// 		type: Number,
+		// 		default: 9
+		// 	},
+		// },
+		props: ['value'],
+		mounted() {
+			this.value.forEach(res => {
+				this.imgList.push(res)
+			})
 		},
 		data() {
 			return {
 				imgList: [],
-				pathlist:[],
+				pathlist: [],
+				label: '上传图片',
+				maxImg: 9
 			}
 		},
 		methods: {
@@ -54,7 +62,7 @@
 				uni.chooseImage({
 					count: this.maxImg, //默认9
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
-					sourceType: ['album','camera'], //从相册选择
+					sourceType: ['album', 'camera'], //从相册选择
 					success: (res) => {
 						for (let i = 0; i < res.tempFilePaths.length; i++) {
 							uni.uploadFile({
@@ -64,7 +72,7 @@
 								success: (uploadFileRes) => {
 									let path = JSON.parse(uploadFileRes.data).message
 									this.pathlist.push(path);
-									this.$emit('input',this.pathlist.join(','))
+									this.$emit('input', this.pathlist.join(','))
 								}
 							})
 							//这是之前的
@@ -93,9 +101,9 @@
 					confirmText: '确认',
 					success: res => {
 						if (res.confirm) {
-							this.pathlist.splice(e.currentTarget.dataset.index,1)
+							this.pathlist.splice(e.currentTarget.dataset.index, 1)
 							this.imgList.splice(e.currentTarget.dataset.index, 1)
-							this.$emit('input',this.pathlist.join(','))
+							this.$emit('input', this.pathlist.join(','))
 						}
 					}
 				})
