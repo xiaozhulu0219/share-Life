@@ -16,7 +16,13 @@ export default new Vuex.Store({
     avatar: '',
     uuId: '',
     nickname: '',
-	placeholdertext:'你可以在这里:1.爆料职场新鲜事 2.分享面试跳槽经验 3.与同行交流、吐槽解压'
+	placeholdertext:'你可以在这里:1.爆料职场新鲜事 2.分享面试跳槽经验 3.与同行交流、吐槽解压',
+	homeListStore:[],
+	scrollIdStore:'',
+	pageInfoStore:{
+		num:0,
+		size:10
+	}
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -29,7 +35,32 @@ export default new Vuex.Store({
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar;
-    }
+    },
+	changehomeListStore:(state,payload)=>{
+		state.homeListStore = payload
+	},
+	loveInforStore(state,payload){
+		const {index,count} = payload
+		const targetObj = state.homeListStore[index];
+		targetObj.loveCount = count;
+		targetObj.hasLoved = 1
+		
+	},
+	unloveInforStore(state,payload){
+		const {index,count} = payload
+		const targetObj = state.homeListStore[index];
+		targetObj.loveCount = count;
+		targetObj.hasLoved = 0
+	},
+	changeScrollIdStore(state,payload){
+		state.scrollIdStore = payload
+	},
+	pageNext(state){
+		state.pageInfoStore.num+=1;
+	},
+	initPage(state){
+		state.pageInfoStore.num=0;
+	}
   },
   actions: {
     // 登录

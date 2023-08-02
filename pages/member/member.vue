@@ -93,6 +93,11 @@
             bottomTab,
             memberLikeCountModal
         },
+		onShow(){
+			// console.log("页面出现")
+			this.queryfocusFansByUuId();
+			this.queryHelpComNumByUuId();
+		},
         data() {
             return {
               showLikeModel: false, // 是否显示获赞弹框

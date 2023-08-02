@@ -107,6 +107,7 @@
         components: {memberLikeCountModal},
         data() {
             return {
+				targetUuidItem:'',
               showLikeModel: false, // 是否显示获赞弹框
                 iffocus: '',//0未关注对方、 1、我的关注、2、我的粉丝、3、互相关注 4、就是当前用户
                 activeTab: 0,
@@ -177,6 +178,7 @@
             const item = JSON.parse(decodeURIComponent(option.item));
             //this.myFormData = item
             console.log("个人页拿到了uuid准备大干一番", item)
+			this.targetUuidItem = item
             this.findPersonInfor(item); //这是传参后继续调用方法的示例
             this.getFocusOrFansPublishInforList(item); //获取用户发布的动态列表
             this.getFocusOrFansLoveInforList(item); //获取用户赞过的动态列表
@@ -208,8 +210,10 @@
 
             //根据uuId查询详情
             findPersonInfor(uuId) {
+				
                 console.log("进来了方法", uuId)
                 this.$http.get(this.queryByUuIdUrl, {params: {uuId: uuId}}).then((res) => {
+					console.log(res,"返回的数据")
                     if (res.data.success) {
                         this.personalList = res.data.result;
                         //console.log("this.personalList.avatar", this.personalList.avatar);
@@ -312,6 +316,7 @@
             //点击关注按钮、关注用户
             focusUser(item) {
                 console.log("点击了关注方法：", item);
+				console.log("关注嘻嘻嘻!!")
                 this.$http.get(this.userFocusUrl, {
                     params: {
                         uuId: item
@@ -323,6 +328,8 @@
                         console.log("关注方法返回的提示信息为：", res.data.result);
                         //重新调用接口判断两个用户之间的关系
                         this.getFocusORFans(item);
+						console.log()
+						this.queryfocusFansByUuId(this.targetUuidItem)
                     }
                 }).catch(err => {
                     console.log(err);
@@ -336,12 +343,15 @@
                         uuId: item
                     }
                 }).then(res => {
+					console.log(res,"后端回复")
                     if (res.data.success) {
                         //关注成功后将 iffocus 置为 true 然后页面根据  iffocus 属性改变按钮的显示
                         //this.iffocus = true;
                         console.log("取消关注方法返回的提示信息为：", res.data.result);
                         //重新调用接口判断两个用户之间的关系
                         this.getFocusORFans(item);
+						console.log("嘻嘻")
+						this.queryfocusFansByUuId(this.targetUuidItem)
 
                     }
                 }).catch(err => {

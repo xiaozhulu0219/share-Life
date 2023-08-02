@@ -67,7 +67,7 @@
     import myDate from '@/components/my-componets/my-date.vue'
     import myImageUpload from '@/components/my-componets/my-image-upload.vue'
     import { keyWords } from '../../common/util/constants';
-
+	import {mapMutations} from "vuex"
     export default {
         name: "inforPublishForm",
         components: {myDate, myImageUpload},
@@ -123,6 +123,7 @@
             console.log("编辑页带进来的数据", item)}
         },
         methods: {
+			...mapMutations(['changehomeListStore']),
             onInput(value) {
                 if (value !== null) {
                     for (const i in keyWords) {
@@ -196,8 +197,11 @@
                         console.log('res.data', res.data);
                         uni.showToast({
                             title: '发布成功',
-                            complete() {
+                            complete:()=> {
                                 setTimeout(() => {
+									// 发动态重新刷新当前的首页列表
+									this.changehomeListStore([])
+									
                                     uni.redirectTo({
                                         url: '/pages/home/home'
                                     });

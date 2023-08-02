@@ -128,6 +128,7 @@
 		// created() {
 		//     this.getHomePublishInforList();
 		// },
+		
 		methods: {
 			// changeSwiper(e) {
 			//   const curTab = e.detail.current;

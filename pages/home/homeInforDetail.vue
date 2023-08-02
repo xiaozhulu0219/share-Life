@@ -178,9 +178,8 @@
 	import configService from '@/common/service/config.service.js';
 	import commonTab from '../component/commonTab.vue';
 	import commentPanel from "./components/commentPanel.vue"
-	import {
-		emit
-	} from "../../common/util/eventBus.js"
+	import {mapMutations,mapState} from "vuex"
+	
 	import {
 		keyWords
 	} from '../../common/util/constants';
@@ -335,7 +334,7 @@
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
 		},
 		methods: {
-
+			...mapMutations(['unloveInforStore','loveInforStore']),
 			handleCancelComment() {
 				this.commentShow = false;
 			},
@@ -777,7 +776,12 @@
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
 						console.log("看下面")
-						emit("likeEvent", id, this.fatherIndex)
+						console.log(this.fatherIndex,"父级index")
+						// emit("likeEvent", id, this.fatherIndex)
+						this.loveInforStore({
+							index:this.fatherIndex,
+							count:res.data.result
+						})
 					}
 				});
 			},
@@ -794,7 +798,11 @@
 						this.myCommentForm.loveCount = res.data.result;
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
-						emit("dislikeEvent", id, this.fatherIndex)
+						// emit("dislikeEvent", id, this.fatherIndex)
+						this.unloveInforStore({
+							index:this.fatherIndex,
+							count:res.data.result
+						})
 					}
 				});
 			},

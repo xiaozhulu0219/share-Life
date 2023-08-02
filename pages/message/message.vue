@@ -88,6 +88,10 @@
         mounted() {
             this.loadData();
         },
+		onShow(){
+			// 重新请求数据
+			this.loadData();
+		},
         methods: {
             timerFun() {
                 this.stopTimer = false;
