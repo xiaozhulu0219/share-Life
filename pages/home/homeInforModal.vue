@@ -1,5 +1,5 @@
 <template>
-    <view class="list-wrap">
+    <view class="list-wrap" >
         <scroll-view scroll-y  
 		@scrolltolower="reachBottom" 
 		style="height: 100%;"
@@ -115,7 +115,7 @@
 	    
         methods: {
            
-			// 上拉刷新
+			// 下拉刷新
 			async onRefresh(){
 				this.triggered = true;
 				

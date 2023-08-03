@@ -43,7 +43,7 @@
 			</view>
 
 			<view class="hot-page" v-show="activeFirstTab===2">
-				<h2>热门页面</h2>
+				<hotPage></hotPage>
 			</view>
 		</view>
 
@@ -68,6 +68,7 @@
 	import listComponent from './components/listComponent.vue';
 	import mySwiper from "@/patch/swiper.js"
 	import followPost from "./homeFollowPost.vue"
+	import hotPage from "./homeHotPage.vue"
 	export default {
 		mixins: [MescrollMixin, Mixin, MescrollMoreMixin, mySwiper],
 		components: {
@@ -77,7 +78,8 @@
 			bottomTab,
 			commonTab,
 			listComponent,
-			followPost
+			followPost,
+			hotPage
 		},
 		data() {
 			return {
@@ -280,11 +282,14 @@
 	}
 	.follow-page{
 		// background-color:red;
-		height: 100%;
+		height:100%;
+		overflow: hidden;
+		
 	}
 	.hot-page{
 		// background-color:blue;
-		height: 100%;
+		height:100%;
+		overflow: hidden;
 	}
 	.mySwiper {
 		flex: 1 1 auto;

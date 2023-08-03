@@ -1,5 +1,5 @@
 <template>
-	<view class="follow-container">
+	<view class="follow-container" >
 		<scroll-view scroll-y 
 		@scrolltolower="reachBottom" 
 		style="height: 100%"
@@ -157,8 +157,8 @@
 				 console.log("請求好友頁第",num)
 				this.$http.get(this.followPostUrl, {
 					params: {
-						page: 1,
-						pagesize: 10
+						page: this.followListPage.num,
+						pagesize:size
 					}
 				}).then(res => {
 					const {
@@ -189,6 +189,7 @@
 
 							}
 						}
+						// console.log('!!!!',pages,page)
 						this.followList = [...items];
 						const tempArr = [...this.followListStore,...items];
 						// 存入緩存
@@ -212,17 +213,23 @@
 
 <style scoped>
 	.follow-container {
-		height: 100%;
+		height: calc(100vh - 100rpx);
 		background-color: #fff;
 		font-size: 1em;
+		overflow: hidden;
 	}
 
 	.follow-post-wrap {
-		margin-bottom: 60rpx;
+		margin-bottom: 50rpx;
+		padding-bottom: 30rpx;
+		box-sizing: border-box;
+		border-bottom: 1px solid #eee;
 	}
 
 	.follow-post-top {
-		/* border:1px solid #eee; */
+		border-bottom:1px solid #eee;
+		box-shadow: 0px 1px 5px 1px #eee;
+		/* border-top:1px solid #eee; */
 		width: 100%;
 		height: 80rpx;
 		/* background-color: rgb(250, 250, 250); */
@@ -231,6 +238,7 @@
 		align-items: center;
 		padding: 0 20rpx;
 		box-sizing: border-box;
+		margin-bottom: 20rpx;
 	}
 
 	.follow-post-top-avatar {

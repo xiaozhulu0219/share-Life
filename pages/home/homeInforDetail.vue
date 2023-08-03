@@ -333,6 +333,8 @@
 			if (option.from === 'follow') {
 				// console.log("從好友列表頁面進入");
 				this.fromPage = 'follow'
+			}else if(option.from==='hot'){
+				this.fromPage = 'hot'
 			}
 			this.fatherIndex = option.index
 			this.myFormData = item;
@@ -342,7 +344,9 @@
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
 		},
 		methods: {
-			...mapMutations(['unloveInforStore', 'loveInforStore', 'loveInforFollowStore', 'unloveInforFollowStore']),
+			...mapMutations(['unloveInforStore', 'loveInforStore', 'loveInforFollowStore', 'unloveInforFollowStore',
+				'loveInforHotStore', 'unloveInforHotStore'
+			]),
 			handleCancelComment() {
 				this.commentShow = false;
 			},
@@ -786,10 +790,18 @@
 						console.log("看下面")
 						console.log(this.fatherIndex, "父级index")
 						// emit("likeEvent", id, this.fatherIndex)
-						// 如果是從好友列表進來的
+						console.log(this.fromPage,"来")
 						if (this.fromPage === 'follow') {
 							console.log('好友列表的index', this.fatherIndex)
+							// 从关注页面进入
 							this.loveInforFollowStore({
+								index: this.fatherIndex,
+								count: res.data.result
+							})
+
+						} else if (this.fromPage === 'hot') {
+							// 从hot页面进入
+							this.loveInforHotStore({
 								index: this.fatherIndex,
 								count: res.data.result
 							})
@@ -817,8 +829,15 @@
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
 						// emit("dislikeEvent", id, this.fatherIndex)
+						console.log(this.fromPage,"来")
 						if (this.fromPage === 'follow') {
 							this.unloveInforFollowStore({
+								index: this.fatherIndex,
+								count: res.data.result
+							})
+						} else if (this.fromPage === 'hot') {
+							// 从hot页面进入
+							this.unloveInforHotStore({
 								index: this.fatherIndex,
 								count: res.data.result
 							})

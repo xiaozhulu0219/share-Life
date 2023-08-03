@@ -31,6 +31,11 @@ export default new Vuex.Store({
 		followListPage: {
 			num: 0,
 			size: 10
+		},
+		hotListStore:[],
+		hotListPage:{
+			num:0,
+			size:10
 		}
 
 	},
@@ -105,6 +110,34 @@ export default new Vuex.Store({
 				count
 			} = payload;
 			const targetObj = state.followListStore[index];
+			targetObj.loveCount = count;
+			targetObj.hasLoved = 0
+		}
+		,
+		changeHotListStore(state,payload){
+			state.hotListStore = payload
+		},
+		hotPageNext(state){
+			state.hotListPage.num += 1;
+		},
+		hotPageInit(state){
+			state.hotListPage.num = 0;
+		},
+		loveInforHotStore(state, payload) {
+			const {
+				index,
+				count
+			} = payload;
+			const targetObj = state.hotListStore[index];
+			targetObj.loveCount = count;
+			targetObj.hasLoved = 1
+		},
+		unloveInforHotStore(state,payload){
+			const {
+				index,
+				count
+			} = payload;
+			const targetObj = state.hotListStore[index];
 			targetObj.loveCount = count;
 			targetObj.hasLoved = 0
 		}
