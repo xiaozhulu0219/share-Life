@@ -123,7 +123,7 @@
             console.log("编辑页带进来的数据", item)}
         },
         methods: {
-			...mapMutations(['changehomeListStore']),
+			...mapMutations(['changehomeListStore','initPage']),
             onInput(value) {
                 if (value !== null) {
                     for (const i in keyWords) {
@@ -201,7 +201,8 @@
                                 setTimeout(() => {
 									// 发动态重新刷新当前的首页列表
 									this.changehomeListStore([])
-									
+									// 初始化页数
+									this.initPage()
                                     uni.redirectTo({
                                         url: '/pages/home/home'
                                     });

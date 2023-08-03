@@ -25,7 +25,7 @@
 
 		<view class="mySwiper" @touchstart="handleDragStart" @touchend="handleDragEnd">
 			<view class="follow-page" v-show="activeFirstTab===0">
-				<h2>关注页面</h2>
+				<followPost></followPost>
 			</view>
 			<view v-show="activeFirstTab===1">
 				
@@ -67,6 +67,7 @@
 	import commonTab from '../component/commonTab.vue';
 	import listComponent from './components/listComponent.vue';
 	import mySwiper from "@/patch/swiper.js"
+	import followPost from "./homeFollowPost.vue"
 	export default {
 		mixins: [MescrollMixin, Mixin, MescrollMoreMixin, mySwiper],
 		components: {
@@ -75,7 +76,8 @@
 			homeHelpCompanyModal,
 			bottomTab,
 			commonTab,
-			listComponent
+			listComponent,
+			followPost
 		},
 		data() {
 			return {

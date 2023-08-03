@@ -44,13 +44,18 @@
         },
         methods: {
             BackPage() {
-                if (!this.backRouterName) {
-                    uni.navigateBack({
-                        delta: 1
-                    });
-                } else {
-                    this.$Router.replace({ name: this.backRouterName });
-                }
+				uni.navigateBack({
+				    delta: 1
+				});
+     //            if (!this.backRouterName) {
+					// console.log("运行回到后一页")
+     //                uni.navigateBack({
+     //                    delta: 1
+     //                });
+     //            } else {
+					// console.log("运行替换")
+     //                this.$Router.replace({ name: this.backRouterName });
+     //            }
             }
         }
     };

@@ -114,8 +114,8 @@
         },
 	    
         methods: {
-            // 触底加载
-			
+           
+			// 上拉刷新
 			async onRefresh(){
 				this.triggered = true;
 				

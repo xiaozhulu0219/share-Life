@@ -178,8 +178,11 @@
 	import configService from '@/common/service/config.service.js';
 	import commonTab from '../component/commonTab.vue';
 	import commentPanel from "./components/commentPanel.vue"
-	import {mapMutations,mapState} from "vuex"
-	
+	import {
+		mapMutations,
+		mapState
+	} from "vuex"
+
 	import {
 		keyWords
 	} from '../../common/util/constants';
@@ -202,6 +205,7 @@
 		data() {
 			return {
 				// 重置当前的滚动条
+				fromPage: '',
 				fatherIndex: 0,
 				alreadyComment: [],
 				scrollTop: 0,
@@ -326,6 +330,10 @@
 		onLoad(option) {
 			console.log(option, "父级传递过来的参数")
 			const item = JSON.parse(decodeURIComponent(option.item));
+			if (option.from === 'follow') {
+				// console.log("從好友列表頁面進入");
+				this.fromPage = 'follow'
+			}
 			this.fatherIndex = option.index
 			this.myFormData = item;
 			console.log('this.myFormData1:', this.myFormData);
@@ -334,7 +342,7 @@
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
 		},
 		methods: {
-			...mapMutations(['unloveInforStore','loveInforStore']),
+			...mapMutations(['unloveInforStore', 'loveInforStore', 'loveInforFollowStore', 'unloveInforFollowStore']),
 			handleCancelComment() {
 				this.commentShow = false;
 			},
@@ -776,12 +784,22 @@
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
 						console.log("看下面")
-						console.log(this.fatherIndex,"父级index")
+						console.log(this.fatherIndex, "父级index")
 						// emit("likeEvent", id, this.fatherIndex)
-						this.loveInforStore({
-							index:this.fatherIndex,
-							count:res.data.result
-						})
+						// 如果是從好友列表進來的
+						if (this.fromPage === 'follow') {
+							console.log('好友列表的index', this.fatherIndex)
+							this.loveInforFollowStore({
+								index: this.fatherIndex,
+								count: res.data.result
+							})
+						} else {
+							this.loveInforStore({
+								index: this.fatherIndex,
+								count: res.data.result
+							})
+						}
+
 					}
 				});
 			},
@@ -799,10 +817,18 @@
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
 						// emit("dislikeEvent", id, this.fatherIndex)
-						this.unloveInforStore({
-							index:this.fatherIndex,
-							count:res.data.result
-						})
+						if (this.fromPage === 'follow') {
+							this.unloveInforFollowStore({
+								index: this.fatherIndex,
+								count: res.data.result
+							})
+						} else {
+							this.unloveInforStore({
+								index: this.fatherIndex,
+								count: res.data.result
+							})
+						}
+
 					}
 				});
 			},
@@ -866,7 +892,7 @@
 				// uni.showLoading({
 				// 	title:"加载中"
 				// })
-				
+
 
 				this.$http.get(this.url.dislikeCommentUrl, {
 					params: {
