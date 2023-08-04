@@ -77,10 +77,8 @@
 		created() {
 			// 判断当前的缓存列表中有没有数据
 			if(this.followListStore.length>0){
-				console.log("不用重新請求")
 				return
 			}else{
-				console.log("需要重新請求")
 				this.uploadFollowPost()
 			}
 		},
@@ -249,6 +247,10 @@
 	.follow-post-body-text-imgnull{
 		padding: 30rpx 30rpx 0 30rpx;
 		box-sizing: border-box;
+		
+		overflow:hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.top-avatar {

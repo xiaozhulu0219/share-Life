@@ -84,6 +84,7 @@
 				return
 			}else{
 				this.updataHotPage()
+				//
 			}
 		},
 		computed: {
@@ -245,6 +246,9 @@
 	.hot-post-body-text-imgnull {
 		padding: 30rpx 30rpx 0 30rpx;
 		box-sizing: border-box;
+		overflow:hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.top-avatar {

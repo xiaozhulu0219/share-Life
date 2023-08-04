@@ -24,7 +24,7 @@
 
 
 		<view class="mySwiper" @touchstart="handleDragStart" @touchend="handleDragEnd">
-			<view class="follow-page" v-show="activeFirstTab===0">
+			<view class="follow-page" v-if="activeFirstTab===0">
 				<followPost></followPost>
 			</view>
 			<view v-show="activeFirstTab===1">
@@ -42,7 +42,7 @@
 				</view>
 			</view>
 
-			<view class="hot-page" v-show="activeFirstTab===2">
+			<view class="hot-page" v-if="activeFirstTab===2">
 				<hotPage></hotPage>
 			</view>
 		</view>

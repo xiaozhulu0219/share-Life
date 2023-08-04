@@ -64,7 +64,7 @@
             <view class="mine-tab">
                 <view class="tab-title flex justify-center">
                     <view class="padding-sm" v-for="(item,index) in tabs" :key="index" @tap="clickTab(index)">
-                        <text :class="activeTab === index ? 'active' : ''">{{item.name}}</text>
+                        <text  class="tab-item" :class="activeTab === index ? 'active' : ''">{{item.name}}</text>
                     </view>
                 </view>
                 <swiper :current="activeTab" class="padding" style="height: 100%;" @change="changeSwiper">
@@ -544,5 +544,8 @@
             font-size: 20rpx;
         }
     }
+	.tab-title .padding-sm .tab-item{
+		margin: 0 30rpx;
+	}
 </style>
 

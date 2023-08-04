@@ -7,7 +7,7 @@
             <block slot="content">{{model.title}}详情</block>
         </cu-custom>
         <!--详情区域-->
-        <view class="company">
+       <!-- <view class="company">
             <view class="company-companyName">{{model.companyName}}</view>
             <view class="company-legalPerson">{{model.legalPerson}}</view>
         </view>
@@ -19,7 +19,70 @@
             <view class="company-companyStatus">{{model.companyStatus}}</view>
             <view class="company-bussinessAddress">{{model.bussinessAddress}}</view>
             <view class="company-organizationCode">{{model.organizationCode}}</view>
-        </view>
+        </view> -->
+		
+		<!-- 不要删上面注释代码 -->
+		<view class="company-detail-container">
+			<view class="company-detail-top">
+				<view class="detail-top-left">
+					<view class="detail-top-title">
+						{{comModel.companyName}}
+					</view>
+					<view class="detail-top-info">
+						组织编码:{{comModel.organizationCode}} | 经营地:{{comModel.bussinessAddress}}
+						
+					</view>
+					
+					
+				</view>
+				<view class="detail-top-right">
+					<text class="status-wrap" :class="{active:comModel.companyStatus==='存续'}">
+						{{comModel.companyStatus}}
+					</text>
+				</view>
+				
+			</view>
+			<view class="detail-tag-list">
+				<view class="detail-tag-item a">
+					#女性友好
+				</view>
+				<view class="detail-tag-item b">
+					#可接受残疾人
+				</view>
+				<view class="detail-tag-item c">
+					#体恤员工
+				</view>
+				<view class="detail-tag-item d">
+					#米面粮油
+				</view>
+			</view>
+			<view class="company-detail-body">
+				<view class="detail-body-item ">
+					<view class="body-item-top">
+						法定代表人
+					</view>
+					<view class="body-item-bottom">
+						{{comModel.legalPerson}}
+					</view>
+				</view>
+				<view class="detail-body-item">
+					<view class="body-item-top">
+						注册资金
+					</view>
+					<view class="body-item-bottom">
+						{{comModel.registeredCapital}}
+					</view>
+				</view>
+				<view class="detail-body-item">
+					<view class="body-item-top">
+						注册时间
+					</view>
+					<view class="body-item-bottom">
+						{{comModel.registerTime.split(' ')[0]}}
+					</view>
+				</view>
+			</view>
+		</view>
         <view class="company">
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="comModel.hasUpLiked == 0"
                   @click="likeCom(comModel.id)">&#xe8ad
@@ -39,9 +102,9 @@
             <span class="company-commentCount">{{comModel.commentCount}}</span>
         </view>
 
-        <view class="companyTag">
+        <!-- <view class="companyTag">
             <span>#歧视女生</span> <span>#可接受残疾人</span> <span>#体恤员工</span> <span>#米面粮油</span>
-        </view>
+        </view> -->
         <view class="list-wrap">
             <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 
@@ -228,6 +291,7 @@
                     }
                 }).then((res) => {
                     if (res.data.success) {
+						
                         console.log("查询详情返回的数据", res);
                         this.comModel = res.data.result;
                         //console.log("赋值以后的数据", this.comModel);
@@ -559,5 +623,101 @@
     .noMore {
         color: #ccc;
     }
-
+	.company-detail-container{
+		width: 100%;
+		padding-top: 30rpx;
+		box-sizing: border-box;
+	}
+	.company-detail-top{
+		display: flex;
+		align-items: flex-start;
+		width: 100%;
+		padding-left: 10rpx;
+		
+	}		
+	.detail-top-left{
+		flex: 1 1 auto;
+		flex-wrap: wrap;
+	}
+	.detail-top-title{
+		font-weight: bold;
+		font-size: 1.5em;
+		margin-bottom: 10rpx;
+	}
+	.detail-top-right{
+		width: 15%;
+		flex: 0 0 auto;
+	}
+	.detail-top-right .status-wrap{
+		font-size: 0.8em;
+		color:#fbbd08;
+		font-weight: bold;
+		border: 1px solid #fbbd08;
+		border-radius: 15%;
+		padding : 0 10rpx;
+	}
+	.status-wrap.active{
+		color: rgb(65,168,99);
+		border: 1px solid rgb(65,168,99);
+	}
+	.detail-top-info{
+		color: #aaa;
+	}
+	.detail-tag-list{
+		margin: 10rpx 0;
+		display:flex;
+		flex-wrap: wrap;
+		padding-bottom: 10rpx;
+		box-sizing: border-box;
+		border-bottom: 1px solid #ddd;
+	}
+	.detail-tag-item{
+		margin:0 10rpx ;
+		padding:0 10rpx;
+	}
+	.detail-tag-item.a{
+		background-color: rgb(239,239,253);
+	}
+	.detail-tag-item.b{
+		background-color: rgb(253,220,220);
+	}
+	.detail-tag-item.c{
+		background-color: rgb(220,250,200);
+	}
+	.detail-tag-item.d{
+		background-color: rgb(255,255,173);
+	}
+	.company-detail-body{
+		display:flex;
+		height: 130rpx;
+		border-bottom: 5px solid #eee;
+		
+	}
+	.detail-body-item{
+		display: flex;
+		flex-direction: column;
+		width: 33%;
+		
+		
+	}
+	.body-item-top{
+		height:50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #aaa;
+		border-right: 1rpx solid #eee;
+		font-weight: bold;
+	}
+	.body-item-bottom{
+		height:50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		font-weight: bold;
+		font-size: 1.1em;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
 </style>

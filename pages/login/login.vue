@@ -109,7 +109,14 @@
 				}
 			};
 		},
-		onLoad: function() {
+		onLoad: function(options) {
+			console.log(options,'onload')
+			if(options.from==='setting'){
+				uni.showToast({
+					title:'退出成功',
+					icon:'none'
+				})
+			}
 			// #ifdef APP-PLUS
 			var that = this;
 			plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {

@@ -32,7 +32,13 @@
 				</swiper>
 			</view>
 
-			<view class="card-text">{{myFormData.textContent}}</view>
+			<view class="card-text text-wrap " :class="{autoHeight:textMore,maxText:!textMore}">
+					{{myFormData.textContent}}
+					<view class="text-box" @click="showMoreText" v-if="!textMore">
+						--点击展开更多--
+					</view>
+				
+			</view>
 			<view v-if="myFormData.imgIsNull" class="space-for-no-img">
 
 			</view>
@@ -205,6 +211,7 @@
 		data() {
 			return {
 				// 重置当前的滚动条
+				textMore:false,
 				fromPage: '',
 				fatherIndex: 0,
 				alreadyComment: [],
@@ -294,6 +301,7 @@
 			};
 		},
 		computed: {
+			
 			commentRenderList() {
 				return this.inforCommentsList.map((item) => {
 					//评论是否进行过二级评论
@@ -344,6 +352,11 @@
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
 		},
 		methods: {
+			showMoreText(){
+				this.$nextTick(()=>{
+					this.textMore = true;
+				})
+			},
 			...mapMutations(['unloveInforStore', 'loveInforStore', 'loveInforFollowStore', 'unloveInforFollowStore',
 				'loveInforHotStore', 'unloveInforHotStore'
 			]),
@@ -1019,8 +1032,30 @@
 			margin-right: 80rpx;
 			margin-left: 20rpx;
 		}
-
+		.text-box{
+			color:#000;
+			background-color: #fff;
+			font-weight: bold;
+			font-size: 0.8em;
+			text-align:center;
+			width:100%;
+			top: 350rpx;
+			position: absolute;
+		}
+		.autoHeight.text-wrap.card-text{
+			height:auto;
+		}
+		
+		.text-wrap{
+			// background-color: blueviolet;
+			overflow: hidden;
+			position:relative;
+		}
+		.maxText{
+			max-height: 400rpx;
+		}
 		.card-text {
+			color:#444;
 			width: 95%;
 			font-size: 38rpx;
 			margin-bottom: 20rpx;
@@ -1028,6 +1063,12 @@
 			line-height: 50rpx;
 			/*行高*/
 			margin-top: 30rpx;
+			
+			// box-sizing: border-box;
+		}
+		.text-main{
+			max-height: 400rpx;
+			overflow: hidden;
 		}
 
 		.comment {

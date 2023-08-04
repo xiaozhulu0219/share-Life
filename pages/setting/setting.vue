@@ -66,12 +66,18 @@
                 </navigator>
             </view>
             <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
+                <!-- <navigator class="cu-item" url="/pages/user/userexit">
                     <text class="cuIcon-exit" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">退出app</text>
                     </view>
-                </navigator>
+                </navigator> -->
+				<view class="cu-item" @click="handleExit" >
+					<text class="cuIcon-exit" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
+					<view class="content">
+					    <text class="text-grey" style="font-size: 40rpx;">退出app</text>
+					</view>
+				</view>
             </view>
 
         </scroll-view>
@@ -86,11 +92,15 @@
     import myDate from '@/components/my-componets/my-date.vue';
     import {ACCESS_TOKEN} from '@/common/util/constants.js';
     import configService from '@/common/service/config.service.js'
+	import {mapMutations,mapState} from "vuex"
 
     export default {
         components: {
             appSelect, myImageUpload, myDate, secondPickerVue
         },
+		computed:{
+			...mapState(['homeListStore','hotListStore'])
+		},
         data() {
             return {
                 // job_type,
@@ -120,6 +130,29 @@
             this.loadinfo();
         },
         methods: {
+			...mapMutations(['clearUserStoreList']),
+			handleExit(){
+				// console.log("用户要退出");
+				uni.showModal({
+					title:'确认退出',
+					success:(res)=>{
+						// 跳转登陆页面
+						// 清除当前缓存的数据
+						if(res.confirm){
+							// 用户退出
+							this.clearUserStoreList()
+							uni.navigateTo({
+								url:'/pages/login/login?from=setting',
+								
+							})
+						}else if(res.cancel){
+							return 
+						}
+						
+						
+					}
+				})
+			},
             getSubStringText(text, len) {
                 if (!text || text.length == 0) {
                     return '';

@@ -140,6 +140,17 @@ export default new Vuex.Store({
 			const targetObj = state.hotListStore[index];
 			targetObj.loveCount = count;
 			targetObj.hasLoved = 0
+		},
+		// 重新登录或者初次进入程序调用
+		// 重置所有请求的数据
+		clearUserStoreList(state){
+			console.log("运行了")
+			state.homeListStore=[];
+			state.pageInfoStore.num = 0;
+			state.followListStore = [];
+			state.followListPage.num = 0;
+			state.hotListStore = [];
+			state.hotListPage.num = 0
 		}
 	},
 	actions: {
