@@ -1,9 +1,10 @@
 <template>
-			<view :style="{'background': bgColor}" class="nav-wrap bg-gradual-blue">
+			<view :style="{'background': bgColor,height:CustomBar+'px'}"  class="nav-wrap bg-gradual-blue">
 				<view @tap="BackPage" v-if="isBack" class="back">
 					<text class="cuIcon-back"></text>
 					<slot name="backText"></slot>
 				</view>
+				
 				<view class="title">
 					<slot name="title"></slot>
 				</view>
@@ -16,10 +17,15 @@
 <script>
     export default {
         data() {
-            return {};
+            return {
+				tabHeight:0,
+			};
         },
         name: 'cu-custom',
         computed: {},
+		created(){
+			this.tabHeight = this.CustomBar
+		},
         props: {
             bgColor: {
                 type: String,
@@ -64,8 +70,8 @@
 <style lang="scss" scoped>
 
 	.nav-wrap {
-		min-width:54px ;
-	  height: 100rpx;
+		// min-width:54px ;
+	  // height: 100rpx;
 	  display: flex;
 	  align-items: center;
 	  position: fixed;

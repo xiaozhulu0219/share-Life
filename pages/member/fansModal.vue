@@ -3,7 +3,10 @@
     <scroll-view scroll-y class="page">
         <cu-custom bgColor="bg-gradual-pink" :isBack="true">
             <block slot="backText">返回</block>
-            <block slot="content">我的粉丝</block>
+            <block slot="content">
+			    {{uuId===myUuid?'我的粉丝':'她/他的粉丝'}}
+				
+			</block>
         </cu-custom>
         <mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption"
                        @down="downCallback" @up="upCallback">
@@ -40,7 +43,7 @@
     import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
     import Mixin from "@/common/mixin/Mixin.js";
     import configService from '@/common/service/config.service.js'
-
+	import {mapState} from "vuex"
     export default {
         name: 'fansModal',
         mixins: [MescrollMixin, Mixin],
@@ -80,6 +83,11 @@
             //这里进来的 uuid 是当前登录用户的 因为是根据当前登录用户的信息查的粉丝列表
             //this.getFocusORFans(item); //判断两个用户的关注关系
         },
+		computed:{
+			...mapState({
+				myUuid:'uuId'
+			})
+		},
         methods: {
             //判断两个用户的关注关系是什么
             getMyFansList() {

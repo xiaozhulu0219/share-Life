@@ -1,5 +1,5 @@
 <template>
-	<view class="home-container">
+	<view class="home-container" :style="{paddingTop:CustomBar+'px'}">
 		<!--首页-->
 		<!--关于首页的规划，首页将来还是做框架、HomeSignModal从后台拿回多少个标签 home就插多少个modal
         至于modal的命名无所谓， 比如第一个modal是心理方面的 在返回的标签中 心理是1 那就将1作为参数获取列表
@@ -275,7 +275,7 @@
 		width: 100vw;
 		height: 100vh;
 		padding-bottom: 106rpx;
-		padding-top: 100rpx;
+		// padding-top: 100rpx;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;

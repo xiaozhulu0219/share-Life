@@ -10,10 +10,24 @@
 					// 检测升级
 					appUpdate()
 					// #endif
+					
+					
+					// #ifdef APP-PLUS || H5
+					Vue.prototype.StatusBar = e.statusBarHeight;
+					if (e.platform == 'android') {
+						
+						Vue.prototype.CustomBar = e.statusBarHeight + 50;
+					} else {
+						Vue.prototype.CustomBar = e.statusBarHeight + 45;
+					};
+					// #endif
+					
 					// #ifndef MP
 					Vue.prototype.StatusBar = e.statusBarHeight;
 					if (e.platform == 'android') {
+						
 						Vue.prototype.CustomBar = e.statusBarHeight + 50;
+						console.log(e.statusBarHeight,"设备高度")
 					} else {
 						Vue.prototype.CustomBar = e.statusBarHeight + 45;
 					};

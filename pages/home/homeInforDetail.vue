@@ -8,7 +8,7 @@
 				{{myCommentForm.nickname}}
 			</block>
 		</commonTab>
-		<view class="card">
+		<view class="card" :style="{marginTop:CustomBar+'px'}">
 			<view v-if="myFormData.imgIsNull" class="space-for-no-img">
 
 			</view>
