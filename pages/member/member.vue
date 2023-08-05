@@ -3,6 +3,9 @@
     <view>
         <scroll-view scroll-y class="page">
             <!-- 头部logo-->
+			<view class="spaceTop" :style="{height:topSpace+'px'}">
+				
+			</view>
             <view class="UCenter-bg">
                 <view class="padding text-right text-xl text-exit">
                     <view class="iconfont ml-1 search-icon" style="; margin-top: 250rpx"   @click="toSetting()">&#xe8b8</view>
@@ -156,6 +159,9 @@
         created() {
             this.queryfocusFansByUuId();
             this.queryHelpComNumByUuId();
+			
+			
+			
         },
         methods: {
           changeSwiper(e) {
@@ -259,6 +265,10 @@
 </script>
 
 <style>
+	.spaceTop{
+		width:100%;
+		 background-color: rgba(0, 0, 0, .5);
+	}
     .UCenter-bg {
         /* #ifdef MP-WEIXIN */
         /* background-image: url('https://static.jeecg.com/upload/test/blue_1595818030310.png'); */

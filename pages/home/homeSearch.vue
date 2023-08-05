@@ -6,6 +6,8 @@
             <block slot="title"> 搜索
             </block>
         </commonTab> -->
+		<view class="top-space" :style="{height:topSpace-5+'px'}">
+		</view>
 		<view class="search-top-container">
 			<view class="search-top-left">
 				<view @tap="BackPage" class="back">
@@ -329,6 +331,9 @@
 
 
 <style lang="scss" scoped>
+	.top-space{
+		background-color: #fff;
+	}
 	.search-top-container{
 		display: flex;
 		// hieght:200rpx;

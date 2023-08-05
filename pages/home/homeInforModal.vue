@@ -3,7 +3,7 @@
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;" refresher-enabled="true"
 			:refresher-triggered="triggered" :refresher-threshold="100" refresher-background="#fff"
 			@refresherrefresh="onRefresh">
-			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index" class="card">
+			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index" class="card" @longpress="handleLongpress(item)">
 				<view v-if="item.imgIsNull" class="space-for-no-img" @click="toInformationDetail(item,index)">
 				</view>
 				<view v-if="!item.imgIsNull" @click="toInformationDetail(item,index)">
@@ -44,11 +44,13 @@
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多动态了，快去分享你的美好生活吧---</view>
 		</scroll-view>
+		<popForList ref="popforlist" :listInfo="popupInfo"></popForList>
 	</view>
 </template>
 
 <script>
 	import configService from '@/common/service/config.service.js';
+	import popForList from "@/pages/publish/popForList.vue"
 	// import {subscrib} from "../../common/util/eventBus.js";
 	import {
 		mapMutations,
@@ -57,6 +59,7 @@
 	export default {
 		data() {
 			return {
+				popupInfo:{},
 				triggered: false,
 				pageInfo: {
 					num: 0,
@@ -72,13 +75,17 @@
 				fileUrl: configService.fileSaveURL,
 			};
 		},
+		components:{
+			popForList
+		},
 		computed: {
 			contentFormat() {
 				return function(content) {
 					return `${content.substring(0, 38)}${content.length > 38 ? ' ...' : ''}`;
 				};
 			},
-			...mapState(['homeListStore', 'pageInfoStore'])
+			...mapState(['homeListStore', 'pageInfoStore','uuId']),
+			
 		},
 		created() {
 			//activated() {
@@ -115,7 +122,20 @@
 		},
 
 		methods: {
-
+			// 长按弹窗
+			handleLongpress(item){
+				// console.log(this.popupInfo)
+				// console.log(this.uuId,"1")
+				// console.log(item.uuId,"2")
+				let tar = {
+					isUser:this.uuId===item.uuId,
+					test:item.textContent
+				}
+				console.log(tar,"zhezheh")
+				this.popupInfo = tar
+				this.$refs.popforlist.open()
+			},
+			
 			// 下拉刷新
 			async onRefresh() {
 				this.triggered = true;

@@ -1,7 +1,7 @@
 <template>
     <!--这个是首页点击动态后跳转的动态详情页-->
     <view>
-        <cu-custom  style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+        <!-- <cu-custom  style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
             <block slot="backText">
             </block>
 
@@ -9,7 +9,13 @@
                 <view @click="showModal" class="cuIcon-more"></view>
             </block>
 
-        </cu-custom>
+        </cu-custom> -->
+		<commonTab :isBack="true" >
+			<block slot="title">
+				<text>动态详情</text>
+			</block>
+			
+		</commonTab>
         <view class="card">
             <view class="iptbox">
                 <!-- <image  class="medias_size" :src="myFormData.medias[0]" mode="widthFix"  alt=""></image>-->
@@ -82,10 +88,10 @@
     import myDate from '@/components/my-componets/my-date.vue'
     import configService from '@/common/service/config.service.js'
     import ToEditPublishPopup from './toEditPublishPopup.vue';
-
+	import commonTab from "@/pages/component/commonTab.vue"
     export default {
         name: "memberInforDetail",
-        components: {myDate,ToEditPublishPopup},
+        components: {myDate,ToEditPublishPopup,commonTab},
         props: {
             formData: {
                 type: Object,

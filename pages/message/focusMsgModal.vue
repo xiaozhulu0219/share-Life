@@ -7,7 +7,7 @@
                 新增关注消息
             </block>
         </commonTab>
-        <view class="list-wrap">
+        <view class="list-wrap" :style="{marginTop:50+topSpace-5+'px'}">
             <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
             <view v-for="(item,index) in this.myFocusMsg" :key="index" class="card">
                 <view class="detail-title">
@@ -213,7 +213,7 @@
 <style lang="scss" scoped>
     .list-wrap {
         height: calc(114vh - 280rpx);
-        margin-top: 100rpx; /*盒子距离顶部的距离*/
+        /*盒子距离顶部的距离*/
     }
 
     .card {

@@ -7,7 +7,7 @@
             </block>
         </commonTab>
 
-        <view class="list-wrap">
+        <view class="list-wrap" :style="{marginTop:50+topSpace-5+'px'}">
             <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
                 <view v-for="(item,index) in this.myLoveMsg" :key="index" class="card">
                     <view class="detail-title">
@@ -155,8 +155,10 @@
 <style lang="scss" scoped>
 
     .list-wrap {
-        height: calc(114vh - 280rpx);
-        margin-top: 100rpx; /*盒子距离顶部的距离*/
+        height: calc(100vh - 100rpx);
+		
+         /*盒子距离顶部的距离*/
+		box-sizing: border-box;
     }
 
     .card {

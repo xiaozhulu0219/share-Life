@@ -10,24 +10,16 @@
 					// 检测升级
 					appUpdate()
 					// #endif
-					
-					
-					// #ifdef APP-PLUS || H5
-					Vue.prototype.StatusBar = e.statusBarHeight;
-					if (e.platform == 'android') {
-						
-						Vue.prototype.CustomBar = e.statusBarHeight + 50;
-					} else {
-						Vue.prototype.CustomBar = e.statusBarHeight + 45;
-					};
-					// #endif
-					
+
+
+
+
 					// #ifndef MP
 					Vue.prototype.StatusBar = e.statusBarHeight;
 					if (e.platform == 'android') {
-						
+
 						Vue.prototype.CustomBar = e.statusBarHeight + 50;
-						console.log(e.statusBarHeight,"设备高度")
+						// console.log(e.statusBarHeight, "设备高度")
 					} else {
 						Vue.prototype.CustomBar = e.statusBarHeight + 45;
 					};
@@ -47,35 +39,67 @@
 
 					// #ifdef APP-PLUS
 					//Vue.prototype.$api.listenTranMsg()
-			// 		var info = plus.push.getClientInfo();
+					// 		var info = plus.push.getClientInfo();
 
-			// 		/* 5+  push 消息推送 ps:使用:H5+的方式监听，实现推送*/
-			// 		plus.push.addEventListener("click", function(msg) {
-			// 			console.log("click:" + JSON.stringify(msg));
-			// 			console.log(msg.payload);
-			// 			console.log(JSON.stringify(msg));
-			// 			//这里可以写跳转业务代码
-			// 		}, false);
-			// 		// 监听在线消息事件
-			// 		plus.push.addEventListener("receive", function(msg) {
-			// 			// plus.ui.alert(2);
-			// 			//这里可以写跳转业务代码
-			// 			console.log("recevice:" + JSON.stringify(msg))
-			// 		}, false);
+					// 		/* 5+  push 消息推送 ps:使用:H5+的方式监听，实现推送*/
+					// 		plus.push.addEventListener("click", function(msg) {
+					// 			console.log("click:" + JSON.stringify(msg));
+					// 			console.log(msg.payload);
+					// 			console.log(JSON.stringify(msg));
+					// 			//这里可以写跳转业务代码
+					// 		}, false);
+					// 		// 监听在线消息事件
+					// 		plus.push.addEventListener("receive", function(msg) {
+					// 			// plus.ui.alert(2);
+					// 			//这里可以写跳转业务代码
+					// 			console.log("recevice:" + JSON.stringify(msg))
+					// 		}, false);
 					// #endif
 
 					//Vue.prototype.$api.initLogin()
+					// #ifdef APP-PLUS || H5
+					Vue.prototype.StatusBar = e.statusBarHeight;
+					// e.statusBarHeight = 29
+					// Vue.prototype.StatusBar  = 29
+					if (e.platform == 'android') {
 
+						Vue.prototype.CustomBar = e.statusBarHeight + 50;
+						Vue.prototype.topSpace = e.statusBarHeight + 10;
+
+					} else {
+						Vue.prototype.CustomBar = e.statusBarHeight + 45;
+						Vue.prototype.topSpace = e.statusBarHeight + 5;
+					};
+					// #endif
 				}
 			})
-            Vue.prototype.NavBarColor='bg-gradual-blue'
-            Vue.prototype.Radio_Check_Size='scale(0.7)'
-            Vue.prototype.bannerList=[
-           		  {id:1,type: 'image',url: 'https://static.jeecg.com/upload/test/banner0_1595850438042.jpeg', link: ''},
-           		  {id:2,type: 'image',url: 'https://static.jeecg.com/upload/test/banner2_1595818081327.jpg', link: ''},
-           		  {id:3,type: 'image',url: 'https://static.jeecg.com/upload/test/oabanner-2_1595648520760.png', link: ''},
-           		  {id:4,type: 'image',url: 'https://static.jeecg.com/upload/test/banner5_1595818089013.jpeg', link: ''},
-           	]
+			Vue.prototype.NavBarColor = 'bg-gradual-blue'
+			Vue.prototype.Radio_Check_Size = 'scale(0.7)'
+			Vue.prototype.bannerList = [{
+					id: 1,
+					type: 'image',
+					url: 'https://static.jeecg.com/upload/test/banner0_1595850438042.jpeg',
+					link: ''
+				},
+				{
+					id: 2,
+					type: 'image',
+					url: 'https://static.jeecg.com/upload/test/banner2_1595818081327.jpg',
+					link: ''
+				},
+				{
+					id: 3,
+					type: 'image',
+					url: 'https://static.jeecg.com/upload/test/oabanner-2_1595648520760.png',
+					link: ''
+				},
+				{
+					id: 4,
+					type: 'image',
+					url: 'https://static.jeecg.com/upload/test/banner5_1595818089013.jpeg',
+					link: ''
+				},
+			]
 			Vue.prototype.ColorList = [{
 					title: '嫣红',
 					name: 'red',
@@ -160,7 +184,7 @@
 		onHide: function() {
 			console.log('App Hide')
 		},
-		
+
 
 	}
 </script>
@@ -168,7 +192,7 @@
 <style>
 	@import "plugin/colorui/main.css";
 	@import "plugin/colorui/icon.css";
-    @import "plugin/colorui/animation.css";
+	@import "plugin/colorui/animation.css";
 	@import "plugin/iconfont/iconfont.css";
 
 	.nav-list {

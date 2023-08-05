@@ -6,7 +6,7 @@
             <block slot="title"> 消息 </block>
         </commonTab>
 
-        <view class="card">
+        <view class="card" :style="{marginTop:50+topSpace-5+'px'}">
             <view class="card-line">
                 <view class="card-loveMessage">
                     <view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;"
@@ -183,8 +183,9 @@
         background-color:  #fff;
         padding: 20rpx 20rpx;
         border-radius: 20rpx;
+		box-sizing: border-box;
         margin-bottom: 10rpx; /*盒子间的距离*/
-        margin-top: 105rpx; /*盒子距离顶部的距离*/
+         /*盒子距离顶部的距离*/
         line-height: 35rpx; /*行高*/
 
         .card-line {
