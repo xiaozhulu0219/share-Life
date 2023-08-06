@@ -14,7 +14,9 @@
 			<block slot="title">
 				<text>动态详情</text>
 			</block>
-			
+			<block slot="right" v-if="this.pubOrLove==1">
+			    <view @click="showModal" class="cuIcon-more" style="font-size:2em"></view>
+			</block>
 		</commonTab>
         <view class="card">
             <view class="iptbox">

@@ -28,7 +28,9 @@
     export default {
         name: 'toEditPublishPopup',
         data() {
-            return {};
+            return {
+				deleteInforUrl:'/information/movements/deleteInfor'
+			};
         },
         props: {
             myFormData: {
@@ -61,7 +63,8 @@
                     success: res => {
                         if (res.confirm) {
                             console.log('用户点击确定', item);
-                            this.$http.delete(this.url.deleteInforUrl + '?id=' + item.inforId).then(res => {
+							// console.log(this.url,"打印url地址")
+                            this.$http.delete(this.deleteInforUrl + '?id=' + item.inforId).then(res => {
                                 console.log("结果数据", res)
                                 if (res.data.success) {
                                     console.log("删除成功", item.inforId);

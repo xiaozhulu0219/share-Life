@@ -3,7 +3,8 @@
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;" refresher-enabled="true"
 			:refresher-triggered="triggered" :refresher-threshold="100" refresher-background="#fff"
 			@refresherrefresh="onRefresh">
-			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index" class="card" @longpress="handleLongpress(item)">
+			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index" class="card" 
+			@touchstart="touchstart(item)" @touchend="touchend">
 				<view v-if="item.imgIsNull" class="space-for-no-img" @click="toInformationDetail(item,index)">
 				</view>
 				<view v-if="!item.imgIsNull" @click="toInformationDetail(item,index)">
@@ -44,7 +45,11 @@
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多动态了，快去分享你的美好生活吧---</view>
 		</scroll-view>
-		<popForList ref="popforlist" :listInfo="popupInfo"></popForList>
+		<popForList ref="popforlist" 
+		:listInfo="popupInfo"
+		@reportSubmit="handleSubmitRepot"
+		@deleteSubmit="handleSubmitDelete"></popForList>
+		
 	</view>
 </template>
 
@@ -59,6 +64,8 @@
 	export default {
 		data() {
 			return {
+				isLongPress:false,
+				longpressTimer:null,// 长按计时器
 				popupInfo:{},
 				triggered: false,
 				pageInfo: {
@@ -68,6 +75,8 @@
 				imageList: [],
 				hasNext: true,
 				isDownLoading: false,
+				deleteInforUrl:'/information/movements/deleteInfor',
+				reportSubmitUrl:'/reportviolations/sendReportViolations',
 				unloveInforUrl: '/information/movements/unlove',
 				loveInforUrl: '/information/movements/love',
 				homeListUrl: '/information/movements/findHomePublishInforList',
@@ -96,7 +105,7 @@
 				console.log(this.homeListStore);
 				console.log("不需要重新请求数据");
 				// 进行默认滚动
-				this.scrollHeight = this.scrollIdStore === '' ? '' : this.scrollIdStore
+				// this.scrollHeight = this.scrollIdStore === '' ? '' : this.scrollIdStore
 				// 希望回到之前的浏览位置
 
 				return
@@ -122,16 +131,93 @@
 		},
 
 		methods: {
+			handleSubmitDelete(tar,cb){
+				// 删除动态 
+				console.log(tar,"用户要删除")
+				// 提交删除动态申请
+				// 本地仓库也要删除
+				uni.showLoading({
+					title:'loading...'
+				})
+				this.$http.delete(this.deleteInforUrl + '?id=' + tar.detail.inforId).then(async res => {
+				    console.log("结果数据", res)
+				    if (res.data.success) {
+						// 本地仓库刷新
+						// 重新请求数据
+						uni.hideLoading();
+						uni.showToast({
+							title:'删除成功',
+							icon:'none'
+						})
+						cb()
+						this.changehomeListStore([]);
+						this.initPage();
+						await this.getHomePublishInforList();
+						
+						
+				    }
+				}).catch(e => {
+				    console.log("al delUrl请求错误2", e)
+				})
+			},
+			handleSubmitRepot(tar,cb){
+				console.log("发送举报请求",tar)
+				uni.showLoading({
+					title:'loading....'
+				})
+				const submitObj = {
+					type:tar.type,
+					id:tar.detail.id,
+					reportContent:tar.detail.textContent,
+					uuId:tar.detail.uuId
+					
+				}
+				console.log(submitObj)
+				this.$http.post(this.reportSubmitUrl,submitObj).then((res)=>{
+						if(res.statusCode===200){
+							// 举报成功
+							uni.hideLoading();
+							uni.showToast({
+								title:"举报成功",
+								icon:'none'
+							});
+							cb();// 弹框消失
+							
+						}else{
+							uni.hideLoading();
+							uni.showToast({
+								title:"未知错误",
+							});
+						}
+					
+				})
+			},
 			// 长按弹窗
+			touchstart(item){
+				//1.5后触发弹窗事件
+				this.longpressTimer = setTimeout(()=>{
+					this.handleLongpress(item)
+				},1500)
+			},
+			touchend(){
+				clearTimeout(this.longpressTimer);
+				this.longpressTimer = null;
+				
+			},
 			handleLongpress(item){
 				// console.log(this.popupInfo)
 				// console.log(this.uuId,"1")
 				// console.log(item.uuId,"2")
+				
+				console.log("弹框出现");
+				this.isLongPress = true;
 				let tar = {
 					isUser:this.uuId===item.uuId,
-					test:item.textContent
+					detail: {...item},
+					type:"1",
+					typeText:'动态'
 				}
-				console.log(tar,"zhezheh")
+				// console.log(tar,"zhezheh")
 				this.popupInfo = tar
 				this.$refs.popforlist.open()
 			},

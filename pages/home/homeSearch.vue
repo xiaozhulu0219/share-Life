@@ -6,7 +6,23 @@
             <block slot="title"> 搜索
             </block>
         </commonTab> -->
-		<view class="top-space" :style="{height:topSpace-5+'px'}">
+			
+		
+		<commonTab :isBack="true" >
+			<block slot="title">
+				<view class="search">
+					<text class="text-gray iconfont icon-search"></text>
+					<input class="uni-input" v-model="inputValue" maxlength="100" v-if="activeTab == 2"
+						placeholder="请输入感兴趣的公司简称"></input>
+					<input class="uni-input" v-model="inputValue" maxlength="100" v-else
+						placeholder="请输入感兴趣的动态内容"></input>
+				</view>
+			</block>
+			<block slot="right">
+				<view class="btn " form-type="submit" @click="searchList(inputValue)">搜索</view>
+			</block>
+		</commonTab>
+		<!-- <view class="top-space" :style="{height:topSpace-5+'px'}">
 		</view>
 		<view class="search-top-container">
 			<view class="search-top-left">
@@ -24,7 +40,7 @@
 					</view>
 					<button class="btn" form-type="submit" @click="searchList(inputValue)">搜索</button>
 				</view>
-		</view>
+		</view> -->
 
 
 
@@ -368,8 +384,8 @@
 
 	// 搜索框
 	.search {
-		flex: 1 1 auto;
 		// background-color: red;
+		// background-color: #ccc;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -380,19 +396,20 @@
 		.icon-search {
 			position: absolute;
 			left: 34rpx;
-			top: 30rpx;
+			top: 25rpx;
 			font-size: 30rpx !important;
 		}
 
 		.uni-input {
 			flex: 9;
-			background-color: #f0f0f0;
+			background-color: #fff;
 			margin-right: 20rpx;
 			height: 76rpx;
 			border-radius: 38rpx;
 			box-sizing: border-box;
 			padding: 0 20rpx 0 56rpx;
 			margin-left: 20rpx;
+			color: #333
 		}
 
 		.btn {
@@ -518,5 +535,16 @@
 	.right {
 		flex-shrink: 0;
 		flex: 2;
+	}
+	.btn-wrap{
+	}
+	.btn{
+		height:76rpx;
+		font-size: 1em;
+		width: 100rpx;
+		margin-left: -40rpx;
+		line-height: 76rpx;
+		text-align: center;
+		border-radius: 30rpx;
 	}
 </style>

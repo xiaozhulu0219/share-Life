@@ -1,9 +1,9 @@
 <template>
-	<view class="tap-space-wrap">
-		<view class="spaceTop bg-gradual-blue" :style="{height:barHeight+'px'}">
+	<view class="tap-space-wrap bg-gradual-blue" :style="{'background': bgColor}">
+		<view class="spaceTop " :style="{height:barHeight+'px'}">
 			
 		</view>
-		<view :style="{'background': bgColor}" class="nav-wrap bg-gradual-blue">
+		<view  class="nav-wrap ">
 
 			<view @tap="BackPage" v-if="isBack" class="back">
 				<text class="cuIcon-back"></text>
@@ -82,6 +82,8 @@
 		z-index: 99;
 		right: 0;
 		top: 0;
+		padding: 0 20rpx;
+		box-sizing: border-box;
 	}
 	.spaceTop{
 		// background-color: red;
