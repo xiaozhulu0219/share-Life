@@ -8,11 +8,16 @@
 				{{myCommentForm.nickname}}
 			</block>
 		</commonTab>
-		<view class="card" :style="{marginTop:CustomBar+'px'}">
-			<view v-if="myFormData.imgIsNull" class="space-for-no-img">
+		<view class="card" :style="{marginTop:CustomBar+'px'}" >
+			 
+				
+			<view class="" @touchstart="touchstart({...myFormData,isinfor:true},false)" @touchend="touchend">
+				
+			
+			<view v-if="myFormData.imgIsNull" class="space-for-no-img" >
 
 			</view>
-			<view class="" v-if="!myFormData.imgIsNull">
+			<view class="" v-if="!myFormData.imgIsNull" >
 
 				<swiper v-if="myFormData.medias.length>1" indicator-dots indicator-color="#94afce"
 					indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
@@ -32,15 +37,16 @@
 				</swiper>
 			</view>
 
-			<view class="card-text text-wrap " :class="{autoHeight:textMore,maxText:!textMore}">
+			<view class="card-text text-wrap " :class="{autoHeight:textMore,maxText:!textMore}" >
 				{{myFormData.textContent}}
 				<view class="text-box" @click="showMoreText" v-if="!textMore">
 					--点击展开更多--
 				</view>
 
 			</view>
-			<view v-if="myFormData.imgIsNull" class="space-for-no-img">
+			<view v-if="myFormData.imgIsNull" class="space-for-no-img" >
 
+			</view>
 			</view>
 			<view class="card-line">
 				<view class="card-createDate">{{myCommentForm.createDate}}</view>
@@ -65,6 +71,7 @@
 				<view class="card-commentCount">{{myCommentForm.commentCount}}</view>
 			</view>
 			<view class="card-divider"></view>
+			
 			<view class="list-wrap">
 				<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;" :scroll-top="scrollTop">
 					<view v-for="(item,index) in commentRenderList" :key="index" class="comment">
@@ -250,6 +257,7 @@
 				findInforCommentsPageUrl: '/information/comments/list',
 				findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
 				url: {
+					deleteInforUrl:'/information/movements/deleteInfor',
 					findPublishInforByIdUrl: '/information/movements/findPublishInforById',
 					saveCommentUrl: '/information/comments/saveCommentForInfor',
 					saveCommentForCommentUrl: '/information/comments/saveCommentForComment',
@@ -374,6 +382,11 @@
 					reportContent:target.detail.content,
 					uuId:target.detail.uuId
 				}
+				if(target.type==='1'){
+					// 如果举报是动态需要拿到textContent
+					submitObj.reportContent = target.detail.textContent
+				}
+				// console.log(submitObj,"举报内容")
 				this.$http.post(this.url.reportSubmitUrl,submitObj).then((res)=>{
 						if(res.statusCode===200){
 							// 举报成功
@@ -399,6 +412,44 @@
 				uni.showLoading({
 					title:'loading...'
 				})
+				// 判断删除的是不是动态
+				// 如果删除的是动态 需要 提交删除请求
+				// 刷新仓库
+				// 路由跳转首页
+				if(target.detail.isinfor){
+					
+					console.log(target.detail,"删除详情")
+					const deleteId = target.detail.inforId;
+					
+					this.$http.delete(this.url.deleteInforUrl + '?id=' + deleteId).then(async res => {
+					    console.log("结果数据", res)
+					    if (res.data.success) {
+							// 本地仓库刷新
+							// 重新请求数据
+							uni.hideLoading();
+
+							cb()
+							this.changehomeListStore([]);
+							this.initPage();
+							// 路由跳转
+							uni.navigateTo({
+								url:'/pages/home/home',
+								complete(){
+									uni.showToast({
+										title:'删除成功',
+										icon:'none'
+									})
+								}
+							})
+							// await this.getHomePublishInforList();
+							
+							
+					    }
+					}).catch(e => {
+					    console.log("al delUrl请求错误2", e)
+					});
+					return 
+				}
 				if(target.detail.isChildComment){
 					// 删除的是二级评论
 					console.log("正在删除回复的回复",target)
@@ -456,7 +507,7 @@
 				//1.5后触发弹窗事件
 				this.longpressTimer = setTimeout(() => {
 					this.handleLongpress(item,isChildComment)
-				}, 1500)
+				}, 750)
 			},
 			touchend() {
 				clearTimeout(this.longpressTimer);
@@ -467,20 +518,31 @@
 				// console.log(this.popupInfo)
 				// console.log(this.uuId,"1")
 				// console.log(item.uuId,"2")
-
+				
+				console.log(item,"长按详情")
 				console.log("评论弹框出现");
 				this.isLongPress = true;
 				// 判断点击的评论是否是本人的评论
 				const isUser = this.uuId === item.uuId
+				// 判断点击的是评论还是动态
+				let type ,typeText
+				console.log(item.isinfor,"评论还是动态")
+				if(item.isinfor){
+					type = "1";
+					typeText='动态'
+				}else{
+					type = "3";
+					typeText='评论'
+				}
 				const tar = {
 					isUser,
 					detail: {...item,isChildComment},
-					type: "3",
-					typeText:'评论'
+					type,
+					typeText
 				}
-				// console.log(isUser)
-				// console.log(tar,"子评论")
-				// console.log(tar,"zhezheh")
+				// // console.log(isUser)
+				// // console.log(tar,"子评论")
+				// // console.log(tar,"zhezheh")
 				this.popupInfo = tar
 				this.$refs.popforlist.open()
 			},
@@ -490,7 +552,7 @@
 				})
 			},
 			...mapMutations(['unloveInforStore', 'loveInforStore', 'loveInforFollowStore', 'unloveInforFollowStore',
-				'loveInforHotStore', 'unloveInforHotStore'
+				'loveInforHotStore', 'unloveInforHotStore','changehomeListStore','initPage'
 			]),
 			handleCancelComment() {
 				this.commentShow = false;

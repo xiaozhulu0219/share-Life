@@ -3,7 +3,7 @@
     <view>
         <scroll-view scroll-y class="page">
             <!-- 头部logo-->
-			<view class="spaceTop" :style="{height:topSpace+'px'}">
+			<view class="spaceTop " :style="{height:topSpace+'px'}">
 				
 			</view>
             <view class="UCenter-bg">

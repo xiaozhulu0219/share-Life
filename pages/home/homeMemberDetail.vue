@@ -1,11 +1,36 @@
 <template>
     <!--点击用户头像跳转的用户页（区别于用户自己看自己的个人页）-->
-    <view>
-        <scroll-view scroll-y class="page">
-            <cu-custom style="height: 1rpx;" isBack="t" :backRouterName="backRouteName">
+    <view >
+		<!-- <commonTab :isBack="true"
+		bgColor="rgb(120, 120, 120)">
+			<block slot="title">
+				用户详情
+			</block>
+			<block slot="right" >
+			    <view @click="showModal" class="cuIcon-more" style="font-size:2em"></view>
+			</block>
+		</commonTab> -->
+		<!-- :style="{marginTop:50+topSpace-5+'px',height:'calc(100vh' +  ' - ' + 45 + 'px' + ' - ' + topSpace + 'px' + ')'}" -->
+		<view class="spaceTop " :style="{height:topSpace+'px',backgroundColor:'rgba(0, 0, 0, .5)'}">
+			
+		</view>
+        <scroll-view scroll-y class="page" >
+           <!-- <cu-custom style="" isBack="t" :backRouterName="backRouteName">
                 <block slot="backText"></block>
-            </cu-custom>
+            </cu-custom> -->
+			
             <view class="UCenter-bg">
+				<view class="icon-bar">
+					<!-- 回到首页 -->
+					<view class="cuIcon-home" @click="turnToHome">
+						
+					</view>
+					<!-- 举报 -->
+					
+					<view class="cuIcon-more" @click="handleClick">
+						
+					</view>
+				</view>
                 <block slot="backText"></block>
 
                 <view class="padding">
@@ -68,7 +93,7 @@
                     </view>
                 </view>
                 <swiper :current="activeTab" class="padding" style="height: 100%;" @change="changeSwiper">
-                    <swiper-item v-for="(item,index) in tabs" :key="index">
+                    <swiper-item class="swiper-item" v-for="(item,index) in tabs" :key="index">
 
                         <view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde" class="card-PublishInfor"
                               v-if="index === 0" @click="toMemInformationDetail(ite)">
@@ -96,17 +121,28 @@
                 </swiper>
             </view>
         </scroll-view>
+		<popForList ref="popforlist"
+		:listInfo="popupInfo" 
+		@reportSubmit="handleSubmitRepot"
+		></popForList>
     </view>
 </template>
 
 <script>
     import configService from '@/common/service/config.service.js'
-    import memberLikeCountModal from '../member/memberLikeCountModal.vue'
+    import memberLikeCountModal from '../member/memberLikeCountModal.vue';
+	import commonTab from '../component/commonTab.vue';
+	import popForList from "@/pages/publish/popForList.vue"
     export default {
         name: 'homeMemberDetail',
-        components: {memberLikeCountModal},
+        components: {memberLikeCountModal
+		,commonTab,popForList},
+		
         data() {
             return {
+				userDetail:{},
+				targetuuId:'',
+				popupInfo:{},
 				targetUuidItem:'',
               showLikeModel: false, // 是否显示获赞弹框
                 iffocus: '',//0未关注对方、 1、我的关注、2、我的粉丝、3、互相关注 4、就是当前用户
@@ -149,6 +185,7 @@
                 FocusORFansUrl: '/information/followuser/FocusORFans',
                 queryfocusFansByUuIdUrl: '/inforcommon/queryfocusFansByUuId',
                 queryHelpComNumByUuIdUrl: '/comcommon/queryHelpComNumByUuId',
+				reportSubmitUrl:'/reportviolations/sendReportViolations',
                 userId: '',
                 uuId: '',
                 id: '',
@@ -157,6 +194,7 @@
                 focusOrFansPublishInforList: [],
                 focusOrFansLoveInforList: [],
                 focusOrFansHelpList: [],
+				
 
             };
         },
@@ -177,7 +215,8 @@
             //这里的item其实是uuid 这个uuid 是从动态也拿过来的 是准确的 this.uuid是当前登录用户 在这里用不正确
             const item = JSON.parse(decodeURIComponent(option.item));
             //this.myFormData = item
-            console.log("个人页拿到了uuid准备大干一番", item)
+            console.log("个人页拿到了uuid准备大干一番", item);
+			this.targetuuId = item;
 			this.targetUuidItem = item
             this.findPersonInfor(item); //这是传参后继续调用方法的示例
             this.getFocusOrFansPublishInforList(item); //获取用户发布的动态列表
@@ -188,6 +227,55 @@
             this.queryHelpComNumByUuId(item);
         },
         methods: {
+			turnToHome(){
+				// 回到首页清空页面栈
+			uni.reLaunch({
+				url:'/pages/home/home'
+			})
+			},
+			handleSubmitRepot(target,cb){
+				// 举报
+				console.log("举报当前用户");
+				console.log(target)
+				uni.showLoading({
+					title:'loading...'
+				})
+				const submitObj = {
+					type:target.type,
+					uuId:target.detail.uuId,
+					id:target.detail.id,
+					reportContent:'',
+					
+				}
+				
+				this.$http.post(this.reportSubmitUrl,submitObj).then(res=>{
+					if(res.statusCode===200){
+						// 举报成功
+						uni.hideLoading();
+						uni.showToast({
+							title:"举报成功",
+							icon:'none'
+						});
+						cb();// 弹框消失
+						
+					}else{
+						uni.hideLoading();
+						uni.showToast({
+							title:"未知错误",
+						});
+					}
+				})
+			},
+			handleClick(){
+				const tar = {
+					detail:{id:this.userDetail.id,uuId:this.targetuuId},
+					type:'2',
+					typeText:'用户',
+					isUser:false
+				}
+				this.popupInfo = tar;
+				this.$refs.popforlist.open()
+			},
             changeSwiper(e) {
                 const curTab = e.detail.current;
                 this.activeTab = curTab;
@@ -219,6 +307,7 @@
                         //console.log("this.personalList.avatar", this.personalList.avatar);
                         //console.log("res.data.result.avatar", res.data.result.avatar);
                         console.log("查询个人信息返回的数据是：", res.data.result);
+						this.userDetail = res.data.result
                         if (res.data.result.avatar === "") {
                             console.log("头像不存在")
                         } else {
@@ -402,12 +491,26 @@
 </script>
 
 <style>
-
+	.icon-bar{
+		position: absolute;
+		right:30rpx;
+		top:10rpx;
+		font-size:1.5em;
+		display: flex;
+		width:100rpx;
+		height:60rpx;
+		justify-content: space-between;
+		align-items: center;
+		/* background-color: red; */
+		
+		
+	}
     .UCenter-bg {
         background-color: rgba(0, 0, 0, .5);
         height: 500rpx;
         overflow: hidden;
         color: #fff;
+		position: relative;
 
     }
 
@@ -470,11 +573,16 @@
         position: relative;
         top: -50rpx;
         height: calc(100vh - 200rpx - env(safe-area-inset-bottom) / 2);
+		/* height: 300rpx; */
         background-color: #fff;
         border-radius: 30rpx 30rpx 0 0;
         margin-top: 50rpx;
+		overflow-y: scroll;
     }
-
+	.swiper-item{
+		height: 100%;
+		overflow-y:scroll;
+	}
     .tab-title {
         color: #888;
         border-bottom: 1px solid #eee;
@@ -497,9 +605,10 @@
     .card-PublishInfor {
         background-color: $uni-bg-color-grey;
         padding: 20rpx 20rpx;
+		padding-bottom: 0rpx;
         border-radius: 20rpx;
         margin-bottom: 20rpx;
-
+		
         .card-title {
             font-weight: bold;
         }
