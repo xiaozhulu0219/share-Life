@@ -34,12 +34,12 @@
                 </navigator>
             </view>
             <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
+                <view class="cu-item" @click="handleUpdateApp">
                     <text class="cuIcon-link" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">更新app</text>
                     </view>
-                </navigator>
+                </view>
             </view>
             <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
@@ -58,12 +58,12 @@
                 </navigator>
             </view>
             <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
+                <view class="cu-item" @click="handleLogOff">
                     <text class="cuIcon-delete" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">注销账户</text>
                     </view>
-                </navigator>
+                </view>
             </view>
             <view class="cu-list menu">
                 <!-- <navigator class="cu-item" url="/pages/user/userexit">
@@ -81,6 +81,8 @@
             </view>
 
         </scroll-view>
+		<popupForUpdate ref="popup" :updateObj="updateObj"
+		@updateApp="updateApp"></popupForUpdate>
     </view>
 </template>
 
@@ -93,10 +95,14 @@
     import {ACCESS_TOKEN} from '@/common/util/constants.js';
     import configService from '@/common/service/config.service.js'
 	import {mapMutations,mapState} from "vuex"
-
+	import popupForUpdate from "@/pages/component/popForUpdate.vue"
     export default {
         components: {
-            appSelect, myImageUpload, myDate, secondPickerVue
+            appSelect,
+			 myImageUpload, 
+			 myDate, 
+			 secondPickerVue,
+			popupForUpdate
         },
 		computed:{
 			...mapState(['homeListStore','hotListStore'])
@@ -104,6 +110,7 @@
         data() {
             return {
                 // job_type,
+				updateObj:{},
                 personalMsg: {
                     avatar: '',
                     nickName: '',
@@ -117,6 +124,8 @@
                     status: 1,
                     identity: ''
                 },
+				accountOffUrl:'/sys/cancelAccount',
+				updateUrl:'/systemConfiguration/systemConfiguration/showData',
                 userUrl: '/sys/user/queryById',
                 positionUrl: '/sys/position/list',
                 departUrl: '/sys/user/userDepartList',
@@ -129,7 +138,80 @@
         onShow() {
             this.loadinfo();
         },
+		
         methods: {
+			handleLogOff(){
+				console.log("用户要注销账户")
+				// 弹出确框
+				uni.showModal({
+					title:'确认注销',
+					content:'是否注销当前账户',
+					success:(res)=>{
+						// console.log(res,"选择")
+						if(res.confirm){
+							// 注销
+							this.$http.post(this.accountOffUrl).then(res=>{
+								console.log('结果',res)
+								if(res.data.success){
+									// 注销成功跳转注销成功
+									// 弹出注销成功modal
+									this.clearUserStoreList()
+									uni.navigateTo({
+										url:'/pages/login/login?from=setting',
+										
+									})
+								}
+							})
+							return
+						}
+						if(res.cancel){
+							return
+						}
+						
+					}
+				})
+			},
+			updateApp(){
+				// 触发更新事件
+				console.log("用户点击更新");
+				this.$refs.popup.close();
+				console.log(this.updateObj.downloadLink)
+				uni.downloadFile({
+					url:this.updateObj.downloadLink,
+					complete(res){
+						console.log(res,"下载结果")
+					}
+				})
+			},
+			handleUpdateApp(){
+				// console.log("用户要更新app");
+				// 弹出检测更新modal
+				uni.showLoading({
+					title:"检测更新..."
+				})
+				const localVersion = uni.getSystemInfoSync();
+				console.log(localVersion,"当前版本")
+				// 获取当前版本数据
+				const currentCode = localVersion.appVersionCode;
+				this.$http.get(this.updateUrl).then(res=>{
+					console.log("数据",res)
+					const targetObj = res.data.result
+					const targetCode =targetObj.versionNum
+					uni.hideLoading()
+					if(targetCode>currentCode){
+						console.log("需要升级");
+						// 渲染更新弹窗
+						// 传递数据
+						console.log( targetObj)
+						this.updateObj = targetObj
+						this.$refs.popup.open();
+						
+					}else{
+						console.log("不需要升级");
+						return
+					}
+				})
+			},
 			...mapMutations(['clearUserStoreList']),
 			handleExit(){
 				// console.log("用户要退出");

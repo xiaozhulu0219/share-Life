@@ -197,7 +197,7 @@
 				//1.5后触发弹窗事件
 				this.longpressTimer = setTimeout(()=>{
 					this.handleLongpress(item)
-				},1500)
+				},750)
 			},
 			touchend(){
 				clearTimeout(this.longpressTimer);
@@ -217,7 +217,7 @@
 					type:"1",
 					typeText:'动态'
 				}
-				// console.log(tar,"zhezheh")
+				console.log(tar,"zhezheh")
 				this.popupInfo = tar
 				this.$refs.popforlist.open()
 			},
