@@ -42,12 +42,12 @@
                 </view>
             </view>
             <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
+                <view class="cu-item" url="/pages/user/userexit" @click="contactqq">
                     <text class="cuIcon-service" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">联系客服</text>
                     </view>
-                </navigator>
+                </view>
             </view>
             <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
@@ -124,6 +124,7 @@
                     status: 1,
                     identity: ''
                 },
+				contactUrl:'/systemConfiguration/systemConfiguration/showData',
 				accountOffUrl:'/sys/cancelAccount',
 				updateUrl:'/systemConfiguration/systemConfiguration/showData',
                 userUrl: '/sys/user/queryById',
@@ -140,6 +141,26 @@
         },
 		
         methods: {
+			contactqq(){
+				// 联系客服
+				// 获取qq号
+				this.$http.get(this.contactUrl).then(res=>{
+					// 获取客服qq
+					if(res.data.success){
+						const targetServiceCode = res.data.result.serviceContact;
+						// 在h5中
+						// #ifdef H5
+
+						location.href=`http://wpa.qq.com/msgrd?v=3&uin=${targetServiceCode}&site=qq&menu=yes`
+						// #endif
+						// #ifdef APP-PLUS
+						// 检测升级
+						plus.runtime.openURL("mqq://im/chat?chat_type=wpa&uin=${targetServiceCode}&version=1&src_type=web")
+						// #endif
+					}
+				})
+				// location.href="http://wpa.qq.com/msgrd?v=3&uin=12345678&site=qq&menu=yes"
+			},
 			handleLogOff(){
 				console.log("用户要注销账户")
 				// 弹出确框

@@ -48,6 +48,12 @@
             }
         },
         methods: {
+			// handletest(){
+			// 	console.log(uni)
+			// 	uni.navigateBack({
+			// 		delta:-1
+			// 	})
+			// },
             onInput(value) {
                 if (value !== null) {
                     for (const i in keyWords) {
@@ -78,9 +84,10 @@
                     this.$tip.loaded();
                     if (res.data.success) {
                         this.$tip.toast('提交成功');
-                        this.$Router.replace({
-                            name: 'memberdetail'
-                        });
+                        uni.navigateBack({
+                        	delta:-1
+                        })
+						// uni.navigateBack()
                         /* uni.navigateTo({
                             url: '/pages/user/userdetail'
                         }) */

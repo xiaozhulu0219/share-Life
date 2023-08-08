@@ -36,7 +36,8 @@ export default new Vuex.Store({
 		hotListPage:{
 			num:0,
 			size:10
-		}
+		},
+		myLabelList:[],
 
 	},
 	mutations: {
@@ -54,6 +55,9 @@ export default new Vuex.Store({
 		},
 		SET_AVATAR: (state, avatar) => {
 			state.avatar = avatar;
+		},
+		changeMyLabelList(state,payload){
+			state.myLabelList = payload 
 		},
 		changehomeListStore: (state, payload) => {
 			state.homeListStore = payload

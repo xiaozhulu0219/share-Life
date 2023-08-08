@@ -21,6 +21,9 @@
                                   style="width: 18px; height: 400px;" name="input"
                                   v-model="myFormData.textContent" :maxlength="maxLength" @input="onInput(myFormData.textContent)">
                         </textarea>
+						<view class="maxlength-tip" v-if="(myFormData.textContent.length)>=(maxLength*0.8)">
+							{{myFormData.textContent.length}}/{{maxLength}}
+						</view>
                     </view>
                     <view class="bottom_bar">
                         <my-image-upload ref="imageUpload" v-model="myFormData.medias"></my-image-upload>
@@ -81,7 +84,7 @@
         },
         data() {
             return {
-                maxLength: 500,
+                maxLength: 100,
                 CustomBar: this.CustomBar,
                 NavBarColor: this.NavBarColor,
                 loading: false,
@@ -216,6 +219,17 @@
     }
 </script>
 <style lang="scss" scoped>
+	.textarea{
+		position:relative;
+		
+	}
+	.maxlength-tip{
+		position: absolute;
+		bottom:200rpx;
+		right:40rpx;
+		font-size: 2em;
+		color:#fbbd08;
+	}
     .middle {
         display: flex;
         align-items: center;

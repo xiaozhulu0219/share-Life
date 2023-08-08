@@ -49,9 +49,12 @@
                     this.$tip.loaded();
                     if (res.data.success) {
                         this.$tip.toast('提交成功');
-                        this.$Router.replace({
-                            name: 'memberdetail'
-                        });
+                        // this.$Router.replace({
+                        //     name: 'memberdetail'
+                        // });
+						uni.navigateBack({
+							delta:-1
+						})
                         /* uni.navigateTo({
                             url: '/pages/user/userdetail'
                         }) */

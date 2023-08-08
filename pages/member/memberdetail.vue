@@ -109,7 +109,7 @@
     import myImageUpload from '@/components/my-componets/my-image-upload.vue';
     import myDate from '@/components/my-componets/my-date.vue';
     import configService from '@/common/service/config.service.js'
-
+	import {mapState,mapMutations} from "vuex"
     export default {
         components: {
             appSelect, myImageUpload, myDate, secondPickerVue
@@ -141,6 +141,7 @@
             this.loadinfo();
         },
         methods: {
+			...mapMutations(['changeMyLabelList']),
             getSubStringText(text, len) {
                 if (!text || text.length == 0) {
                     return '';
@@ -161,7 +162,17 @@
                         if (avatar && avatar.length > 0) {
                             this.personalMsg.avatar = api.getFileAccessHttpUrl(avatar);
                         }
+						// console.log(res.data,"数据")
+						// 存一下请求的标签到仓库中
                         this.personalMsg = res.data.result;
+						if(!res.data.result.dreamCompanySign){
+							this.changeMyLabelList([])
+						}else
+						{
+						 	const labelList = res.data.result.dreamCompanySign.split(',');
+							
+							this.changeMyLabelList(labelList)
+						}
                         this.personalMsg.sex = sex === 1 ? '男' : '女';
                         this.personalMsg.sexNum = sex;
                         this.personalMsg.status = status === 1 ? '正常' : '冻结';
