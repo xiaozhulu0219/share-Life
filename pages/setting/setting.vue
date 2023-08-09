@@ -171,7 +171,7 @@
 				// 弹出确框
 				uni.showModal({
 					title:'确认注销',
-					content:'是否注销当前账户',
+					content:'注销当前账户，账户内数据将全部删除，请谨慎操作',
 					success:(res)=>{
 						// console.log(res,"选择")
 						if(res.confirm){
