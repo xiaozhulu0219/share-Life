@@ -103,8 +103,8 @@
     export default {
         components: {
             appSelect,
-			 myImageUpload, 
-			 myDate, 
+			 myImageUpload,
+			 myDate,
 			 secondPickerVue,
 			popupForUpdate,
 			backToHome
@@ -144,7 +144,7 @@
         onShow() {
             this.loadinfo();
         },
-		
+
         methods: {
 			contactqq(){
 				// 联系客服
@@ -184,7 +184,7 @@
 									this.clearUserStoreList()
 									uni.navigateTo({
 										url:'/pages/login/login?from=setting',
-										
+
 									})
 								}
 							})
@@ -193,7 +193,7 @@
 						if(res.cancel){
 							return
 						}
-						
+
 					}
 				})
 			},
@@ -231,7 +231,7 @@
 						console.log( targetObj)
 						this.updateObj = targetObj
 						this.$refs.popup.open();
-						
+
 					}else{
 						console.log("不需要升级");
 						return
@@ -251,13 +251,13 @@
 							this.clearUserStoreList()
 							uni.navigateTo({
 								url:'/pages/login/login?from=setting',
-								
+
 							})
 						}else if(res.cancel){
-							return 
+							return
 						}
-						
-						
+
+
 					}
 				})
 			},

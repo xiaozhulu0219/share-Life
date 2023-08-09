@@ -117,7 +117,7 @@
 					icon:'none'
 				})
 			}
-			
+
 			// #ifdef APP-PLUS
 			var that = this;
 			plus.runtime.getProperty(plus.runtime.appid, function(wgtinfo) {
