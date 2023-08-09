@@ -9,7 +9,10 @@
 				<text class="cuIcon-back"></text>
 				<slot name="backText"></slot>
 			</view>
-
+			<!-- 负一屏的唤醒 -->
+			<view class="left" v-if="!isBack">
+				<slot name="left"></slot>
+			</view>
 			<view class="title">
 				<slot name="title"></slot>
 			</view>

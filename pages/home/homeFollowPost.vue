@@ -10,15 +10,35 @@
 		@refresherrefresh="onRefresh">
 			<view class="follow-post-wrap" v-for="(item,index) in followListStore" :key="item.id">
 				<view class="follow-post-top">
-					<view class="follow-post-top-avatar" @click="toMemberdetail(item.uuId)">
-						<image :src="item.avatar" class="top-avatar" mode="aspectFill"></image>
+					<view class="follow-post-top-left">
+						<view class="follow-post-top-avatar" @click="toMemberdetail(item.uuId)">
+							<image :src="item.avatar" class="top-avatar" mode="aspectFill"></image>
+						</view>
+						<view class="follow-post-top-nickName">
+							{{item.nickname.substr(0, 12)}}
+						</view>
+						<view class="follow-post-publishDate">
+							{{item.createDate}}
+						</view>
 					</view>
-					<view class="follow-post-top-nickName">
-						{{item.nickname.substr(0, 12)}}
+					<view class="follow-post-top-right">
+						<view class="follow-post-body-info">
+							<view class="post-body-info-item ">
+								<view class="cuIcon-location" style="font-size:1.5em"> </view>
+								{{item.ipAddress}}
+							</view>
+							<view class="post-body-info-item ">
+								<view class="cuIcon-like" style="color: #fbbd08;font-size:1.5em" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)">
+								</view>
+								<view class="cuIcon-likefill" style="color: #dd524d;font-size:1.5em" v-else @click="unloveInfor(item.inforId,index)"></view>
+								<view class="card-loveCount">{{item.loveCount}}</view>
+							</view>
+						</view>
 					</view>
-					<view class="follow-post-publishDate">
-						{{item.createDate}}
-					</view>
+					
+				</view>
+				<view class="follow-post-body-text" v-if="!item.imgIsNull" @click="toInformationDetail(item,index)">
+					 {{ item.textContent }}
 				</view>
 				<view class="follow-post-body-img" v-if="!item.imgIsNull" @click="toInformationDetail(item,index)">
 					<image class="body-img-inner" :src="item.medias[0]" mode="widthFix"></image>
@@ -26,21 +46,8 @@
 				<view class="follow-post-body-text-imgnull" v-if="item.imgIsNull" @click="toInformationDetail(item,index)">
 					 {{ item.textContent }}
 				</view>
-				<view class="follow-post-body-info">
-					<view class="post-body-info-item ">
-						<view class="cuIcon-location" style="font-size:1.5em"> </view>
-						{{item.ipAddress}}
-					</view>
-					<view class="post-body-info-item ">
-						<view class="cuIcon-like" style="color: #fbbd08;font-size:1.5em" v-if="item.hasLoved == 0" @click="loveInfor(item.inforId,index)">
-						</view>
-						<view class="cuIcon-likefill" style="color: #dd524d;font-size:1.5em" v-else @click="unloveInfor(item.inforId,index)"></view>
-						<view class="card-loveCount">{{item.loveCount}}</view>
-					</view>
-				</view>
-				<view class="follow-post-body-text" v-if="!item.imgIsNull" @click="toInformationDetail(item,index)">
-					 {{ item.textContent }}
-				</view>
+				
+				
 
 			</view>
 		
@@ -215,30 +222,36 @@
 		background-color: #fff;
 		font-size: 1em;
 		overflow: hidden;
+		box-sizing: border-box;
 	}
 
 	.follow-post-wrap {
-		margin-bottom: 50rpx;
+		/* margin-bottom: 50rpx; */
+		padding-top: 15rpx;
 		padding-bottom: 30rpx;
 		box-sizing: border-box;
-		border-bottom: 1px solid #eee;
+		border-bottom: 3px solid #eee;
 	}
 
 	.follow-post-top {
-		border-bottom:1px solid #eee;
-		box-shadow: 0px 1px 5px 1px #eee;
+		/* border-bottom:1px solid #eee; */
+		/* box-shadow: 0px 1px 5px 1px #eee; */
 		/* border-top:1px solid #eee; */
 		width: 100%;
 		height: 80rpx;
 		/* background-color: rgb(250, 250, 250); */
 		display: flex;
-		justify-content: flex-start;
+		justify-content: space-between;
 		align-items: center;
 		padding: 0 20rpx;
 		box-sizing: border-box;
 		margin-bottom: 20rpx;
 	}
-
+	.follow-post-top-left{
+		display: flex;
+		height:100%;
+		align-items: center;
+	}
 	.follow-post-top-avatar {
 		height: 60rpx;
 		width: 60rpx;
@@ -276,9 +289,11 @@
 	.body-img-inner {
 		width: 100%;
 	}
+	.follow-post-top-right{
+		height:100%;
+	}
 	.follow-post-body-info{
-		margin-top: 20rpx; 
-		height: 60rpx;
+		height:100%;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;
@@ -295,6 +310,7 @@
 		overflow:hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		margin-bottom: 20rpx;
 	}
 	.loading-box{
 		margin-bottom: 30rpx;

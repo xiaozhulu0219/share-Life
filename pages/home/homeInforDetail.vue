@@ -362,7 +362,10 @@
 				this.fromPage = 'follow'
 			} else if (option.from === 'hot') {
 				this.fromPage = 'hot'
+			}else if(option.from ==='infor'){
+				this.fromPage = 'infor'
 			}
+			console.log(this.fromPage)
 			this.fatherIndex = option.index
 			this.myFormData = item;
 			console.log(item)
@@ -1012,12 +1015,13 @@
 								index: this.fatherIndex,
 								count: res.data.result
 							})
-						} else {
+						} else if(this.fromPage === 'infor'){
 							this.loveInforStore({
 								index: this.fatherIndex,
 								count: res.data.result
 							})
 						}
+						
 
 					}
 				});
@@ -1048,12 +1052,13 @@
 								index: this.fatherIndex,
 								count: res.data.result
 							})
-						} else {
+						} else if(this.fromPage ==='infor'){
 							this.unloveInforStore({
 								index: this.fatherIndex,
 								count: res.data.result
 							})
 						}
+						
 
 					}
 				});

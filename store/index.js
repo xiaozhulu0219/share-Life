@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import api from '@/api/api';
 import MinCache from '@/common/util/MinCache.js';
+import { http } from '@/common/service/service.js';
 import {
 	ACCESS_TOKEN,
 	USER_NAME,
@@ -38,9 +39,16 @@ export default new Vuex.Store({
 			size:10
 		},
 		myLabelList:[],
-
+		lovesCount:0,
+		followCount:0,
+		commentsCount:0,
+		userSearchList: JSON.parse(uni.getStorageSync('searchHisList')?uni.getStorageSync('searchHisList'):"[]")|| [],
 	},
+
 	mutations: {
+		// 请求当前未读消息的action方法
+		// 登录成功 或者在app中调用
+		
 		SET_TOKEN: (state, token) => {
 			state.token = token;
 		},
@@ -155,9 +163,55 @@ export default new Vuex.Store({
 			state.followListPage.num = 0;
 			state.hotListStore = [];
 			state.hotListPage.num = 0
+		},
+		changLoveCount(state,payload){
+			state.lovesCount = payload;
+			
+		},
+		changeFollowCount(state,payload){
+			state.followCount = payload;
+		},
+		changeCommentsCount(state,payload){
+			state.commentsCount = payload;
+		},
+		changeSearchList(state,payload){
+			// 判断当前列表有没有新的值
+			// 没有就添加
+			if(!state.userSearchList.includes(payload)){
+				state.userSearchList.push(payload);
+				const targetStorage = JSON.stringify(state.userSearchList)
+				// 存储本地数据
+				uni.setStorage({
+					key:'searchHisList',
+					data: targetStorage,
+				})
+			}else{
+				return
+			}
+		},
+		initSearchList(state){
+			// 删除所有历史记录
+			state.userSearchList = [];
+			uni.setStorage({
+				key:'searchHisList',
+				data: JSON.stringify([]),
+			})
+			
 		}
 	},
 	actions: {
+		getMessageCount(ctx){
+			const listMsgUrl = '/sys/annountCement/listMsg';
+			http.get(listMsgUrl).then(res=>{
+				console.log("拿到当前消息",res)
+				const {commentMsgTotal,focusMsgTotal,loveMsgTotal}= res.data.result;
+				// 改变仓库数据
+				ctx.commit('changLoveCount',loveMsgTotal);
+				ctx.commit('changeFollowCount',focusMsgTotal);
+				ctx.commit('changeCommentsCount',commentMsgTotal);
+			})
+			
+		},
 		// 登录
 		mLogin({
 			commit
@@ -276,6 +330,10 @@ export default new Vuex.Store({
 		uuId: state => {
 			state.uuId = uni.getStorageSync(USER_INFO).uuId;
 			return state.uuId;
+		},
+		totalCount(state){
+			return state.lovesCount+state.followCount+state.commentsCount
 		}
+		
 	}
 });

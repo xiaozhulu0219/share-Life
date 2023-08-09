@@ -6,15 +6,15 @@
             <block slot="title"> 搜索
             </block>
         </commonTab> -->
-			
+		<searchHistory :isShow="historyShow" @searchHistory="handleSearchHistory"></searchHistory>
 		
 		<commonTab :isBack="true" >
 			<block slot="title">
 				<view class="search">
 					<text class="text-gray iconfont icon-search"></text>
-					<input class="uni-input" v-model="inputValue" maxlength="100" v-if="activeTab == 2"
+					<input @focus="handleFocus" class="uni-input" v-model="inputValue" maxlength="100" v-if="activeTab == 2"
 						placeholder="请输入感兴趣的公司简称"></input>
-					<input class="uni-input" v-model="inputValue" maxlength="100" v-else
+					<input @focus="handleFocus"   class="uni-input" v-model="inputValue" maxlength="100" v-else
 						placeholder="请输入感兴趣的动态内容"></input>
 				</view>
 			</block>
@@ -56,7 +56,7 @@
 		<!--        </view>-->
 		<!--        </scroll-view>-->
 		<!--        </view>-->
-		<view class="list-wrap">
+		<view class="list-wrap" @click="historyShow=false" :style="{marginTop:50+topSpace-5+'px'}">
 			<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 				<view v-for="(item,index) in popularList" :key="index" class="card">
 					<!--                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>-->
@@ -97,15 +97,18 @@
 	import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
 	import commonTab from '../component/commonTab.vue';
 	import configService from '@/common/service/config.service.js';
-
+	import searchHistory from "@/pages/home/components/searchHistory.vue"
+	import {mapState,mapMutations} from "vuex";
 	export default {
 		name: "homeSearch",
 		mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
 		components: {
-			commonTab
+			commonTab,
+			searchHistory
 		},
 		data() {
 			return {
+				historyShow:false,
 				pageInfo: {
 					num: 0,
 					size: 10
@@ -151,7 +154,9 @@
 				return function(content) {
 					return `${content.substring(0, 38)}${content.length > 38 ? ' ...' : ''}`;
 				};
-			}
+			},
+			...mapState(['userSearchList'])
+			
 		},
 		created() {
 			//这个方法放在这里 这样获取，真机的时候不行
@@ -175,7 +180,13 @@
 		//     console.log("params过来了11", item)
 		//     console.log("params过来了22", item2)
 		// },
+			
 		methods: {
+			...mapMutations(['changeSearchList','initSearchList']),
+			handleFocus(){
+				console.log("弹出搜索框");
+				this.historyShow = true
+			},
 			// 触底加载
 			reachBottom() {
 				if (!this.hasNext) return;
@@ -280,7 +291,14 @@
 			},
 			//搜索点击接口
 			//这是之前关于搜索页面的一些方法、包括展示历史搜索记录、清空等 以后还得用、现在技术不行 暂时搁置
+			handleSearchHistory(tar){
+				// 直接进行搜索
+				this.inputValue = tar;
+				this.searchList();
+			},
 			searchList() {
+				// 关闭弹框
+				this.historyShow=false
 				if (this.inputValue == '') {
 					uni.showModal({
 						title: '搜索内容不能为空'
@@ -304,7 +322,13 @@
 							key: 'searchList',
 							data: JSON.stringify(this.searchHistoryList)
 						});
+						
+						
 					}
+					// 将当前搜索记录添加一下
+					this.changeSearchList(this.inputValue);
+					
+					console.log(this.searchHistoryList,"搜索历史")
 					if (this.activeTab == 2) {
 						uni.navigateTo({
 							url: '/pages/home/homeComSearchResultPage?item=' + encodeURIComponent(JSON.stringify(
@@ -439,7 +463,7 @@
 		// height: calc(100vh - 280rpx);
 		// margin-top: 200rpx;
 		height: 100vh;
-		margin-top:20rpx ;
+		// margin-top:20rpx ;
 	}
 
 	.card {

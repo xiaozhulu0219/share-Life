@@ -5,9 +5,17 @@
         至于modal的命名无所谓， 比如第一个modal是心理方面的 在返回的标签中 心理是1 那就将1作为参数获取列表
         所有标签页获取数据公用一个接口，根据传的标签值（类型）后台返回不同的领域的数据
         -->
+		<negativeOneScreen 
+		:nScreenShow="isNScreenShow"
+		@nScreenHide="handleNScreenHide"></negativeOneScreen>
 		<!-- <scroll-view scroll-y class="page"> -->
 		<commonTab :bgColor="NavBarColor">
 			<!-- <block slot="title"> ShareLife</block> -->
+			<block slot="left">
+				<view class="cuIcon-more" @click="isNScreenShow=true" style="font-size:1.3em">
+					
+				</view>
+			</block>
 			<block slot="title">
 				<text class="title-item" :class="{active:activeFirstTab===0}" @tap="handleChangeTabActive(0)" > 关注</text>|
 				<text class="title-item" :class="{active:activeFirstTab===1}" @tap="handleChangeTabActive(1)">首页</text>|
@@ -37,8 +45,8 @@
 				<!-- <button type="default" @click="pageNext">测试</button> -->
 				<!-- 下方是正文内容 -->
 				<view class="" >
-					<homeHelpCompanyModal v-if="activeTab.value==2" class="home-helpCompany"></homeHelpCompanyModal>
-					<homeModal v-else></homeModal>
+					<homeHelpCompanyModal v-show="activeTab.value==2" class="home-helpCompany"></homeHelpCompanyModal>
+					<homeModal v-show="activeTab.value!==2" :activeTab="activeTab" ></homeModal>
 				</view>
 			</view>
 
@@ -69,6 +77,7 @@
 	import mySwiper from "@/patch/swiper.js"
 	import followPost from "./homeFollowPost.vue"
 	import hotPage from "./homeHotPage.vue"
+	import negativeOneScreen from "@/pages/home/components/NegativeOneScreen.vue"
 	export default {
 		mixins: [MescrollMixin, Mixin, MescrollMoreMixin, mySwiper],
 		components: {
@@ -79,10 +88,12 @@
 			commonTab,
 			listComponent,
 			followPost,
-			hotPage
+			hotPage,
+			negativeOneScreen
 		},
 		data() {
 			return {
+				isNScreenShow:false,
 				homeTotalTabs:[],
 				tabIndicator:[],
 				activeFirstTab: 1,
@@ -139,8 +150,14 @@
 			//    console.log('1111111111111', curTab);
 			//   this.getActiveTab(curTab+1)
 			// },
+			handleNScreenHide(){
+				// 隐藏负一屏
+				this.isNScreenShow= false
+			},
 			handleGetHomeTotalTab(tabs){
 				// 拿到所有的home的活跃tab
+				
+				
 				this.homeTotalTabs= tabs;
 				console.log(',,,,,',this.homeTotalTabs)
 			},
@@ -155,6 +172,7 @@
 			getActiveTab(item) {
 				// console.log("我运行了,当前的tab",item)
 				this.activeTab = item;
+				console.log(item)
 				console.log('切换tab1', item.value);
 				console.log('切换tab2', this.activeTab.value);
 				// 
@@ -279,6 +297,7 @@
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
+		position: relative;
 	}
 	.follow-page{
 		// background-color:red;

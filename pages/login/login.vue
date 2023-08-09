@@ -140,7 +140,7 @@
 			}
 		},
 		methods: {
-			...mapActions(['newMLogin', 'PhoneLogin', 'ThirdLogin']),
+			...mapActions(['newMLogin', 'PhoneLogin', 'ThirdLogin','getMessageCount']),
       // 忘记密码
       goForgetPass() {
 				uni.navigateTo({
@@ -207,6 +207,8 @@
 						// #endif
 						// #ifndef APP-PLUS
 						this.$tip.success('登录成功!');
+						// 请求消息数据
+						this.getMessageCount()
 						this.$Router.replaceAll({
 							name: 'index'
 						});

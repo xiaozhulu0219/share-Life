@@ -34,8 +34,8 @@
                 </view>
             </view>
         </view>
-
-        <bottomTab PageCur="message"></bottomTab>
+		
+        <bottomTab PageCur="message" ></bottomTab>
     </view>
 
 </template>
@@ -46,7 +46,7 @@
     import MescrollMoreMixin from '@/components/mescroll-uni/mixins/mescroll-more.js';
     import bottomTab from '../component/bottomTab.vue';
     import commonTab from '../component/commonTab.vue';
-
+	import {mapMutations} from "vuex";
     export default {
         name: 'message',
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
@@ -82,8 +82,9 @@
         computed: {
             msgTotal() {
                 //return parseInt(this.msg1Count) + parseInt(this.msg2Count) + parseInt(this.msg3Count) + parseInt(this.msg4Count) + parseInt(this.msg5Count);
+				// 将数组存到本地存储中
                 return parseInt(this.msg3Count) + parseInt(this.msg4Count) + parseInt(this.msg5Count);
-            }
+            },
         },
         mounted() {
             this.loadData();
@@ -93,6 +94,7 @@
 			this.loadData();
 		},
         methods: {
+			...mapMutations(['changLoveCount','changeFollowCount','changeCommentsCount']),
             timerFun() {
                 this.stopTimer = false;
                 const myTimer = setInterval(() => {
@@ -118,16 +120,24 @@
                             //this.msg2Count = res.data.result.sysMsgTotal;
                             //this.msg2Title = "系统消息(" + res.data.result.sysMsgTotal + ")";
                             //this.announcement3 = res.data.result.loveMsgList;
+							
+							// 同步改变仓库里面的数据
+							// loadData会改变未读消息的数量
+							
                             this.msg3Count = res.data.result.loveMsgTotal;
+							this.changLoveCount(this.msg3Count );
+						
                             this.msg3Title = '赞和收藏(' + res.data.result.loveMsgTotal + ')';
                             //console.log("announcement3 的数据为",this.announcement3)
                             console.log('msg3ount 的数据为', this.msg3Count);
                             console.log('msg3Title 的数据为', this.msg3Title);
                             //this.announcement4 = res.data.result.focusMsgList;
                             this.msg4Count = res.data.result.focusMsgTotal;
+							this.changeFollowCount(this.msg4Count)
                             this.msg4Title = '新增关注(' + res.data.result.focusMsgTotal + ')';
                             //this.announcement5 = res.data.result.commentMsgList;
                             this.msg5Count = res.data.result.commentMsgTotal;
+							this.changeCommentsCount(this.msg5Count )
                             this.msg5Title = '评论和@(' + res.data.result.commentMsgTotal + ')';
                         }
                     }).catch(error => {

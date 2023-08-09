@@ -4,6 +4,9 @@
         <commonTab :isBack="true" :backRouterName="backRouteName">
             <block slot="title"> ShareLife
             </block>
+			<block slot="right" >
+				<backToHome style="font-size:1.4em;"></backToHome>
+			</block>
         </commonTab>
         <view class="card">
             <view class="list-wrap">
@@ -40,14 +43,15 @@
     import homeModal from './homeInforModal.vue'
     import configService from '@/common/service/config.service.js'
     import commonTab from "../component/commonTab";
-
+	import backToHome from "@/pages/component/backToHome.vue"
     export default {
         name: "homeSearchResultPage",
         mixins: [],
         components: {
             HomeSignModal,
             homeModal,
-            commonTab
+            commonTab,
+			backToHome
         },
         data() {
             return {

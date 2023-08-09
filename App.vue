@@ -1,8 +1,14 @@
 <script>
 	import Vue from 'vue'
 	import appUpdate from 'common/util/appUpdate.js'
+	import {mapActions} from "vuex";
 	export default {
+		methods:{
+			// 调用获取未读消息的方法
+			...mapActions(['getMessageCount'])
+		},
 		onLaunch: function() {
+			this.getMessageCount()
 			uni.getSystemInfo({
 				success: function(e) {
 

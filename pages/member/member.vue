@@ -265,9 +265,12 @@
 </script>
 
 <style>
+	.page{
+		background-color: rgba(0, 0, 0, .5);
+	}
 	.spaceTop{
 		width:100%;
-		 background-color: rgba(0, 0, 0, .5);
+		 /* background-color: rgba(0, 0, 0, .5); */
 	}
     .UCenter-bg {
         /* #ifdef MP-WEIXIN */
@@ -277,8 +280,8 @@
         /* background-image: url('/static/blue.png'); */
         /* #endif */
         /* background-size: cover; */
-        background-color: rgba(0, 0, 0, .5);
-        height: 500rpx;
+        /* background-color: rgba(0, 0, 0, .5); */
+        max-height: 500rpx;
         /* display: flex; */
         /* justify-content: center; */
         /* padding-top: 40rpx; */
@@ -322,7 +325,7 @@
     .UCenter-bg .signature {
         margin-top: -30rpx;
         width: 100%;
-        height: 110rpx;
+        max-height: 115rpx;
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
@@ -360,7 +363,7 @@
 
     .mine-tab {
         position: relative;
-        top: -50rpx;
+        /* top: -50rpx; */
         height: calc(100vh - 200rpx - env(safe-area-inset-bottom) / 2);
         background-color: #fff;
         border-radius: 30rpx 30rpx 0 0;

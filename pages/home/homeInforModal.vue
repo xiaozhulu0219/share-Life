@@ -54,6 +54,7 @@
 </template>
 
 <script>
+	
 	import configService from '@/common/service/config.service.js';
 	import popForList from "@/pages/publish/popForList.vue"
 	// import {subscrib} from "../../common/util/eventBus.js";
@@ -95,6 +96,32 @@
 			},
 			...mapState(['homeListStore', 'pageInfoStore','uuId']),
 			
+		},
+		props:{
+			activeTab:Object
+		},
+		watch:{
+			'activeTab.value':{
+				handler(newVal){
+					console.log("active变了",newVal)
+					console.log(newVal,"新的值")
+					if(newVal!=='2'){
+						// 不是公司列表就进行请求
+						// 清空当前的home列表
+						this.changehomeListStore([]);
+						this.initPage([]);
+						// 重新请求列表
+						this.getHomePublishInforList()
+					}else{
+						// console.log("由另外一个页面进行渲染")
+						return
+					}
+					
+					
+					
+					
+				}
+			}
 		},
 		created() {
 			//activated() {
@@ -257,11 +284,13 @@
 						size
 					}
 				} = this;
-				console.log(num, "请求的参数第几页")
+				console.log(num, "请求的参数第几页");
+				console.log("请求的分类",this.activeTab.value)
 				this.$http.get(homeListUrl, {
 					params: {
 						page: num,
-						pagesize: size
+						pagesize: size,
+						type:this.activeTab.value
 					}
 				}).then(res => {
 					const {
@@ -321,7 +350,7 @@
 				// 存一下item.id
 
 				uni.navigateTo({
-					url: '/pages/home/homeInforDetail?index=' + index + '&item=' + encodeURIComponent(JSON
+					url: '/pages/home/homeInforDetail?from=infor&index=' + index + '&item=' + encodeURIComponent(JSON
 						.stringify(item))
 				});
 			},
