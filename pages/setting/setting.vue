@@ -45,6 +45,14 @@
                 </view>
             </view>
             <view class="cu-list menu">
+                <navigator class="cu-item" url="/pages/user/userexit">
+                    <text class="cuIcon-share" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
+                    <view class="content"><!-- 设置页面涉及新增页面的，都放在setting目录下 -->
+                        <text class="text-grey" style="font-size: 40rpx;">产品建议</text>
+                    </view>
+                </navigator>
+            </view>
+            <view class="cu-list menu">
                 <view class="cu-item" url="/pages/user/userexit" @click="contactqq">
                     <text class="cuIcon-service" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
