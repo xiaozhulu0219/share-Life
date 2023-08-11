@@ -5,15 +5,20 @@
             <cu-custom bgColor="bg-gradual-pink" :isBack="true">
                 <block slot="backText">返回</block>
                 <block slot="content">编辑资料</block>
+				<block slot="right">
+					<backToHome></backToHome>
+				</block>
             </cu-custom>
 
             <!-- list列表 -->
             <view class="cu-list menu">
-                <view class="cu-item" :style="[{animationDelay: '0.1s'}]">
-                    <view class="img" @tap="changeAvatar">
+                <view class="cu-item"  :style="[{animationDelay: '0.1s'}]">
+                    <view class="img imgwrap" @tap="changeAvatar">
                         <!--	<img src="../../static/avatar_boy.png" mode="" class="png round" style="width: 90px;height: 90px;top: 20%;left: 50%;"></img>-->
-                        <image class="cu-avatar round sm" :src="fileUrl+personalMsg.avatar" alt="" style="width: 90px;height: 90px;top: 20%;left: 50%;"></image>
-                        <text class="cuIcon-cameraaddfill cameraadd"></text>
+                        <image class="cu-avatar round sm " :src="fileUrl+personalMsg.avatar" alt="" style="width: 90px;height: 90px;top: 20%;left: 50%;">
+							<text  class="cuIcon-cameraaddfill cameraadd"></text>
+						</image>
+						
                     </view>
                 </view>
             </view>
@@ -109,10 +114,11 @@
     import myImageUpload from '@/components/my-componets/my-image-upload.vue';
     import myDate from '@/components/my-componets/my-date.vue';
     import configService from '@/common/service/config.service.js'
-	import {mapState,mapMutations} from "vuex"
+	import {mapState,mapMutations} from "vuex";
+	import backToHome from "@/pages/component/backToHome.vue";
     export default {
         components: {
-            appSelect, myImageUpload, myDate, secondPickerVue
+            appSelect, myImageUpload, myDate, secondPickerVue,backToHome
         },
         data() {
             return {
@@ -303,17 +309,18 @@
 
     .img {
         cursor: pointer;
+		/* background-color: antiquewhite; */
         margin-top: -45rpx;
+		/* position: relative */
     }
-
+	.imgwrap{
+		position: relative;
+	}
     .cameraadd {
-        //cursor: pointer;
-        margin-top: -20rpx;
-        border-radius: 50%;
-        margin-left: 255rpx;
-        //margin-right: 255rpx;
-        margin-bottom: 20rpx;
-
+        /* position: absolute; */
+		position: absolute;
+		bottom:20rpx;
+		right:40rpx;
     }
 
 </style>

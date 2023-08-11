@@ -1,6 +1,6 @@
 <template>
 	<!--点击用户头像跳转的用户页（区别于用户自己看自己的个人页）-->
-	<view>
+	<view class="memberDetial-container">
 		<commonTab :isBack="true">
 			<block slot="title">
 				用户详情
@@ -17,7 +17,7 @@
 			<!-- <cu-custom style="" isBack="t" :backRouterName="backRouteName">
                 <block slot="backText"></block>
             </cu-custom> -->
-
+			
 			<view class="UCenter-bg">
 
 				<!-- 回到首页 -->
@@ -90,6 +90,7 @@
 			</view>
 
 			<view class="mine-tab">
+				
 				<view class="tab-title flex justify-center">
 					<view class="padding-sm" v-for="(item,index) in tabs" :key="index" @tap="clickTab(index)">
 						<text class="tab-item" :class="activeTab === index ? 'active' : ''">{{item.name}}</text>
@@ -100,7 +101,7 @@
 						<view class="" style="height:100%" v-if="index === 0">
 							<scroll-view class="scroll" scroll-y="true" @scrolltolower="reachBottom">
 								<view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde"
-									class="card-PublishInfor"  @click="toMemInformationDetail(ite)">
+									class="card-PublishInfor" @click="toMemInformationDetail(ite)">
 									<image class="medias_size" :src="ite.medias[0]" mode="widthFix" alt=""></image>
 									<view>{{ ite.textContent.substr(0, 35) }}</view>
 								</view>
@@ -124,7 +125,7 @@
 						<view class="" style="height: 100%;" v-if="index === 2">
 							<scroll-view class="scroll" scroll-y="true">
 								<view v-for="(ite,inde) in focusOrFansLoveInforList" :key="inde"
-									class="card-PublishInfor" >
+									class="card-PublishInfor">
 									<image class="medias_size" :src="ite.medias[0]" mode="widthFix" alt=""></image>
 									<view>{{ ite.textContent.substr(0, 35) }}</view>
 								</view>
@@ -212,7 +213,7 @@
 				focusOrFansLoveInforList: [],
 				focusOrFansHelpList: [],
 				pagenum: 0,
-				publishinforNext :true,
+				publishinforNext: true,
 			};
 		},
 		watch: {
@@ -301,10 +302,10 @@
 				this.$refs.popforlist.open()
 			},
 			changeSwiper(e) {
-				
+
 				const curTab = e.detail.current;
 				this.activeTab = curTab;
-				console.log(this.activeTab,"获取")
+				console.log(this.activeTab, "获取")
 			},
 			scan() {
 				console.log('进来了');
@@ -348,7 +349,7 @@
 			},
 			//获取用户公开的动态列表
 			getFocusOrFansPublishInforList(item) {
-				if(!this.publishinforNext){
+				if (!this.publishinforNext) {
 					console.log("没有数据来 返回")
 					return;
 				}
@@ -361,11 +362,14 @@
 						uuId: item
 					}
 				}).then(res => {
-					
+
 					if (res.data.success) {
-						const {pages,page}= res.data.result
-						this.publishinforNext = (pages>page)?true:false;
-						console.log("res.data.result:",res.data.result);
+						const {
+							pages,
+							page
+						} = res.data.result
+						this.publishinforNext = (pages > page) ? true : false;
+						console.log("res.data.result:", res.data.result);
 						//console.log("数据条数:",res.data.result.items.length);
 						for (let d of res.data.result.items) {
 							let arr = d.medias.split(',')
@@ -550,6 +554,8 @@
 </script>
 
 <style>
+	.memberDetial-container {}
+
 	.icon-bar {
 		position: absolute;
 		right: 30rpx;
@@ -567,7 +573,7 @@
 
 	.UCenter-bg {
 		background-color: rgba(0, 0, 0, .5);
-		height: 500rpx;
+		max-height: 500rpx;
 		overflow: hidden;
 		color: #fff;
 		position: relative;
@@ -578,6 +584,7 @@
 		padding: 10rpx 20rpx;
 		border: 2rpx solid #fff;
 		border-radius: 30rpx;
+		
 	}
 
 	.UCenter-bg image {
@@ -593,7 +600,7 @@
 	.UCenter-bg .signature {
 		margin-top: -30rpx;
 		width: 100%;
-		height: 110rpx;
+		max-height: 110rpx;
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
@@ -629,6 +636,17 @@
 		height: 300rpx;
 	}
 
+	/* .lower-bg {
+		position: absolute;
+		height: 200rpx;
+		width: 100%;
+		background-color: red;
+		top:0rpx;
+		left: -20rpx;
+		z-index: 22;
+		border-radius: 0rpx;
+	} */
+
 	.mine-tab {
 		position: relative;
 		top: -50rpx;
@@ -638,11 +656,12 @@
 		border-radius: 30rpx 30rpx 0 0;
 		margin-top: 50rpx;
 		overflow-y: scroll;
+		
 	}
 
 	.swiper-item {
 		height: 100%;
-		/* overflow-y: scroll; */
+		overflow-y: scroll;
 	}
 
 	.scroll {
@@ -719,11 +738,13 @@
 			font-size: 20rpx;
 		}
 	}
-	.isNext{
+
+	.isNext {
 		text-align: center;
-		color:#ccc;
+		color: #ccc;
 		margin-top: 20rpx;
 	}
+
 	.tab-title .padding-sm .tab-item {
 		margin: 0 30rpx;
 	}

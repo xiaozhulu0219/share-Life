@@ -6,9 +6,7 @@
                 <block slot="backText">返回</block>
                 <block slot="content">设置</block>
                 <!--<view slot="right"  @tap="rightClick">编辑</view>-->
-				<block slot="right">
-					<backToHome></backToHome>
-				</block>
+				
             </cu-custom>
 
             <!-- list列表 -->
@@ -107,7 +105,6 @@
     import configService from '@/common/service/config.service.js'
 	import {mapMutations,mapState} from "vuex"
 	import popupForUpdate from "@/pages/component/popForUpdate.vue"
-	import backToHome from "@/pages/component/backToHome.vue"
     export default {
         components: {
             appSelect,
@@ -115,7 +112,6 @@
 			 myDate,
 			 secondPickerVue,
 			popupForUpdate,
-			backToHome
         },
 		computed:{
 			...mapState(['homeListStore','hotListStore'])

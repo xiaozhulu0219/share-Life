@@ -11,6 +11,7 @@
             <view  :class="PageCur == 'message' ? 'action text-blue' : 'action text-gray'" @click="NavChange('message')">
 				
                 <view class="messagePos cuIcon-message">
+					
 					<view  class="messageNum" v-if="totalCount>0">
 					{{totalCount}}
 					</view>
@@ -73,7 +74,7 @@ export default {
 		width:40rpx;
 		background-color: red;
 		position: absolute;
-		top:-80%;
+		top:-20%;
 		right:0;
 		color: #fff;
 		border-radius: 50%;
