@@ -15,6 +15,11 @@
 			nScreenShow:Boolean
 		},
 		methods:{
+			handleStart(){
+				uni.navigateTo({
+					url:"/pages"
+				})
+			},
 			handleClick(){
 				// 回到首页
 				this.$emit('nScreenHide')

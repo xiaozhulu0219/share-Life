@@ -8,6 +8,10 @@
 			...mapActions(['getMessageCount'])
 		},
 		onLaunch: function() {
+			// 跳转启动页面
+			uni.reLaunch({
+				url:'/pages/engine/engine'
+			})
 			this.getMessageCount()
 			uni.getSystemInfo({
 				success: function(e) {

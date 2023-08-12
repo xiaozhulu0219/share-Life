@@ -102,7 +102,7 @@
 							<scroll-view class="scroll" scroll-y="true" @scrolltolower="reachBottom">
 								<view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde"
 									class="card-PublishInfor" @click="toMemInformationDetail(ite)">
-									<image class="medias_size" :src="ite.medias[0]" mode="widthFix" alt=""></image>
+									<image class="medias_size"  :src="ite.medias[0]" mode="widthFix" alt=""></image>
 									<view>{{ ite.textContent.substr(0, 35) }}</view>
 								</view>
 								<view class="isNext" v-if="!publishinforNext">
@@ -120,7 +120,7 @@
 								<view class="card-location">{{it.commentCreateDate}}</view>
 								<view class="card-text">{{it.content}}</view>
 							</view>
-							这是主力
+							<!-- 这是主力 -->
 						</view>
 						<view class="" style="height: 100%;" v-if="index === 2">
 							<scroll-view class="scroll" scroll-y="true">
@@ -383,6 +383,7 @@
 						if (this.focusOrFansPublishInforList.length > 0) {
 							// 进行触底加载
 							this.focusOrFansPublishInforList.push(...res.data.result.items);
+							// console.log(this.focusOrFansPublishInforList,"嘻嘻嘻")
 						} else {
 							this.focusOrFansPublishInforList = res.data.result.items
 						}
@@ -553,7 +554,7 @@
 	};
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.memberDetial-container {}
 
 	.icon-bar {
@@ -688,11 +689,10 @@
 	}
 
 	.card-PublishInfor {
-		background-color: $uni-bg-color-grey;
+		background-color:$uni-bg-color-grey;
 		padding: 20rpx 20rpx;
-		padding-bottom: 0rpx;
 		border-radius: 20rpx;
-		margin-bottom: 20rpx;
+		margin-bottom: 30rpx;
 
 		.card-title {
 			font-weight: bold;
@@ -716,6 +716,7 @@
 		height: 180px;
 		height: expression(this.height > 180 ? "180px" : this.height);
 		overflow: hidden;
+		margin-bottom: 20rpx;
 	}
 
 	.card-Help {

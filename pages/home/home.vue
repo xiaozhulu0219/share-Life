@@ -30,9 +30,8 @@
 
 
 
-
-		<view class="mySwiper" @touchstart="handleDragStart" @touchend="handleDragEnd">
-			<view class="follow-page" v-if="activeFirstTab===0">
+		<view class="mySwiper" >
+			<view class="follow-page" v-if="activeFirstTab===0" @touchstart="handleDragStart" @touchend="handleDragEnd">
 				<followPost></followPost>
 			</view>
 			<view v-show="activeFirstTab===1">
@@ -44,13 +43,13 @@
 				></HomeSignModal>
 				<!-- <button type="default" @click="pageNext">测试</button> -->
 				<!-- 下方是正文内容 -->
-				<view class="" >
-					<homeHelpCompanyModal v-show="activeTab.value==2" class="home-helpCompany"></homeHelpCompanyModal>
+				<view class="" @touchstart="handleDragStart" @touchend="handleDragEnd">
+					<homeHelpCompanyModal v-show="activeTab.value==2"  class="home-helpCompany"></homeHelpCompanyModal>
 					<homeModal v-show="activeTab.value!==2" :activeTab="activeTab" ></homeModal>
 				</view>
 			</view>
 
-			<view class="hot-page" v-if="activeFirstTab===2">
+			<view class="hot-page" v-if="activeFirstTab===2" @touchstart="handleDragStart" @touchend="handleDragEnd">
 				<hotPage></hotPage>
 			</view>
 		</view>

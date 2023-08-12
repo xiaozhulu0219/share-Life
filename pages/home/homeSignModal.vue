@@ -3,10 +3,10 @@
 	<view class="menu-scroll">
 		<scroll-view class="menu-tab" 
 		:scroll-left="disX"
-		:scroll-x="true" @scroll="scroll" :scroll-with-animation="true">
+		:scroll-x="true" @scroll.stop.prevent="scroll" :scroll-with-animation="true">
 			<view class="menu-wrap">
 				<view v-for="(item, index) in tabs" :class="[{'active' : activeTab === index}, 'tab']" :key="index"
-					@tap="clickTab(item,index)">
+					@click="clickTab(item,index)">
 					{{ item.title }}
 				</view>
 			</view>
@@ -55,7 +55,7 @@
 			})
 		},
 		methods: {
-
+			handleMove(){},
 			clickTab(item, index) {
 				// if (this.activeTab === item.value - 1) return;
 				if (this.activeTab === index) return;
@@ -68,7 +68,8 @@
 			},
 			scroll(e) {
 				// console.log(e)
-				console.log(e, "这里")
+				console.log(e, "这里");
+				e.stopPropagation();
 			},
 			countDis(index) {
 				// 计算当前活跃的tab滑动到页面中间走过的距离

@@ -1,6 +1,13 @@
 <template>
     <view class="list-wrap">
-        <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
+        <scroll-view scroll-y 
+		@scrolltolower="reachBottom"  
+		style="height: 100%;"
+		refresher-enabled="true"
+		:refresher-triggered="triggered" 
+		:refresher-threshold="100" 
+		refresher-background="#fff"
+		@refresherrefresh="onRefresh">
 
             <view v-for="(item,index) in homeComList" :key="index" class="card"
                   @click="toHomeHelpCompanyDetail(item)">
@@ -33,6 +40,7 @@
     export default {
         data() {
             return {
+				triggered:false,
                 pageInfo: {
                     num: 0,
                     size: 20
@@ -49,6 +57,14 @@
             this.getHomeComList();
         },
         methods: {
+			// 下拉刷新
+			async onRefresh(){
+				this.triggered = true;
+				this.pageInfo.num=0;
+				await this.getHomeComList();
+				this.triggered = false;
+				
+			},
             // 触底加载
             reachBottom() {
                 if (!this.hasNext) return;
@@ -60,7 +76,7 @@
                 this.isDownLoading = true;
                 this.pageInfo.num++;
                 const { comListUrl, pageInfo: { num, size } } = this;
-                this.$http.get(comListUrl, {
+              return   this.$http.get(comListUrl, {
                     params: { page: num, pagesize: size }
                 }).then(res => {
                     const { success, result } = res.data;

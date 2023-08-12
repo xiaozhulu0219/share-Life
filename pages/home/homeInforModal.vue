@@ -1,6 +1,9 @@
 <template>
 	<view class="list-wrap">
-		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;" refresher-enabled="true"
+		<scroll-view scroll-y 
+		@scrolltolower="reachBottom" 
+		style="height: 100%;" 
+		refresher-enabled="true"
 			:refresher-triggered="triggered" :refresher-threshold="100" refresher-background="#fff"
 			@refresherrefresh="onRefresh">
 			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index" class="card" 
@@ -83,6 +86,7 @@
 				homeListUrl: '/information/movements/findHomePublishInforList',
 				homeList: [], // 上拉加载的配置(可选, 绝大部分情况无需配置)
 				fileUrl: configService.fileSaveURL,
+				activeType:''
 			};
 		},
 		components:{
@@ -105,17 +109,35 @@
 				handler(newVal){
 					console.log("active变了",newVal)
 					console.log(newVal,"新的值")
-					if(newVal!=='2'){
-						// 不是公司列表就进行请求
-						// 清空当前的home列表
+					if(newVal==='1'){
+						// 请求推荐接口
+						this.homeListUrl='/information/movements/findHomePublishInforList'
 						this.changehomeListStore([]);
 						this.initPage([]);
 						// 重新请求列表
 						this.getHomePublishInforList()
-					}else{
-						// console.log("由另外一个页面进行渲染")
+					}else if(newVal==='2'){
 						return
+					}else{
+						// 需要调用其他接口
+						this.activeType = newVal;
+						
+						this.homeListUrl='/inforcommon/findInforPageByTabType';
+						this.changehomeListStore([]);
+						this.initPage([]);
+						this.getHomePublishInforList()
 					}
+					// if(newVal==='2'){
+					// 	// 不是公司列表就进行请求
+					// 	// 清空当前的home列表
+					// 	this.changehomeListStore([]);
+					// 	this.initPage([]);
+					// 	// 重新请求列表
+					// 	this.getHomePublishInforList()
+					// }else{
+					// 	// console.log("由另外一个页面进行渲染")
+					// 	return
+					// }
 					
 					
 					
@@ -285,12 +307,12 @@
 					}
 				} = this;
 				console.log(num, "请求的参数第几页");
-				console.log("请求的分类",this.activeTab.value)
-				this.$http.get(homeListUrl, {
+				console.log("请求的分类",this.activeTab.value);
+				return this.$http.get(homeListUrl, {
 					params: {
 						page: num,
 						pagesize: size,
-						type:this.activeTab.value
+						type:this.activeType
 					}
 				}).then(res => {
 					const {

@@ -264,7 +264,7 @@
     };
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.page{
 		background-color: rgba(0, 0, 0, .5);
 	}
