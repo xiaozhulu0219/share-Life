@@ -83,9 +83,15 @@
 			},
 			toMemInformationDetail(item) {
 				console.log("点击跳转到详情页", item)
+				// 直接跳转到动态页面
+				
 				uni.navigateTo({
-					url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
-				})
+					url: '/pages/home/homeInforDetail?from=member' + '&item=' + encodeURIComponent(JSON
+						.stringify(item))
+				});
+				// uni.navigateTo({
+				// 	url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
+				// })
 			},
 
 		}

@@ -27,6 +27,7 @@
 
 <script>
 	import configService from '../../common/service/config.service.js'
+	
 	export default {
 		name: 'MyImageUpoad',
 		// props: {
@@ -45,9 +46,19 @@
 		// },
 		props: ['value'],
 		mounted() {
+			console.log(this.value,"图片数组")
 			this.value.forEach(res => {
-				this.imgList.push(res)
-			})
+				this.imgList.push(res);
+				const tempStr = res.replace(configService.fileSaveURL,'')
+				this.pathlist.push(tempStr)
+			});
+			console.log(this.imgList,'列表1')
+			console.log(this.pathlist)
+			// 初始化pathlist 
+			// PathList 是用来提交图片列表的
+			//imgList是用来渲染当前图片列表
+			
+			
 		},
 		data() {
 			return {
@@ -59,20 +70,29 @@
 		},
 		methods: {
 			ChooseImage() {
+				// 长度需要减去当前的图片列表长度
 				uni.chooseImage({
-					count: this.maxImg, //默认9
+					count: this.maxImg - this.pathlist.length, //默认9
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
 					sourceType: ['album', 'camera'], //从相册选择
 					success: (res) => {
+						console.log(res,"选择成功")
 						for (let i = 0; i < res.tempFilePaths.length; i++) {
 							uni.uploadFile({
 								url: `${configService.fileUploadURL}`,
 								filePath: res.tempFilePaths[i],
 								name: 'file',
 								success: (uploadFileRes) => {
+									// console.log("上传成功后",uploadFileRes)
 									let path = JSON.parse(uploadFileRes.data).message
+									// console.log(path,"图片路径")
 									this.pathlist.push(path);
+									// console.log(this.pathlist,"数组");
+									//imgList同时改变
+									this.imgList.push(res.tempFilePaths[i])
 									this.$emit('input', this.pathlist.join(','))
+									// 在这里添加
+									
 								}
 							})
 							//这是之前的
@@ -82,7 +102,10 @@
 							// 	this.imgList = res.tempFilePaths
 							// }
 							//这是为了同时可选择多张做的修改后的版本
-							this.imgList = res.tempFilePaths
+							// console.log(this.imgList,"原始列表");
+							// console.log( res.tempFilePaths,"路径")
+							// this.imgList = res.tempFilePaths;
+							
 						}
 					}
 				});

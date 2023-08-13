@@ -1,11 +1,19 @@
 <template>
 	<!--这个是首页点击动态后跳转的动态详情页-->
 	<view class="container">
-		<commonTab :isBack="true" :backRouterName="backRouteName">
+		<commonTab v-if="this.fromPage!=='member'" :isBack="true" :backRouterName="backRouteName">
 			<block slot="title">
 				<image class="medias_avatar round" :src="myFormData.avatar" alt=""
 					@click="toMemberdetail(myFormData.uuId)" style="margin-right: 20rpx"></image>
 				{{myCommentForm.nickname}}
+			</block>
+		</commonTab>
+		<commonTab v-if="this.fromPage==='member'" :isBack="true" >
+			<block slot="title">
+				<text>动态详情</text>
+			</block>
+			<block slot="right" >
+			    <view @click="showModal" class="cuIcon-more" style="font-size:2em"></view>
 			</block>
 		</commonTab>
 		<view class="card" :style="{marginTop:CustomBar+'px'}" >
@@ -185,7 +193,7 @@
 		@reportSubmit="handleSubmitRepot"
 		@deleteSubmit="handleSubmitDelete"
 		></popForList>
-		
+		<ToEditPublishPopup ref='toEditPublishPopup' :myFormData="myFormData"></ToEditPublishPopup>
 
 	</view>
 
@@ -197,6 +205,7 @@
 	import commonTab from '../component/commonTab.vue';
 	import commentPanel from "./components/commentPanel.vue"
 	import popForList from "@/pages/publish/popForList.vue"
+	import ToEditPublishPopup from '@/pages/member/toEditPublishPopup.vue';
 	import {
 		mapMutations,
 		mapState
@@ -212,7 +221,8 @@
 			myDate,
 			commonTab,
 			commentPanel,
-			popForList
+			popForList,
+			ToEditPublishPopup
 		},
 		props: {
 			formData: {
@@ -224,7 +234,18 @@
 
 		data() {
 			return {
+				myFormData: {
+				    latitude: '',
+				    longitude: '',
+				    location: '',
+				    medias: '',
+				    textContent: '',
+				    uuId: '',
+				    avatar: '',
+				    id: ''
+				},
 				// 重置当前的滚动条
+				
 				popupInfo:{},
 				isLongPress: false,
 				longpressTimer: null,
@@ -364,6 +385,9 @@
 				this.fromPage = 'hot'
 			}else if(option.from ==='infor'){
 				this.fromPage = 'infor'
+			}else if(option.from ==='member'){
+				// 从个人资料过来
+				this.fromPage = 'member'
 			}
 			console.log(this.fromPage)
 			this.fatherIndex = option.index
@@ -373,8 +397,12 @@
 			console.log('this.myFormData2:', this.myFormData.medias);
 			console.log('this.myFormData3:', this.myFormData.medias.length);
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
+			this.myFormData = item
 		},
 		methods: {
+			showModal() {
+			    this.$refs.toEditPublishPopup.showModal();
+			},
 			handleSubmitRepot(target,cb){
 				// 举报评论
 				// 不分一级二级
@@ -555,7 +583,7 @@
 				})
 			},
 			...mapMutations(['unloveInforStore', 'loveInforStore', 'loveInforFollowStore', 'unloveInforFollowStore',
-				'loveInforHotStore', 'unloveInforHotStore','changehomeListStore','initPage'
+				'loveInforHotStore', 'unloveInforHotStore','changehomeListStore','initPage','clearUserStoreList'
 			]),
 			handleCancelComment() {
 				this.commentShow = false;
@@ -1020,6 +1048,9 @@
 								index: this.fatherIndex,
 								count: res.data.result
 							})
+						}else if(this.fromPage==='member'){
+							// 从资料详情中进入  点赞数改变重新刷新首页列表
+							this.clearUserStoreList()
 						}
 						
 
@@ -1057,6 +1088,9 @@
 								index: this.fatherIndex,
 								count: res.data.result
 							})
+						}else if(this.fromPage==='member'){
+							// 从资料详情中进入  点赞数改变重新刷新首页列表
+							this.clearUserStoreList()
 						}
 						
 

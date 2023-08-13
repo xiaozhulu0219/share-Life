@@ -192,6 +192,14 @@
                     console.log('动态内容出现了违规词语、已被拦截：', this.myFormData.textContent);
                 } else {
                 console.log('medias2', this.myFormData.medias)
+				// 判断是否有编辑好的数组
+				if(typeof this.myFormData.medias != 'string'){
+					console.log("没有添加直接提交")
+					// 拿子组件的图片数组转换为str
+					const mediasTarget = this.$refs.imageUpload.pathlist.join(',')
+					// console.log(mediasTarget,"转换后")
+					this.myFormData.medias = mediasTarget
+				}
                 this.$http.post(this.myFormData.id ? this.url.editUrl : this.url.submitUrl, this.myFormData, {}).then(res => {
                     console.log('myFormData', this.myFormData)
                     console.log('res', res);
