@@ -17,11 +17,11 @@
 			</block>
 		</commonTab>
 		<view class="card" :style="{marginTop:CustomBar+'px'}" >
-			 
-				
+
+
 			<view class="" @touchstart="touchstart({...myFormData,isinfor:true},false)" @touchend="touchend">
-				
-			
+
+
 			<view v-if="myFormData.imgIsNull" class="space-for-no-img" >
 
 			</view>
@@ -79,7 +79,7 @@
 				<view class="card-commentCount">{{myCommentForm.commentCount}}</view>
 			</view>
 			<view class="card-divider"></view>
-			
+
 			<view class="list-wrap">
 				<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;" :scroll-top="scrollTop">
 					<view v-for="(item,index) in commentRenderList" :key="index" class="comment">
@@ -188,8 +188,8 @@
 		<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
 			@commentSubmit="handleCommentSubmit" :placeholderText="placeholderText"></commentPanel>
 
-		<popForList ref="popforlist" 
-		:listInfo="popupInfo" 
+		<popForList ref="popforlist"
+		:listInfo="popupInfo"
 		@reportSubmit="handleSubmitRepot"
 		@deleteSubmit="handleSubmitDelete"
 		></popForList>
@@ -245,7 +245,7 @@
 				    id: ''
 				},
 				// 重置当前的滚动条
-				
+
 				popupInfo:{},
 				isLongPress: false,
 				longpressTimer: null,
@@ -311,15 +311,6 @@
 				],
 				publishId: '',
 				commentId: '',
-				myFormData: {
-					latitude: '',
-					longitude: '',
-					location: '',
-					medias: '',
-					textContent: '',
-					uuId: '',
-					avatar: ''
-				},
 				myCommentForm: {
 					latitude: '',
 					longitude: '',
@@ -427,18 +418,18 @@
 								icon:'none'
 							});
 							cb();// 弹框消失
-							
+
 						}else{
 							uni.hideLoading();
 							uni.showToast({
 								title:"未知错误",
 							});
 						}
-					
+
 				})
 			},
 			handleSubmitDelete(target,cb){
-				// 删除当前评论 
+				// 删除当前评论
 				console.log(target,"要删除的评论");
 				uni.showLoading({
 					title:'loading...'
@@ -448,10 +439,10 @@
 				// 刷新仓库
 				// 路由跳转首页
 				if(target.detail.isinfor){
-					
+
 					console.log(target.detail,"删除详情")
 					const deleteId = target.detail.inforId;
-					
+
 					this.$http.delete(this.url.deleteInforUrl + '?id=' + deleteId).then(async res => {
 					    console.log("结果数据", res)
 					    if (res.data.success) {
@@ -473,13 +464,13 @@
 								}
 							})
 							// await this.getHomePublishInforList();
-							
-							
+
+
 					    }
 					}).catch(e => {
 					    console.log("al delUrl请求错误2", e)
 					});
-					return 
+					return
 				}
 				if(target.detail.isChildComment){
 					// 删除的是二级评论
@@ -510,11 +501,11 @@
 				}else{
 					// 删除的是一级评论
 					// 重新请求列表
-					
+
 					console.log(this.myFormData)
 					const id = target.detail.id;
 					const publishId = this.myFormData.id
-					// 
+					//
 					this.$http.delete(this.url.deleteCommentUrl+  '?id=' + id + '&publishId=' +publishId).then(async res=>{
 						if(res.data.message){
 							// 删除成功 重新请求列表
@@ -530,9 +521,9 @@
 							cb();
 						}
 					})
-					
+
 				}
-				
+
 			},
 			touchstart(item,isChildComment) {
 				//1.5后触发弹窗事件
@@ -549,7 +540,7 @@
 				// console.log(this.popupInfo)
 				// console.log(this.uuId,"1")
 				// console.log(item.uuId,"2")
-				
+
 				console.log(item,"长按详情")
 				console.log("评论弹框出现");
 				this.isLongPress = true;
@@ -795,7 +786,7 @@
 							}
 						}
 						// console.log(items, "是否拿到实时数据")
-						// 这里要区分是属于普通增加评论还是进行翻页 
+						// 这里要区分是属于普通增加评论还是进行翻页
 						// 如果是翻页就需要push新的数据
 						// 如果只是请求增加一条数据 就整个改
 						if (isPageTurn) {
@@ -1052,7 +1043,7 @@
 							// 从资料详情中进入  点赞数改变重新刷新首页列表
 							this.clearUserStoreList()
 						}
-						
+
 
 					}
 				});
@@ -1092,7 +1083,7 @@
 							// 从资料详情中进入  点赞数改变重新刷新首页列表
 							this.clearUserStoreList()
 						}
-						
+
 
 					}
 				});
@@ -1100,7 +1091,7 @@
 			//点赞评论
 			likeComment(id, parentId) {
 				console.log('进来了点赞评论方法', id);
-				// 
+				//
 				// uni.showLoading({
 				// 	title:"加载中"
 				// })
@@ -1140,7 +1131,7 @@
 							// 找到这条数据
 							parentObj.childCommentList[targetIndex].hasLiked = 1;
 							parentObj.childCommentList[targetIndex].likeCount = res.data.result
-							// 
+							//
 						}
 						// uni.hideLoading()
 						//this.myCommentForm.likeCount = res.data.result;
