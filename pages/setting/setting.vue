@@ -6,7 +6,7 @@
                 <block slot="backText">返回</block>
                 <block slot="content">设置</block>
                 <!--<view slot="right"  @tap="rightClick">编辑</view>-->
-				
+
             </cu-custom>
 
             <!-- list列表 -->
@@ -44,7 +44,7 @@
             </view>
             <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
-                    <text class="cuIcon-share" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
+                    <text class="cuIcon-comment" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content"><!-- 设置页面涉及新增页面的，都放在setting目录下 -->
                         <text class="text-grey" style="font-size: 40rpx;">产品建议</text>
                     </view>
