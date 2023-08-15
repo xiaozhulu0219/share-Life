@@ -126,6 +126,7 @@
 							<scroll-view class="scroll" scroll-y="true">
 								<view v-for="(ite,inde) in focusOrFansLoveInforList" :key="inde"
 									class="card-PublishInfor">
+									<AvatarName :avatarInfo="{nickname:ite.nickname,avatar:ite.avatar,uuId:ite.uuId}"></AvatarName>
 									<image class="medias_size" :src="ite.medias[0]" mode="widthFix" alt=""></image>
 									<view>{{ ite.textContent.substr(0, 35) }}</view>
 								</view>
@@ -148,12 +149,14 @@
 	import memberLikeCountModal from '../member/memberLikeCountModal.vue';
 	import commonTab from '../component/commonTab.vue';
 	import popForList from "@/pages/publish/popForList.vue"
+	import AvatarName from "../member/avatarName.vue"
 	export default {
 		name: 'homeMemberDetail',
 		components: {
 			memberLikeCountModal,
 			commonTab,
-			popForList
+			popForList,
+			AvatarName
 		},
 
 		data() {
@@ -245,6 +248,14 @@
 			this.queryHelpComNumByUuId(item);
 		},
 		methods: {
+			toMemInformationDetail(item){
+				console.log(item,"详情")
+				
+				uni.navigateTo({
+					url: '/pages/home/homeInforDetail?from=othermember' + '&item=' + encodeURIComponent(JSON
+						.stringify(item))
+				});
+			},
 			reachBottom() {
 				// console.log("动态触底")
 				this.getFocusOrFansPublishInforList(this.targetuuId)

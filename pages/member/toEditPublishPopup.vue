@@ -6,20 +6,51 @@
 
             <view class="icon-line-list">
                 <view class="edit" @click="toInforPublishForm(myFormData)">
-                    <text class="cuIcon-edit icon-style"></text>
+                    <!-- <text class="cuIcon-edit icon-style"></text> -->
+					<image src="../../static/icon／bianji.png" mode="" class="image-icon"></image>
                     <view class="icon-text">编辑</view>
                 </view>
                 <view class="delete" @click="deleteInfor(myFormData)">
-                    <text class="cuIcon-delete icon-style"></text>
+                    <!-- <text class="cuIcon-delete icon-style"></text> -->
+					<image src="../../static/icon／shanchu.png" mode="" class="image-icon"></image>
                     <view class="icon-text">删除</view>
                 </view>
-                <view class="seeType">
-                    <text class="cuIcon-post icon-style"></text>
+                <view class="seeType" @click="changeAuth">
+                    <!-- <text class="cuIcon-post icon-style"></text> -->
+					<image src="../../static/icon／quanxian.png" mode="" class="image-icon"></image>
                     <view class="icon-text">权限</view>
                 </view>
             </view>
 
         </view>
+		<uni-popup ref="status">
+			<view class="popup-card bg-gray" >
+				<view class="st-container">
+					<view class="st-item">
+						<view class="st-item-left">
+							<image src="../../static/images/l02.png" style="width: 100%;" mode="widthFix"></image>
+						</view>
+						<view class="st-item-right">
+							公开可见
+						</view>
+						<view class="st-item-check"  v-if="myFormData.seeType==1">
+							<text class="cuIcon-check" style="color:red"></text>
+						</view>
+					</view>
+					<view class="st-item">
+						<view class="st-item-left">
+							<image src="../../static/images/l02.png" style="width: 100%;" mode="widthFix"></image>
+						</view>
+						<view class="st-item-right">
+							私密
+						</view>
+						<view class="st-item-check" v-if="myFormData.seeType==2">
+							<text class="cuIcon-check"></text>
+						</view>
+					</view>
+				</view>
+			</view>
+		</uni-popup>
     </uni-popup>
 </template>
 
@@ -42,6 +73,11 @@
 
         },
         methods: {
+			changeAuth(){
+				// 更改权限 
+				// 弹出另外一个modal
+				 this.$refs.status.open()
+			},
             showModal() {
                 this.$refs.popup.open();
             },
@@ -85,10 +121,43 @@
     }
 </script>
 
-<style lang='scss'>
-
-    .popup-card {
+<style lang='scss' scoped>
+	.st-item-right{
+		margin-left: 20rpx;
+		flex:1 1 auto;
+	}
+	.st-item{
+		padding: 0 30rpx;
+		box-sizing: border-box;
+		
+		display:flex;
+		height:80rpx;
+		width:100%;
+		line-height: 80rpx;
+		align-items: center;
+		
+		
+	}
+	.st-item-check{
+		width:5%;
+		flex: 0 0 auto;
+	}
+	.st-item-left{
+		width:5%;
+	}
+	.st-container{
+		padding: 15rpx;
+		height: 100%;
 		width: 100%;
+		boxbox-sizing: border-box;
+	
+	}
+	.image-icon{
+		height:100rpx;
+		width: 100rpx;
+	}
+    .popup-card {
+		width:100vw;
 		height: 400rpx;
 		border-radius: 18rpx;
 	}
@@ -130,5 +199,9 @@
         //margin-left: 20rpx;
         margin-top: 15rpx;
 	}
-
+	.status-container{
+		height: 200rpx;
+		width: 100%;
+		background-color: #fff;
+	}
 </style>

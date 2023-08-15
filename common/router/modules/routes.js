@@ -204,6 +204,13 @@ const routes = [{
             title: '设置页'
         }
     },
+	{
+		path:'/pages/setting/productAdvice',
+		name:'productAdvice',
+		meta:{
+			title:'产品与建议'
+		}
+	},
     {
         path: '/pages/user/userexit',
         name: 'userexit',

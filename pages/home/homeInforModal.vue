@@ -422,6 +422,7 @@
 
 			toMemberdetail(myFormData) {
 				//判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
+				console.log(myFormData,"myFormData")
 				if (this.$store.getters.uuId == myFormData) {
 					uni.navigateTo({
 						url: '/pages/member/member'

@@ -235,6 +235,9 @@
       "path": "pages/setting/setting",
       "style": {}
     },
+	{
+		"path": "pages/setting/productAdvice"
+	},
     {
       "path": "pages/common/exit",
       "style": {}

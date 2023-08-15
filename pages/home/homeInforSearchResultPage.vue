@@ -8,7 +8,7 @@
 				<backToHome style="font-size:1.4em;"></backToHome>
 			</block>
         </commonTab>
-        <view class="card">
+        <view class="card" :style="{marginTop:50+topSpace-5+'px'}">
             <view class="list-wrap">
                 <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
                     <view v-for="(item,index) in homeSearchInforList" :key="index" class="card">
@@ -166,6 +166,7 @@
     .card {
         background-color:  #fff;
         padding: 20rpx 20rpx;
+		
         border-radius: 20rpx;
         line-height: 35rpx;  /*行高*/
         border-bottom: #eee solid 5rpx;

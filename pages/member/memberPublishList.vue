@@ -3,18 +3,21 @@
 	<view class="list-wrap">
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 			<view v-for="(item,index) in myPublishInforList" :key="index" class="card" @click="toMemInformationDetail(item)">
+				<editInfor :editDetail="item" @editpopUp="handlePopUp(item)" ></editInfor>
 				<image class="medias_size" :src="item.medias[0]" mode="widthFix" alt=""></image>
 				<view>{{ item.textContent.substr(0, 35) }}</view>
 			</view>
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
 		</scroll-view>
+		<!-- <ToEditPublishPopup ref='toEditPublishPopup' :myFormData="editTarget"></ToEditPublishPopup> -->
 	</view>
 </template>
 
 <script>
 	import configService from '@/common/service/config.service.js';
-
+	import editInfor from "./editMyPublishInfor.vue"
+	// import ToEditPublishPopup from '@/pages/member/toEditPublishPopup.vue';
 	export default {
 		name: 'MyPublishList',
 		data() {
@@ -34,12 +37,23 @@
 				fileUrl: configService.fileSaveURL,
 			};
 		},
+		components:{
+			editInfor,
+		},
 		created() {
 			console.log(9999);
 			this.getMyPublishInforList();
 		},
 		methods: {
+			// 弹出底部编辑框
+			// 还需要向上抛事件
+			
+			handlePopUp(item){
+				// this.editTarget = item;
+				this.$emit("editpopUp",item)
+			},
 			// 触底加载
+			
 			reachBottom() {
 				if (!this.hasNext) return;
 				console.log('//// 触底加载');
@@ -71,6 +85,7 @@
 							}
 						}
 						this.myPublishInforList = this.myPublishInforList.concat(items);
+						console.log(this.myPublishInforList ,"发布列表")
 						this.hasNext = pages > page;
 						this.isDownLoading = false;
 					} else {
@@ -107,7 +122,8 @@
 		padding: 20rpx 20rpx;
 		border-radius: 20rpx;
 		margin-bottom: 20rpx;
-
+		position: relative;
+		
 		.card-title {
 			font-weight: bold;
 		}

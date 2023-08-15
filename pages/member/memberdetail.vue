@@ -15,7 +15,7 @@
                 <view class="cu-item"  :style="[{animationDelay: '0.1s'}]">
                     <view class="img imgwrap" @tap="changeAvatar">
                         <!--	<img src="../../static/avatar_boy.png" mode="" class="png round" style="width: 90px;height: 90px;top: 20%;left: 50%;"></img>-->
-                        <image class="cu-avatar round sm " :src="fileUrl+personalMsg.avatar" alt="" style="width: 90px;height: 90px;top: 20%;left: 50%;">
+                        <image class="cu-avatar round sm " :src="urlSrc" alt="" mode="widthFix" style="width: 90px;height: 90px;top: 20%;left: 50%;">
 							<text  class="cuIcon-cameraaddfill cameraadd"></text>
 						</image>
 						
@@ -146,6 +146,11 @@
         onShow() {
             this.loadinfo();
         },
+		computed:{
+			urlSrc(){
+				return this.fileUrl+this.personalMsg.avatar
+			}
+		},
         methods: {
 			...mapMutations(['changeMyLabelList']),
             getSubStringText(text, len) {
@@ -164,11 +169,13 @@
                 this.$tip.loading();
                 this.$http.get(this.userUrl, {params: {id: this.$store.getters.userid}}).then(res => {
                     if (res.data.success) {
+						const ttemp = {...res.data.result}
                         const {avatar, sex, status} = res.data.result;
+						console.log(avatar,'avatar1')
                         if (avatar && avatar.length > 0) {
                             this.personalMsg.avatar = api.getFileAccessHttpUrl(avatar);
                         }
-						// console.log(res.data,"数据")
+						console.log(res.data,"数据")
 						// 存一下请求的标签到仓库中
                         this.personalMsg = res.data.result;
 						if(!res.data.result.dreamCompanySign){
@@ -210,6 +217,9 @@
                     filePath: tempFilePaths,
                     name: 'file',
                     success: (uploadFileRes) => {
+						uni.showLoading({
+							title:'loading...'
+						})
                         console.log('filePath:',tempFilePaths );
                         let path = JSON.parse(uploadFileRes.data).message
                         this.pathlist.push(path);
@@ -227,12 +237,16 @@
                     }
                 }).then(res => {
                     console.log(res)
+					this.personalMsg.avatar= res.data.result;
+					uni.hideLoading()
                     this.$tip.loaded();
                     if (res.data.success) {
                         this.$tip.toast('提交成功')
                     }
-                }).catch(() => {
+                }).catch((err) => {
+					uni.hideLoading()
                     this.$tip.loaded();
+					console.log(err,"错误原因")
                     this.$tip.error('提交失败')
                 });
                 },
