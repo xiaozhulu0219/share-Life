@@ -84,14 +84,39 @@
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "",
-                    "xhdpi" : "",
-                    "xxhdpi" : "",
-                    "xxxhdpi" : ""
+                    "hdpi" : "D:/workspace/ShareLife/logo2/android图标配置/72_72.png",
+                    "xhdpi" : "D:/workspace/ShareLife/logo2/android图标配置/96_96.png",
+                    "xxhdpi" : "D:/workspace/ShareLife/logo2/android图标配置/144_144.png",
+                    "xxxhdpi" : "D:/workspace/ShareLife/logo2/android图标配置/192_192.png"
+                },
+                "ios" : {
+                    "appstore" : "D:/workspace/ShareLife/logo2/app store/1024_1024.png",
+                    "iphone" : {
+                        "app@2x" : "D:/workspace/ShareLife/logo2/iphone图标配置/120_120.png",
+                        "app@3x" : "D:/workspace/ShareLife/logo2/iphone图标配置/180_180.png",
+                        "spotlight@2x" : "D:/workspace/ShareLife/logo2/iphone图标配置/80_80.png",
+                        "spotlight@3x" : "D:/workspace/ShareLife/logo2/iphone图标配置/120_120.png",
+                        "settings@2x" : "D:/workspace/ShareLife/logo2/iphone图标配置/58_58.png",
+                        "settings@3x" : "D:/workspace/ShareLife/logo2/iphone图标配置/87_87.png",
+                        "notification@2x" : "D:/workspace/ShareLife/logo2/iphone图标配置/40_40.png",
+                        "notification@3x" : "D:/workspace/ShareLife/logo2/iphone图标配置/60_60.png"
+                    },
+                    "ipad" : {
+                        "app" : "D:/workspace/ShareLife/logo2/iPad图标配置/76_76.png",
+                        "app@2x" : "D:/workspace/ShareLife/logo2/iPad图标配置/152_152.png",
+                        "proapp@2x" : "D:/workspace/ShareLife/logo2/iPad图标配置/167_167.png",
+                        "spotlight" : "D:/workspace/ShareLife/logo2/iPad图标配置/40_40.png",
+                        "spotlight@2x" : "D:/workspace/ShareLife/logo2/iPad图标配置/80_80.png",
+                        "settings" : "D:/workspace/ShareLife/logo2/iPad图标配置/29_29.png",
+                        "settings@2x" : "D:/workspace/ShareLife/logo2/iPad图标配置/58_58.png",
+                        "notification" : "D:/workspace/ShareLife/logo2/iPad图标配置/20_20.png",
+                        "notification@2x" : "D:/workspace/ShareLife/logo2/iPad图标配置/40_40.png"
+                    }
                 }
             },
             "splashscreen" : {
-                "androidStyle" : "common"
+                "androidStyle" : "common",
+                "iosStyle" : "default"
             }
         }
     },
