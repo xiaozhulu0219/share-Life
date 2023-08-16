@@ -43,7 +43,7 @@
                 </view>
             </view>
             <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
+                <navigator class="cu-item" url="/pages/setting/productAdvice">
                     <text class="cuIcon-comment" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content"><!-- 设置页面涉及新增页面的，都放在setting目录下 -->
                         <text class="text-grey" style="font-size: 40rpx;">产品建议</text>

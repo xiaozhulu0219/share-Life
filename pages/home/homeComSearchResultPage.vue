@@ -4,8 +4,11 @@
         <commonTab :isBack="true" :backRouterName="backRouteName">
             <block slot="title"> ShareLife
             </block>
+			<block slot="right" >
+				<backToHome style="font-size:1.4em;"></backToHome>
+			</block>
         </commonTab>
-        <view class="card">
+        <view class="card" :style="{marginTop:50+topSpace-5+'px'}">
             <view class="list-wrap">
                 <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
                     <view v-for="(item,index) in homeSearchComList" :key="index" class="card"
@@ -49,14 +52,15 @@
     import homeModal from './homeInforModal.vue'
     import configService from '@/common/service/config.service.js'
     import commonTab from '../component/commonTab.vue';
-
+	import backToHome from "@/pages/component/backToHome.vue"
     export default {
         name: "homeSearchResultPage",
         mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
         components: {
             HomeSignModal,
             homeModal,
-            commonTab
+            commonTab,
+			backToHome
         },
         data() {
             return {
@@ -127,7 +131,7 @@
                     }
                 }).then(res => {
                     const {success, result} = res.data;
-                    console.log('。。。。。', result.items);
+                    console.log('。。。。。',result, result.items);
                     if (success) {
                         const {pages, items, page} = result;
                         if (num === 1) this.homeSearchComList = [];

@@ -2,9 +2,10 @@
 	<!--个人页的一些页面--我的收藏-->
 	<view class="list-wrap">
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
-			<view v-for="(item,index) in MyCollectList" :key="index" class="card" @click="toMemInformationDetail(item)">
-				<image class="medias_size" :src="item.medias[0]" mode="widthFix" alt=""></image>
-				<view>{{ item.textContent.substr(0, 35) }}</view>
+			<view v-for="(item,index) in MyCollectList" :key="index" class="card" >
+				<AvatarName :avatarInfo="{nickname:item.nickname,avatar:item.avatar,uuId:item.uuId}"></AvatarName>
+				<image class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toMemInformationDetail(item)"></image>
+				<view @click="toMemInformationDetail(item)">{{ item.textContent.substr(0, 35) }}</view>
 			</view>
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
@@ -14,9 +15,10 @@
 
 <script>
 	import configService from '@/common/service/config.service.js';
-
+	import AvatarName from "./avatarName.vue"
 	export default {
 		name: 'MyCollectList',
+		
 		data() {
 			return {
 				pageInfo: {
@@ -33,6 +35,9 @@
 		created() {
 			console.log(9999);
 			this.getMyCollectList();
+		},
+		components:{
+			AvatarName
 		},
 		methods: {
 			// 触底加载
@@ -67,6 +72,7 @@
 							}
 						}
 						this.MyCollectList = this.MyCollectList.concat(items);
+						console.log(this.MyCollectList,"收藏列表")
 						this.hasNext = pages > page;
 						this.isDownLoading = false;
 					} else {

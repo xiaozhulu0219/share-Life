@@ -62,7 +62,7 @@
 <!--                <swiper :current="activeTab" class="padding" style="height: 100%;" circular @change="changeSwiper">-->
                 <swiper :current="activeTab" class="padding" style="height: 100%;"  @change="changeSwiper">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
-                        <MyPublishList v-if="index === 0"/>
+                        <MyPublishList @editpopUp="handlPopup" v-if="index === 0"/>
                         <MyHelpCompanyList v-if="index === 1"/>
                         <MyCollectList v-if="index === 2"/>
                         <MyLoveInforList v-if="index === 3"/>
@@ -72,6 +72,7 @@
             </view>
         </scroll-view>
         <bottomTab PageCur="member"></bottomTab>
+		<ToEditPublishPopup ref='toEditPublishPopup' :myFormData="editTarget"></ToEditPublishPopup>
     </view>
 </template>
 
@@ -84,8 +85,7 @@
     import configService from '@/common/service/config.service.js';
     import bottomTab from '../component/bottomTab.vue';
     import memberLikeCountModal from './memberLikeCountModal.vue'
-
-
+	import ToEditPublishPopup from '@/pages/member/toEditPublishPopup.vue';
     export default {
         name: 'member',
         components: {
@@ -94,7 +94,8 @@
             MyCollectList,
             MyLoveInforList,
             bottomTab,
-            memberLikeCountModal
+            memberLikeCountModal,
+			ToEditPublishPopup
         },
 		onShow(){
 			// console.log("页面出现")
@@ -142,7 +143,8 @@
                 queryHelpComNumByUuIdUrl: '/comcommon/queryHelpComNumByUuId',
                 userId: '',
                 id: '',
-                fileUrl: configService.fileSaveURL
+                fileUrl: configService.fileSaveURL,
+				editTarget:{},
             };
         },
         watch: {
@@ -164,6 +166,10 @@
 			
         },
         methods: {
+			handlPopup(tar){
+				this.editTarget = tar;
+				this.$refs.toEditPublishPopup.showModal();
+			},
           changeSwiper(e) {
             const curTab = e.detail.current;
             this.activeTab = curTab;
