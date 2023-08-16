@@ -47,6 +47,9 @@
 		props: ['value'],
 		mounted() {
 			console.log(this.value,"图片数组")
+			if(!this.value){
+				return 
+			}
 			this.value.forEach(res => {
 				this.imgList.push(res);
 				const tempStr = res.replace(configService.fileSaveURL,'')

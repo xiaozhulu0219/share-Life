@@ -20,7 +20,7 @@
 					<!-- <view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;" @click="focusMsg()"></view> -->
 					<image src="../../static/icon／guanzhu.png" class="image-icon" mode="" @click="focusMsg()" ></image>
 					<view class="card-focus">新增关注</view>
-					<view class="card-focus-back" v-if="this.msg4Count != 0">
+					<view class="card-focus-back " v-if="this.msg4Count != 0">
 						<view class="card-focusCount">{{this.msg4Count}}</view>
 					</view>
 				</view>
@@ -28,7 +28,7 @@
 					<!-- <view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;" @click="commentMsg()"></view> -->
 					<image src="../../static/icon／pinglun.png" class="image-icon" mode="" @click="commentMsg()"></image>
 					<view class="card-comment">评论和@</view>
-					<view class="card-comment-back" v-if="this.msg5Count !=0 ">
+					<view class="card-comment-back " v-if="this.msg5Count !=0 ">
 						<view class="card-commentCount">{{this.msg5Count}}</view>
 					</view>
 				</view>
@@ -221,12 +221,14 @@
 				/*盒子间的距离*/
 				margin-left: 50rpx;
 				position: relative;
+				text-align: center;
 				.card-love {
 					font-weight: bold;
 					//display: inline-block;
 					//margin-bottom: 30rpx; /*盒子间的距离*/
-					margin-left: -20rpx;
-					margin-top: 40rpx;
+					// margin-left: -20rpx;
+					margin-top: 10rpx;
+					
 				}
 
 				.card-loveCount {
@@ -259,13 +261,14 @@
 				margin-bottom: 30rpx;
 				/*盒子间的距离*/
 				margin-left: 160rpx;
+				position: relative;
 
 				.card-focus {
 					font-weight: bold;
 					//display: inline-block;
 					//margin-bottom: 30rpx; /*盒子间的距离*/
-					margin-left: -20rpx;
-					margin-top: 40rpx;
+					margin-left: -15rpx;
+					margin-top: 10rpx;
 				}
 
 				.card-focusCount {
@@ -283,7 +286,7 @@
 					background: red;
 					position: absolute; //绝对定位
 					margin-left: 70rpx;
-					margin-top: -140rpx;
+					top:-20rpx;
 					text-align: center;
 					//line-height: 30rpx;
 					padding: 10rpx 20rpx; //上下左右
@@ -298,13 +301,14 @@
 				margin-bottom: 30rpx;
 				/*盒子间的距离*/
 				margin-left: 160rpx;
+				position:relative;
 
 				.card-comment {
 					font-weight: bold;
 					//display: inline-block;
 					//margin-bottom: 30rpx; /*盒子间的距离*/
-					margin-left: -20rpx;
-					margin-top: 40rpx;
+					margin-left: -15rpx;
+					margin-top: 10rpx;
 				}
 
 				.card-commentCount {
@@ -322,10 +326,12 @@
 					background: red;
 					position: absolute; //绝对定位
 					margin-left: 70rpx;
-					margin-top: -140rpx;
+					top:-20rpx;
 					text-align: center;
 					//line-height: 30rpx;
 					padding: 10rpx 20rpx; //上下左右
+					
+					
 				}
 			}
 		}

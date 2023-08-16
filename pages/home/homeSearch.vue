@@ -60,7 +60,10 @@
 			<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 				<view v-for="(item,index) in popularList" :key="index" class="card">
 					<!--                <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image>-->
-					<image class="medias_size" :src="item.medias[0]" mode="widthFix" alt=""
+					<view class="space-text" v-if="item.inforType==1">
+						
+					</view>
+					<image class="medias_size" :src="item.medias[0]" v-if="item.inforType!=1" mode="widthFix" alt=""
 						@click="toInformationDetail(item)"></image>
 					<view class="card-text" @click="toInformationDetail(item)">
 						{{ contentFormat(item.textContent) }}
@@ -570,5 +573,8 @@
 		line-height: 76rpx;
 		text-align: center;
 		border-radius: 30rpx;
+	}
+	.space-text{
+		height:40rpx;
 	}
 </style>

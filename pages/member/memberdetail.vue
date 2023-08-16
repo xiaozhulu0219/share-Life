@@ -15,7 +15,7 @@
                 <view class="cu-item"  :style="[{animationDelay: '0.1s'}]">
                     <view class="img imgwrap" @tap="changeAvatar">
                         <!--	<img src="../../static/avatar_boy.png" mode="" class="png round" style="width: 90px;height: 90px;top: 20%;left: 50%;"></img>-->
-                        <image class="cu-avatar round sm " :src="urlSrc" alt="" mode="widthFix" style="width: 90px;height: 90px;top: 20%;left: 50%;">
+                        <image class="cu-avatar round sm " :src="urlSrc" alt="" mode="aspectFill" style="width: 90px;height: 90px;top: 20%;left: 50%;">
 							<text  class="cuIcon-cameraaddfill cameraadd"></text>
 						</image>
 						
