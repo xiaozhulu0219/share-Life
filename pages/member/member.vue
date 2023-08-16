@@ -62,7 +62,7 @@
 <!--                <swiper :current="activeTab" class="padding" style="height: 100%;" circular @change="changeSwiper">-->
                 <swiper :current="activeTab" class="padding" style="height: 100%;"  @change="changeSwiper">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
-                        <MyPublishList @editpopUp="handlPopup" v-if="index === 0"/>
+                        <MyPublishList ref="myPublishList" @editpopUp="handlPopup" v-show="index === 0"/>
                         <MyHelpCompanyList v-if="index === 1"/>
                         <MyCollectList v-if="index === 2"/>
                         <MyLoveInforList v-if="index === 3"/>
@@ -72,7 +72,9 @@
             </view>
         </scroll-view>
         <bottomTab PageCur="member"></bottomTab>
-		<ToEditPublishPopup ref='toEditPublishPopup' :myFormData="editTarget"></ToEditPublishPopup>
+		<ToEditPublishPopup ref='toEditPublishPopup'
+		 :myFormData="editTarget"
+		 @authChange="handleAuthChange"></ToEditPublishPopup>
     </view>
 </template>
 
@@ -98,9 +100,17 @@
 			ToEditPublishPopup
         },
 		onShow(){
-			// console.log("页面出现")
+			
 			this.queryfocusFansByUuId();
 			this.queryHelpComNumByUuId();
+			if(this.$refs.myPublishList){
+				console.log("充值了")
+				this.$refs.myPublishList[0].pageInfo.num=0;
+				this.$refs.myPublishList[0].getMyPublishInforList()
+			}
+			console.log("出现",this.$refs.myPublishList)
+			// this.$refs.myPublishList[0].pageInfo.num=0;
+			// this.$refs.myPublishList[0].getMyPublishInforList()
 		},
         data() {
             return {
@@ -161,11 +171,22 @@
         created() {
             this.queryfocusFansByUuId();
             this.queryHelpComNumByUuId();
+			// 刷新状态
 			
 			
 			
         },
         methods: {
+			handleAuthChange(inforId,target){
+				console.log(inforId,target,"要修改的对象")
+				// 找到目标对象 更改seetype的值
+				
+				console.log(this.$refs.myPublishList[0].myPublishInforList)
+				const targetIndex = this.$refs.myPublishList[0].myPublishInforList.findIndex((item)=>{
+					return item.inforId === inforId
+				})
+				this.$refs.myPublishList[0].myPublishInforList[targetIndex].seeType = target
+			},
 			handlPopup(tar){
 				this.editTarget = tar;
 				this.$refs.toEditPublishPopup.showModal();
@@ -330,7 +351,7 @@
 
     .UCenter-bg .signature {
         margin-top: -30rpx;
-        width: 100%;
+        width: 90%;
         max-height: 115rpx;
         display: -webkit-box;
         -webkit-line-clamp: 3;

@@ -19,13 +19,11 @@ export default {
 	computed:{
 		status(){
 			if(this.editDetail.seeType ==1){
-				return '公开'
+				return '公开可见'
 			}else if(this.editDetail.seeType ==2){
-				return '私密'
-			}else if(this.editDetail.seeType ==3){
-				return '部分可见'
+				return '仅自己可见'
 			}
-			return '公开'
+			return '公开可见'
 		}
 	},
 	methods:{
@@ -46,10 +44,10 @@ export default {
 		right:10rpx;
 		top:10rpx;
 		height:50rpx;
-		width:120rpx;
+		width:170rpx;
 		padding:0 10rpx;
 		box-sizing: border-box;
-		background-color: rgba(255,255,255,0.9);
+		/* background-color: rgba(255,255,255,0.9); */
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

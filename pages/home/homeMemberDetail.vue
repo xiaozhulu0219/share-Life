@@ -102,7 +102,10 @@
 							<scroll-view class="scroll" scroll-y="true" @scrolltolower="reachBottom">
 								<view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde"
 									class="card-PublishInfor" @click="toMemInformationDetail(ite)">
-									<image class="medias_size"  :src="ite.medias[0]" mode="widthFix" alt=""></image>
+									<view class="text-space"  v-if="ite.inforType ==1">
+										
+									</view>
+									<image class="medias_size" v-if="ite.inforType!=1"   :src="ite.medias[0]" mode="widthFix" alt=""></image>
 									<view>{{ ite.textContent.substr(0, 35) }}</view>
 								</view>
 								<view class="isNext" v-if="!publishinforNext">
@@ -125,9 +128,12 @@
 						<view class="" style="height: 100%;" v-if="index === 2">
 							<scroll-view class="scroll" scroll-y="true">
 								<view v-for="(ite,inde) in focusOrFansLoveInforList" :key="inde"
-									class="card-PublishInfor">
+									class="card-PublishInfor" @click="toMemInformationDetail(ite)">
 									<AvatarName :avatarInfo="{nickname:ite.nickname,avatar:ite.avatar,uuId:ite.uuId}"></AvatarName>
-									<image class="medias_size" :src="ite.medias[0]" mode="widthFix" alt=""></image>
+									<view class="text-space"  v-if="ite.inforType ==1">
+										
+									</view>
+									<image class="medias_size" v-if="ite.inforType !=1" :src="ite.medias[0]" mode="widthFix" alt=""></image>
 									<view>{{ ite.textContent.substr(0, 35) }}</view>
 								</view>
 							</scroll-view>
@@ -361,7 +367,7 @@
 			//获取用户公开的动态列表
 			getFocusOrFansPublishInforList(item) {
 				if (!this.publishinforNext) {
-					console.log("没有数据来 返回")
+					// console.log("没有数据来 返回")
 					return;
 				}
 				this.pagenum += 1;
@@ -445,7 +451,7 @@
 							}
 							d.medias = arr2
 						}
-						console.log(this.focusOrFansLoveInforList)
+						console.log(this.focusOrFansLoveInforList,"...")
 					}
 				}).catch(err => {
 					console.log(err);
@@ -759,5 +765,8 @@
 
 	.tab-title .padding-sm .tab-item {
 		margin: 0 30rpx;
+	}
+	.text-space{
+		height:40rpx;
 	}
 </style>

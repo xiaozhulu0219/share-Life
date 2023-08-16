@@ -1,34 +1,37 @@
 <template>
     <!--我的动态点击右上角的三个黑点按钮弹出来的modal-->
-    <uni-popup ref="popup" type="bottom">
-        <view class="popup-card bg-gray">
-            <view class="padding text-right cuIcon-close" @tap="closeModal"></view>
-
-            <view class="icon-line-list">
-                <view class="edit" @click="toInforPublishForm(myFormData)">
-                    <!-- <text class="cuIcon-edit icon-style"></text> -->
-					<image src="../../static/icon／bianji.png" mode="" class="image-icon"></image>
-                    <view class="icon-text">编辑</view>
-                </view>
-                <view class="delete" @click="deleteInfor(myFormData)">
-                    <!-- <text class="cuIcon-delete icon-style"></text> -->
-					<image src="../../static/icon／shanchu.png" mode="" class="image-icon"></image>
-                    <view class="icon-text">删除</view>
-                </view>
-                <view class="seeType" @click="changeAuth">
-                    <!-- <text class="cuIcon-post icon-style"></text> -->
-					<image src="../../static/icon／quanxian.png" mode="" class="image-icon"></image>
-                    <view class="icon-text">权限</view>
-                </view>
-            </view>
-
-        </view>
-		<uni-popup ref="status">
-			<view class="popup-card bg-gray" >
+	<view class="pp-container">
+		<uni-popup ref="popup" type="bottom" >
+		    <view class="popup-card bg-gray">
+		        <view class="padding text-right cuIcon-close" @tap="closeModal"></view>
+		
+		        <view class="icon-line-list">
+		            <view class="edit list-item" @click="toInforPublishForm(myFormData)">
+		                <!-- <text class="cuIcon-edit icon-style"></text> -->
+						<image src="../../static/icon／bianji.png" mode="" class="image-icon"></image>
+		                <view class="icon-text">编辑</view>
+		            </view>
+		            <view class="delete list-item" @click="deleteInfor(myFormData)">
+		                <!-- <text class="cuIcon-delete icon-style"></text> -->
+						<image src="../../static/icon／shanchu.png" mode="" class="image-icon"></image>
+		                <view class="icon-text">删除</view>
+		            </view>
+		            <view class="seeType list-item" @click="changeAuth">
+		                <!-- <text class="cuIcon-post icon-style"></text> -->
+						<image src="../../static/icon／quanxian.png" mode="" class="image-icon"></image>
+		                <view class="icon-text">权限</view>
+		            </view>
+		        </view>
+		
+		    </view>
+			
+		</uni-popup>
+		<uni-popup ref="status" :mask-click="true"  type="bottom" >
+			<view class="popup-card bg-gray" style="height: 100px;" >
 				<view class="st-container">
-					<view class="st-item">
+					<view class="st-item" @click="handleChangeStatus('toPublic')">
 						<view class="st-item-left">
-							<image src="../../static/images/l02.png" style="width: 100%;" mode="widthFix"></image>
+							<text class="cuIcon-unlock"></text>
 						</view>
 						<view class="st-item-right">
 							公开可见
@@ -37,21 +40,22 @@
 							<text class="cuIcon-check" style="color:red"></text>
 						</view>
 					</view>
-					<view class="st-item">
+					<view class="st-item" @click="handleChangeStatus('toPrivate')">
 						<view class="st-item-left">
-							<image src="../../static/images/l02.png" style="width: 100%;" mode="widthFix"></image>
+							<text class="cuIcon-lock"></text>
 						</view>
 						<view class="st-item-right">
 							私密
 						</view>
 						<view class="st-item-check" v-if="myFormData.seeType==2">
-							<text class="cuIcon-check"></text>
+							<text class="cuIcon-check" style="color:red"></text>
 						</view>
 					</view>
 				</view>
 			</view>
 		</uni-popup>
-    </uni-popup>
+	</view>
+    
 </template>
 
 <script>
@@ -60,7 +64,8 @@
         name: 'toEditPublishPopup',
         data() {
             return {
-				deleteInforUrl:'/information/movements/deleteInfor'
+				deleteInforUrl:'/information/movements/deleteInfor',
+				authChangeUrl:'/information/movements/editSeeType'
 			};
         },
         props: {
@@ -73,6 +78,64 @@
 
         },
         methods: {
+			handleChangeStatus(to){
+				// 点击更改权限
+				if(to==='toPublic'){
+					// 判断当前的状态
+					console.log(this.myFormData)
+					if(this.myFormData.seeType==1){
+						// 已经是公开状态不需要处理关闭modal
+						this.$refs.status.close()
+						return 
+					} else if(this.myFormData.seeType==2){
+						// 当前是公开状态想改成私密状态
+						// console.log()
+						const {inforId} = this.myFormData;
+						this.$http.get(this.authChangeUrl,{
+							params:{
+								inforId,
+								seeType:1
+							}
+						}).then(res=>{
+							if(res.data.success){
+								uni.showToast({
+									title:'修改成功',
+									icon:'none'
+								})
+								this.$emit("authChange",inforId,1);
+								this.$refs.status.close()
+							}
+						})
+					}
+				}
+				if(to==='toPrivate'){
+					// 当前是私密
+					if(this.myFormData.seeType==2){
+						this.$refs.status.close()
+						return 
+					}else if(this.myFormData.seeType==1){
+						// 当前是公开的状态 需要修改为私密
+						const {inforId} = this.myFormData
+						this.$http.get(this.authChangeUrl,{
+							params:{
+								inforId,
+								seeType:2
+							}
+						}).then(res=>{
+							console.log(res,"res")
+							if(res.data.success){
+								// 修改成功
+								uni.showToast({
+									title:'修改成功',
+									icon:'none'
+								})
+								this.$emit("authChange",inforId,2);
+								this.$refs.status.close()
+							}
+						})
+					}
+				}
+			},
 			changeAuth(){
 				// 更改权限 
 				// 弹出另外一个modal
@@ -146,6 +209,7 @@
 		width:5%;
 	}
 	.st-container{
+		
 		padding: 15rpx;
 		height: 100%;
 		width: 100%;
@@ -164,24 +228,30 @@
 
     .icon-line-list {
         display: flex;
+		width:100%;
 	}
-
+	.icon-line-list .list-item{
+		display:flex;
+		flex-direction: column;
+		align-items: center;
+	}
 	.edit {
+		
         //display: inline;
-        margin-left: 20rpx;
-		margin-right: 220rpx;
+		width:33%;
+		
         //position: absolute; //绝对定位
 	}
 
     .delete {
         //display: inline;
-        margin-right: 190rpx;
+        width:33%;
         //position: absolute; //绝对定位
     }
 
     .seeType {
-        //display: inline;
-        //margin-right: 50rpx;
+        /* //display: inline; */
+        width:33%;
         //position: absolute; //绝对定位
     }
 

@@ -4,7 +4,10 @@
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 			<view v-for="(item,index) in MyCollectList" :key="index" class="card" >
 				<AvatarName :avatarInfo="{nickname:item.nickname,avatar:item.avatar,uuId:item.uuId}"></AvatarName>
-				<image class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toMemInformationDetail(item)"></image>
+				<view class="text-space"  v-if="item.inforType ==1">
+					
+				</view>
+				<image v-if="item.inforType !=1" class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toMemInformationDetail(item)"></image>
 				<view @click="toMemInformationDetail(item)">{{ item.textContent.substr(0, 35) }}</view>
 			</view>
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
@@ -84,10 +87,17 @@
 				});
 			},
 			toMemInformationDetail(item) {
+				// console.log("点击跳转到详情页", item)
+				// uni.navigateTo({
+				// 	url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
+				// })
 				console.log("点击跳转到详情页", item)
+				// 直接跳转到动态页面
+				
 				uni.navigateTo({
-					url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
-				})
+					url: '/pages/home/homeInforDetail?' + 'item=' + encodeURIComponent(JSON
+						.stringify(item))
+				});
 			},
 		}
 	};
@@ -119,7 +129,9 @@
 			font-size: 20rpx;
 		}
 	}
-
+.text-space{
+		height:40rpx;
+	}
 	.medias_size {
 		max-width: 180px;
 		width: 180px;

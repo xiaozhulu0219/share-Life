@@ -22,10 +22,10 @@
 			<view class="" @touchstart="touchstart({...myFormData,isinfor:true},false)" @touchend="touchend">
 
 
-			<view v-if="myFormData.imgIsNull" class="space-for-no-img" >
+			<view v-if="myFormData.inforType !=2" class="space-for-no-img" >
 
 			</view>
-			<view class="" v-if="!myFormData.imgIsNull" >
+			<view class="" v-if="myFormData.inforType ==2 || !myFormData.inforType"  >
 
 				<swiper v-if="myFormData.medias.length>1" indicator-dots indicator-color="#94afce"
 					indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
@@ -52,7 +52,7 @@
 				</view>
 
 			</view>
-			<view v-if="myFormData.imgIsNull" class="space-for-no-img" >
+			<view v-if="myFormData.inforType !=2" class="space-for-no-img" >
 
 			</view>
 			</view>

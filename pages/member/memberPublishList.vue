@@ -4,8 +4,12 @@
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 			<view v-for="(item,index) in myPublishInforList" :key="index" class="card" @click="toMemInformationDetail(item)">
 				<editInfor :editDetail="item" @editpopUp="handlePopUp(item)" ></editInfor>
-				<image class="medias_size" :src="item.medias[0]" mode="widthFix" alt=""></image>
+				<view class="text-space"  v-if="item.inforType ==1">
+					
+				</view>
+				<image class="medias_size" v-if="item.inforType !=1" :src="item.medias[0]" mode="widthFix" alt=""></image>
 				<view>{{ item.textContent.substr(0, 35) }}</view>
+				
 			</view>
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
@@ -137,6 +141,9 @@
 			right: 20rpx;
 			font-size: 20rpx;
 		}
+	}
+	.text-space{
+		height:40rpx;
 	}
 	.medias_size {
 		max-width: 180px;
