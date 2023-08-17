@@ -282,12 +282,19 @@
 					findPublishInforByIdUrl: '/information/movements/findPublishInforById',
 					saveCommentUrl: '/information/comments/saveCommentForInfor',
 					saveCommentForCommentUrl: '/information/comments/saveCommentForComment',
-					likeCommentUrl: '/information/comments/like',
-					dislikeCommentUrl: '/information/comments/dislike',
+
+					//点赞评论
+					likeCommentUrl: '/information/comments/love',
+					//取消点赞评论
+					dislikeCommentUrl: '/information/comments/disLove',
+
+					//收藏动态
+					likeInforUrl: '/information/movements/collect',
+					//取消收藏动态
+					dislikeInforUrl: '/information/movements/disCollect',
+
 					//likeSonCommentUrl: '/information/comments/like',
 					deleteCommentUrl: '/information/comments/deleteComment',
-					likeInforUrl: '/information/movements/like',
-					dislikeInforUrl: '/information/movements/dislike',
 					loveInforUrl: '/information/movements/love',
 					unloveInforUrl: '/information/movements/unlove',
 					reportSubmitUrl:'/reportviolations/sendReportViolations',
