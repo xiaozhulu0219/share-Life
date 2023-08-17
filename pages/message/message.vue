@@ -7,17 +7,54 @@
 		</commonTab>
 
 		<view class="card" :style="{marginTop:50+topSpace-5+'px'}">
-			<view class="card-line">
+			
+			
+			<view class="message-box-wrap">
+				<view class="message-box-item">
+					<view class="message-box-img">
+						<image src="../../static/icon／dianzan.png" class="image-icon" mode=""  @click="loveMsg()"></image>
+						<view class="message-box-info" v-if="this.msg3Count != 0">
+							<view class="">{{this.msg3Count}}</view>
+						</view>
+					</view>
+					<view class="message-box-title">
+						赞和收藏
+					</view>
+				</view>
+				<view class="message-box-item">
+					<view class="message-box-img">
+						<image src="../../static/icon／guanzhu.png" class="image-icon" mode="" @click="focusMsg()" ></image>
+						<view class="message-box-info" v-if="this.msg4Count != 0">
+							<view class="">{{this.msg4Count}}</view>
+						</view>
+					</view>
+					<view class="message-box-title">
+						新增关注
+					</view>
+				</view>
+				<view class="message-box-item">
+					<view class="message-box-img">
+						<image src="../../static/icon／pinglun.png" class="image-icon" mode="" @click="commentMsg()"></image>
+						<view class="message-box-info" v-if="this.msg5Count != 0">
+							<view class="">{{this.msg5Count}}</view>
+						</view>
+					</view>
+					<view class="message-box-title">
+						评论和@
+					</view>
+				</view>
+			</view>
+			<!-- <view class="card-line">
 				<view class="card-loveMessage">
 					<image src="../../static/icon／dianzan.png" class="image-icon" mode=""  @click="loveMsg()"></image>
-					<!-- <view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;" @click="loveMsg()"></view> -->
+					<view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;" @click="loveMsg()"></view>
 					<view class="card-love">赞和收藏</view>
 					<view class="card-love-back" v-if="this.msg3Count != 0">
 						<view class="card-loveCount">{{this.msg3Count}}</view>
 					</view>
 				</view>
 				<view class="card-focusMessage">
-					<!-- <view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;" @click="focusMsg()"></view> -->
+					<view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;" @click="focusMsg()"></view>
 					<image src="../../static/icon／guanzhu.png" class="image-icon" mode="" @click="focusMsg()" ></image>
 					<view class="card-focus">新增关注</view>
 					<view class="card-focus-back " v-if="this.msg4Count != 0">
@@ -25,14 +62,14 @@
 					</view>
 				</view>
 				<view class="card-commentMessage">
-					<!-- <view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;" @click="commentMsg()"></view> -->
+					<view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;" @click="commentMsg()"></view>
 					<image src="../../static/icon／pinglun.png" class="image-icon" mode="" @click="commentMsg()"></image>
 					<view class="card-comment">评论和@</view>
 					<view class="card-comment-back " v-if="this.msg5Count !=0 ">
 						<view class="card-commentCount">{{this.msg5Count}}</view>
 					</view>
 				</view>
-			</view>
+			</view> -->
 		</view>
 
 		<bottomTab PageCur="message"></bottomTab>
@@ -336,4 +373,41 @@
 			}
 		}
 	}
+	.container{
+		.message-box-wrap{
+			padding:30rpx 20rpx;
+			box-sizing: border-box;
+			width: 100%;
+			display:flex
+		}
+		.message-box-item{
+			width:33% ;
+			flex: 0 0 auto;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.message-box-img{
+			position: relative;
+		}
+		.message-box-info{
+			position: absolute;
+			border-radius: 50%;
+			background: red;
+			padding: 10rpx 20rpx;
+			right: 0rpx;
+			top:0rpx;
+			transform: translate(50%,-50%);
+			text-align: center;
+			color: #fff;
+			font-weight: bold;
+			font-size: 1.1em;
+		}
+		.message-box-title{
+			margin: 10rpx;
+			font-weight: bold;
+		}
+		
+	}
+	
 </style>

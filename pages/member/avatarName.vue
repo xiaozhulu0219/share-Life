@@ -42,7 +42,7 @@ export default {
 	.avatarName{
 		display: flex;
 		align-items: center;
-		margin-bottom: 30rpx;
+		margin-bottom: 20rpx;
 	}
 	.avatarName-avatarcontainer{
 		height: 70rpx;

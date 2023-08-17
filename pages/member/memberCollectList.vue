@@ -4,11 +4,9 @@
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 			<view v-for="(item,index) in MyCollectList" :key="index" class="card" >
 				<AvatarName :avatarInfo="{nickname:item.nickname,avatar:item.avatar,uuId:item.uuId}"></AvatarName>
-				<view class="text-space"  v-if="item.inforType ==1">
-					
-				</view>
+				
 				<image v-if="item.inforType !=1" class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toMemInformationDetail(item)"></image>
-				<view @click="toMemInformationDetail(item)">{{ item.textContent.substr(0, 35) }}</view>
+				<view class="inforText" @click="toMemInformationDetail(item)">{{item.textContent}}</view>
 			</view>
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
@@ -31,6 +29,7 @@
 				hasNext: true,
 				isDownLoading: false,
 				findMyCollectPageUrl: '/information/movements/findMyCollectPage',
+				
 				MyCollectList: [],
 				fileUrl: configService.fileSaveURL,
 			};
@@ -58,7 +57,7 @@
 					params: { page: num, pagesize: size }
 				}).then(res => {
 					const { success, result } = res.data;
-					console.log('。。。。。', result.items);
+					// console.log('###', result.items);
 					if (success) {
 						const { pages, items, page } = result;
 						if (num === 1) this.MyCollectList = [];
@@ -146,5 +145,14 @@
 	}
 	.noMore {
 		color: #ccc;
+	}
+	.inforText{
+		display: -webkit-box; /* 将容器以弹性盒子形式布局 */
+		  -webkit-line-clamp: 3; /* 限制文本显示为两行 */
+		  -webkit-box-orient: vertical; /* 将弹性盒子的主轴方向设置为垂直方向 */
+		  overflow: hidden; /* 隐藏容器中超出部分的内容 */
+		  text-overflow: ellipsis; /* 超出容器范围的文本显示省略号 */
+		word-break:break-all;
+		
 	}
 </style>

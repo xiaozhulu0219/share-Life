@@ -102,11 +102,11 @@
 							<scroll-view class="scroll" scroll-y="true" @scrolltolower="reachBottom">
 								<view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde"
 									class="card-PublishInfor" @click="toMemInformationDetail(ite)">
-									<view class="text-space"  v-if="ite.inforType ==1">
+									<!-- <view class="text-space"  v-if="ite.inforType ==1">
 										
-									</view>
+									</view> -->
 									<image class="medias_size" v-if="ite.inforType!=1"   :src="ite.medias[0]" mode="widthFix" alt=""></image>
-									<view>{{ ite.textContent.substr(0, 35) }}</view>
+									<view class="inforText">{{ ite.textContent }}</view>
 								</view>
 								<view class="isNext" v-if="!publishinforNext">
 									- 到底了-
@@ -130,11 +130,11 @@
 								<view v-for="(ite,inde) in focusOrFansLoveInforList" :key="inde"
 									class="card-PublishInfor" @click="toMemInformationDetail(ite)">
 									<AvatarName :avatarInfo="{nickname:ite.nickname,avatar:ite.avatar,uuId:ite.uuId}"></AvatarName>
-									<view class="text-space"  v-if="ite.inforType ==1">
+									<!-- <view class="text-space"  v-if="ite.inforType ==1">
 										
-									</view>
+									</view> -->
 									<image class="medias_size" v-if="ite.inforType !=1" :src="ite.medias[0]" mode="widthFix" alt=""></image>
-									<view>{{ ite.textContent.substr(0, 35) }}</view>
+									<view class="inforText">{{ ite.textContent }}</view>
 								</view>
 							</scroll-view>
 						</view>
@@ -395,7 +395,8 @@
 								e = this.fileUrl + e
 								arr2.push(e)
 							}
-							d.medias = arr2
+							d.medias = arr2,
+							d.avatar = this.fileUrl + d.avatar;
 						}
 						if (this.focusOrFansPublishInforList.length > 0) {
 							// 进行触底加载
@@ -449,9 +450,10 @@
 								e = this.fileUrl + e
 								arr2.push(e)
 							}
-							d.medias = arr2
+							d.medias = arr2;
+							d.avatar = this.fileUrl + d.avatar;
 						}
-						console.log(this.focusOrFansLoveInforList,"...")
+						console.log(this.focusOrFansLoveInforList,"###")
 					}
 				}).catch(err => {
 					console.log(err);
@@ -768,5 +770,14 @@
 	}
 	.text-space{
 		height:40rpx;
+	}
+	.inforText{
+		display: -webkit-box; /* 将容器以弹性盒子形式布局 */
+		  -webkit-line-clamp: 3; /* 限制文本显示为两行 */
+		  -webkit-box-orient: vertical; /* 将弹性盒子的主轴方向设置为垂直方向 */
+		  overflow: hidden; /* 隐藏容器中超出部分的内容 */
+		  text-overflow: ellipsis; /* 超出容器范围的文本显示省略号 */
+		word-break:break-all;
+		
 	}
 </style>

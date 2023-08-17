@@ -56,20 +56,39 @@
 
 			</view>
 			</view>
-			<view class="card-line">
+			<!-- <view class="card-line">
+				<view class="card-createDate">{{myCommentForm.edited==1?'编辑于: ' + myCommentForm.editTime:myCommentForm.createDate}}</view>
 				<view class="card-createDate">{{myCommentForm.createDate}}</view>
 				<view class="cuIcon-location"></view>
 				<view class="card-ipAddress">{{myFormData.ipAddress}}</view>
+			</view> -->
+			<view class="card-line-timeInfo">
+				<view class="timeInfo-left">{{myCommentForm.edited==1?'编辑于: ' + myCommentForm.editTime:myCommentForm.createDate}}</view>
+				<view class="timeInfo-right">
+					<text class="cuIcon-location"></text>
+					<view class="card-ipAddress">{{myFormData.ipAddress}}</view>
+				</view>
 			</view>
-
 			<view class="card-line">
-				<view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLiked == 0"
-					@click="likeInfor(myCommentForm.id)">&#xe8ad
-				</view>
-				<view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
+				<!-- <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLiked == 0"
+					@click="likeInfor(myCommentForm.id)">
+				</view> -->
+				<!-- <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
 					@click="dislikeInfor(myCommentForm.id)">&#xe60f
+				</view> -->
+				<view class="cuIcon-favor" 
+				 v-if="myCommentForm.hasCollect == 0"  
+				 style=" color: #fbbd08;font-size: 1.5em;"
+				 @click="collectInfor(myCommentForm.id)">
+					
 				</view>
-				<view class="card-likeCount">{{myCommentForm.likeCount}}</view>
+				<view class="cuIcon-favorfill"  
+				v-if="myCommentForm.hasCollect == 1"  
+				style=" color: #fbbd08;font-size: 1.5em;"
+				 @click="unCollectInfor(myCommentForm.id)">
+					
+				</view>
+				<view class="card-likeCount">{{myCommentForm.collectCount}}</view>
 				<view class="cuIcon-like" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLoved == 0"
 					@click="loveInfor(myCommentForm.inforId)"></view>
 				<view class="cuIcon-likefill" style="font-size: 45rpx; color: #dd524d;" v-else
@@ -97,12 +116,18 @@
 							</view>
 							<view class="comment-iconlikeCount">
 								<view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
-									v-if="item.hasLiked == 0" @click="likeComment(item.id)">&#xe8ad
+									v-if="item.hasLoved == 0" @click="loveComment(item.id)">
+									<view class="cuIcon-like">
+										
+									</view>
 								</view>
 								<view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
-									@click="dislikeComment(item.id)">&#xe60f
+									@click="disLoveComment(item.id)">
+									<view class="cuIcon-likefill">
+										
+									</view>
 								</view>
-								<view class="comment-likeCount">{{item.likeCount}}</view>
+								<view class="comment-likeCount">{{item.loveCount}}</view>
 							</view>
 						</view>
 
@@ -136,13 +161,18 @@
 
 									<view class="comment-iconlikeCount">
 										<view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
-											v-if="sonitem.hasLiked == 0" @click="likeComment(sonitem.id,item.id)">
-											&#xe8ad
+											v-if="sonitem.hasLoved == 0" @click="loveComment(sonitem.id,item.id)">
+											<view class="cuIcon-like">
+												
+											</view>
 										</view>
 										<view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
-											@click="dislikeComment(sonitem.id,item.id)">&#xe60f
+											@click="disLoveComment(sonitem.id,item.id)">
+											<view class="cuIcon-likefill">
+												
+											</view>
 										</view>
-										<view class="comment-likeCount">{{sonitem.likeCount}}</view>
+										<view class="comment-likeCount">{{sonitem.loveCount}}</view>
 									</view>
 								</view>
 							</view>
@@ -284,14 +314,16 @@
 					saveCommentForCommentUrl: '/information/comments/saveCommentForComment',
 
 					//点赞评论
-					likeCommentUrl: '/information/comments/love',
+					loveCommentUrl: '/information/comments/love',
 					//取消点赞评论
-					dislikeCommentUrl: '/information/comments/disLove',
+					disLoveCommentUrl: '/information/comments/disLove',
 
 					//收藏动态
-					likeInforUrl: '/information/movements/collect',
+					// likeInforUrl: '/information/movements/collect',
+					collectInforUrl:'/information/movements/collect',
 					//取消收藏动态
-					dislikeInforUrl: '/information/movements/disCollect',
+					// dislikeInforUrl: '/information/movements/disCollect',
+					unCollectInforUrl:'/information/movements/disCollect',
 
 					//likeSonCommentUrl: '/information/comments/like',
 					deleteCommentUrl: '/information/comments/deleteComment',
@@ -390,7 +422,7 @@
 			console.log(this.fromPage)
 			this.fatherIndex = option.index
 			this.myFormData = item;
-			console.log(item)
+			console.log(item,'啊啊啊啊')
 			console.log('this.myFormData1:', this.myFormData);
 			console.log('this.myFormData2:', this.myFormData.medias);
 			console.log('this.myFormData3:', this.myFormData.medias.length);
@@ -977,39 +1009,70 @@
 				}
 			},
 
-			//点赞动态
-			likeInfor(id) {
-				console.log('进来了点赞动态方法', id);
-				this.$http.get(this.url.likeInforUrl, {
+			//收藏动态
+			collectInfor(id){
+				this.$http.get(this.url.collectInforUrl, {
 					params: {
 						id: id
 					}
 				}).then((res) => {
 					if (res.data.success) {
 						console.log('表单数据', res);
-						this.myCommentForm.likeCount = res.data.result;
+						this.myCommentForm.collectCount = res.data.result;
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
+				
+					}
+				});
+			},
+			
+			// likeInfor(id) {
+			// 	console.log('进来了点赞动态方法', id);
+			// 	this.$http.get(this.url.likeInforUrl, {
+			// 		params: {
+			// 			id: id
+			// 		}
+			// 	}).then((res) => {
+			// 		if (res.data.success) {
+			// 			console.log('表单数据', res);
+			// 			this.myCommentForm.likeCount = res.data.result;
+			// 			//刷新页面
+			// 			this.findPublishInfor(this.myFormData.inforId);
 
-					}
-				});
-			},
-			//取消点赞动态
-			dislikeInfor(id) {
-				//console.log("进来了方法", inforId)
-				this.$http.get(this.url.dislikeInforUrl, {
+			// 		}
+			// 	});
+			// },
+			//取消收藏
+			unCollectInfor(id){
+				this.$http.get(this.url.unCollectInforUrl, {
 					params: {
 						id: id
 					}
 				}).then((res) => {
 					if (res.data.success) {
 						console.log('表单数据', res);
-						this.myCommentForm.likeCount = res.data.result;
+						this.myCommentForm.collectCount = res.data.result;
 						//刷新页面
+						
 						this.findPublishInfor(this.myFormData.inforId);
 					}
 				});
 			},
+			// dislikeInfor(id) {
+			// 	//console.log("进来了方法", inforId)
+			// 	this.$http.get(this.url.dislikeInforUrl, {
+			// 		params: {
+			// 			id: id
+			// 		}
+			// 	}).then((res) => {
+			// 		if (res.data.success) {
+			// 			console.log('表单数据', res);
+			// 			this.myCommentForm.likeCount = res.data.result;
+			// 			//刷新页面
+			// 			this.findPublishInfor(this.myFormData.inforId);
+			// 		}
+			// 	});
+			// },
 			//喜欢动态
 			loveInfor(id) {
 				//console.log("进来了方法", inforId)
@@ -1096,14 +1159,14 @@
 				});
 			},
 			//点赞评论
-			likeComment(id, parentId) {
+			loveComment(id, parentId) {
 				console.log('进来了点赞评论方法', id);
 				//
 				// uni.showLoading({
 				// 	title:"加载中"
 				// })
 
-				this.$http.get(this.url.likeCommentUrl, {
+				this.$http.get(this.url.loveCommentUrl, {
 					params: {
 						id: id
 					}
@@ -1120,8 +1183,8 @@
 								return item.id == id
 							})
 							// console.log(targetIndex, "修改的点赞index")
-							this.inforCommentsList[targetIndex].hasLiked = 1
-							this.inforCommentsList[targetIndex].likeCount = res.data.result
+							this.inforCommentsList[targetIndex].hasLoved = 1
+							this.inforCommentsList[targetIndex].loveCount = res.data.result
 						} else {
 							// 在二级评论进行点赞
 							//首先找到一级的index
@@ -1136,8 +1199,8 @@
 							})
 							// console.log("点赞的子评论是", targetIndex)
 							// 找到这条数据
-							parentObj.childCommentList[targetIndex].hasLiked = 1;
-							parentObj.childCommentList[targetIndex].likeCount = res.data.result
+							parentObj.childCommentList[targetIndex].hasLoved = 1;
+							parentObj.childCommentList[targetIndex].loveCount = res.data.result
 							//
 						}
 						// uni.hideLoading()
@@ -1150,14 +1213,14 @@
 				});
 			},
 			//取消点赞评论
-			dislikeComment(id, parentId) {
+			disLoveComment(id, parentId) {
 				//console.log("进来了方法", inforId)
 				// uni.showLoading({
 				// 	title:"加载中"
 				// })
 
 
-				this.$http.get(this.url.dislikeCommentUrl, {
+				this.$http.get(this.url.disLoveCommentUrl, {
 					params: {
 						id: id
 					}
@@ -1172,8 +1235,8 @@
 							targetIndex = this.inforCommentsList.findIndex(item => {
 								return item.id == id
 							});
-							this.inforCommentsList[targetIndex].hasLiked = 0;
-							this.inforCommentsList[targetIndex].likeCount = res.data.result;
+							this.inforCommentsList[targetIndex].hasLoved = 0;
+							this.inforCommentsList[targetIndex].loveCount = res.data.result;
 						} else {
 							// 对子评论进行取消点赞
 							const tempIndex = this.inforCommentsList.findIndex(item => {
@@ -1183,8 +1246,8 @@
 							targetIndex = parentObj.childCommentList.findIndex(item => {
 								return item.id === id
 							})
-							parentObj.childCommentList[targetIndex].hasLiked = 0;
-							parentObj.childCommentList[targetIndex].likeCount = res.data.result
+							parentObj.childCommentList[targetIndex].hasLoved = 0;
+							parentObj.childCommentList[targetIndex].loveCount = res.data.result
 
 						}
 						// uni.hideLoading()
@@ -1281,6 +1344,7 @@
 
 		.text-wrap {
 			// background-color: blueviolet;
+			word-break:break-all;
 			overflow: hidden;
 			position: relative;
 		}
@@ -1293,6 +1357,7 @@
 			color: #444;
 			width: 95%;
 			font-size: 38rpx;
+			margin: 0 auto;
 			margin-bottom: 20rpx;
 			/*盒子间的距离*/
 			line-height: 50rpx;
@@ -1527,5 +1592,23 @@
 			font-weight: bold;
 			margin-left: 10rpx;
 		}
+	}
+	.card-line-timeInfo{
+		width:100%;
+		padding:15rpx 10rpx;
+		box-sizing: border-box;
+		
+		display:flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 30rpx;
+	}
+	.timeInfo-left{
+		font-weight:bold
+	}
+	.timeInfo-right{
+		display:flex;
+		align-items: center;
+		font-weight:bold
 	}
 </style>

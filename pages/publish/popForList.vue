@@ -7,6 +7,9 @@
 				<view class="">
 				</view>
 				<view class="popup-list">
+					<view class="popup-list-item" >
+						分享
+					</view>
 					<view class="popup-list-item delete" v-if="listInfo.isUser" @click="handleDelete">
 						删除
 					</view>
@@ -14,7 +17,7 @@
 					<view class="popup-list-item" v-if="!listInfo.isUser" @click="handleClick">
 						举报 
 					</view>
-					<view class="popup-list-item" @click="close">
+					<view class="popup-list-item cancle" @click="close">
 						取消
 					</view>
 				</view>
@@ -120,14 +123,17 @@
 	}
 	.popup-list-item{
 		width: 80%;
-		line-height: 80rpx;
-		height:80rpx;
+		line-height: 110rpx;
+		height:110rpx;
 		font-size: 1.3em;
 		text-align: center;
 		/* border-bottom:1px solid #eee; */
 		margin:0 auto;
+		color:#111
 		}
-	
+	.popup-list-item.cancle{
+		color:#888
+	}
 	
 	.report-container,.delete-container{
 		width: 70vw;

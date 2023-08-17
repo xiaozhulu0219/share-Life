@@ -241,11 +241,14 @@
 			},
 			...mapMutations(['changehomeListStore', 'initPage']),
 			onInput(value) {
+				// console.log(value,'1111')
 				if (value !== null) {
+					// console.log(value,'2222')
 					for (const i in keyWords) {
 						const reg = new RegExp(keyWords[i], 'g');
 						value = value.replace(reg, ''.padEnd(keyWords[i].length, '*'));
 					}
+					// console.log(value,'3333')
 				}
 				// 数据改变是异步的
 				this.$nextTick(() => {

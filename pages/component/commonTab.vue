@@ -5,14 +5,17 @@
 		</view>
 		<view  class="nav-wrap ">
 
-			<view @tap="BackPage" v-if="isBack" class="back">
-				<text class="cuIcon-back"></text>
-				<slot name="backText"></slot>
+			<view @tap="BackPage"  class="back">
+				<block v-if="isBack">
+					<text class="cuIcon-back"></text>
+					<slot name="backText"></slot>
+				</block>
+				<view class="left" v-if="!isBack">
+					<slot name="left"></slot>
+				</view>
 			</view>
 			<!-- 负一屏的唤醒 -->
-			<view class="left" v-if="!isBack">
-				<slot name="left"></slot>
-			</view>
+			
 			<view class="title">
 				<slot name="title"></slot>
 			</view>

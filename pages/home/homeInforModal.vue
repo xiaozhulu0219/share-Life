@@ -7,7 +7,13 @@
 			:refresher-triggered="triggered" :refresher-threshold="100" refresher-background="#fff"
 			@refresherrefresh="onRefresh">
 			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index" class="card" 
-			@touchstart="touchstart(item)" @touchend="touchend">
+			>
+			<!-- @touchstart="touchstart(item)" @touchend="touchend" -->
+				<view class="report-btn" @click="confirmReport(item)">
+					<view class="cuIcon-info" style="font-size: 1.2em;">
+						
+					</view>
+				</view>
 				<view v-if="item.imgIsNull" class="space-for-no-img" @click="toInformationDetail(item,index)">
 				</view>
 				<view v-if="!item.imgIsNull" @click="toInformationDetail(item,index)">
@@ -180,6 +186,32 @@
 		},
 
 		methods: {
+			confirmReport(item){
+				
+				// 判断当前动态是不是自己的
+				// console.log("咦")
+				console.log(this.uuId,'2',item.uuId)
+				if(this.uuId!==item.uuId){
+					// 当前动态不是自己的进行举报
+					uni.showModal({
+						title:'进行举报',
+						content:"你可对违规动态或者评论进行举报",
+						confirmText:'举报',
+						success:(res)=>{
+							console.log("举报",res)
+							if(res.confirm){
+								// 弹出弹框
+								this.handleLongpress(item)
+							}else if(res.cancel){
+								return 
+							}
+						}
+					})
+				}else{
+					this.handleLongpress(item)
+				}
+				
+			},
 			handleSubmitDelete(tar,cb){
 				// 删除动态 
 				console.log(tar,"用户要删除")
@@ -458,7 +490,7 @@
 		line-height: 35rpx;
 		/*行高*/
 		border-bottom: #eee solid 5rpx;
-
+		position:relative;
 		.cart-flex {
 			display: flex;
 			align-items: center;
@@ -572,5 +604,14 @@
 	.right {
 		flex-shrink: 0;
 		flex: 2;
+	}
+	.report-btn{
+		height: 40rpx;
+		width:40rpx;
+		position:absolute;
+		top: 10rpx;
+		right: 25rpx;
+		
+		
 	}
 </style>
