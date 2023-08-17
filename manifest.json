@@ -115,8 +115,13 @@
                 }
             },
             "splashscreen" : {
-                "androidStyle" : "common",
-                "iosStyle" : "default"
+                "androidStyle" : "default",
+                "iosStyle" : "default",
+                "android" : {
+                    "hdpi" : "D:/workspace/ShareLife/启动页/480_762.png",
+                    "xhdpi" : "D:/workspace/ShareLife/启动页/720_1242.png",
+                    "xxhdpi" : "D:/workspace/ShareLife/启动页/1080_1882.png"
+                }
             }
         }
     },
