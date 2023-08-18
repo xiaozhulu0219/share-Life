@@ -2,7 +2,7 @@
     <view class="wx-login">
         <!--这个要作为注册页-->
         <view class="text-center" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
-            <image src="../../static/avatar_boy.png" mode='aspectFit' class="logo"></image>
+            <image src="../../static/images/logo.png" mode='aspectFit' class="logo"></image>
             <view class="wx-register-title text-shadow"> SHARE LIFE</view>
         </view>
         <view class="xw-login-form">
