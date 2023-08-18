@@ -120,7 +120,11 @@
     },
     {
       "path": "pages/information/inforPublishForm",
-      "style": {}
+      "style": {
+		  "app-plus": {
+		  		 "softinputMode": "adjustResize"
+		  	}
+	  }
     },
     {
       "path": "pages/helpcompany/helpCompanyLikeQueryList",
@@ -217,7 +221,14 @@
     },
     {
       "path": "pages/home/homeInforDetail",
-      "style": {}
+      "style": {
+		  "app-plus": {
+		  		 "softinputMode": "adjustResize"
+		  	},
+			"h5": {
+				"softinputMode": "adjustResize"
+			}
+	  }
     },
     {
       "path": "pages/home/homeSearch",

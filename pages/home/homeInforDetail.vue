@@ -1,6 +1,7 @@
 <template>
 	<!--这个是首页点击动态后跳转的动态详情页-->
 	<view class="container">
+		
 		<commonTab v-if="this.fromPage!=='member'" :isBack="true" :backRouterName="backRouteName">
 			<block slot="title">
 				<image class="medias_avatar round" :src="myFormData.avatar" alt=""
@@ -18,9 +19,13 @@
 		</commonTab>
 		<view class="card" :style="{marginTop:CustomBar+'px'}" >
 
-
-			<view class="" @touchstart="touchstart({...myFormData,isinfor:true},false)" @touchend="touchend">
-
+<!-- @touchstart="touchstart({...myFormData,isinfor:true},false)" @touchend="touchend" -->
+			<view class="" >
+			<view class="report-btn" @click="handleLongpress({...myFormData,isinfor:true},false)" >
+				<view class="cuIcon-info"  style="font-size: 1.4em;">
+			
+				</view>
+			</view>
 
 			<view v-if="myFormData.inforType !=2" class="space-for-no-img" >
 
@@ -214,9 +219,9 @@
 		</view>
 
 
-
-		<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
+<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
 			@commentSubmit="handleCommentSubmit" :placeholderText="placeholderText"></commentPanel>
+		
 
 		<popForList ref="popforlist"
 		:listInfo="popupInfo"
@@ -224,7 +229,7 @@
 		@deleteSubmit="handleSubmitDelete"
 		></popForList>
 		<ToEditPublishPopup ref='toEditPublishPopup' :myFormData="myFormData"></ToEditPublishPopup>
-
+		<commentModal ref="commentModal"></commentModal>
 	</view>
 
 </template>
@@ -236,6 +241,7 @@
 	import commentPanel from "./components/commentPanel.vue"
 	import popForList from "@/pages/publish/popForList.vue"
 	import ToEditPublishPopup from '@/pages/member/toEditPublishPopup.vue';
+	import commentModal from "./components/commentModal.vue"
 	import {
 		mapMutations,
 		mapState
@@ -252,7 +258,8 @@
 			commonTab,
 			commentPanel,
 			popForList,
-			ToEditPublishPopup
+			ToEditPublishPopup,
+			commentModal
 		},
 		props: {
 			formData: {
@@ -371,7 +378,7 @@
 			};
 		},
 		computed: {
-			// ...mapState(['uuId']),
+			...mapState(['homeListStore']),
 			commentRenderList() {
 				return this.inforCommentsList.map((item) => {
 					//评论是否进行过二级评论
@@ -427,9 +434,32 @@
 			console.log('this.myFormData2:', this.myFormData.medias);
 			console.log('this.myFormData3:', this.myFormData.medias.length);
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
-			this.myFormData = item
+			this.myFormData = item;
+			console.log(this.myFormData,'!!!')
 		},
 		methods: {
+			showCommentModal(){
+				this.$refs.commentModal.open();// 打开弹窗
+			},
+			// confirmReport(item,isChildComment){
+			// 	//弹出确认框
+			// 	// 判断当前的动态是否是自己的
+			// 	uni.showModal({
+			// 		title:'进行举报',
+			// 		content:'您确定要举报这条动态吗? \n(恶意举报会被处理的呦)',
+			// 		confirmText:'举报',
+			// 		success:(res)=>{
+			// 			console.log("举报",res)
+			// 			if(res.confirm){
+			// 				// 弹出弹框
+			// 				this.handleLongpress(item,isChildComment)
+			// 			}else if(res.cancel){
+			// 				return
+			// 			}
+			// 		}
+					
+			// 	})
+			// },
 			showModal() {
 			    this.$refs.toEditPublishPopup.showModal();
 			},
@@ -457,7 +487,24 @@
 								icon:'none'
 							});
 							cb();// 弹框消失
+							if(target.type=='1'){
+								// 重新请求列表
+								// 将当条动态删除
+								// 将当前的动态设为2 不进行显示
+								const targetIdx = this.homeListStore.findIndex(item=>{
+									return item.inforId === target.detail.inforId
 
+								})
+								this.homeListStore[targetIdx].state=2;
+								setTimeout(()=>{
+									uni.navigateBack({
+										delta:-1
+									})
+								},500)
+								
+								
+								
+							}
 						}else{
 							uni.hideLoading();
 							uni.showToast({
@@ -1278,6 +1325,8 @@
 	.container {
 		background-color: #ffffff;
 		position: relative;
+		height:100vh;
+		overflow: scroll;
 	}
 
 	.card {
@@ -1290,6 +1339,7 @@
 		/*盒子距离顶部的距离*/
 		line-height: 35rpx;
 		/*行高*/
+		position: relative;
 
 		.card-line {
 			font-weight: bold;
@@ -1610,5 +1660,10 @@
 		display:flex;
 		align-items: center;
 		font-weight:bold
+	}
+	.report-btn{
+		position: absolute;
+		right:20rpx;
+		top:20rpx;
 	}
 </style>
