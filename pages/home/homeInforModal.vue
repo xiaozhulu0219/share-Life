@@ -1,17 +1,17 @@
 <template>
 	<view class="list-wrap">
-		<scroll-view scroll-y 
-		@scrolltolower="reachBottom" 
-		style="height: 100%;" 
+		<scroll-view scroll-y
+		@scrolltolower="reachBottom"
+		style="height: 100%;"
 		refresher-enabled="true"
 			:refresher-triggered="triggered" :refresher-threshold="100" refresher-background="#fff"
 			@refresherrefresh="onRefresh">
-			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index" class="card" 
+			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index" class="card"
 			>
 			<!-- @touchstart="touchstart(item)" @touchend="touchend" -->
 				<view class="report-btn" @click="confirmReport(item)">
 					<view class="cuIcon-info" style="font-size: 1.2em;">
-						
+
 					</view>
 				</view>
 				<view v-if="item.imgIsNull" class="space-for-no-img" @click="toInformationDetail(item,index)">
@@ -54,16 +54,16 @@
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多动态了，快去分享你的美好生活吧---</view>
 		</scroll-view>
-		<popForList ref="popforlist" 
+		<popForList ref="popforlist"
 		:listInfo="popupInfo"
 		@reportSubmit="handleSubmitRepot"
 		@deleteSubmit="handleSubmitDelete"></popForList>
-		
+
 	</view>
 </template>
 
 <script>
-	
+
 	import configService from '@/common/service/config.service.js';
 	import popForList from "@/pages/publish/popForList.vue"
 	// import {subscrib} from "../../common/util/eventBus.js";
@@ -105,7 +105,7 @@
 				};
 			},
 			...mapState(['homeListStore', 'pageInfoStore','uuId']),
-			
+
 		},
 		props:{
 			activeTab:Object
@@ -127,7 +127,7 @@
 					}else{
 						// 需要调用其他接口
 						this.activeType = newVal;
-						
+
 						this.homeListUrl='/inforcommon/findInforPageByTabType';
 						this.changehomeListStore([]);
 						this.initPage([]);
@@ -144,10 +144,10 @@
 					// 	// console.log("由另外一个页面进行渲染")
 					// 	return
 					// }
-					
-					
-					
-					
+
+
+
+
 				}
 			}
 		},
@@ -187,7 +187,7 @@
 
 		methods: {
 			confirmReport(item){
-				
+
 				// 判断当前动态是不是自己的
 				// console.log("咦")
 				console.log(this.uuId,'2',item.uuId)
@@ -195,7 +195,7 @@
 					// 当前动态不是自己的进行举报
 					uni.showModal({
 						title:'进行举报',
-						content:"你可对违规动态或者评论进行举报",
+						content:"您确认要举报该条动态吗？ (恶意举报会被处理的呦)",
 						confirmText:'举报',
 						success:(res)=>{
 							console.log("举报",res)
@@ -203,17 +203,17 @@
 								// 弹出弹框
 								this.handleLongpress(item)
 							}else if(res.cancel){
-								return 
+								return
 							}
 						}
 					})
 				}else{
 					this.handleLongpress(item)
 				}
-				
+
 			},
 			handleSubmitDelete(tar,cb){
-				// 删除动态 
+				// 删除动态
 				console.log(tar,"用户要删除")
 				// 提交删除动态申请
 				// 本地仓库也要删除
@@ -234,8 +234,8 @@
 						this.changehomeListStore([]);
 						this.initPage();
 						await this.getHomePublishInforList();
-						
-						
+
+
 				    }
 				}).catch(e => {
 				    console.log("al delUrl请求错误2", e)
@@ -251,7 +251,7 @@
 					id:tar.detail.id,
 					reportContent:tar.detail.textContent,
 					uuId:tar.detail.uuId
-					
+
 				}
 				console.log(submitObj)
 				this.$http.post(this.reportSubmitUrl,submitObj).then((res)=>{
@@ -259,18 +259,18 @@
 							// 举报成功
 							uni.hideLoading();
 							uni.showToast({
-								title:"举报成功",
+								title:"感谢您的积极反馈",
 								icon:'none'
 							});
 							cb();// 弹框消失
-							
+
 						}else{
 							uni.hideLoading();
 							uni.showToast({
 								title:"未知错误",
 							});
 						}
-					
+
 				})
 			},
 			// 长按弹窗
@@ -283,13 +283,13 @@
 			touchend(){
 				clearTimeout(this.longpressTimer);
 				this.longpressTimer = null;
-				
+
 			},
 			handleLongpress(item){
 				// console.log(this.popupInfo)
 				// console.log(this.uuId,"1")
 				// console.log(item.uuId,"2")
-				
+
 				console.log("弹框出现");
 				this.isLongPress = true;
 				let tar = {
@@ -302,7 +302,7 @@
 				this.popupInfo = tar
 				this.$refs.popforlist.open()
 			},
-			
+
 			// 下拉刷新
 			async onRefresh() {
 				this.triggered = true;
@@ -391,7 +391,7 @@
 					} else {
 						this.isDownLoading = false;
 					}
-					// 
+					//
 					console.log(this.homeList, "homeList变了")
 					// 注册一个全局数据
 					// 改变仓库数据
@@ -419,7 +419,7 @@
 					if (res.data.success) {
 						//this.getHomePublishInforList();
 						//console.log('喜欢动态11', res);
-						// 点赞需提交mutation 
+						// 点赞需提交mutation
 
 						// this.homeList[index].loveCount=res.data.result;
 						// this.homeList[index].hasLoved = 1;
@@ -611,7 +611,7 @@
 		position:absolute;
 		top: 10rpx;
 		right: 25rpx;
-		
-		
+
+
 	}
 </style>

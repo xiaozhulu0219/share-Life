@@ -11,23 +11,23 @@
 		</commonTab>
 		<!-- :style="{marginTop:50+topSpace-5+'px',height:'calc(100vh' +  ' - ' + 45 + 'px' + ' - ' + topSpace + 'px' + ')'}" -->
 		<!-- <view class="spaceTop " :style="{height:topSpace+'px',backgroundColor:'red'}">
-			
+
 		</view> -->
 		<scroll-view scroll-y class="page" :style="{marginTop:50+topSpace-5+'px'}">
 			<!-- <cu-custom style="" isBack="t" :backRouterName="backRouteName">
                 <block slot="backText"></block>
             </cu-custom> -->
-			
+
 			<view class="UCenter-bg">
 
 				<!-- 回到首页 -->
 				<!-- <view class="cuIcon-home" @click="turnToHome">
-						
+
 					</view> -->
 				<!-- 举报 -->
 
 				<!-- <view class="cuIcon-more" @click="handleClick">
-						
+
 					</view> -->
 
 				<block slot="backText"></block>
@@ -90,7 +90,7 @@
 			</view>
 
 			<view class="mine-tab">
-				
+
 				<view class="tab-title flex justify-center">
 					<view class="padding-sm" v-for="(item,index) in tabs" :key="index" @tap="clickTab(index)">
 						<text class="tab-item" :class="activeTab === index ? 'active' : ''">{{item.name}}</text>
@@ -103,7 +103,7 @@
 								<view v-for="(ite,inde) in focusOrFansPublishInforList" :key="inde"
 									class="card-PublishInfor" @click="toMemInformationDetail(ite)">
 									<!-- <view class="text-space"  v-if="ite.inforType ==1">
-										
+
 									</view> -->
 									<image class="medias_size" v-if="ite.inforType!=1"   :src="ite.medias[0]" mode="widthFix" alt=""></image>
 									<view class="inforText">{{ ite.textContent }}</view>
@@ -131,7 +131,7 @@
 									class="card-PublishInfor" @click="toMemInformationDetail(ite)">
 									<AvatarName :avatarInfo="{nickname:ite.nickname,avatar:ite.avatar,uuId:ite.uuId}"></AvatarName>
 									<!-- <view class="text-space"  v-if="ite.inforType ==1">
-										
+
 									</view> -->
 									<image class="medias_size" v-if="ite.inforType !=1" :src="ite.medias[0]" mode="widthFix" alt=""></image>
 									<view class="inforText">{{ ite.textContent }}</view>
@@ -256,7 +256,7 @@
 		methods: {
 			toMemInformationDetail(item){
 				console.log(item,"详情")
-				
+
 				uni.navigateTo({
 					url: '/pages/home/homeInforDetail?from=othermember' + '&item=' + encodeURIComponent(JSON
 						.stringify(item))
@@ -292,7 +292,7 @@
 						// 举报成功
 						uni.hideLoading();
 						uni.showToast({
-							title: "举报成功",
+							title: "感谢您的积极反馈",
 							icon: 'none'
 						});
 						cb(); // 弹框消失
@@ -604,7 +604,7 @@
 		padding: 10rpx 20rpx;
 		border: 2rpx solid #fff;
 		border-radius: 30rpx;
-		
+
 	}
 
 	.UCenter-bg image {
@@ -676,7 +676,7 @@
 		border-radius: 30rpx 30rpx 0 0;
 		margin-top: 50rpx;
 		overflow-y: scroll;
-		
+
 	}
 
 	.swiper-item {
@@ -778,6 +778,6 @@
 		  overflow: hidden; /* 隐藏容器中超出部分的内容 */
 		  text-overflow: ellipsis; /* 超出容器范围的文本显示省略号 */
 		word-break:break-all;
-		
+
 	}
 </style>

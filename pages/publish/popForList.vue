@@ -13,9 +13,9 @@
 					<view class="popup-list-item delete" v-if="listInfo.isUser" @click="handleDelete">
 						删除
 					</view>
-					
+
 					<view class="popup-list-item" v-if="!listInfo.isUser" @click="handleClick">
-						举报 
+						举报
 					</view>
 					<view class="popup-list-item cancle" @click="close">
 						取消
@@ -29,7 +29,7 @@
 					确认举报
 				</view>
 				<view class="report-body">
-					确认举报当前{{listInfo.typeText}}
+					确认举报当前{{listInfo.typeText}}吗？(对于不友好评论，您也可以通过长按对应评论进行举报)
 				</view>
 				<view class="report-bottom ">
 					<view class="report-btn submit-report bg-gradual-blue" @click="reportSubmit">
@@ -68,7 +68,7 @@
 			open() {
 				// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
 				this.$refs.popup.open('bottom')
-				// 
+				//
 				// this.$emit("popListUp")
 			},
 			close(){
@@ -86,14 +86,14 @@
 				this.$emit("reportSubmit",this.listInfo,()=>{
 					this.$refs['popup-report'].close()
 				});
-				
+
 			},
 			handleDelete(){
 				// 删除动态
 				// 弹出删除动态modal
 				this.$refs.popup.close();
 				this.$refs['popup-delete'].open()
-				
+
 			},
 			deleteClose(){
 				// 关闭弹窗
@@ -105,7 +105,7 @@
 					this.$refs['popup-delete'].close()
 				})
 			}
-			
+
 		},
 		props:{
 			listInfo:Object
@@ -119,7 +119,7 @@
 		width: 100%;
 		border-radius: 35rpx 35rpx 0 0;
 		padding-top:40rpx;
-		
+
 	}
 	.popup-list-item{
 		width: 80%;
@@ -134,7 +134,7 @@
 	.popup-list-item.cancle{
 		color:#888
 	}
-	
+
 	.report-container,.delete-container{
 		width: 70vw;
 		background-color: #fff;
@@ -150,11 +150,11 @@
 	}
 	.report-body,.delete-body{
 		color:#666;
-		
+
 	}
 	.report-bottom,.delete-bottom{
 		margin-top: 30rpx;
-		
+
 	}
 	.submit-report,.submit-delete{
 		margin-bottom: 25rpx;
@@ -165,7 +165,7 @@
 		border-radius: 35rpx;
 		line-height:70rpx;
 		text-align: center;
-		
+
 	}
 	.submit-delete{
 		background-color: #e54d42;
@@ -174,5 +174,5 @@
 	.cancel-report,.cancel-delete{
 		background-color: #eee;
 	}
-	
+
 </style>

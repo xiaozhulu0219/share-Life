@@ -76,17 +76,17 @@
 				<!-- <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
 					@click="dislikeInfor(myCommentForm.id)">&#xe60f
 				</view> -->
-				<view class="cuIcon-favor" 
-				 v-if="myCommentForm.hasCollect == 0"  
+				<view class="cuIcon-favor"
+				 v-if="myCommentForm.hasCollect == 0"
 				 style=" color: #fbbd08;font-size: 1.5em;"
 				 @click="collectInfor(myCommentForm.id)">
-					
+
 				</view>
-				<view class="cuIcon-favorfill"  
-				v-if="myCommentForm.hasCollect == 1"  
+				<view class="cuIcon-favorfill"
+				v-if="myCommentForm.hasCollect == 1"
 				style=" color: #fbbd08;font-size: 1.5em;"
 				 @click="unCollectInfor(myCommentForm.id)">
-					
+
 				</view>
 				<view class="card-likeCount">{{myCommentForm.collectCount}}</view>
 				<view class="cuIcon-like" style="font-size: 45rpx; color: #fbbd08;" v-if="myCommentForm.hasLoved == 0"
@@ -118,13 +118,13 @@
 								<view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
 									v-if="item.hasLoved == 0" @click="loveComment(item.id)">
 									<view class="cuIcon-like">
-										
+
 									</view>
 								</view>
 								<view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
 									@click="disLoveComment(item.id)">
 									<view class="cuIcon-likefill">
-										
+
 									</view>
 								</view>
 								<view class="comment-likeCount">{{item.loveCount}}</view>
@@ -163,13 +163,13 @@
 										<view class="iconfont ml-1" style="font-size: 30rpx; color: #fbbd08;;"
 											v-if="sonitem.hasLoved == 0" @click="loveComment(sonitem.id,item.id)">
 											<view class="cuIcon-like">
-												
+
 											</view>
 										</view>
 										<view class="iconfont ml-1" style="font-size: 30rpx; color: #dd524d;" v-else
 											@click="disLoveComment(sonitem.id,item.id)">
 											<view class="cuIcon-likefill">
-												
+
 											</view>
 										</view>
 										<view class="comment-likeCount">{{sonitem.loveCount}}</view>
@@ -453,7 +453,7 @@
 							// 举报成功
 							uni.hideLoading();
 							uni.showToast({
-								title:"举报成功",
+								title:"感谢您的积极反馈",
 								icon:'none'
 							});
 							cb();// 弹框消失
@@ -1021,11 +1021,11 @@
 						this.myCommentForm.collectCount = res.data.result;
 						//刷新页面
 						this.findPublishInfor(this.myFormData.inforId);
-				
+
 					}
 				});
 			},
-			
+
 			// likeInfor(id) {
 			// 	console.log('进来了点赞动态方法', id);
 			// 	this.$http.get(this.url.likeInforUrl, {
@@ -1053,7 +1053,7 @@
 						console.log('表单数据', res);
 						this.myCommentForm.collectCount = res.data.result;
 						//刷新页面
-						
+
 						this.findPublishInfor(this.myFormData.inforId);
 					}
 				});
@@ -1597,7 +1597,7 @@
 		width:100%;
 		padding:15rpx 10rpx;
 		box-sizing: border-box;
-		
+
 		display:flex;
 		align-items: center;
 		justify-content: space-between;
