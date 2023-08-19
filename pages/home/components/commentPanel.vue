@@ -12,6 +12,7 @@
 					<text class="iconfont icon-wenbenshuru"></text>
 				</view>
 				<input 
+				:adjust-position="false"
 				ref="commentInput" :focus="inpFocus" type="text" class="input-box-inner" v-model="inputVal"
 					:placeholder="placeholderText" maxlength="200"
 					@keydown.enter="handleChange">

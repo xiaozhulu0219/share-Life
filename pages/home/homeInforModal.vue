@@ -1,69 +1,69 @@
 <template>
 	<view class="list-wrap">
-		<scroll-view scroll-y
-		@scrolltolower="reachBottom"
-		style="height: 100%;"
-		refresher-enabled="true"
+		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;" refresher-enabled="true"
 			:refresher-triggered="triggered" :refresher-threshold="100" refresher-background="#fff"
 			@refresherrefresh="onRefresh">
-			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index" class="card"
-			>
-			<!-- @touchstart="touchstart(item)" @touchend="touchend" -->
-				<view class="report-btn" @click="confirmReport(item)">
-					<view class="cuIcon-info" style="font-size: 1.2em;">
+			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index">
+				<view class="card" v-if="item.state!=2">
+					<!-- @touchstart="touchstart(item)" @touchend="touchend" -->
 
-					</view>
-				</view>
-				<view v-if="item.imgIsNull" class="space-for-no-img" @click="toInformationDetail(item,index)">
-				</view>
-				<view v-if="!item.imgIsNull" @click="toInformationDetail(item,index)">
-					<image v-if="item.medias.length>0" class="medias_size" :src="item.medias[0]" mode="widthFix" alt=""
-						@click="toInformationDetail(item,index)"></image>
-					<image v-else class="nomedias_size"></image>
-				</view>
-				<!-- <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image> -->
+					<view class="report-btn" @click="handleLongpress(item)">
+						<view class="cuIcon-info" style="font-size: 1.2em;">
 
-				<view class="card-text" style="-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: -webkit-box;" @click="toInformationDetail(item,index)">
-					{{item.textContent}}
-					<view class="colpose"></view>
-					<view v-if="item.imgIsNull" class="space-for-no-img">
-
-					</view>
-				</view>
-				<view class="card-line">
-					<view class="left">
-						<image class="card-avatar round" :src="item.avatar" mode="aspectFill" alt=""
-							@click="toMemberdetail(item.uuId)"></image>
-						<view class="card-nickname">{{item.nickname.substr(0, 12)}}</view>
-					</view>
-					<view class="right">
-						<view class="cart-flex card-width">
-							<view class="cuIcon-location"> </view>
-							<view class="card-ipAddress">{{item.ipAddress}}</view>
-						</view>
-						<view class="cart-flex">
-							<view class="cuIcon-like" style="color: #fbbd08" v-if="item.hasLoved == 0"
-								@click="loveInfor(item.inforId,index)"></view>
-							<view class="cuIcon-likefill" style="color: #dd524d" v-else
-								@click="unloveInfor(item.inforId,index)"></view>
-							<view class="card-loveCount">{{item.loveCount}}</view>
 						</view>
 					</view>
+					<view v-if="item.imgIsNull" class="space-for-no-img" @click="toInformationDetail(item,index)">
+					</view>
+					<view v-if="!item.imgIsNull" @click="toInformationDetail(item,index)">
+						<image v-if="item.medias.length>0" class="medias_size" :src="item.medias[0]" mode="widthFix"
+							alt="" @click="toInformationDetail(item,index)"></image>
+						<image v-else class="nomedias_size"></image>
+					</view>
+					<!-- <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image> -->
+
+					<view class="card-text"
+						style="-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: -webkit-box;"
+						@click="toInformationDetail(item,index)">
+						{{item.textContent}}
+						<view class="colpose"></view>
+						<view v-if="item.imgIsNull" class="space-for-no-img">
+
+						</view>
+					</view>
+					<view class="card-line">
+						<view class="left">
+							<image class="card-avatar round" :src="item.avatar" mode="aspectFill" alt=""
+								@click="toMemberdetail(item.uuId)"></image>
+							<view class="card-nickname">{{item.nickname.substr(0, 12)}}</view>
+						</view>
+						<view class="right">
+							<view class="cart-flex card-width">
+								<view class="cuIcon-location"> </view>
+								<view class="card-ipAddress">{{item.ipAddress}}</view>
+							</view>
+							<view class="cart-flex">
+								<view class="cuIcon-like" style="color: #fbbd08" v-if="item.hasLoved == 0"
+									@click="loveInfor(item.inforId,index)"></view>
+								<view class="cuIcon-likefill" style="color: #dd524d" v-else
+									@click="unloveInfor(item.inforId,index)"></view>
+								<view class="card-loveCount">{{item.loveCount}}</view>
+							</view>
+						</view>
+					</view>
+
 				</view>
 			</view>
+
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多动态了，快去分享你的美好生活吧---</view>
 		</scroll-view>
-		<popForList ref="popforlist"
-		:listInfo="popupInfo"
-		@reportSubmit="handleSubmitRepot"
-		@deleteSubmit="handleSubmitDelete"></popForList>
+		<popForList ref="popforlist" :listInfo="popupInfo" @reportSubmit="handleSubmitRepot"
+			@deleteSubmit="handleSubmitDelete"></popForList>
 
 	</view>
 </template>
 
 <script>
-
 	import configService from '@/common/service/config.service.js';
 	import popForList from "@/pages/publish/popForList.vue"
 	// import {subscrib} from "../../common/util/eventBus.js";
@@ -74,9 +74,9 @@
 	export default {
 		data() {
 			return {
-				isLongPress:false,
-				longpressTimer:null,// 长按计时器
-				popupInfo:{},
+				isLongPress: false,
+				longpressTimer: null, // 长按计时器
+				popupInfo: {},
 				triggered: false,
 				pageInfo: {
 					num: 0,
@@ -85,17 +85,17 @@
 				imageList: [],
 				hasNext: true,
 				isDownLoading: false,
-				deleteInforUrl:'/information/movements/deleteInfor',
-				reportSubmitUrl:'/reportviolations/sendReportViolations',
+				deleteInforUrl: '/information/movements/deleteInfor',
+				reportSubmitUrl: '/reportviolations/sendReportViolations',
 				unloveInforUrl: '/information/movements/unlove',
 				loveInforUrl: '/information/movements/love',
 				homeListUrl: '/information/movements/findHomePublishInforList',
 				homeList: [], // 上拉加载的配置(可选, 绝大部分情况无需配置)
 				fileUrl: configService.fileSaveURL,
-				activeType:''
+				activeType: ''
 			};
 		},
-		components:{
+		components: {
 			popForList
 		},
 		computed: {
@@ -104,31 +104,31 @@
 					return `${content.substring(0, 38)}${content.length > 38 ? ' ...' : ''}`;
 				};
 			},
-			...mapState(['homeListStore', 'pageInfoStore','uuId']),
+			...mapState(['homeListStore', 'pageInfoStore', 'uuId']),
 
 		},
-		props:{
-			activeTab:Object
+		props: {
+			activeTab: Object
 		},
-		watch:{
-			'activeTab.value':{
-				handler(newVal){
-					console.log("active变了",newVal)
-					console.log(newVal,"新的值")
-					if(newVal==='1'){
+		watch: {
+			'activeTab.value': {
+				handler(newVal) {
+					console.log("active变了", newVal)
+					console.log(newVal, "新的值")
+					if (newVal === '1') {
 						// 请求推荐接口
-						this.homeListUrl='/information/movements/findHomePublishInforList'
+						this.homeListUrl = '/information/movements/findHomePublishInforList'
 						this.changehomeListStore([]);
 						this.initPage([]);
 						// 重新请求列表
 						this.getHomePublishInforList()
-					}else if(newVal==='2'){
+					} else if (newVal === '2') {
 						return
-					}else{
+					} else {
 						// 需要调用其他接口
 						this.activeType = newVal;
 
-						this.homeListUrl='/inforcommon/findInforPageByTabType';
+						this.homeListUrl = '/inforcommon/findInforPageByTabType';
 						this.changehomeListStore([]);
 						this.initPage([]);
 						this.getHomePublishInforList()
@@ -186,49 +186,51 @@
 		},
 
 		methods: {
-			confirmReport(item){
+			// confirmReport(item) {
 
-				// 判断当前动态是不是自己的
-				// console.log("咦")
-				console.log(this.uuId,'2',item.uuId)
-				if(this.uuId!==item.uuId){
-					// 当前动态不是自己的进行举报
-					uni.showModal({
-						title:'进行举报',
-						content:"您确认要举报该条动态吗？ (恶意举报会被处理的呦)",
-						confirmText:'举报',
-						success:(res)=>{
-							console.log("举报",res)
-							if(res.confirm){
-								// 弹出弹框
-								this.handleLongpress(item)
-							}else if(res.cancel){
-								return
-							}
-						}
-					})
-				}else{
-					this.handleLongpress(item)
-				}
+			// 	// 判断当前动态是不是自己的
+			// 	// console.log("咦")
+			// 	console.log(this.uuId, '2', item.uuId)
+			// 	if (this.uuId !== item.uuId) {
+			// 		// 当前动态不是自己的进行举报
+			// 		uni.showModal({
+			// 			title: '进行举报',
+			// 			content: "您确认要举报该条动态吗？ (恶意举报会被处理的呦)",
+			// 			confirmText: '举报',
+			// 			success: (res) => {
+			// 				console.log("举报", res)
+			// 				if (res.confirm) {
+			// 					// 弹出弹框
+			// 					this.handleLongpress(item);
+								
+			// 				} else if (res.cancel) {
+			// 					return
+			// 				}
+			// 			}
+			// 		})
+			// 	} else {
+			// 		this.handleLongpress(item)
+			// 	}
 
-			},
-			handleSubmitDelete(tar,cb){
+			// },
+			
+			handleSubmitDelete(tar, cb) {
 				// 删除动态
-				console.log(tar,"用户要删除")
+				console.log(tar, "用户要删除")
 				// 提交删除动态申请
 				// 本地仓库也要删除
 				uni.showLoading({
-					title:'loading...'
+					title: 'loading...'
 				})
 				this.$http.delete(this.deleteInforUrl + '?id=' + tar.detail.inforId).then(async res => {
-				    console.log("结果数据", res)
-				    if (res.data.success) {
+					console.log("结果数据", res)
+					if (res.data.success) {
 						// 本地仓库刷新
 						// 重新请求数据
 						uni.hideLoading();
 						uni.showToast({
-							title:'删除成功',
-							icon:'none'
+							title: '删除成功',
+							icon: 'none'
 						})
 						cb()
 						this.changehomeListStore([]);
@@ -236,56 +238,62 @@
 						await this.getHomePublishInforList();
 
 
-				    }
+					}
 				}).catch(e => {
-				    console.log("al delUrl请求错误2", e)
+					console.log("al delUrl请求错误2", e)
 				})
 			},
-			handleSubmitRepot(tar,cb){
-				console.log("发送举报请求",tar)
+			handleSubmitRepot(tar, cb) {
+				console.log("发送举报请求", tar)
 				uni.showLoading({
-					title:'loading....'
+					title: 'loading....'
 				})
 				const submitObj = {
-					type:tar.type,
-					id:tar.detail.id,
-					reportContent:tar.detail.textContent,
-					uuId:tar.detail.uuId
+					type: tar.type,
+					id: tar.detail.id,
+					reportContent: tar.detail.textContent,
+					uuId: tar.detail.uuId
 
 				}
 				console.log(submitObj)
-				this.$http.post(this.reportSubmitUrl,submitObj).then((res)=>{
-						if(res.statusCode===200){
-							// 举报成功
-							uni.hideLoading();
-							uni.showToast({
-								title:"感谢您的积极反馈",
-								icon:'none'
-							});
-							cb();// 弹框消失
+				this.$http.post(this.reportSubmitUrl, submitObj).then((res) => {
+					if (res.statusCode === 200) {
+						// 举报成功
+						uni.hideLoading();
+						uni.showToast({
+							title: "感谢您的积极反馈",
+							icon: 'none'
+						});
+						cb(); // 弹框消失
+						// 将当前列表的当前state变成2 不显示
+						const targetIdx = this.homeListStore.findIndex(item=>{
+							return item.inforId === tar.detail.inforId
+						
+						})
+						this.homeListStore[targetIdx].state = 2;
 
-						}else{
-							uni.hideLoading();
-							uni.showToast({
-								title:"未知错误",
-							});
-						}
+					} else {
+						uni.hideLoading();
+						uni.showToast({
+							title: "未知错误",
+						});
+					}
 
 				})
 			},
 			// 长按弹窗
-			touchstart(item){
+			touchstart(item) {
 				//1.5后触发弹窗事件
-				this.longpressTimer = setTimeout(()=>{
+				this.longpressTimer = setTimeout(() => {
 					this.handleLongpress(item)
-				},750)
+				}, 750)
 			},
-			touchend(){
+			touchend() {
 				clearTimeout(this.longpressTimer);
 				this.longpressTimer = null;
 
 			},
-			handleLongpress(item){
+			handleLongpress(item) {
 				// console.log(this.popupInfo)
 				// console.log(this.uuId,"1")
 				// console.log(item.uuId,"2")
@@ -293,12 +301,14 @@
 				console.log("弹框出现");
 				this.isLongPress = true;
 				let tar = {
-					isUser:this.uuId===item.uuId,
-					detail: {...item},
-					type:"1",
-					typeText:'动态'
+					isUser: this.uuId === item.uuId,
+					detail: {
+						...item
+					},
+					type: "1",
+					typeText: '动态'
 				}
-				console.log(tar,"zhezheh")
+				console.log(tar, "zhezheh")
 				this.popupInfo = tar
 				this.$refs.popforlist.open()
 			},
@@ -339,12 +349,12 @@
 					}
 				} = this;
 				console.log(num, "请求的参数第几页");
-				console.log("请求的分类",this.activeTab.value);
+				console.log("请求的分类", this.activeTab.value);
 				return this.$http.get(homeListUrl, {
 					params: {
 						page: num,
 						pagesize: size,
-						type:this.activeType
+						type: this.activeType
 					}
 				}).then(res => {
 					const {
@@ -404,7 +414,8 @@
 				// 存一下item.id
 
 				uni.navigateTo({
-					url: '/pages/home/homeInforDetail?from=infor&index=' + index + '&item=' + encodeURIComponent(JSON
+					url: '/pages/home/homeInforDetail?from=infor&index=' + index + '&item=' + encodeURIComponent(
+						JSON
 						.stringify(item))
 				});
 			},
@@ -454,7 +465,7 @@
 
 			toMemberdetail(myFormData) {
 				//判断如果跳转的动态页的uuid 是当前登录用户的  那就跳到自己的个人页
-				console.log(myFormData,"myFormData")
+				console.log(myFormData, "myFormData")
 				if (this.$store.getters.uuId == myFormData) {
 					uni.navigateTo({
 						url: '/pages/member/member'
@@ -490,7 +501,8 @@
 		line-height: 35rpx;
 		/*行高*/
 		border-bottom: #eee solid 5rpx;
-		position:relative;
+		position: relative;
+
 		.cart-flex {
 			display: flex;
 			align-items: center;
@@ -605,10 +617,11 @@
 		flex-shrink: 0;
 		flex: 2;
 	}
-	.report-btn{
+
+	.report-btn {
 		height: 40rpx;
-		width:40rpx;
-		position:absolute;
+		width: 40rpx;
+		position: absolute;
 		top: 10rpx;
 		right: 25rpx;
 

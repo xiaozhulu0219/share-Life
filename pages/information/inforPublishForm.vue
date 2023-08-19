@@ -31,8 +31,12 @@
 				<view class="main bg-white" :style="{backgroundColor:voteBc}">
 					<view class="cu-form-group textarea">
 						<textarea :placeholder="'你可以在这里:\n1.爆料职场新鲜事 \n2.分享面试跳槽经验 \n3.与同行交流、吐槽解压'"
-							style="width: 18px; height: 180px;" name="input" v-model="myFormData.textContent"
-							:maxlength="maxLength" @input="onInput(myFormData.textContent)">
+							style="width: 18px; height:300px;" 
+							name="input" 
+							v-model="myFormData.textContent"
+							:maxlength="maxLength" 
+							@input="onInput(myFormData.textContent)"
+							:adjust-position="false">
                         </textarea>
 						<view class="maxlength-tip" v-if="(myFormData.textContent.length)>=(maxLength*0.8)">
 							{{myFormData.textContent.length}}/{{maxLength}}
@@ -42,7 +46,9 @@
 
 						<my-image-upload ref="imageUpload" v-if="inforType===2" v-model="myFormData.medias">
 						</my-image-upload>
-
+						<view class="bottom-space" style="height: 150rpx;background-color: #fff;">
+							
+						</view>
 						<view class="fixed-content">
 
 							<view class="bottom-content">
@@ -147,6 +153,7 @@
 <script>
 	import myDate from '@/components/my-componets/my-date.vue'
 	import myImageUpload from '@/components/my-componets/my-image-upload.vue'
+	import textTip from "@/pages/component/textTip.js"; 
 	import {
 		keyWords
 	} from '../../common/util/constants';
@@ -166,6 +173,7 @@
 				required: false
 			}
 		},
+		mixins:[textTip],
 		data() {
 			return {
 				seeType:1,
@@ -309,6 +317,7 @@
 				//console.log("inputValue值为空1：", inputValue);
 				if (this.myFormData.textContent === '' || this.myFormData.textContent.indexOf('*') != -1) {
 					console.log('动态内容出现了违规词语、已被拦截：', this.myFormData.textContent);
+					this.showTextTip('动态')
 				} else {
 					console.log('medias2', this.myFormData.medias)
 					// 判断是否有编辑好的数组
@@ -348,6 +357,14 @@
 										}, 1500);
 									}
 								});
+							}else{
+								if(res.data.message=='请上传图片'){
+									uni.showToast({
+										title:res.data.message,
+										icon:'none'
+									})
+								}
+								
 							}
 						})
 				}
@@ -533,11 +550,12 @@
 		position: fixed;
 		bottom: 0px;
 		left: 0px;
+		background-color: rgba(255,255,255,.7);
 	}
 
 	.bottom-content {
 		width: 100%;
-
+		height:90rpx;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

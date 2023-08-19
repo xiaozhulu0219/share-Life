@@ -29,7 +29,13 @@
 					确认举报
 				</view>
 				<view class="report-body">
-					确认举报当前{{listInfo.typeText}}吗？(对于不友好评论，您也可以通过长按对应评论进行举报)
+					确认举报当前{{listInfo.typeText}}吗？
+					<view class="" style="font-size: 0.8em;">
+						(对于不友好评论，您也可以通过长按对应评论进行举报)
+					</view>
+					<view class="" style="font-size: 0.8em;color:#aaa">
+						提示:恶意举报会被处理的呦
+					</view>
 				</view>
 				<view class="report-bottom ">
 					<view class="report-btn submit-report bg-gradual-blue" @click="reportSubmit">
@@ -78,6 +84,7 @@
 				// 点击举报
 				this.$refs.popup.close()
 				this.$refs['popup-report'].open()
+				console.log(this.listInfo,"测试")
 			},
 			reportClose(){
 				this.$refs['popup-report'].close()
