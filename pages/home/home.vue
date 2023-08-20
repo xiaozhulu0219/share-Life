@@ -9,10 +9,10 @@
 		:nScreenShow="isNScreenShow"
 		@nScreenHide="handleNScreenHide"></negativeOneScreen>
 		<!-- <scroll-view scroll-y class="page"> -->
-		<commonTab :bgColor="NavBarColor">
+		<commonTab :isBack="false" :bgColor="NavBarColor" >
 			<!-- <block slot="title"> ShareLife</block> -->
 			<block slot="left">
-				<view class="cuIcon-more" @click="isNScreenShow=true" style="font-size:1.3em">
+				<view class="cuIcon-more" @click.stop="isNScreenShow=true" style="font-size:1.3em">
 					
 				</view>
 			</block>
@@ -29,7 +29,6 @@
 		<!-- 导航条属于首页导航条 需要再增加两个页面 -->
 
 
-
 		<view class="mySwiper" >
 			<view class="follow-page" v-if="activeFirstTab===0" @touchstart="handleDragStart" @touchend="handleDragEnd">
 				<followPost></followPost>
@@ -43,6 +42,7 @@
 				></HomeSignModal>
 				<!-- <button type="default" @click="pageNext">测试</button> -->
 				<!-- 下方是正文内容 -->
+				
 				<view class="" @touchstart="handleDragStart" @touchend="handleDragEnd">
 					<homeHelpCompanyModal v-show="activeTab.value==2"  class="home-helpCompany"></homeHelpCompanyModal>
 					<homeModal v-show="activeTab.value!==2" :activeTab="activeTab" ></homeModal>
@@ -136,11 +136,20 @@
 					createTime: '2022-12-12 10:00:00',
 					createBy: '之乎者也有限公司',
 					status: 2
-				}] //搜索出来的内容(假数据)
+				}], //搜索出来的内容(假数据)
+				title: '互动游戏',
+				loading: false,
+				imgUrl: "http://101.43.131.189:30018/share-life/sys/common/static/2023/08/20/1692471473743.jpg"
 			};
 		},
 		// created() {
 		//     this.getHomePublishInforList();
+		// },
+		// onLoad() {
+		// 	CreateInteractiveAd.onLoad(res => {
+		// 	    console.log('图片素材地址', res.imgUrl);
+		// 	    console.log('广告加载成功');
+		// 	})
 		// },
 		
 		methods: {
@@ -149,6 +158,8 @@
 			//    console.log('1111111111111', curTab);
 			//   this.getActiveTab(curTab+1)
 			// },
+			
+			
 			handleNScreenHide(){
 				// 隐藏负一屏
 				this.isNScreenShow= false
