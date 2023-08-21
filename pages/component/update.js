@@ -8,32 +8,45 @@ import {
 				updateUrl: '/systemConfiguration/systemConfiguration/showData',
 				isDownloadFinish:false,
 				filename:'',
+				version:''
 			}
 		},
 		methods: {
 			updateForce() {
-				const localVersion = uni.getSystemInfoSync();
-				console.log(localVersion, "当前版本")
-				const currentCode = localVersion.appVersionCode;
-				this.$http.get(this.updateUrl).then(res => {
-					console.log("数据", res)
-					const targetObj = res.data.result
-					const targetCode = targetObj.versionNum
-					if (targetCode > currentCode) {
-						console.log("需要升级");
-						// 渲染更新弹窗
-						// 传递数据
-						console.log(targetObj);
-						targetObj.force = true
-						this.updateObj = targetObj;
+				// const localVersion = uni.getSystemInfoSync();
+				// const currentCode = localVersion.appVersionCode;
 
-						this.$refs.popup.open();
+				// #ifdef APP-PLUS
+				// var that = this;
+				plus.runtime.getProperty(plus.runtime.appid, (wgtinfo)=> {
+					this.version = wgtinfo.version;
+					console.log(this.version,"版本")
+					this.$http.get(this.updateUrl).then(res => {
+						console.log("数据", res)
+						const targetObj = res.data.result
+						const targetCode = targetObj.versionNum
+						// console.log(version,"当前版本",targetCode,"下载版本" )
+						const isforcedUpdate = targetObj.forceUpdate
+						if (targetCode >this.version && isforcedUpdate == 1) {
+							console.log("需要升级");
+							// 渲染更新弹窗
+							// 传递数据  慢的有点不正常  我重启一下  你来吧
+							console.log(targetObj);
+							targetObj.force = true
+							this.updateObj = targetObj;
 
-					} else {
-						console.log("不需要升级");
-						return
-					}
-				})
+							this.$refs.popup.open();
+
+						} else {
+							console.log("不需要升级");
+							return
+						}
+					})
+
+				});
+				// #endif
+
+
 			},
 			updateApp() {
 				console.log("点击下载了");
@@ -54,7 +67,8 @@ import {
 								icon:'none'
 							})
 							this.isDownloadFinish = true;
-							this.filename = fileName
+							this.filename = fileName;
+							console.log(this.filename,"下载结果")
 							this.handleInstallApp();
 						}
 					})
@@ -63,7 +77,7 @@ import {
 			},
 			handleInstallApp() {
 				if (this.isDownloadFinish && this.filename ) {
-					installApp(this.fileName, () => {
+					installApp(this.filename, () => {
 						//安装成功,关闭升级弹窗
 						this.$refs.popup.close();
 					})
