@@ -3,20 +3,24 @@
 	import appUpdate from 'common/util/appUpdate.js'
 	import {mapActions} from "vuex";
 	export default {
+		
 		methods:{
 			// 调用获取未读消息的方法
-			...mapActions(['getMessageCount'])
+			...mapActions(['getMessageCount']),
+			
 		},
 		onLaunch: function() {
 			// 跳转启动页面
 			
 			this.getMessageCount()
 			uni.getSystemInfo({
-				success: function(e) {
-
+				success:(e)=>{
+					
 					// #ifdef APP-PLUS
 					// 检测升级
-					appUpdate()
+					// appUpdate()
+					
+					
 					// #endif
 
 

@@ -60,6 +60,8 @@
 		<!-- <button type="default" @click="pageNext">测试2</button> -->
 		<bottomTab PageCur="home"></bottomTab>
 		<!-- </scroll-view> -->
+		<popupForUpdate ref="popup" :updateObj="updateObj"
+		@updateApp="updateApp"></popupForUpdate>
 	</view>
 </template>
 
@@ -77,8 +79,10 @@
 	import followPost from "./homeFollowPost.vue"
 	import hotPage from "./homeHotPage.vue"
 	import negativeOneScreen from "@/pages/home/components/NegativeOneScreen.vue"
+	import updateMixin from "@/pages/component/update.js"
+	import popupForUpdate from "@/pages/component/popForUpdate.vue"
 	export default {
-		mixins: [MescrollMixin, Mixin, MescrollMoreMixin, mySwiper],
+		mixins: [MescrollMixin, Mixin, MescrollMoreMixin, mySwiper,updateMixin],
 		components: {
 			HomeSignModal,
 			homeModal,
@@ -88,7 +92,8 @@
 			listComponent,
 			followPost,
 			hotPage,
-			negativeOneScreen
+			negativeOneScreen,
+			popupForUpdate
 		},
 		data() {
 			return {
@@ -139,8 +144,15 @@
 				}], //搜索出来的内容(假数据)
 				title: '互动游戏',
 				loading: false,
-				imgUrl: "http://101.43.131.189:30018/share-life/sys/common/static/2023/08/20/1692471473743.jpg"
+				updateObj:{},
+				
 			};
+		},
+		mounted(){
+			// this.updateForce() 
+			setTimeout(()=>{
+				this.updateForce()
+			},3000)
 		},
 		// created() {
 		//     this.getHomePublishInforList();

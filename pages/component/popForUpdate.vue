@@ -1,6 +1,7 @@
 <template>
 		<view>
-			<uni-popup ref="popup-update">
+			<uni-popup ref="popup-update" 
+			:mask-click="false">
 				<view class="update-container ">
 					<view class="update-header bg-gradual-blue">
 							<view class="cuIcon-discover update-icon">
@@ -26,7 +27,7 @@
 						<view class="update-btn btn bg-gradual-blue" @click="handleUpdate">
 							立即更新
 						</view>
-						<view class="cancel-btn btn" @click="close">
+						<view class="cancel-btn btn" @click="close" v-if="!updateObj.force">
 							取消
 						</view>
 					</view>
@@ -42,6 +43,11 @@
 			return {}
 		},
 		methods:{
+			handleMask(){
+				if(updateObj.force){
+					return
+				}
+			},
 			// 打开弹窗
 			open(){
 				this.$refs['popup-update'].open();

@@ -3,7 +3,7 @@
 		<view class="comment-space" @click="cancelComment">
 			
 		</view>
-		<view class="comment-panel-container"  >
+		<view class="comment-panel-container" :class="{show:isShow}" >
 			<!-- <view class="" style="text-align: right;">
 				<text class="iconfont icon-guanbi" @click="cancelComment" style="font-size: 0.8em;"></text>
 			</view> -->
@@ -14,8 +14,10 @@
 				<input 
 				@input="onInput(inputVal)"
 				:adjust-position="false"
+				@focus="handlefocus"
 				ref="commentInput" :focus="inpFocus" type="text" class="input-box-inner" v-model="inputVal"
 					:placeholder="placeholderText" maxlength="200"
+					@blur="cancelComment"
 					@keydown.enter="handleChange">
 				<!-- <view class="test-btn">
 					<button type="default" size="mini" plain="true" @click="sbmitComment">发表</button>
@@ -23,7 +25,6 @@
 			</view>
 			<view class="submit-box" @click="handleChange">
 				发送
-				
 			</view>
 			<!-- <view class="" style="width: 100%;height: 30rpx; background-color: black;"> -->
 		
@@ -45,34 +46,44 @@
 			return {
 				// isShow:false
 				inputVal: '',
-				inpFocus: false
+				inpFocus: false,
+				height:''
 			}
 
 		},
 		mixins:[textTip],
-		// watch: {
-		// 	// 监听
-		// 	'isShow': {
-		// 		handler(newVal, oldVal) {
-		// 			// 监听isshow时间自动对焦
-		// 			if (newVal) {
-		// 				// 面板显示
-		// 				console.log("显示")
-		// 				this.inputFocus()
-		// 				this.inpFocus = true;
-		// 				setTimeout(()=>{
-		// 					this.inpFocus = true;
-		// 				},100)
-		// 				// console.log();
+		watch: {
+			// 监听
+			'isShow': {
+				handler(newVal, oldVal) {
+					// 监听isshow时间自动对焦
+					if (newVal) {
+						// 面板显示
+						console.log("显示")
+						// this.inputFocus()
+						this.inpFocus = true;
+						setTimeout(()=>{
+							this.inpFocus = true;
+						},100)
+						// console.log();
 
-		// 				// this.$refs.commentInput.focus=true
-		// 			}else{
-		// 				this.inpFocus = false
-		// 			}
-		// 		}
-		// 	}
-		// },
+						// this.$refs.commentInput.focus=true
+					}else{
+						this.inpFocus = false
+					}
+				}
+			}
+		},
 		methods: {
+			handlefocus(e){
+				// this.$nextTick(()=>{
+				// 	this.test = e
+				// 	console.log(e)
+				// 	console.log("输入法被点击")
+				// })
+				this.height = 300+'px'
+			
+			},
 			onInput(value) {
 				// console.log(value,'1111')
 				if (value !== null) {
@@ -138,6 +149,9 @@
 		props: {
 			isShow: Boolean,
 			placeholderText: String,
+			test:{
+				
+			}
 			// 是否是直接评论 意思是是否是对动态的直接论
 			// isDirectedComment:Boolean
 		}
@@ -146,11 +160,17 @@
 
 <style>
 	@import url("//at.alicdn.com/t/c/font_4189769_b7ngzgwe98s.css");
+	.test-inner{
+		top: 50%;
+		left:0;
+		position:absolute
+		
+	}
 	.comment-panel-wrap{
 		left: 0px;
 		height:100vh;
 		width:100vw;
-		display: flex;
+		/* display: flex; */
 		flex-direction: column;
 		position: fixed;
 		top:100%;
@@ -162,20 +182,26 @@
 		top: 0;
 	}
 	.comment-space{
-		flex:1 1 auto;
+		/* flex:1 1 auto; */
+		height: 100vh;
+		width:100vw;
 		background-color:transparent;
 	}
+	.comment-panel-container.show{
+		display: flex;
+	}
 	.comment-panel-container {
-		flex:0 0 auto;
+		/* flex:0 0 auto; */
+		
 		height: 120rpx;
 		/* padding: 20rpx 30rpx; */
 		background-color: #fff;
 		border-top: 1px solid #ddd;
 		box-sizing: border-box;
-		position: absolute;
+		position: fixed;
 		bottom:0;
 		left:0;
-		display: flex;
+		display: none;
 		/* border-radius: 20px 20px 0 0; */
 		width: 100%;
 		transition: 200ms;
