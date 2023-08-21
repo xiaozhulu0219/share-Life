@@ -21,8 +21,9 @@
 				<view @click="showModal" class="cuIcon-more" style="font-size:2em"></view>
 			</block>
 		</commonTab>
-		<view class="card" :style="{marginTop:CustomBar+'px'}">
 
+		<view class="card" :style="{marginTop:CustomBar+'px'}">
+			
 			<!-- @touchstart="touchstart({...myFormData,isinfor:true},false)" @touchend="touchend" -->
 			<view class="">
 				<!-- <view class="report-btn" >
@@ -73,7 +74,8 @@
 			</view> -->
 			<view class="card-line-timeInfo">
 				<view class="timeInfo-left">
-					{{myCommentForm.edited==1?'编辑于: ' + myCommentForm.editTime:myCommentForm.createDate}}</view>
+					{{myCommentForm.edited==1?'编辑于: ' + myCommentForm.editTime:myCommentForm.createDate}}
+				</view>
 				<view class="timeInfo-right">
 					<text class="cuIcon-location"></text>
 					<view class="card-ipAddress">{{myFormData.ipAddress}}</view>
@@ -223,7 +225,8 @@
 
 
 		<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
-			@commentSubmit="handleCommentSubmit" :placeholderText="placeholderText"></commentPanel>
+			@commentSubmit="handleCommentSubmit" :placeholderText="placeholderText" :test="currentHeight">
+		</commentPanel>
 
 
 		<popForList ref="popforlist" :listInfo="popupInfo" @reportSubmit="handleSubmitRepot"
@@ -374,7 +377,8 @@
 				},
 				fileUrl: configService.fileSaveURL,
 				inforCommentsList: [],
-				inforSonCommentsList: []
+				inforSonCommentsList: [],
+				currentHeight: ''
 			};
 		},
 		computed: {
@@ -411,6 +415,12 @@
 		created() {
 			this.getInforCommentsList(this.myFormData.inforId);
 			this.findPublishInfor(this.myFormData.inforId);
+			// 监听键盘高度变化
+			uni.getSystemInfo({
+				success:(res)=>{
+					this.currentHeight = res.windowHeight
+				}
+			})
 		},
 		onLoad(option) {
 			console.log(option, "父级传递过来的参数")
@@ -436,6 +446,9 @@
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
 			this.myFormData = item;
 			console.log(this.myFormData, '!!!')
+		},
+		mounted() {
+
 		},
 		methods: {
 			showCommentModal() {
@@ -566,7 +579,7 @@
 					const publishId = this.myFormData.id
 					console.log(id, publishId, '删除详情')
 					this.$http.delete(this.url.deleteCommentUrl + '?id=' + id + '&publishId=' + publishId).then(
-					async res => {
+						async res => {
 							if (res.data.message) {
 								// 删除成功 重新请求列表
 								// 当前数组进行切割
@@ -595,7 +608,7 @@
 					const publishId = this.myFormData.id
 					//
 					this.$http.delete(this.url.deleteCommentUrl + '?id=' + id + '&publishId=' + publishId).then(
-					async res => {
+						async res => {
 							if (res.data.message) {
 								// 删除成功 重新请求列表
 								this.pageInfo.num = 1;
