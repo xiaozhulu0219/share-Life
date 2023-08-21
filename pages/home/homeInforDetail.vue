@@ -1,65 +1,69 @@
 <template>
 	<!--这个是首页点击动态后跳转的动态详情页-->
 	<view class="container">
-		
+
 		<commonTab v-if="this.fromPage!=='member'" :isBack="true" :backRouterName="backRouteName">
 			<block slot="title">
 				<image class="medias_avatar round" :src="myFormData.avatar" alt=""
 					@click="toMemberdetail(myFormData.uuId)" style="margin-right: 20rpx"></image>
 				{{myCommentForm.nickname}}
 			</block>
+			<block slot="right">
+				<view @click="handleLongpress({...myFormData,isinfor:true},false)" class="cuIcon-info"
+					style="font-size:1.5em"></view>
+			</block>
 		</commonTab>
-		<commonTab v-if="this.fromPage==='member'" :isBack="true" >
+		<commonTab v-if="this.fromPage==='member'" :isBack="true">
 			<block slot="title">
 				<text>动态详情</text>
 			</block>
-			<block slot="right" >
-			    <view @click="showModal" class="cuIcon-more" style="font-size:2em"></view>
+			<block slot="right">
+				<view @click="showModal" class="cuIcon-more" style="font-size:2em"></view>
 			</block>
 		</commonTab>
-		<view class="card" :style="{marginTop:CustomBar+'px'}" >
+		<view class="card" :style="{marginTop:CustomBar+'px'}">
 
-<!-- @touchstart="touchstart({...myFormData,isinfor:true},false)" @touchend="touchend" -->
-			<view class="" >
-			<view class="report-btn" @click="handleLongpress({...myFormData,isinfor:true},false)" >
+			<!-- @touchstart="touchstart({...myFormData,isinfor:true},false)" @touchend="touchend" -->
+			<view class="">
+				<!-- <view class="report-btn" >
 				<view class="cuIcon-info"  style="font-size: 1.4em;">
 			
 				</view>
 			</view>
+ -->
+				<view v-if="myFormData.inforType !=2" class="space-for-no-img">
 
-			<view v-if="myFormData.inforType !=2" class="space-for-no-img" >
+				</view>
+				<view class="" v-if="myFormData.inforType ==2 || !myFormData.inforType">
 
-			</view>
-			<view class="" v-if="myFormData.inforType ==2 || !myFormData.inforType"  >
+					<swiper v-if="myFormData.medias.length>1" indicator-dots indicator-color="#94afce"
+						indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
+						<view class="" v-if="">
 
-				<swiper v-if="myFormData.medias.length>1" indicator-dots indicator-color="#94afce"
-					indicator-active-color="red" style="height: 1000rpx;width: 750rpx">
-					<view class="" v-if="">
-
-					</view>
-					<swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
-						<image :src="item" @click="TanPreviewImage(index)" mode="aspectFit"
-							style="height: 980rpx;width: 720rpx"></image>
-					</swiper-item>
-				</swiper>
-				<swiper v-else style="height: 1000rpx;width: 750rpx">
-					<swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
-						<image :src="item" @click="TanPreviewImage(index)" mode="aspectFit"
-							style="height: 980rpx;width: 720rpx"></image>
-					</swiper-item>
-				</swiper>
-			</view>
-
-			<view class="card-text text-wrap " :class="{autoHeight:textMore,maxText:!textMore}" >
-				{{myFormData.textContent}}
-				<view class="text-box" @click="showMoreText" v-if="!textMore">
-					--点击展开更多--
+						</view>
+						<swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
+							<image :src="item" @click="TanPreviewImage(index)" mode="aspectFit"
+								style="height: 980rpx;width: 720rpx"></image>
+						</swiper-item>
+					</swiper>
+					<swiper v-else style="height: 1000rpx;width: 750rpx">
+						<swiper-item v-for="(item, index) in myFormData.medias" :index="index" :key="index">
+							<image :src="item" @click="TanPreviewImage(index)" mode="aspectFit"
+								style="height: 980rpx;width: 720rpx"></image>
+						</swiper-item>
+					</swiper>
 				</view>
 
-			</view>
-			<view v-if="myFormData.inforType !=2" class="space-for-no-img" >
+				<view class="card-text text-wrap " :class="{autoHeight:textMore,maxText:!textMore}">
+					{{myFormData.textContent}}
+					<view class="text-box" @click="showMoreText" v-if="!textMore">
+						--点击展开更多--
+					</view>
 
-			</view>
+				</view>
+				<view v-if="myFormData.inforType !=2" class="space-for-no-img">
+
+				</view>
 			</view>
 			<!-- <view class="card-line">
 				<view class="card-createDate">{{myCommentForm.edited==1?'编辑于: ' + myCommentForm.editTime:myCommentForm.createDate}}</view>
@@ -68,7 +72,8 @@
 				<view class="card-ipAddress">{{myFormData.ipAddress}}</view>
 			</view> -->
 			<view class="card-line-timeInfo">
-				<view class="timeInfo-left">{{myCommentForm.edited==1?'编辑于: ' + myCommentForm.editTime:myCommentForm.createDate}}</view>
+				<view class="timeInfo-left">
+					{{myCommentForm.edited==1?'编辑于: ' + myCommentForm.editTime:myCommentForm.createDate}}</view>
 				<view class="timeInfo-right">
 					<text class="cuIcon-location"></text>
 					<view class="card-ipAddress">{{myFormData.ipAddress}}</view>
@@ -81,16 +86,12 @@
 				<!-- <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
 					@click="dislikeInfor(myCommentForm.id)">&#xe60f
 				</view> -->
-				<view class="cuIcon-favor"
-				 v-if="myCommentForm.hasCollect == 0"
-				 style=" color: #fbbd08;font-size: 1.5em;"
-				 @click="collectInfor(myCommentForm.id)">
+				<view class="cuIcon-favor" v-if="myCommentForm.hasCollect == 0"
+					style=" color: #fbbd08;font-size: 1.5em;" @click="collectInfor(myCommentForm.id)">
 
 				</view>
-				<view class="cuIcon-favorfill"
-				v-if="myCommentForm.hasCollect == 1"
-				style=" color: #fbbd08;font-size: 1.5em;"
-				 @click="unCollectInfor(myCommentForm.id)">
+				<view class="cuIcon-favorfill" v-if="myCommentForm.hasCollect == 1"
+					style=" color: #fbbd08;font-size: 1.5em;" @click="unCollectInfor(myCommentForm.id)">
 
 				</view>
 				<view class="card-likeCount">{{myCommentForm.collectCount}}</view>
@@ -145,7 +146,9 @@
 								@click="showMore(index)" style="font-size: 40rpx;  margin-left: 200rpx"></view>
 
 							<view v-if="item.loadMoreStatus===true" v-for="(sonitem,inde) in item.childCommentList"
-								:key=inde @touchstart="touchstart({...sonitem,fartherindex:index,fartherid:item.id},true)" @touchend="touchend">
+								:key=inde
+								@touchstart="touchstart({...sonitem,fartherindex:index,fartherid:item.id},true)"
+								@touchend="touchend">
 								<view class="comment-son">
 									<image class="comment-avatar round sm" :src="fileUrl+sonitem.avatar" alt=""
 										@click="toMemberdetail(sonitem.uuId)"></image>
@@ -219,15 +222,12 @@
 		</view>
 
 
-<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
+		<commentPanel ref="commentPanel" :isShow="commentShow" @cancelComment="handleCancelComment"
 			@commentSubmit="handleCommentSubmit" :placeholderText="placeholderText"></commentPanel>
-		
 
-		<popForList ref="popforlist"
-		:listInfo="popupInfo"
-		@reportSubmit="handleSubmitRepot"
-		@deleteSubmit="handleSubmitDelete"
-		></popForList>
+
+		<popForList ref="popforlist" :listInfo="popupInfo" @reportSubmit="handleSubmitRepot"
+			@deleteSubmit="handleSubmitDelete"></popForList>
 		<ToEditPublishPopup ref='toEditPublishPopup' :myFormData="myFormData"></ToEditPublishPopup>
 		<commentModal ref="commentModal"></commentModal>
 	</view>
@@ -272,18 +272,18 @@
 		data() {
 			return {
 				myFormData: {
-				    latitude: '',
-				    longitude: '',
-				    location: '',
-				    medias: '',
-				    textContent: '',
-				    uuId: '',
-				    avatar: '',
-				    id: ''
+					latitude: '',
+					longitude: '',
+					location: '',
+					medias: '',
+					textContent: '',
+					uuId: '',
+					avatar: '',
+					id: ''
 				},
 				// 重置当前的滚动条
 
-				popupInfo:{},
+				popupInfo: {},
 				isLongPress: false,
 				longpressTimer: null,
 				textMore: false,
@@ -315,7 +315,7 @@
 				findInforCommentsPageUrl: '/information/comments/list',
 				findSonCommentListPageUrl: '/information/comments/findSonCommentListById',
 				url: {
-					deleteInforUrl:'/information/movements/deleteInfor',
+					deleteInforUrl: '/information/movements/deleteInfor',
 					findPublishInforByIdUrl: '/information/movements/findPublishInforById',
 					saveCommentUrl: '/information/comments/saveCommentForInfor',
 					saveCommentForCommentUrl: '/information/comments/saveCommentForComment',
@@ -327,16 +327,16 @@
 
 					//收藏动态
 					// likeInforUrl: '/information/movements/collect',
-					collectInforUrl:'/information/movements/collect',
+					collectInforUrl: '/information/movements/collect',
 					//取消收藏动态
 					// dislikeInforUrl: '/information/movements/disCollect',
-					unCollectInforUrl:'/information/movements/disCollect',
+					unCollectInforUrl: '/information/movements/disCollect',
 
 					//likeSonCommentUrl: '/information/comments/like',
 					deleteCommentUrl: '/information/comments/deleteComment',
 					loveInforUrl: '/information/movements/love',
 					unloveInforUrl: '/information/movements/unlove',
-					reportSubmitUrl:'/reportviolations/sendReportViolations',
+					reportSubmitUrl: '/reportviolations/sendReportViolations',
 				},
 				text: '',
 				vBlock: 'block',
@@ -420,26 +420,26 @@
 				this.fromPage = 'follow'
 			} else if (option.from === 'hot') {
 				this.fromPage = 'hot'
-			}else if(option.from ==='infor'){
+			} else if (option.from === 'infor') {
 				this.fromPage = 'infor'
-			}else if(option.from ==='member'){
+			} else if (option.from === 'member') {
 				// 从个人资料过来
 				this.fromPage = 'member'
 			}
 			console.log(this.fromPage)
 			this.fatherIndex = option.index
 			this.myFormData = item;
-			console.log(item,'啊啊啊啊')
+			console.log(item, '啊啊啊啊')
 			console.log('this.myFormData1:', this.myFormData);
 			console.log('this.myFormData2:', this.myFormData.medias);
 			console.log('this.myFormData3:', this.myFormData.medias.length);
 			this.findPublishInfor(item.inforId); //这是传参后继续调用方法的示例
 			this.myFormData = item;
-			console.log(this.myFormData,'!!!')
+			console.log(this.myFormData, '!!!')
 		},
 		methods: {
-			showCommentModal(){
-				this.$refs.commentModal.open();// 打开弹窗
+			showCommentModal() {
+				this.$refs.commentModal.open(); // 打开弹窗
 			},
 			// confirmReport(item,isChildComment){
 			// 	//弹出确认框
@@ -457,81 +457,81 @@
 			// 				return
 			// 			}
 			// 		}
-					
+
 			// 	})
 			// },
 			showModal() {
-			    this.$refs.toEditPublishPopup.showModal();
+				this.$refs.toEditPublishPopup.showModal();
 			},
-			handleSubmitRepot(target,cb){
+			handleSubmitRepot(target, cb) {
 				// 举报评论
 				// 不分一级二级
-				console.log(target,"举报")
+				console.log(target, "举报")
 				const submitObj = {
-					type:target.type,
-					id:target.detail.id,
-					reportContent:target.detail.content,
-					uuId:target.detail.uuId
+					type: target.type,
+					id: target.detail.id,
+					reportContent: target.detail.content,
+					uuId: target.detail.uuId
 				}
-				if(target.type==='1'){
+				if (target.type === '1') {
 					// 如果举报是动态需要拿到textContent
 					submitObj.reportContent = target.detail.textContent
 				}
 				// console.log(submitObj,"举报内容")
-				this.$http.post(this.url.reportSubmitUrl,submitObj).then((res)=>{
-						if(res.statusCode===200){
-							// 举报成功
-							uni.hideLoading();
-							uni.showToast({
-								title:"感谢您的积极反馈",
-								icon:'none'
-							});
-							cb();// 弹框消失
-							if(target.type=='1'){
-								// 重新请求列表
-								// 将当条动态删除
-								// 将当前的动态设为2 不进行显示
-								const targetIdx = this.homeListStore.findIndex(item=>{
-									return item.inforId === target.detail.inforId
+				this.$http.post(this.url.reportSubmitUrl, submitObj).then((res) => {
+					if (res.statusCode === 200) {
+						// 举报成功
+						uni.hideLoading();
+						uni.showToast({
+							title: "感谢您的积极反馈",
+							icon: 'none'
+						});
+						cb(); // 弹框消失
+						if (target.type == '1') {
+							// 重新请求列表
+							// 将当条动态删除
+							// 将当前的动态设为2 不进行显示
+							const targetIdx = this.homeListStore.findIndex(item => {
+								return item.inforId === target.detail.inforId
 
+							})
+							this.homeListStore[targetIdx].state = 2;
+							setTimeout(() => {
+								uni.navigateBack({
+									delta: -1
 								})
-								this.homeListStore[targetIdx].state=2;
-								setTimeout(()=>{
-									uni.navigateBack({
-										delta:-1
-									})
-								},500)
-								
-								
-								
-							}
-						}else{
-							uni.hideLoading();
-							uni.showToast({
-								title:"未知错误",
-							});
+							}, 500)
+
+
+
 						}
+					} else {
+						uni.hideLoading();
+						uni.showToast({
+							title: "未知错误",
+						});
+					}
 
 				})
 			},
-			handleSubmitDelete(target,cb){
+			handleSubmitDelete(target, cb) {
 				// 删除当前评论
-				console.log(target,"要删除的评论");
+				console.log(target, "要删除的评论");
 				uni.showLoading({
-					title:'loading...'
+					title: 'loading...'
 				})
 				// 判断删除的是不是动态
 				// 如果删除的是动态 需要 提交删除请求
 				// 刷新仓库
 				// 路由跳转首页
-				if(target.detail.isinfor){
+				if (target.detail.isinfor) {
 
-					console.log(target.detail,"删除详情")
+					console.log(target.detail, "删除详情")
 					const deleteId = target.detail.inforId;
 
 					this.$http.delete(this.url.deleteInforUrl + '?id=' + deleteId).then(async res => {
-					    console.log("结果数据", res)
-					    if (res.data.success) {
+						console.log("结果数据", res)
+						if (res.data.success) {
 							// 本地仓库刷新
 							// 重新请求数据
 							uni.hideLoading();
@@ -541,50 +541,52 @@
 							this.initPage();
 							// 路由跳转
 							uni.navigateTo({
-								url:'/pages/home/home',
-								complete(){
+								url: '/pages/home/home',
+								complete() {
 									uni.showToast({
-										title:'删除成功',
-										icon:'none'
+										title: '删除成功',
+										icon: 'none'
 									})
 								}
 							})
 							// await this.getHomePublishInforList();
 
 
-					    }
+						}
 					}).catch(e => {
-					    console.log("al delUrl请求错误2", e)
+						console.log("al delUrl请求错误2", e)
 					});
 					return
 				}
-				if(target.detail.isChildComment){
+				if (target.detail.isChildComment) {
 					// 删除的是二级评论
-					console.log("正在删除回复的回复",target)
+					console.log("正在删除回复的回复", target)
 					const id = target.detail.id;
 					const fartherindex = target.detail.fartherindex;
 					const publishId = this.myFormData.id
-					console.log(id,publishId,'删除详情')
-					this.$http.delete(this.url.deleteCommentUrl+  '?id=' + id + '&publishId=' +publishId).then(async res=>{
-						if(res.data.message){
-							// 删除成功 重新请求列表
-							// 当前数组进行切割
-							// 找到index
-							const targetIndex = this.inforCommentsList[fartherindex].childCommentList.findIndex((item)=>{
-								return item.id ===id
-							})
-							this.inforCommentsList[fartherindex].childCommentList.splice(targetIndex,1);
-							// await this.getInforCommentsList(this.myFormData.inforId);
-							// this.scrollTop = this.scrollTop === 0 ? 1 : 0;
-							uni.hideLoading();
-							uni.showToast({
-								icon:'none',
-								title:'删除成功',
-							})
-							cb();
-						}
-					})
-				}else{
+					console.log(id, publishId, '删除详情')
+					this.$http.delete(this.url.deleteCommentUrl + '?id=' + id + '&publishId=' + publishId).then(
+					async res => {
+							if (res.data.message) {
+								// 删除成功 重新请求列表
+								// 当前数组进行切割
+								// 找到index
+								const targetIndex = this.inforCommentsList[fartherindex].childCommentList
+									.findIndex((item) => {
+										return item.id === id
+									})
+								this.inforCommentsList[fartherindex].childCommentList.splice(targetIndex, 1);
+								// await this.getInforCommentsList(this.myFormData.inforId);
+								// this.scrollTop = this.scrollTop === 0 ? 1 : 0;
+								uni.hideLoading();
+								uni.showToast({
+									icon: 'none',
+									title: '删除成功',
+								})
+								cb();
+							}
+						})
+				} else {
 					// 删除的是一级评论
 					// 重新请求列表
 
@@ -592,29 +594,30 @@
 					const id = target.detail.id;
 					const publishId = this.myFormData.id
 					//
-					this.$http.delete(this.url.deleteCommentUrl+  '?id=' + id + '&publishId=' +publishId).then(async res=>{
-						if(res.data.message){
-							// 删除成功 重新请求列表
-							this.pageInfo.num = 1;
-							// 滚动条置为0
-							await this.getInforCommentsList(this.myFormData.inforId);
-							this.scrollTop = this.scrollTop === 0 ? 1 : 0;
-							uni.hideLoading();
-							uni.showToast({
-								icon:'none',
-								title:'删除成功',
-							})
-							cb();
-						}
-					})
+					this.$http.delete(this.url.deleteCommentUrl + '?id=' + id + '&publishId=' + publishId).then(
+					async res => {
+							if (res.data.message) {
+								// 删除成功 重新请求列表
+								this.pageInfo.num = 1;
+								// 滚动条置为0
+								await this.getInforCommentsList(this.myFormData.inforId);
+								this.scrollTop = this.scrollTop === 0 ? 1 : 0;
+								uni.hideLoading();
+								uni.showToast({
+									icon: 'none',
+									title: '删除成功',
+								})
+								cb();
+							}
+						})
 
 				}
 
 			},
-			touchstart(item,isChildComment) {
+			touchstart(item, isChildComment) {
 				//1.5后触发弹窗事件
 				this.longpressTimer = setTimeout(() => {
-					this.handleLongpress(item,isChildComment)
+					this.handleLongpress(item, isChildComment)
 				}, 750)
 			},
 			touchend() {
@@ -622,29 +625,32 @@
 				this.longpressTimer = null;
 
 			},
-			handleLongpress(item,isChildComment) {
+			handleLongpress(item, isChildComment) {
 				// console.log(this.popupInfo)
 				// console.log(this.uuId,"1")
 				// console.log(item.uuId,"2")
 
-				console.log(item,"长按详情")
+				console.log(item, "长按详情")
 				console.log("评论弹框出现");
 				this.isLongPress = true;
 				// 判断点击的评论是否是本人的评论
 				const isUser = this.uuId === item.uuId
 				// 判断点击的是评论还是动态
-				let type ,typeText
-				console.log(item.isinfor,"评论还是动态")
-				if(item.isinfor){
+				let type, typeText
+				console.log(item.isinfor, "评论还是动态")
+				if (item.isinfor) {
 					type = "1";
-					typeText='动态'
-				}else{
+					typeText = '动态'
+				} else {
 					type = "3";
-					typeText='评论'
+					typeText = '评论'
 				}
 				const tar = {
 					isUser,
-					detail: {...item,isChildComment},
+					detail: {
+						...item,
+						isChildComment
+					},
 					type,
 					typeText
 				}
@@ -660,7 +666,7 @@
 				})
 			},
 			...mapMutations(['unloveInforStore', 'loveInforStore', 'loveInforFollowStore', 'unloveInforFollowStore',
-				'loveInforHotStore', 'unloveInforHotStore','changehomeListStore','initPage','clearUserStoreList'
+				'loveInforHotStore', 'unloveInforHotStore', 'changehomeListStore', 'initPage', 'clearUserStoreList'
 			]),
 			handleCancelComment() {
 				this.commentShow = false;
@@ -688,7 +694,7 @@
 					this.saveCommentForInfor(inputVal);
 				} else {
 					// 针对回复的回复
-					console.log(this.commentId,'我的评论id')
+					console.log(this.commentId, '我的评论id')
 					this.saveCommentForComment(this.commentId, inputVal)
 				}
 				// 收起评论板
@@ -1057,7 +1063,7 @@
 			},
 
 			//收藏动态
-			collectInfor(id){
+			collectInfor(id) {
 				this.$http.get(this.url.collectInforUrl, {
 					params: {
 						id: id
@@ -1090,7 +1096,7 @@
 			// 	});
 			// },
 			//取消收藏
-			unCollectInfor(id){
+			unCollectInfor(id) {
 				this.$http.get(this.url.unCollectInforUrl, {
 					params: {
 						id: id
@@ -1151,12 +1157,12 @@
 								index: this.fatherIndex,
 								count: res.data.result
 							})
-						} else if(this.fromPage === 'infor'){
+						} else if (this.fromPage === 'infor') {
 							this.loveInforStore({
 								index: this.fatherIndex,
 								count: res.data.result
 							})
-						}else if(this.fromPage==='member'){
+						} else if (this.fromPage === 'member') {
 							// 从资料详情中进入  点赞数改变重新刷新首页列表
 							this.clearUserStoreList()
 						}
@@ -1191,12 +1197,12 @@
 								index: this.fatherIndex,
 								count: res.data.result
 							})
-						} else if(this.fromPage ==='infor'){
+						} else if (this.fromPage === 'infor') {
 							this.unloveInforStore({
 								index: this.fatherIndex,
 								count: res.data.result
 							})
-						}else if(this.fromPage==='member'){
+						} else if (this.fromPage === 'member') {
 							// 从资料详情中进入  点赞数改变重新刷新首页列表
 							this.clearUserStoreList()
 						}
@@ -1325,7 +1331,7 @@
 	.container {
 		background-color: #ffffff;
 		position: relative;
-		height:100vh;
+		height: 100vh;
 		overflow: scroll;
 	}
 
@@ -1394,7 +1400,7 @@
 
 		.text-wrap {
 			// background-color: blueviolet;
-			word-break:break-all;
+			word-break: break-all;
 			overflow: hidden;
 			position: relative;
 		}
@@ -1643,27 +1649,31 @@
 			margin-left: 10rpx;
 		}
 	}
-	.card-line-timeInfo{
-		width:100%;
-		padding:15rpx 10rpx;
+
+	.card-line-timeInfo {
+		width: 100%;
+		padding: 15rpx 10rpx;
 		box-sizing: border-box;
 
-		display:flex;
+		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		margin-bottom: 30rpx;
 	}
-	.timeInfo-left{
-		font-weight:bold
+
+	.timeInfo-left {
+		font-weight: bold
 	}
-	.timeInfo-right{
-		display:flex;
+
+	.timeInfo-right {
+		display: flex;
 		align-items: center;
-		font-weight:bold
+		font-weight: bold
 	}
-	.report-btn{
+
+	.report-btn {
 		position: absolute;
-		right:20rpx;
-		top:20rpx;
+		right: 20rpx;
+		top: 20rpx;
 	}
 </style>

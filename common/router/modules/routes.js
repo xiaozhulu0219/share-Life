@@ -238,7 +238,8 @@ const routes = [{
         meta: {
             title: 'success'
         }
-     }
+     },
+	 
     // ,
     // {
     //     path: '/pages/addressbook/member',

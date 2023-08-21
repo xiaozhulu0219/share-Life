@@ -37,8 +37,8 @@
 					<!-- <view class="detail-content-top-detail">
 						<view style="margin-right: 10rpx; margin-top: 10rpx">{{item.title }}  {{item.createTime }} </view>
 					</view> -->
-                    <view class="comment-iconlikeCount"> <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
-                        <image class="card-medias" :src="item.medias" mode="aspectFit" alt="" @click="toInformationDetail(item.busId)"></image>
+                    <view class="comment-iconlikeCount" > <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
+                        <image class="card-medias"  v-if="item.medias!==''" :src="item.medias" mode="widthFix" alt="" @click="toInformationDetail(item.busId)"></image>
                     </view>
                 </view>
             </view>
@@ -123,16 +123,25 @@
                     params: {page: num, pagesize: size}
                 }).then(res => {
                     const {success, result} = res.data;
+					
                     console.log('。。。。。', result.records);
                     if (success) {
+						
                         const {pages, records, current} = result;
+						
                         if (num === 1) this.myCommentMsg = [];
                         if (records.length) {
                             for (const d of records) {
-                                d.avatar = this.fileUrl + d.avatar
-                                d.medias = this.fileUrl + d.medias
+								if(d.medias===''){
+									d.avatar = this.fileUrl + d.avatar
+									console.log("没有图片")
+								}else{
+									d.medias = this.fileUrl + d.medias
+									d.avatar = this.fileUrl + d.avatar
+								}
                             }
                         }
+						
                         this.myCommentMsg = this.myCommentMsg.concat(records);
 						console.log(this.myCommentMsg,"need")
                         this.hasNext = pages > current;
@@ -205,6 +214,7 @@
     .detail-content {
         display: flex;
         justify-content: space-between;
+		align-items: flex-start;
         // margin-left: 80rpx;
     }
 
@@ -221,20 +231,24 @@
 
     .comment-iconlikeCount {
         //font-weight: bold;
-        margin-right: 200rpx;
+		width: 25%;
+		flex: 0 0 auto;
+		// background-color:red;
+        // margin-right: 200rpx;
         //margin-left: 35rpx;
-        //margin-top: 30rpx;
+        margin-top: 30rpx;
+		padding-left: 20rpx;
         //display: flex;
         //justify-content: space-between;
     }
 
     .card-medias {
-        max-width: 80px;
-        width: 80px;
-        width: expression(this.width > 80 ? "80px" : this.width);
-        height: 80px;
-        height: expression(this.height > 80 ? "80px" : this.height);
-        position: absolute;
+        
+        width: 60px;
+        // width: expression(this.width > 80 ? "80px" : this.width);
+        // height: 80px;
+        // height: expression(this.height > 80 ? "80px" : this.height);
+        // position: absolute;
         //font-size: 20rpx;
         //margin-top: 1rpx;
         //margin-right: 150rpx;
@@ -257,7 +271,8 @@
 				.detail-content-top{
 					display: flex;
 					align-items: flex-start;
-					width:100%;
+					// width:100%;
+					flex: 1 1 auto;
 					.detail-title{
 						width: 20%;
 						flex:0 0 auto;

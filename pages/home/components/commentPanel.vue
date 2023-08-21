@@ -12,6 +12,7 @@
 					<text class="iconfont icon-wenbenshuru"></text>
 				</view>
 				<input 
+				@input="onInput(inputVal)"
 				:adjust-position="false"
 				ref="commentInput" :focus="inpFocus" type="text" class="input-box-inner" v-model="inputVal"
 					:placeholder="placeholderText" maxlength="200"
@@ -35,6 +36,10 @@
 </template>
 
 <script>
+	import textTip from "@/pages/component/textTip.js";
+	import {
+		keyWords
+	} from '@/common/util/constants.js';
 	export default {
 		data() {
 			return {
@@ -44,7 +49,7 @@
 			}
 
 		},
-
+		mixins:[textTip],
 		// watch: {
 		// 	// 监听
 		// 	'isShow': {
@@ -68,9 +73,27 @@
 		// 	}
 		// },
 		methods: {
+			onInput(value) {
+				// console.log(value,'1111')
+				if (value !== null) {
+					// console.log(value,'2222')
+					for (const i in keyWords) {
+						const reg = new RegExp(keyWords[i], 'g');
+						value = value.replace(reg, ''.padEnd(keyWords[i].length, '*'));
+					}
+					// console.log(value,'3333')
+				}
+				// 数据改变是异步的
+				this.$nextTick(() => {
+					this.inputVal= value;
+				});
+				console.log('置换后value:', value);
+			},
 			handleChange(e){
 				// 按下enter提交
 				console.log("提交评论");
+				// 关键词拦截
+				
 				this.sbmitComment()
 			},
 			tEnd() {
@@ -97,10 +120,11 @@
 
 			sbmitComment() {
 				console.log(this.inputVal);
-				if (this.inputVal === '') {
-					// 空值处理
-					return
-				} else {
+				if (this.inputVal === '' || this.inputVal.indexOf('*') != -1) {
+					console.log('动态内容出现了违规词语、已被拦截：',this.inputVal);
+					this.showTextTip('评论')
+					return 
+					} else {
 					// 向父级传递
 					// console.log("是否是直接评论",this.isDirectedComment)
 					this.$emit('commentSubmit', this.inputVal, () => {
