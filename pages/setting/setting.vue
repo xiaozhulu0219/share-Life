@@ -59,20 +59,20 @@
                 </view>
             </view>
             <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
-                    <text class="cuIcon-vipcard" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
-                    <view class="content">
-                        <text class="text-grey" style="font-size: 40rpx;">信息认证</text>
-                    </view>
-                </navigator>
-            </view>
-            <view class="cu-list menu">
                 <view class="cu-item" @click="handleLogOff">
                     <text class="cuIcon-delete" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">注销账户</text>
                     </view>
                 </view>
+            </view>
+            <view class="cu-list menu">
+                <navigator class="cu-item" url="/pages/user/userexit">
+                    <text class="cuIcon-vipcard" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
+                    <view class="content">
+                        <text class="text-grey" style="font-size: 40rpx;">信息认证</text>
+                    </view>
+                </navigator>
             </view>
             <view class="cu-list menu">
                 <!-- <navigator class="cu-item" url="/pages/user/userexit">
