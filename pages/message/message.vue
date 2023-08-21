@@ -7,8 +7,8 @@
 		</commonTab>
 
 		<view class="card" :style="{marginTop:50+topSpace-5+'px'}">
-			
-			
+
+
 			<view class="message-box-wrap">
 				<view class="message-box-item">
 					<view class="message-box-img">
@@ -44,32 +44,6 @@
 					</view>
 				</view>
 			</view>
-			<!-- <view class="card-line">
-				<view class="card-loveMessage">
-					<image src="../../static/icon／dianzan.png" class="image-icon" mode=""  @click="loveMsg()"></image>
-					<view class="cuIcon-like" style="font-size: 80rpx; color: #dd524d;" @click="loveMsg()"></view>
-					<view class="card-love">赞和收藏</view>
-					<view class="card-love-back" v-if="this.msg3Count != 0">
-						<view class="card-loveCount">{{this.msg3Count}}</view>
-					</view>
-				</view>
-				<view class="card-focusMessage">
-					<view class="cuIcon-people" style="font-size: 80rpx; color: #dd524d;" @click="focusMsg()"></view>
-					<image src="../../static/icon／guanzhu.png" class="image-icon" mode="" @click="focusMsg()" ></image>
-					<view class="card-focus">新增关注</view>
-					<view class="card-focus-back " v-if="this.msg4Count != 0">
-						<view class="card-focusCount">{{this.msg4Count}}</view>
-					</view>
-				</view>
-				<view class="card-commentMessage">
-					<view class="cuIcon-message" style="font-size: 80rpx; color: #dd524d;" @click="commentMsg()"></view>
-					<image src="../../static/icon／pinglun.png" class="image-icon" mode="" @click="commentMsg()"></image>
-					<view class="card-comment">评论和@</view>
-					<view class="card-comment-back " v-if="this.msg5Count !=0 ">
-						<view class="card-commentCount">{{this.msg5Count}}</view>
-					</view>
-				</view>
-			</view> -->
 		</view>
 
 		<bottomTab PageCur="message"></bottomTab>
@@ -265,7 +239,7 @@
 					//margin-bottom: 30rpx; /*盒子间的距离*/
 					// margin-left: -20rpx;
 					margin-top: 10rpx;
-					
+
 				}
 
 				.card-loveCount {
@@ -367,8 +341,8 @@
 					text-align: center;
 					//line-height: 30rpx;
 					padding: 10rpx 20rpx; //上下左右
-					
-					
+
+
 				}
 			}
 		}
@@ -407,7 +381,7 @@
 			margin: 10rpx;
 			font-weight: bold;
 		}
-		
+
 	}
-	
+
 </style>

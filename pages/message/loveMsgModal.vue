@@ -20,9 +20,9 @@
 								<view class="item-left-right-top">{{item.nickName }}</view>
 								<view class="item-left-right-bottom">
 									<text class="cuIcon-titles" style="color: #ddd;">
-										
+
 									</text>
-								{{item.title }}  <text class="inner-text">{{item.createTime }}</text> 
+								{{item.title }}  <text class="inner-text">{{item.createTime }}</text>
 								</view>
 							</view>
 						</view>
@@ -34,25 +34,7 @@
 							</view>
 						</view>
 					</view>
-					
-					
-					
-					<!-- <view class="detail-title">
-						<image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt=""
-							@click="toInformationDetail(item.busId)"></image>
-					</view> -->
-					<!-- <view class="detail-content">
-						<view class="detail-info">
-							<view style="font-size: 40rpx; margin-top: 10rpx">{{item.nickName }}</view>
-							<view style="margin-right: 10rpx; margin-top: 10rpx">{{item.title }} {{item.createTime }}
-							</view>
-						</view>
-						<view class="comment-iconlikeCount">
-							这块将来要根据 业务类型和业务id 去查询具体的东西 
-							<image class="card-medias" :src="item.medias" mode="aspectFit" alt=""
-								@click="toInformationDetail(item.busId)"></image>
-						</view>
-					</view> -->
+
 				</view>
 				<view v-if='isDownLoading' class="load-text">加载中....</view>
 				<view v-if="!isDownLoading && !hasNext" class="noMore">---多发布动态，才会收获更多的赞呦---</view>
@@ -67,7 +49,7 @@
 	import MescrollMoreMixin from "@/components/mescroll-uni/mixins/mescroll-more.js";
 	import configService from '@/common/service/config.service.js'
 	import commonTab from '../component/commonTab.vue';
-	
+
 	export default {
 		name: 'loveMsgModal',
 		mixins: [MescrollMixin, Mixin, MescrollMoreMixin],
@@ -196,7 +178,7 @@
 						id: item
 					}
 				}).then(res => {
-					
+
 					if (res.data.success) {
 						const result = {...res.data.result};
 						// 图片头像格式化
@@ -213,9 +195,9 @@
 						    url: '/pages/home/homeInforDetail?item=' + encodeURIComponent(JSON.stringify(result))
 						})
 					}
-					
+
 				})
-				
+
 			},
 
 		}
@@ -316,7 +298,7 @@
 		width:100%;
 		padding:30rpx 20rpx;
 		box-sizing: border-box;
-		
+
 	}
 	.myLoveMsg-item-left{
 		flex:1 1 auto;
@@ -331,12 +313,12 @@
 	.item-left-left{
 		width: 20% ;
 		flex:0 0 auto;
-		
+
 		.card-avatar-img{
 			height:80rpx;
 			width:80rpx;
 			border-radius: 50%;
-			
+
 		}
 	}
 	.item-left-right{
@@ -347,7 +329,7 @@
 				font-size: 1.1em;
 				font-weight: bold;
 				margin-bottom:30rpx;
-				
+
 			}
 			.item-left-right-bottom{
 				margin-bottom:30rpx;
@@ -359,8 +341,8 @@
 	}
 	.card-medias-inner{
 		max-height:120rpx;
-		
+
 	}
-	
-	
+
+
 </style>
