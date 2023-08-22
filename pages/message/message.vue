@@ -45,7 +45,28 @@
 				</view>
 			</view>
 		</view>
-
+		<view class=" message-notice-area" @click="toNotice">
+			<view class="message-notice-left">
+				<image class="message-notice-left-img" src="../../static/tongzhi.png" mode=""></image>
+				
+			</view>
+			<view class="message-notice-right">
+				<view class="message-notice-top">
+					<view class="message-notice-top-left">
+						通知小助手
+						<view class="message-notice-top-sender">
+							官方
+						</view>
+					</view>
+					<view class="message-notice-top-right">
+						{{lastNotice.sendTime}}
+					</view>
+				</view>
+				<view class="message-notice-bottom">
+					{{lastNotice.reportContent}}
+				</view>
+			</view>
+		</view>
 		<bottomTab PageCur="message"></bottomTab>
 	</view>
 
@@ -87,8 +108,10 @@
 				url: {
 					listMsgUrl: '/sys/annountCement/listMsg',
 					editCementSend: '/sys/sysAnnouncementSend/editByAnntIdAndUserId',
-					queryById: '/sys/annountCement/queryById'
-				}
+					queryById: '/sys/annountCement/queryById',
+					noticeListUrl:'/sys/sysAnnouncementSend/getMySystemNoticeSend',
+				},
+				lastNotice:{}
 			};
 		},
 		//这里会拿到所有消息数量、将来展示在index的消息图标上
@@ -105,9 +128,33 @@
 		onShow() {
 			// 重新请求数据
 			this.loadData();
+			this.getLastNotice();
+			
 		},
 		methods: {
+			toNotice(){
+				// 展示消息列表
+				uni.navigateTo({
+					url:'/pages/message/noticeList'
+				})
+			},
 			...mapMutations(['changLoveCount', 'changeFollowCount', 'changeCommentsCount']),
+			getLastNotice(){
+				this.$http.get(this.url.noticeListUrl,{
+					params:{
+						pageNo:1,
+						pageSize:10
+					}
+				}).then(res=>{
+					console.log(res,"官方消息")
+					if(res.data.success){
+						this.lastNotice = res.data.result.records[0]
+						console.log(this.lastNotice )
+					}
+				}).catch(err=>{
+					console.log(err)
+				})
+			},
 			timerFun() {
 				this.stopTimer = false;
 				const myTimer = setInterval(() => {
@@ -383,5 +430,56 @@
 		}
 
 	}
-
+	.message-notice-area{
+		margin: 40rpx 0;
+		border-top: 5px solid rgb(241,241,241);
+		display: flex;
+		width: 100%;
+		padding:20rpx 20rpx;
+		box-sizing: border-box;
+		align-items: center;
+	}
+	.message-notice-left{
+		width: 15%;
+		margin-left: 20rpx;
+	}
+	.message-notice-left-img{
+		height: 80rpx;
+		width:80rpx;
+		border-radius: 50%;
+	}
+	.message-notice-right{
+		width: 80%;
+	}
+	.message-notice-top{
+		display: flex;
+		justify-content: space-between;
+	}
+	.message-notice-top-left{
+		font-size: 1.1em;
+		font-weight: bold;
+		margin-bottom: 15rpx;
+		position: relative;
+	}
+	.message-notice-top-right{
+		font-size: 0.8em;
+		color:#aaa;
+	}
+	.message-notice-top-sender{
+		position: absolute;
+		right:0rpx;
+		color:orangered;
+		top:0rpx;
+		transform: translateX(120%);
+		font-size: 0.6em;
+		border: 1rpx solid orangered;
+		border-radius: 20%;
+		padding:0 5rpx;
+		
+	}
+	.message-notice-bottom{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
 </style>

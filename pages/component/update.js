@@ -12,6 +12,46 @@ import {
 			}
 		},
 		methods: {
+			updateNotForce(){
+				//	#ifdef H5
+				uni.hideLoading()
+				console.log("直接弹出")
+				this.$refs.popup.open()
+				// #endif
+				
+				// #ifdef APP-PLUS
+				// var that = this;
+				plus.runtime.getProperty(plus.runtime.appid, (wgtinfo)=> {
+					this.version = wgtinfo.version;
+					console.log(this.version,"版本")
+					this.$http.get(this.updateUrl).then(res => {
+						console.log("数据", res)
+						const targetObj = res.data.result
+						const targetCode = targetObj.versionNum
+						// console.log(version,"当前版本",targetCode,"下载版本" )
+						uni.hideLoading()
+						if (targetCode >this.version ) {
+							console.log("需要升级");
+							// 渲染更新弹窗
+							console.log(targetObj);
+							targetObj.force = false
+							this.updateObj = targetObj;
+				
+							this.$refs.popup.open();
+				
+						} else {
+							uni.showToast({
+								title:'不需要更新',
+								icon:'none'
+							})
+							console.log("不需要升级");
+							return
+						}
+					})
+				
+				});
+				// #endif
+			},
 			updateForce() {
 				// const localVersion = uni.getSystemInfoSync();
 				// const currentCode = localVersion.appVersionCode;

@@ -239,7 +239,13 @@ const routes = [{
             title: 'success'
         }
      },
-	 
+	 {
+		 path:'/pages/message/noticeList',
+		 name:'noticeList',
+		 meta:{
+			 title:'noticeList'
+		 }
+	 }
     // ,
     // {
     //     path: '/pages/addressbook/member',

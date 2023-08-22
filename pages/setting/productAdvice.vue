@@ -19,8 +19,8 @@
 							当前选择
 						</view>
 						<view class="uni-list-cell-db">
-							<picker @change="bindPickerChange" :value="index" :range="array">
-								<view class="uni-input">{{array[index]}}</view>
+							<picker @change="bindPickerChange" :value="index" :range="typeArray">
+								<view class="uni-input">{{typeArray[index]}}</view>
 							</picker>
 						</view>
 						<view class="cuIcon-triangledownfill" style="font-size: 1.8em;">
@@ -51,22 +51,47 @@
 	export default {
 		data() {
 			return {
-				array: ['功能异常', '产品建议', '投诉举报', '联系官方','其他问题'],
+				// array: ['功能异常','产品建议'],
+				values:[],
+				typeArray:[],
 				index: 0,
 				pickerVal:1,
 				contentVal:'',
-				proAdviceUrl:'/systemAdvise/systemAdvise/add'
+				proAdviceUrl:'/systemAdvise/systemAdvise/add',
+				adviceTypeUrl:'/sys/dict/queryDictItemsByCode'
 			}
 		},
 		computed:{
 			...mapState(['uuId'])
 		},
+		created(){
+			// 获取建议字典值
+			this.getAdviceType()
+		},
+		
 		methods: {
+			getAdviceType(){
+				this.$http.get(this.adviceTypeUrl,{
+					params:{
+						code:'system_advise_item'
+					}
+				}).then(res=>{
+					if(res.statusCode == 200){
+						this.AdviceType = res.data;
+						this.typeArray  =  res.data.map(item=>{
+							this.values.push(item.value)
+							return item.title
+						})
+						console.log(this.typeArray,this.values)
+					}
+				})
+			},
 			bindPickerChange: function(e) {
 				console.log('picker发送选择改变，携带值为', e.detail.value)
 				this.index = e.detail.value;
-				// console.log("选中的是",this.array[this.index])
-				this.pickerVal = this.index+1;
+				// 通过values拿到pickVal
+				this.pickerVal = this.values[this.index]
+				console.log(this.pickerVal)
 			},
 			submit(){
 				if(this.pickerVal===''){
@@ -83,12 +108,13 @@
 					})
 					return
 				}
-				console.log(this.pickerVal.toString(),"这")
+				// console.log(this.pickerVal.toString(),"这")
 				const submitObj = {
 					uuId:this.uuId,
 					item:this.pickerVal.toString(),
 					adviseContent:this.contentVal
 				}
+				console.log(submitObj)
 				this.$http.post(this.proAdviceUrl,submitObj).then(res=>{
 					if(res.data.success){
 						// 添加成功

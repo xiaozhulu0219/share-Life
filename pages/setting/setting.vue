@@ -59,20 +59,20 @@
                 </view>
             </view>
             <view class="cu-list menu">
-                <view class="cu-item" @click="handleLogOff">
-                    <text class="cuIcon-delete" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
-                    <view class="content">
-                        <text class="text-grey" style="font-size: 40rpx;">注销账户</text>
-                    </view>
-                </view>
-            </view>
-            <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
                     <text class="cuIcon-vipcard" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">信息认证</text>
                     </view>
                 </navigator>
+            </view>
+            <view class="cu-list menu">
+                <view class="cu-item" @click="handleLogOff">
+                    <text class="cuIcon-delete" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
+                    <view class="content">
+                        <text class="text-grey" style="font-size: 40rpx;">注销账户</text>
+                    </view>
+                </view>
             </view>
             <view class="cu-list menu">
                 <!-- <navigator class="cu-item" url="/pages/user/userexit">
@@ -105,6 +105,7 @@
     import configService from '@/common/service/config.service.js'
 	import {mapMutations,mapState} from "vuex"
 	import popupForUpdate from "@/pages/component/popForUpdate.vue"
+	import updateMixin from "@/pages/component/update.js"
     export default {
         components: {
             appSelect,
@@ -116,6 +117,7 @@
 		computed:{
 			...mapState(['homeListStore','hotListStore'])
 		},
+		mixins:[updateMixin],
         data() {
             return {
                 // job_type,
@@ -143,6 +145,7 @@
                 fileUrl: configService.fileSaveURL,
                 imgList: [],
                 pathlist: [],
+				version:''
             };
         },
         onShow() {
@@ -201,46 +204,19 @@
 					}
 				})
 			},
-			updateApp(){
-				// 触发更新事件
-				console.log("用户点击更新");
-				this.$refs.popup.close();
-				console.log(this.updateObj.downloadLink)
-				uni.downloadFile({
-					url:this.updateObj.downloadLink,
-					complete(res){
-						console.log(res,"下载结果")
-					}
-				})
-			},
+			
 			handleUpdateApp(){
 				// console.log("用户要更新app");
 				// 弹出检测更新modal
 				uni.showLoading({
 					title:"检测更新..."
 				})
-				const localVersion = uni.getSystemInfoSync();
-				console.log(localVersion,"当前版本")
+				this.updateNotForce()
+				
+				// const localVersion = uni.getSystemInfoSync();
+				// console.log(localVersion,"当前版本")
 				// 获取当前版本数据
-				const currentCode = localVersion.appVersionCode;
-				this.$http.get(this.updateUrl).then(res=>{
-					console.log("数据",res)
-					const targetObj = res.data.result
-					const targetCode =targetObj.versionNum
-					uni.hideLoading()
-					if(targetCode>currentCode){
-						console.log("需要升级");
-						// 渲染更新弹窗
-						// 传递数据
-						console.log( targetObj)
-						this.updateObj = targetObj
-						this.$refs.popup.open();
-
-					}else{
-						console.log("不需要升级");
-						return
-					}
-				})
+				
 			},
 			...mapMutations(['clearUserStoreList']),
 			handleExit(){

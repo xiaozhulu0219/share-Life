@@ -38,7 +38,7 @@
 						<view style="margin-right: 10rpx; margin-top: 10rpx">{{item.title }}  {{item.createTime }} </view>
 					</view> -->
                     <view class="comment-iconlikeCount" > <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
-                        <image class="card-medias"  v-if="item.medias!==''" :src="item.medias" mode="widthFix" alt="" @click="toInformationDetail(item.busId)"></image>
+                        <image class="card-medias"  v-if="item.medias!==''" :src="item.medias" mode="aspectFit" alt="" @click="toInformationDetail(item.busId)"></image>
                     </view>
                 </view>
             </view>
@@ -244,7 +244,7 @@
 
     .card-medias {
         
-        width: 60px;
+        max-height:120rpx;
         // width: expression(this.width > 80 ? "80px" : this.width);
         // height: 80px;
         // height: expression(this.height > 80 ? "80px" : this.height);
