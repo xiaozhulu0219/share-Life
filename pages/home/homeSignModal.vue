@@ -97,8 +97,8 @@
 	.menu-tab {
 		height: 80rpx;
 		width: 100vw;
-		background-color: #fff;
-
+		// background-color: #fff;
+		background-color: rgb(241,241,241);
 		.menu-wrap {
 			display: flex;
 			align-items: center;

@@ -47,6 +47,9 @@
 		</view>
 		<view class=" message-notice-area" @click="toNotice">
 			<view class="message-notice-left">
+				<view class="unNoticecount" v-if="unNoticeMsgCount>0">
+					{{unNoticeMsgCount}}
+				</view>
 				<image class="message-notice-left-img" src="../../static/tongzhi.png" mode=""></image>
 				
 			</view>
@@ -111,7 +114,8 @@
 					queryById: '/sys/annountCement/queryById',
 					noticeListUrl:'/sys/sysAnnouncementSend/getMySystemNoticeSend',
 				},
-				lastNotice:{}
+				lastNotice:{},
+				unNoticeMsgCount:0
 			};
 		},
 		//这里会拿到所有消息数量、将来展示在index的消息图标上
@@ -183,7 +187,9 @@
 
 							// 同步改变仓库里面的数据
 							// loadData会改变未读消息的数量
-
+							// 当前未读系统消息数量
+							this.unNoticeMsgCount = res.data.result.systemNoticeMsgTotal;
+							
 							this.msg3Count = res.data.result.loveMsgTotal;
 							this.changLoveCount(this.msg3Count);
 
@@ -256,6 +262,7 @@
 	.card {
 		background-color: #fff;
 		padding: 20rpx 20rpx;
+		padding-bottom: 0;
 		border-radius: 20rpx;
 		box-sizing: border-box;
 		margin-bottom: 10rpx;
@@ -431,7 +438,7 @@
 
 	}
 	.message-notice-area{
-		margin: 40rpx 0;
+		// margin: 40rpx 0;
 		border-top: 5px solid rgb(241,241,241);
 		display: flex;
 		width: 100%;
@@ -442,6 +449,19 @@
 	.message-notice-left{
 		width: 15%;
 		margin-left: 20rpx;
+		position: relative;
+		
+	}
+	.unNoticecount{
+		position: absolute;
+		z-index:999;
+		right: 10rpx;
+		padding:8rpx 15rpx;
+		color: #fff;
+		font-size: 0.8em;
+		top: -15rpx;
+		border-radius: 50%;
+		background-color: red;
 	}
 	.message-notice-left-img{
 		height: 80rpx;

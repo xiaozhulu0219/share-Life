@@ -3,9 +3,18 @@
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;" refresher-enabled="true"
 			:refresher-triggered="triggered" :refresher-threshold="100" refresher-background="#fff"
 			@refresherrefresh="onRefresh">
-			<view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index">
+			
+			<view class="" v-for="(item,index) in homeListStore" :key="'s'+index">
+				<homeInforItem v-if="item.state!=2" :inforItem="item" 
+				@tomemberDetailEvent="toMemberdetail"
+				@toInforDetailEvent="toInformationDetail(item,index)"
+				@toReportEvent="handleLongpress(item)"
+				@toLoveInforEvent="loveInfor(item.inforId,index)"
+				@toUnLoveInforEvent="unloveInfor(item.inforId,index)"></homeInforItem>
+				
+			</view>
+			<!-- <view :id="'s'+item.id" v-for="(item,index) in homeListStore" :key="index">
 				<view class="card" v-if="item.state!=2">
-					<!-- @touchstart="touchstart(item)" @touchend="touchend" -->
 
 					<view class="report-btn" @click="handleLongpress(item)">
 						<view class="cuIcon-info" style="font-size: 1.2em;">
@@ -19,7 +28,6 @@
 							alt="" @click="toInformationDetail(item,index)"></image>
 						<image v-else class="nomedias_size"></image>
 					</view>
-					<!-- <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt="" @click="toInformationDetail(item)"></image> -->
 
 					<view class="card-text"
 						style="-webkit-line-clamp: 2;-webkit-box-orient: vertical;display: -webkit-box;"
@@ -52,7 +60,7 @@
 					</view>
 
 				</view>
-			</view>
+			</view> -->
 
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多动态了，快去分享你的美好生活吧---</view>
@@ -65,7 +73,8 @@
 
 <script>
 	import configService from '@/common/service/config.service.js';
-	import popForList from "@/pages/publish/popForList.vue"
+	import popForList from "@/pages/publish/popForList.vue";
+	import homeInforItem from "./components/homeInforItem.vue"
 	// import {subscrib} from "../../common/util/eventBus.js";
 	import {
 		mapMutations,
@@ -96,7 +105,8 @@
 			};
 		},
 		components: {
-			popForList
+			popForList,
+			homeInforItem
 		},
 		computed: {
 			contentFormat() {
@@ -592,7 +602,7 @@
 
 	.load-text,
 	.noMore {
-		background-color: #fff;
+		// background-color: #fff;
 		text-align: center;
 		padding: 4rpx;
 	}

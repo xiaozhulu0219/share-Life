@@ -8,7 +8,6 @@
 		 :style="{paddingTop:50+topSpace-5+'px'}">
 			<scroll-view scroll-y="true" 
 			
-			:scroll-with-animation="true" 
 			class="list-scroll"
 				:scroll-top="sTop"
 				refresher-enabled="true"
@@ -36,6 +35,7 @@
 		data() {
 			return {
 				noticeListUrl: '/sys/sysAnnouncementSend/getMySystemNoticeSend',
+				readNoticeAllUrl:'/sys/sysAnnouncementSend/readSystemNoticeMsgAll',
 				pageInfo: {
 					num: 0,
 					size: 10,
@@ -54,6 +54,10 @@
 		created() {
 			// 获取消息列表
 			this.getNoticeList(true);
+			// 一键已读所有的系统消息
+			this.$http.get(this.readNoticeAllUrl).then(res=>{
+				console.log(res,"已读消息")
+			})
 		},
 		mounted() {
 			
@@ -106,6 +110,17 @@
 						if(first){
 							this.$nextTick(()=>{
 								uni.createSelectorQuery().in(this).select('.item0').boundingClientRect((rect) => {
+									console.log('元素高度为：')
+									console.log(rect)
+									this.sTop = rect.top
+								}).exec()
+							})
+						}else{
+							// 需要定位到刚刚看的那条记录上面
+							const targetClassName = '.item'+(this.pageInfo.num-1) + '0';
+							console.log(targetClassName);
+							this.$nextTick(()=>{
+								uni.createSelectorQuery().in(this).select(targetClassName).boundingClientRect((rect) => {
 									console.log('元素高度为：')
 									console.log(rect)
 									this.sTop = rect.top
