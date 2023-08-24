@@ -584,6 +584,7 @@
 								// 删除成功 重新请求列表
 								// 当前数组进行切割
 								// 找到index
+								console.log("删除结果",res.data)
 								const targetIndex = this.inforCommentsList[fartherindex].childCommentList
 									.findIndex((item) => {
 										return item.id === id
@@ -1060,9 +1061,12 @@
 					console.log(InforCommentDto, "提交对象")
 					this.$http.post(this.url.saveCommentForCommentUrl, InforCommentDto).then(res => {
 						//刷新子级留言列表  并将输入框文字置空
-						console.log(res,"子评论")
+						
 						if (res.data.success) {
 							// 记录评论的这个一级对象
+							console.log(res,"子评论")
+							// 拿到评论的总数
+							this.myCommentForm.commentCount= res.data.result;
 							console.log("这里.....");
 							
 							this.alreadyComment.push(commentId);

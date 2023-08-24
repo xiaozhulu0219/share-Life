@@ -31,29 +31,64 @@
 				<view class="main bg-white" :style="{backgroundColor:voteBc}">
 					<view class="cu-form-group textarea">
 						<textarea :placeholder="'你可以在这里:\n1.爆料职场新鲜事 \n2.分享面试跳槽经验 \n3.与同行交流、吐槽解压'"
-							style="width: 18px; height:300px;" 
-							name="input" 
-							v-model="myFormData.textContent"
-							:maxlength="maxLength" 
-							@input="onInput(myFormData.textContent)"
-							:adjust-position="false">
+							style="width: 18px; height:300px;" name="input" v-model="myFormData.textContent"
+							:maxlength="maxLength" @input="onInput(myFormData.textContent)" :adjust-position="false">
                         </textarea>
 						<view class="maxlength-tip" v-if="(myFormData.textContent.length)>=(maxLength*0.8)">
 							{{myFormData.textContent.length}}/{{maxLength}}
 						</view>
+						<view class="tag-show-list">
+							<view class="tag-show-list-wrap">
+								<view class="tag-show-list-item" v-for="(item,index) in alreayChoosedTags" :key="index">
+									#{{item.content}}
+								</view>
+							</view>
+
+						</view>
 					</view>
+
 					<view class="bottom_bar">
 
 						<my-image-upload ref="imageUpload" v-if="inforType===2" v-model="myFormData.medias">
 						</my-image-upload>
 						<view class="bottom-space" style="height: 150rpx;background-color: #fff;">
-							
+
 						</view>
 						<view class="fixed-content">
-
+							<view class="tags-container" :class="{show:tagsPanelShow}">
+								<view class="already-choosed-list">
+									<view class="already-choosed-list-item" v-for="(item,index) in alreayChoosedTags"
+										:key="index">
+										#{{item.content}}
+										<view class="edit-close" v-if="tagsEditMode" @click="removechoosedTag(index)">
+											×
+										</view>
+									</view>
+								</view>
+								<view class="add-tags">
+									<view class="add-tags-left">
+										<text>#</text>
+										<input type="text" class="add-tags-left-text" v-model="tagInpVal"
+											@input="searchTags">
+									</view>
+									<view class="add-tags-right">
+										<text @click="addinpTags" v-if="tagsList.length===0 && this.tagInpVal !==''" class="add-tags-right-item">添加</text>
+										<!-- <text v-if="alreayChoosedTags.length>0" class="add-tags-right-item">完成</text> -->
+										<text v-if="alreayChoosedTags.length>0" @click="tagsEditMode=(!tagsEditMode)">
+											{{tagsEditMode?'完成':'编辑'}}
+										</text>
+									</view>
+								</view>
+								<view class="tags-list">
+									<view class="tags-list-item" v-for="(item,index) in tagsList" :key="index"
+									@click="addOldTags(item)">
+										#{{item.textContent}}
+									</view>
+								</view>
+							</view>
 							<view class="bottom-content">
 								<view class="middle">
-									<view class="huati">
+									<view class="huati" @click="handleTags">
 										<p>#</p>
 										<p>话题</p>
 									</view>
@@ -102,7 +137,7 @@
 
 									</view>
 								</view>
-								<view class="infortype-list-item" >
+								<view class="infortype-list-item">
 									发视频
 									<view class="active-status" :class="{show:inforType===3}">
 
@@ -153,7 +188,8 @@
 <script>
 	import myDate from '@/components/my-componets/my-date.vue'
 	import myImageUpload from '@/components/my-componets/my-image-upload.vue'
-	import textTip from "@/pages/component/textTip.js"; 
+	import textTip from "@/pages/component/textTip.js";
+	import debounce from "@/common/util/debounce.js"
 	import {
 		keyWords
 	} from '../../common/util/constants';
@@ -173,10 +209,12 @@
 				required: false
 			}
 		},
-		mixins:[textTip],
+		mixins: [textTip],
 		data() {
 			return {
-				seeType:1,
+				tagsEditMode: false,
+				tagInpVal: '',
+				seeType: 1,
 				inforType: 2,
 				maxLength: 100,
 				CustomBar: this.CustomBar,
@@ -188,6 +226,8 @@
 				url: {
 					submitUrl: '/information/movements/savePublish',
 					editUrl: '/information/movements/editPublish',
+					tagsListUrl: '/information/topic/findTopicList',
+					addTagsList: '/information/topic/saveTopic',
 				},
 				text: '',
 				vBlock: 'block',
@@ -214,21 +254,39 @@
 					textContent: '',
 					uuId: '',
 				},
+				tagsPanelShow: false,
+				tagsList: [],
+				tempTagList: ['孟宴臣啊啊啊啊', '咖啡哪有我命苦5555', '烤黑糖波波牛乳yyds', '世界破破烂烂,小猫缝缝补补', 'ymls'],
+				alreayChoosedTags: [],
+				withDebouce: '',
+
 			}
 		},
 		created() {
 			//this.initFormData();
 			this.shijiao();
 			// 判断当前是否为编辑
-			if(this.myFormData.id ){
+			if (this.myFormData.id) {
 				console.log("编辑");
+				console.log(this.myFormData)
 				this.seeType = this.myFormData.seeType
 				this.inforType = this.myFormData.inforType
-				
-			}else{
+				// 根据已经有的tag列表初始化
+				const targetTags = this.myFormData.tags || [];
+				targetTags.forEach((item)=>{
+					this.alreayChoosedTags.push({
+						isNew: false,
+						content: item
+					})
+				})
+			} else {
 				// console.log("新发动态");
-				
-			}
+
+			};
+			// 获取tag列表
+			this.getTagsList();
+			this.withDebouce = debounce(this.getTagsList);
+			// 
 		},
 		onLoad(option) {
 			//const item = JSON.parse(decodeURIComponent(option.item));
@@ -239,6 +297,61 @@
 			}
 		},
 		methods: {
+			addOldTags(tar){
+				// 添加已经有的标签
+				const addTarget = {
+					isNew: false,
+					content: tar.textContent
+				}
+				this.alreayChoosedTags.push(addTarget);
+				this.tagInpVal = '';
+			},
+			// testget(){
+			// 	console.log("模拟请求")
+			// },
+			searchTags() {
+				if (this.tagInpVal === '') {
+					return
+				}
+				// console.log("触发搜索")
+				console.log(this.tagInpVal)
+				this.withDebouce(this.tagInpVal)
+			},
+			removechoosedTag(index) {
+				this.alreayChoosedTags.splice(index, 1);
+				// 如果将所有的tag都删除完了 就需要结束编辑模式
+				if (this.alreayChoosedTags.length === 0) {
+					this.tagsEditMode = false
+				}
+			},
+			addinpTags() {
+				// 添加标签到页面
+				const addTarget = {
+					isNew: true,
+					content: this.tagInpVal
+				}
+				this.alreayChoosedTags.push(addTarget);
+				this.tagInpVal = ''
+			},
+			getTagsList(query = '') {
+
+				this.$http.get(this.url.tagsListUrl, {
+					params: {
+						text: query
+					}
+				}).then(res => {
+					if (res.data.success) {
+						console.log(res.data,"搜索了")
+						this.tagsList = res.data.result;
+						// textContent
+					}
+				})
+			},
+			handleTags() {
+				//添加话题标签
+				// 
+				this.tagsPanelShow = !this.tagsPanelShow;
+			},
 			changeAuth() {
 				// 选择动态权限
 				this.$refs.status.open()
@@ -314,32 +427,58 @@
 			},
 			submit() {
 				//若评论中包含 “*” 或者为空 不允许保存
+
 				//console.log("inputValue值为空1：", inputValue);
+				//发布标签
+				// 看一下当前列表的新标签
+				console.log(this.alreayChoosedTags,"...")
+				const newTags = []
+				const allTags = [];
+				this.alreayChoosedTags.forEach((item) => {
+					if (item.isNew) {
+						newTags.push(item.content)
+					}
+					allTags.push(item.content)
+				})
+				console.log(allTags,newTags)
+				this.$http.post(this.url.addTagsList, {
+					tags: newTags
+				}).then(res => {
+					console.log('添加标签结果', res)
+				})
+				// 新增标签
 				if (this.myFormData.textContent === '' || this.myFormData.textContent.indexOf('*') != -1) {
 					console.log('动态内容出现了违规词语、已被拦截：', this.myFormData.textContent);
 					this.showTextTip('动态')
 				} else {
 					console.log('medias2', this.myFormData.medias)
 					// 判断是否有编辑好的数组
-					if(this.inforType==1){
+					if (this.inforType == 1) {
 						// 文字内容不需要图片
 						this.myFormData.medias = ''
 					}
-					if (typeof this.myFormData.medias != 'string' ) {
+					if (typeof this.myFormData.medias != 'string') {
 						console.log("没有添加直接提交")
 						// 拿子组件的图片数组转换为str
-						
+
 						const mediasTarget = this.$refs.imageUpload.pathlist.join(',')
 						// console.log(mediasTarget,"转换后")
 						this.myFormData.medias = mediasTarget
 					}
 					// 添加两个属性
-					const targetObj = {...this.myFormData,seeType:this.seeType,inforType:this.inforType}
-					console.log(targetObj,'..')
+					const targetObj = {
+						...this.myFormData,
+						seeType: this.seeType,
+						inforType: this.inforType,
+						tags: allTags
+					}
+					
+					console.log(targetObj, '..')
 					this.$http.post(this.myFormData.id ? this.url.editUrl : this.url.submitUrl, targetObj, {}).then(
 						res => {
 							console.log('myFormData', this.myFormData)
 							console.log('res', res);
+
 							if (res.data.success) {
 								console.log('发布成功');
 								console.log('res.data', res.data);
@@ -357,14 +496,14 @@
 										}, 1500);
 									}
 								});
-							}else{
-								if(res.data.message=='请上传图片'){
+							} else {
+								if (res.data.message == '请上传图片') {
 									uni.showToast({
-										title:res.data.message,
-										icon:'none'
+										title: res.data.message,
+										icon: 'none'
 									})
 								}
-								
+
 							}
 						})
 				}
@@ -550,12 +689,29 @@
 		position: fixed;
 		bottom: 0px;
 		left: 0px;
-		background-color: rgba(255,255,255,.7);
+		background-color: rgba(255, 255, 255, .7);
+	}
+
+	.tags-container {
+		height: 600rpx;
+		width: 100%;
+		// background-color: rgba(255,255,255,.7);
+		position: absolute;
+		background-color: #e0e2e3;
+
+		top: 0rpx;
+		transform: translateY(-100%);
+		display: none;
+		overflow-y: scroll;
+	}
+
+	.tags-container.show {
+		display: block;
 	}
 
 	.bottom-content {
 		width: 100%;
-		height:90rpx;
+		height: 90rpx;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -584,35 +740,120 @@
 	.active-status.show {
 		width: 100%
 	}
-	.st-item-right{
+
+	.st-item-right {
 		margin-left: 20rpx;
-		flex:1 1 auto;
+		flex: 1 1 auto;
 	}
-	.st-item{
+
+	.st-item {
 		padding: 0 30rpx;
 		box-sizing: border-box;
-		
-		display:flex;
-		height:80rpx;
-		width:100%;
+
+		display: flex;
+		height: 80rpx;
+		width: 100%;
 		line-height: 80rpx;
 		align-items: center;
-		
-		
+
+
 	}
-	.st-item-check{
-		width:5%;
+
+	.st-item-check {
+		width: 5%;
 		flex: 0 0 auto;
 	}
-	.st-item-left{
-		width:5%;
+
+	.st-item-left {
+		width: 5%;
 	}
-	.st-container{
-		
+
+	.st-container {
+
 		padding: 15rpx;
 		height: 100%;
 		width: 100%;
 		boxbox-sizing: border-box;
-	
+
+	}
+
+	.add-tags {
+		display: flex;
+		width: 100%;
+		padding: 20rpx;
+		box-sizing: border-box;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.add-tags-right-item {
+		margin-right: 20rpx;
+
+	}
+
+	.add-tags-left {
+		display: flex;
+		align-items: center;
+	}
+
+	.add-tags-left-text {
+		// color:rgb(7,144,235);
+		font-size: 0.9em
+	}
+
+	.already-choosed-list {
+		padding: 20rpx;
+		box-sizing: border-box;
+		display: flex;
+		flex-wrap: wrap;
+
+	}
+
+	.already-choosed-list-item {
+		padding: 10rpx 20rpx;
+		// background-color: 
+		color: $uni-color-primary;
+		position: relative;
+	}
+
+	.edit-close {
+		position: absolute;
+		right: 0rpx;
+		top: 0rpx;
+		color: #333;
+		font-size: 1.3em;
+		transform: translate(30%, -10%);
+	}
+
+	.tag-show-list {
+		position: absolute;
+		bottom: 250rpx;
+		width: 100%;
+		height: 200rpx;
+		// background-color: red;
+		transform: translateX(-30rpx);
+		overflow-y: scroll;
+
+	}
+
+	.tag-show-list-wrap {
+		display: flex;
+		flex-wrap: wrap;
+
+	}
+
+	.tag-show-list-item {
+		padding: 5rpx 10rpx;
+		border-radius: 30rpx;
+		background-color: $uni-color-primary;
+		color: #fff;
+		margin: 5rpx 10rpx
+	}
+	.tags-list{
+		width: 100%;
+	}
+	.tags-list-item{
+		width: 80%;
+		margin: 15rpx auto;
 	}
 </style>

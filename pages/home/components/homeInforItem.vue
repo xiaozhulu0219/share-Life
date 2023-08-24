@@ -58,12 +58,18 @@
 			</view>
 			
 		</view>
-		
-		<view class="homeInforItem-ipbox">
-			<view class="homeInforItem-ipbox-title">
-			<text class="cuIcon-location" style="font-size: 1.2em;"></text>	{{inforItem.ipAddress}}
+		<view class="" style="margin-bottom: 20rpx;">
+			<view class="homeInforItem-ipbox">
+				<view class="homeInforItem-ipbox-title">
+				<text class="cuIcon-location" style="font-size: 1.2em;"></text>	{{inforItem.ipAddress}}
+				</view>
+				
+			</view>
+			<view class="tags" v-for="(item,index) in inforItem.tags">
+				#{{item}}
 			</view>
 		</view>
+		
 		<view class="homeInforItem-operationbox">
 			<view class="homeInforItem-operationbox-item" @click="toReport">
 				<text class="cuIcon-info" style="font-size: 1.5em;"></text>
@@ -236,12 +242,21 @@
 	}
 	.homeInforItem-ipbox{
 		margin: 20rpx 0;
-		margin-bottom: 30rpx;
+		margin-bottom: 10rpx;
 		display: inline-block;
 		padding:10rpx 20rpx;
 		background-color: rgb(245,245,245);
 		border-radius: 20rpx;
 		font-size: 0.8em;
+		margin-right: 10rpx;
+	}
+	.tags{
+		display: inline-block;
+		padding:10rpx 20rpx;
+		background-color: rgb(245,245,245);
+		border-radius: 20rpx;
+		font-size: 0.8em;
+		margin-right: 10rpx;
 	}
 	.homeInforItem-operationbox{
 		display: flex;
