@@ -232,7 +232,7 @@
 		<popForList ref="popforlist" :listInfo="popupInfo" @reportSubmit="handleSubmitRepot"
 			@deleteSubmit="handleSubmitDelete"></popForList>
 		<ToEditPublishPopup ref='toEditPublishPopup' :myFormData="myFormData"></ToEditPublishPopup>
-		<commentModal ref="commentModal"></commentModal>
+		<!-- <commentModal ref="commentModal"></commentModal> -->
 	</view>
 
 </template>
@@ -838,6 +838,7 @@
 					if (res.data.success) {
 						console.log('表单数据', res);
 						this.myCommentForm = res.data.result;
+						
 					}
 				});
 			},
@@ -1004,6 +1005,7 @@
 			saveCommentForInfor(inputValue) {
 				//若评论中包含 “*” 或者为空 不允许保存
 				//console.log("inputValue值为空1：", inputValue);
+				console.log("直接回复")
 				if (inputValue === '' || inputValue.indexOf('*') != -1) {
 					console.log('评论出现了违规词语、已被拦截：', inputValue);
 				} else {
@@ -1044,18 +1046,25 @@
 					console.log('评论出现了违规词语、已被拦截：', inputValue);
 				} else {
 					const InforCommentDto = {};
-
+					console.log()
+					// console.log(this.myFormData.id,this.myCommentForm.id,'&&&')
 					InforCommentDto.commentId = commentId; //这个应该是评论的id
 					InforCommentDto.comment = inputValue;
+					InforCommentDto.publishId=this.myCommentForm.id;
 					if (this.targetNickname !== '') {
 						InforCommentDto.commentedNickName = this.targetNickname;
+					}else{
+						InforCommentDto.commentedNickName=''
 					}
+					
 					console.log(InforCommentDto, "提交对象")
 					this.$http.post(this.url.saveCommentForCommentUrl, InforCommentDto).then(res => {
 						//刷新子级留言列表  并将输入框文字置空
+						console.log(res,"子评论")
 						if (res.data.success) {
 							// 记录评论的这个一级对象
-							console.log("这里.....")
+							console.log("这里.....");
+							
 							this.alreadyComment.push(commentId);
 							// 在进行请求的时候匹配这个id 进行展开
 							//刷新子级评论列表

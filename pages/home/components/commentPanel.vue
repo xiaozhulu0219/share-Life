@@ -47,7 +47,8 @@
 				// isShow:false
 				inputVal: '',
 				inpFocus: false,
-				height:''
+				height:'',
+				isclicked:false,
 			}
 
 		},
@@ -102,6 +103,7 @@
 			},
 			handleChange(e){
 				// 按下enter提交
+				this.isclicked = true;
 				console.log("提交评论");
 				// 关键词拦截
 				
@@ -123,10 +125,13 @@
 
 			// 	})
 			// },
+			
 			cancelComment() {
 				// 取消评论
-				this.$emit("cancelComment");
-				this.inputVal = '';
+				setTimeout(()=>{
+					this.$emit("cancelComment");
+					this.inputVal = '';
+				},0)
 			},
 
 			sbmitComment() {
@@ -141,6 +146,7 @@
 					this.$emit('commentSubmit', this.inputVal, () => {
 						// 成功之后重置当前的输入框
 						this.inputVal = '';
+						this.isclicked = false;
 					})
 				}
 			}
