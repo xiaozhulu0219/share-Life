@@ -7,6 +7,7 @@
             </view>
             <view :class="PageCur == 'publish' ? 'action text-green' : 'action text-gray'" @click="showModal" data-cur="publish">
                 <view class="cuIcon-roundaddfill"></view>
+                发布
             </view>
             <view  :class="PageCur == 'message' ? 'action text-blue' : 'action text-gray'" @click="NavChange('message')">
 				

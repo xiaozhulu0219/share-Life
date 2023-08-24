@@ -17,7 +17,7 @@
 				</view>
 			</block>
 			<block slot="title">
-				<text class="title-item" :class="{active:activeFirstTab===0}" @tap="handleChangeTabActive(0)" > 关注</text>
+				<text class="title-item" :class="{active:activeFirstTab===0}" @tap="handleChangeTabActive(0)">关注</text>
 				<text class="title-item" :class="{active:activeFirstTab===1}" @tap="handleChangeTabActive(1)">首页</text>
 				<text class="title-item" :class="{active:activeFirstTab===2}" @tap="handleChangeTabActive(2)">热门</text>
 			</block>
