@@ -131,7 +131,7 @@
                 const tagName = this.tagList.map(item => item.label);
 				console.log(tagSelectArr,"这这着")
                 tagSelectArr.forEach(item => {
-					
+
                     // const cIndex = customName.indexOf(item);
                     // const tIndex = tagName.indexOf(item);
                     // if (cIndex !== -1) {
@@ -140,7 +140,7 @@
                     // if (tIndex !== -1) {
                     //     this.selectStatus(this.tagList[tIndex], tIndex);
                     // }
-					
+
                 });
             },
             // 保存所选标签
@@ -148,7 +148,7 @@
 				console.log("运行了保存")
 				const target = this.myLabelList.join(',');
 				console.log(target)
-				
+
                 const params = {
                     dreamCompanySign: target,
                     id: this.$store.getters.userid
@@ -165,7 +165,7 @@
             queryTags(tags) {
                 this.$http.get('/sys/dict/querySomeDictItems', {params: {dicts: 'member_dream_company_sign'}}).then(res => {
                     if (res.data.success) {
-						
+
                         const newList = res.data.result.member_dream_company_sign.map(item => {
                             item.status = false;
                             return item;
@@ -225,7 +225,7 @@
                     return;
                 }
                 const params = {selfComSign: tagName, id: this.$store.getters.userid};
-                $http.get('/sys/addSelfCompanySignService', {params}).then(res => {
+                $http.get('/selfCompanySign/addSelfCompanySign', {params}).then(res => {
                     if (res.data.success) {
                         this.showCustomModal = false;
                         this.$tip.success('添加成功');
