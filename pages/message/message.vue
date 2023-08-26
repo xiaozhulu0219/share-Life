@@ -152,7 +152,7 @@
 				}).then(res=>{
 					console.log(res,"官方消息")
 					if(res.data.success){
-						this.lastNotice = res.data.result.records[0]
+						this.lastNotice = res.data.result.records[0] || {}
 						console.log(this.lastNotice )
 					}
 				}).catch(err=>{

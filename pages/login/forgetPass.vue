@@ -1,6 +1,9 @@
 <template>
     <view class="wx-login">
         <!--这个是找回密码页-->
+		<view class="spaceTop " :style="{height:topSpace+'px'}">
+			
+		</view>
         <view class="text-center" :style="[{animation: 'show ' + 0.4+ 's 1'}]">
             <image src="../../static/images/logo.png" mode='aspectFit' class="logo"></image>
             <view class="wx-register-title text-shadow"> SHARE LIFE</view>
@@ -190,6 +193,11 @@
 </script>
 
 <style lang="scss" scoped>
+	
+	.spaceTop{
+		width:100%;
+		 /* background-color: rgba(0, 0, 0, .5); */
+	}
     .wx-login-title {
         text-align: center;
         padding-top: 120rpx;

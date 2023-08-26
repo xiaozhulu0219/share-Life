@@ -32,7 +32,7 @@
 					<view class="cu-form-group textarea">
 						<textarea :placeholder="'你可以在这里:\n1.爆料职场新鲜事 \n2.分享面试跳槽经验 \n3.与同行交流、吐槽解压'"
 							style="width: 18px; height:300px;" name="input" v-model="myFormData.textContent"
-							:maxlength="maxLength" @input="onInput(myFormData.textContent)" :adjust-position="false">
+							:maxlength="maxLength" @input="onInput(myFormData.textContent,)" :adjust-position="false">
                         </textarea>
 						<view class="maxlength-tip" v-if="(myFormData.textContent.length)>=(maxLength*0.8)">
 							{{myFormData.textContent.length}}/{{maxLength}}
@@ -48,7 +48,9 @@
 					</view>
 
 					<view class="bottom_bar">
-
+						<my-video-upload ref="vedioUpload" 
+						v-if="inforType===3"
+						@uploadVedio="handleUpLoadVedio"></my-video-upload>
 						<my-image-upload ref="imageUpload" v-if="inforType===2" v-model="myFormData.medias">
 						</my-image-upload>
 						<view class="bottom-space" style="height: 150rpx;background-color: #fff;">
@@ -56,7 +58,7 @@
 						</view>
 						<view class="fixed-content">
 							<view class="tags-container" :class="{show:tagsPanelShow}">
-								<view class="already-choosed-list">
+								<!-- <view class="already-choosed-list">
 									<view class="already-choosed-list-item" v-for="(item,index) in alreayChoosedTags"
 										:key="index">
 										#{{item.content}}
@@ -73,12 +75,11 @@
 									</view>
 									<view class="add-tags-right">
 										<text @click="addinpTags" v-if="tagsList.length===0 && this.tagInpVal !==''" class="add-tags-right-item">添加</text>
-										<!-- <text v-if="alreayChoosedTags.length>0" class="add-tags-right-item">完成</text> -->
 										<text v-if="alreayChoosedTags.length>0" @click="tagsEditMode=(!tagsEditMode)">
 											{{tagsEditMode?'完成':'编辑'}}
 										</text>
 									</view>
-								</view>
+								</view> -->
 								<view class="tags-list">
 									<view class="tags-list-item" v-for="(item,index) in tagsList" :key="index"
 									@click="addOldTags(item)">
@@ -137,9 +138,9 @@
 
 									</view>
 								</view>
-								<view class="infortype-list-item">
+								<view class="infortype-list-item" @click="changeInforType(3)">
 									发视频
-									<view class="active-status" :class="{show:inforType===3}">
+									<view class="active-status"  :class="{show:inforType===3}">
 
 									</view>
 								</view>
@@ -188,6 +189,7 @@
 <script>
 	import myDate from '@/components/my-componets/my-date.vue'
 	import myImageUpload from '@/components/my-componets/my-image-upload.vue'
+	import myVideoUpload from "@/components/my-componets/myVideoUpload.vue"
 	import textTip from "@/pages/component/textTip.js";
 	import debounce from "@/common/util/debounce.js"
 	import {
@@ -200,7 +202,8 @@
 		name: "inforPublishForm",
 		components: {
 			myDate,
-			myImageUpload
+			myImageUpload,
+			myVideoUpload
 		},
 		props: {
 			formData: {
@@ -259,6 +262,7 @@
 				tempTagList: ['孟宴臣啊啊啊啊', '咖啡哪有我命苦5555', '烤黑糖波波牛乳yyds', '世界破破烂烂,小猫缝缝补补', 'ymls'],
 				alreayChoosedTags: [],
 				withDebouce: '',
+				vedioSrc:''
 
 			}
 		},
@@ -297,6 +301,12 @@
 			}
 		},
 		methods: {
+			handleUpLoadVedio(vSrc){
+				// shangchu
+				
+				this.vedioSrc = vSrc;
+				console.log(vSrc,"地址")
+			},
 			addOldTags(tar){
 				// 添加已经有的标签
 				const addTarget = {
@@ -361,8 +371,8 @@
 				this.inforType = tar
 			},
 			...mapMutations(['changehomeListStore', 'initPage']),
-			onInput(value) {
-				// console.log(value,'1111')
+			onInput(value,) {
+				console.log(value,'1111')
 				if (value !== null) {
 					// console.log(value,'2222')
 					for (const i in keyWords) {
@@ -370,7 +380,25 @@
 						value = value.replace(reg, ''.padEnd(keyWords[i].length, '*'));
 					}
 					// console.log(value,'3333')
+					// 判断当前是否添加了标签
+					
 				}
+				const targetLen= value.length;
+				if(value[targetLen-1]==='#'){
+					console.log("添加话题");
+					this.tagsPanelShow = true;
+					
+				}
+				if(value.match(/#\S+/)){
+					console.log('hh')
+				}
+				// const targetStr = 
+				if(value[targetLen-1]===' '){
+					this.tagsPanelShow = false;
+				}
+				
+				
+				
 				// 数据改变是异步的
 				this.$nextTick(() => {
 					this.myFormData.textContent = value;
@@ -465,6 +493,17 @@
 						// console.log(mediasTarget,"转换后")
 						this.myFormData.medias = mediasTarget
 					}
+					if(this.inforType == 3){
+						// 添加的是视频;
+						this.myFormData.medias = this.vedioSrc
+					}
+					if(this.inforType == 3 &&  this.vedioSrc==''){
+						uni.showToast({
+							title:'请添加视频',
+							icon:'none'
+						})
+					}
+					console.log(this.myFormData.medias );
 					// 添加两个属性
 					const targetObj = {
 						...this.myFormData,

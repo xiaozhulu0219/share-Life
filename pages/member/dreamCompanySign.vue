@@ -38,11 +38,22 @@
                     <template v-if="customList.length">
                         <text :class='["tag-item", { "active": item.status }]' v-for="(item,index) in customListCmp"
                               :key="index" @tap="selectTag(item)">{{item.selfComSign}}
+							  <text class="tags-close" v-if="editTagMode"
+							  @click.stop="removeTags(item)">
+							  	×
+							  </text>
                         </text>
+					
                     </template>
-                    <text class="tag-item" @tap="addTag">
+                    <text class="tag-item" @tap="addTag" v-if="customListCmp.length<9">
                         +
                     </text>
+					<text v-if="customListCmp.length>0" class="tag-item" 
+					:class="{active:editTagMode}"
+					@tap="editTag"
+					>
+					    -
+					</text>
                 </view>
             </view>
             <view class="">
@@ -90,7 +101,9 @@
                 customList: [], // 自定义标签列表
                 tagList: [], // 默认官方标签列表
                 tagName: '', // 自定义标签名
-                showCustomModal: false // 控制自定义标签模态框显示
+                showCustomModal: false, // 控制自定义标签模态框显示
+				editTagMode:false,
+				deleteTagsUrl:'/selfCompanySign/delete'
             };
         },
         onLoad: function (option) {
@@ -123,8 +136,58 @@
 			}
 		},
         methods: {
+			removeTags(tar){
+				// 移除当前选中的tags
+				console.log("移除这一项",tar)
+				// 通过id删除当前标签
+				const id = tar.id;
+				
+				
+				uni.showModal({
+					confirmText:'确认删除',
+					content:'确认删除当前标签吗',
+					success:(res)=> {
+						console.log(res);
+						
+						if(res.confirm){
+							this.$http.get(this.deleteTagsUrl,{params:{id}})
+							.then(res=>{
+								if(res.data.success){
+									// 删除成功;
+									// 当前数组进行删除
+									uni.showToast({
+										title:'删除成功!',
+										icon:'none'
+									});
+									if(tar.status){
+										// 当前状态是选中状态
+										// 从我的选中状态中移除
+										const tempArr = [...this.myLabelList];
+										const targetIndex = tempArr.indexOf(tar.selfComSign)
+										tempArr.splice(targetIndex,1)
+										this.changeMyLabelList(tempArr);
+									}
+									this.customList = this.customList.filter(item=>{
+										return item.id!==id
+									})
+								}
+							})
+						}
+					}
+				})
+				// this.$http.delete(this.deleteTagsUrl,{params:{id:id}}).then(res=>{
+				// 	console.log(res,"删除结果")
+				// })
+				// console.log(this.customList,"所有标签");
+				// console.log(this.myLabelList,"已选择标签")
+			},
+			editTag(){
+				this.editTagMode=!this.editTagMode;
+				
+			},
 			...mapMutations(['changeMyLabelList']),
-            handleTagSelect(tags) {
+            handleTagSelect(tags='') {
+				console.log(tags,'这是什么')
                 const tagSelectArr = tags.split(',');
 				console.log(this.customList,"11")
                 const customName = this.customList.map(item => item.label);
@@ -219,9 +282,14 @@
             },
             // 新增自定义标签
             getCustomTagConfirm() {
+				uni.showLoading({
+					title:'loading....',
+					icon:'none'
+				})
                 const {tagName, $http} = this;
                 if (!tagName.trim()) {
                     this.$tip.toast('请输入标签');
+					uni.hideLoading()
                     return;
                 }
                 const params = {selfComSign: tagName, id: this.$store.getters.userid};
@@ -230,15 +298,28 @@
                         this.showCustomModal = false;
                         this.$tip.success('添加成功');
                         this.getCustomTag();
-                    }
+						this.tagName = '';
+						uni.hideLoading()
+                    }else{
+						if(res.data.message=="该标签已存在!"){
+							uni.hideLoading()
+							uni.showToast({
+								title:"该标签已经存在",
+								icon:'none'
+							});
+							this.tagName = '';
+						}
+					}
                 });
             },
             // 获取自定义标签
             getCustomTag(tags) {
+				console.log(tags,'那里的tags')
                 this.$http.get('/selfCompanySign/querySelfComSignByUserId',
                     {params: {id: this.$store.getters.userid}}).then(res => {
                     if (res.data.success) {
 						// 自定义公司标签
+						console.log(res.data,"自定义")
                         const customList = res.data.result.map(item => ({...item, label: item.selfComSign}));
                         this.customList = customList;
                         this.handleTagSelect(tags);
@@ -260,14 +341,26 @@
 
     .tag-item {
         margin: 10rpx;
-        padding: 16rpx 30rpx;
+        padding: 16rpx 35rpx;
         background-color: #ddd;
         border-radius: 50rpx;
         color: #fff;
+		position: relative;
     }
+	.tags-close{
+		position: absolute;
+		font-size: 1.2em;
+		height: 100%;
+		/* background-color: #666; */
+		top: 0rpx;
+		width: 30rpx;
+		padding: 16rpx 10rpx;
+	
+	}
 
     .tag-item.active {
         background-color: #8874ff;
+		
     }
 
     .customTag-mask {

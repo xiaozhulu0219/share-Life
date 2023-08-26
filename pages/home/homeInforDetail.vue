@@ -35,6 +35,9 @@
 				<view v-if="myFormData.inforType !=2" class="space-for-no-img">
 
 				</view>
+				<view v-if="myFormData.inforType ==3"  class="">
+					<video :src="myFormData.medias[0]" controls></video>
+				</view>
 				<view class="" v-if="myFormData.inforType ==2 || !myFormData.inforType">
 
 					<swiper v-if="myFormData.medias.length>1" indicator-dots indicator-color="#94afce"

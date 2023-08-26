@@ -37,7 +37,7 @@
                                 <text :style="{color:'#ddd'}">粉丝</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl" @click="showLikeModel=true">
-                                <text>{{FocusFansNumVo.loveCollectCount}}</text>
+                                <text>{{FocusFansNumVo.loveCollectCount +FocusFansNumVo.collectCount}}</text>
                                 <text :style="{color:'#ddd'}">获赞与收藏</text>
                             </view>
                             <!-- 获赞收藏弹框 -->
