@@ -245,6 +245,12 @@ const routes = [{
 		 meta:{
 			 title:'noticeList'
 		 }
+	 },{
+		 path:'/pages/home/homeComTagsList',
+		 name:'homeComTagsList',
+		 meta:{
+			 title:'homeComTagsList'
+		 }
 	 }
     // ,
     // {

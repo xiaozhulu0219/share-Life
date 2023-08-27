@@ -48,9 +48,8 @@
 					</view>
 
 					<view class="bottom_bar">
-						<my-video-upload ref="vedioUpload" 
-						v-if="inforType===3"
-						@uploadVedio="handleUpLoadVedio"></my-video-upload>
+						<my-video-upload ref="vedioUpload" v-if="inforType===3" @uploadVedio="handleUpLoadVedio">
+						</my-video-upload>
 						<my-image-upload ref="imageUpload" v-if="inforType===2" v-model="myFormData.medias">
 						</my-image-upload>
 						<view class="bottom-space" style="height: 150rpx;background-color: #fff;">
@@ -82,8 +81,17 @@
 								</view> -->
 								<view class="tags-list">
 									<view class="tags-list-item" v-for="(item,index) in tagsList" :key="index"
-									@click="addOldTags(item)">
-										#{{item.textContent}}
+										@click="addOldTags(item)">
+										<view class="tags-list-item-left">
+											#{{item.textContent}}
+										</view>
+										<view class="tags-list-item-right">
+											{{item.quoteNum}}次搜索
+										</view>
+										
+									</view>
+									<view class="" v-if="tagsList.length===0">
+										暂无相似标签~
 									</view>
 								</view>
 							</view>
@@ -140,7 +148,7 @@
 								</view>
 								<view class="infortype-list-item" @click="changeInforType(3)">
 									发视频
-									<view class="active-status"  :class="{show:inforType===3}">
+									<view class="active-status" :class="{show:inforType===3}">
 
 									</view>
 								</view>
@@ -262,8 +270,15 @@
 				tempTagList: ['孟宴臣啊啊啊啊', '咖啡哪有我命苦5555', '烤黑糖波波牛乳yyds', '世界破破烂烂,小猫缝缝补补', 'ymls'],
 				alreayChoosedTags: [],
 				withDebouce: '',
-				vedioSrc:''
+				vedioSrc: '',
+				startTags: false, // 是否开始输入标签,
+				searchVal: ''
 
+			}
+		},
+		watch: {
+			searchVal(newVal, oldVal) {
+				this.withDebouce(newVal)
 			}
 		},
 		created() {
@@ -277,7 +292,7 @@
 				this.inforType = this.myFormData.inforType
 				// 根据已经有的tag列表初始化
 				const targetTags = this.myFormData.tags || [];
-				targetTags.forEach((item)=>{
+				targetTags.forEach((item) => {
 					this.alreayChoosedTags.push({
 						isNew: false,
 						content: item
@@ -301,20 +316,27 @@
 			}
 		},
 		methods: {
-			handleUpLoadVedio(vSrc){
+			handleUpLoadVedio(vSrc) {
 				// shangchu
-				
+
 				this.vedioSrc = vSrc;
-				console.log(vSrc,"地址")
+				console.log(vSrc, "地址")
 			},
-			addOldTags(tar){
+			addOldTags(tar) {
 				// 添加已经有的标签
-				const addTarget = {
-					isNew: false,
-					content: tar.textContent
-				}
-				this.alreayChoosedTags.push(addTarget);
-				this.tagInpVal = '';
+				// const addTarget = {
+				// 	isNew: false,
+				// 	content: tar.textContent
+				// }
+				// this.alreayChoosedTags.push(addTarget);
+				// this.tagInpVal = '';
+
+				// 拿到标签文本;
+
+				// 当前的文本内容添加搜索到的文本内容
+				// const str = this.myFormData.textContent;
+				this.myFormData.textContent = this.myFormData.textContent.replace(/(#(\S+)$)|(#$)/, '#' + tar.textContent)
+				console.log(this.myFormData.textContent)
 			},
 			// testget(){
 			// 	console.log("模拟请求")
@@ -351,9 +373,46 @@
 					}
 				}).then(res => {
 					if (res.data.success) {
-						console.log(res.data,"搜索了")
+						console.log(res.data, "搜索了")
 						this.tagsList = res.data.result;
 						// textContent
+						console.log(this.tagsList ,"这里")
+					}
+				})
+			},
+			getForSubmit(query = '') {
+				return this.$http.get(this.url.tagsListUrl, {
+					params: {
+						text: query
+					}
+				}).then(res => {
+					if (res.data.success) {
+						console.log(res.data.result, '搜所结果')
+						// this.tagsList = res.data.result;
+						// // textContent
+						if (res.data.result.length === 0) {
+							// 没有任何搜索直接返回false
+							return {
+								isOld: false,
+								content: query
+							}
+						} else {
+							const filterRes = res.data.result.filter((item) => {
+								return item.textContent === query
+							});
+							if (filterRes.length === 0) {
+								// 没有全等的搜索结果
+								return {
+									isOld: false,
+									content: query
+								}
+							} else {
+								return {
+									isOld: true,
+									content: query
+								}
+							}
+						}
 					}
 				})
 			},
@@ -371,8 +430,14 @@
 				this.inforType = tar
 			},
 			...mapMutations(['changehomeListStore', 'initPage']),
-			onInput(value,) {
-				console.log(value,'1111')
+			onInput(value, ) {
+				if (this.startTags) {
+					const targetValArr = value.split('#');
+
+					this.searchVal = targetValArr[targetValArr.length - 1]
+					console.log("要搜索的是", this.searchVal)
+				}
+				console.log(value, '1111')
 				if (value !== null) {
 					// console.log(value,'2222')
 					for (const i in keyWords) {
@@ -381,24 +446,28 @@
 					}
 					// console.log(value,'3333')
 					// 判断当前是否添加了标签
-					
+
 				}
-				const targetLen= value.length;
-				if(value[targetLen-1]==='#'){
+				const targetLen = value.length;
+				if (value[targetLen - 1] === '#') {
+					this.startTags = true;
 					console.log("添加话题");
 					this.tagsPanelShow = true;
-					
+
 				}
-				if(value.match(/#\S+/)){
+				if (value.match(/#\S+/)) {
 					console.log('hh')
 				}
 				// const targetStr = 
-				if(value[targetLen-1]===' '){
+				if (value[targetLen - 1] === ' ') {
+					this.startTags = false
 					this.tagsPanelShow = false;
+					this.searchVal = '';
+
 				}
-				
-				
-				
+
+
+
 				// 数据改变是异步的
 				this.$nextTick(() => {
 					this.myFormData.textContent = value;
@@ -453,99 +522,134 @@
 				this.queryParam = {};
 				this.loadList(1);
 			},
+
 			submit() {
 				//若评论中包含 “*” 或者为空 不允许保存
 
 				//console.log("inputValue值为空1：", inputValue);
 				//发布标签
 				// 看一下当前列表的新标签
-				console.log(this.alreayChoosedTags,"...")
-				const newTags = []
-				const allTags = [];
-				this.alreayChoosedTags.forEach((item) => {
-					if (item.isNew) {
-						newTags.push(item.content)
-					}
-					allTags.push(item.content)
-				})
-				console.log(allTags,newTags)
-				this.$http.post(this.url.addTagsList, {
-					tags: newTags
-				}).then(res => {
-					console.log('添加标签结果', res)
-				})
-				// 新增标签
-				if (this.myFormData.textContent === '' || this.myFormData.textContent.indexOf('*') != -1) {
-					console.log('动态内容出现了违规词语、已被拦截：', this.myFormData.textContent);
-					this.showTextTip('动态')
-				} else {
-					console.log('medias2', this.myFormData.medias)
-					// 判断是否有编辑好的数组
-					if (this.inforType == 1) {
-						// 文字内容不需要图片
-						this.myFormData.medias = ''
-					}
-					if (typeof this.myFormData.medias != 'string') {
-						console.log("没有添加直接提交")
-						// 拿子组件的图片数组转换为str
-
-						const mediasTarget = this.$refs.imageUpload.pathlist.join(',')
-						// console.log(mediasTarget,"转换后")
-						this.myFormData.medias = mediasTarget
-					}
-					if(this.inforType == 3){
-						// 添加的是视频;
-						this.myFormData.medias = this.vedioSrc
-					}
-					if(this.inforType == 3 &&  this.vedioSrc==''){
-						uni.showToast({
-							title:'请添加视频',
-							icon:'none'
-						})
-					}
-					console.log(this.myFormData.medias );
-					// 添加两个属性
-					const targetObj = {
-						...this.myFormData,
-						seeType: this.seeType,
-						inforType: this.inforType,
-						tags: allTags
-					}
-					
-					console.log(targetObj, '..')
-					this.$http.post(this.myFormData.id ? this.url.editUrl : this.url.submitUrl, targetObj, {}).then(
-						res => {
-							console.log('myFormData', this.myFormData)
-							console.log('res', res);
-
-							if (res.data.success) {
-								console.log('发布成功');
-								console.log('res.data', res.data);
-								uni.showToast({
-									title: '发布成功',
-									complete: () => {
-										setTimeout(() => {
-											// 发动态重新刷新当前的首页列表
-											this.changehomeListStore([])
-											// 初始化页数
-											this.initPage()
-											uni.redirectTo({
-												url: '/pages/home/home'
-											});
-										}, 1500);
-									}
-								});
-							} else {
-								if (res.data.message == '请上传图片') {
-									uni.showToast({
-										title: res.data.message,
-										icon: 'none'
-									})
-								}
-
-							}
-						})
+				// console.log(this.alreayChoosedTags, "...")
+				// const newTags = []
+				// const allTags = [];
+				// this.alreayChoosedTags.forEach((item) => {
+				// 	if (item.isNew) {
+				// 		newTags.push(item.content)
+				// 	}
+				// 	allTags.push(item.content)
+				// })
+				// console.log(allTags, newTags)
+				// 标签列表分类
+				const resultReg = this.myFormData.textContent.matchAll(/#(\S+)/g)
+				let searchForSubmit = [];
+				for (const itemStr of resultReg) {
+					// 再次进行搜索
+					searchForSubmit.push(itemStr[1])
 				}
+				console.log(searchForSubmit)
+				const resultPArr = searchForSubmit.map(item => {
+					return new Promise(async (resolve) => {
+						const resultObj = await this.getForSubmit(item)
+						resolve(resultObj)
+					})
+				})
+				let newTags = []
+				let allTags = [];
+				Promise.all(resultPArr).then(res => {
+					// 根据结果进行分类
+					res.forEach((item) => {
+						if (!item.isOld) {
+							newTags.push(item.content)
+						}
+						allTags.push(item.content)
+					})
+					// console.log(newTags,"新标签",allTags,"所有标签")
+					this.$http.post(this.url.addTagsList, {
+						tags: newTags
+					}).then(res => {
+						console.log('添加标签结果', res)
+					})
+					if (this.myFormData.textContent === '' || this.myFormData.textContent.indexOf('*') != -1) {
+						console.log('动态内容出现了违规词语、已被拦截：', this.myFormData.textContent);
+						this.showTextTip('动态')
+					} else {
+						console.log('medias2', this.myFormData.medias)
+						// 判断是否有编辑好的数组
+						if (this.inforType == 1) {
+							// 文字内容不需要图片
+							this.myFormData.medias = ''
+						}
+						if (typeof this.myFormData.medias != 'string') {
+							console.log("没有添加直接提交")
+							// 拿子组件的图片数组转换为str
+
+							const mediasTarget = this.$refs.imageUpload.pathlist.join(',')
+							// console.log(mediasTarget,"转换后")
+							this.myFormData.medias = mediasTarget
+						}
+						if (this.inforType == 3) {
+							// 添加的是视频;
+							this.myFormData.medias = this.vedioSrc
+						}
+						if (this.inforType == 3 && this.vedioSrc == '') {
+							uni.showToast({
+								title: '请添加视频',
+								icon: 'none'
+							})
+						}
+						console.log(this.myFormData.medias);
+						// 添加两个属性
+						const targetObj = {
+							...this.myFormData,
+							seeType: this.seeType,
+							inforType: this.inforType,
+							tags: allTags
+						}
+
+						console.log(targetObj, '..')
+						this.$http.post(this.myFormData.id ? this.url.editUrl : this.url.submitUrl, targetObj, {})
+							.then(
+								res => {
+									console.log('myFormData', this.myFormData)
+									console.log('res', res);
+
+									if (res.data.success) {
+										console.log('发布成功');
+										console.log('res.data', res.data);
+										uni.showToast({
+											title: '发布成功',
+											complete: () => {
+												setTimeout(() => {
+													// 发动态重新刷新当前的首页列表
+													this.changehomeListStore([])
+													// 初始化页数
+													this.initPage()
+													uni.redirectTo({
+														url: '/pages/home/home'
+													});
+												}, 1500);
+											}
+										});
+									} else {
+										if (res.data.message == '请上传图片') {
+											uni.showToast({
+												title: res.data.message,
+												icon: 'none'
+											})
+										}
+
+									}
+								})
+					}
+
+				})
+				// 	this.$http.post(this.url.addTagsList, {
+				// 		tags: newTags
+				// 	}).then(res => {
+				// 		console.log('添加标签结果', res)
+				// 	})
+				// 	// 新增标签
+
 			}
 		}
 	}
@@ -888,11 +992,26 @@
 		color: #fff;
 		margin: 5rpx 10rpx
 	}
-	.tags-list{
+
+	.tags-list {
 		width: 100%;
 	}
-	.tags-list-item{
+
+	.tags-list-item {
+		padding:0rpx 20rpx;
 		width: 80%;
 		margin: 15rpx auto;
+		display:flex;
+		width:100%;
+		justify-content: space-between;
+		align-items: center;
+		
+	}	
+	.tags-list-item-right{
+		width:30%;
+		text-align: right;
+		font-size: 0.8em;
+		color:#666;
+		
 	}
 </style>

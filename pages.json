@@ -309,6 +309,12 @@
 		"style": {
 			
 		}
+	},
+	{
+		"path":"pages/home/homeComTagsList",
+		"style": {
+			
+		}
 	}
   ],
   "globalStyle": {

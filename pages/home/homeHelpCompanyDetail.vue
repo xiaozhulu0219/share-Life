@@ -42,20 +42,34 @@
 				</view>
 				
 			</view>
-			<view class="detail-tag-list">
-				<view class="detail-tag-item a">
-					#女性友好
+			<view class="taglist-container">
+				
+				<view class="detail-tag-list">
+					<view class="" style="color: #aaa;" v-if="compTagList.length===0">
+						暂无标签 点击右边箭头去添加
+					</view>
+					<view   v-for="(item,index) in compTagList" :key="index" :class="['detail-tag-item',classList[index]]">
+						#{{item.content}}
+					</view>
+					<!-- <view class="detail-tag-item b">
+						#可接受残疾人
+					</view>
+					<view class="detail-tag-item c">
+						#体恤员工
+					</view>
+					<view class="detail-tag-item d">
+						#米面粮油
+					</view> -->
 				</view>
-				<view class="detail-tag-item b">
-					#可接受残疾人
-				</view>
-				<view class="detail-tag-item c">
-					#体恤员工
-				</view>
-				<view class="detail-tag-item d">
-					#米面粮油
+				<view class="detail-tag-right">
+					<view class="cuIcon-pullright"
+					 style="font-size: 1.5em;"
+					 @click="toTagsDetail">
+						
+					</view>
 				</view>
 			</view>
+			
 			<view class="company-detail-body">
 				<view class="detail-body-item ">
 					<view class="body-item-top">
@@ -166,6 +180,8 @@
                 backRouteName: 'index',
                 findPageCommentByIdUrl: "/company/comments/list", //根据助力公司的id拿到所有评论
                 url: {
+					addCompTagListUrl:'/company/tags/saveTagForCom',
+					getCompTagListUrl:'/company/tags/tagsList',
                     findHelpComByIdUrl: "/company/findHelpComById", //根据助力公司的tianyanchaId拿到详情
                     likeComUrl: "/company/upLike", //向上点赞公司
                     upDislikeComUrl: "/company/upDislike", //取消向上点赞公司
@@ -251,6 +267,9 @@
                 commentsList: [],
                 fileUrl: configService.fileSaveURL,
                 inputValue: '',
+				compTagList:[],
+				compAllTagList:[],
+				classList:['a','b','c'],
             }
         },
         created() {
@@ -260,11 +279,14 @@
             this.findHelpComById(this.model.tianyanchaId);
             //查询评论列表时用助力公司的id、但不是从列表跳过来的（那个经过json转化已经变了。需要的是查询单条的接口返回的id）
             this.findPageCommentById(this.model.tianyanchaId);//临时传 tianyanchaId 到了后台再转为id去查询
+			this.getCompTagList();
+			
         },
         onLoad(option) {
             //console.log("params过来了", option)
             const item = JSON.parse(decodeURIComponent(option.item));
-            this.model = item
+            this.model = item;
+			console.log( this.model,'555')
             this.model.title = item.companyName.substr(5)
             // this.model.companyName = "公司名称：" + item.companyName
             // this.model.legalPerson = "法人：" + item.legalPerson
@@ -275,7 +297,40 @@
             // this.model.organizationCode = "组织编码：" + item.organizationCode
 
         },
+		onShow() {
+			this.getCompTagList();
+		},
         methods: {
+			toTagsDetail(){
+				// 跳转公司标签详情页面
+				// 带上公司信息
+				this.model.tagListInfo = this.compAllTagList;
+				const target = encodeURIComponent(JSON.stringify(this.model))
+				uni.navigateTo({
+					url:'/pages/home/homeComTagsList?item='+target
+				})
+			},
+			// addTags(){
+			// 	this.$http.post(this.url.addCompTagListUrl,{
+			// 		helpCompanyId:this.model.id,
+			// 		tag: '双休'
+			// 	}).then(res=>{
+			// 		console.log(res,"添加结果")
+			// 	})
+			// },
+			getCompTagList(){
+				this.$http.get(this.url.getCompTagListUrl,{
+					params:{
+						id:this.model.tianyanchaId
+					}
+				}).then(res=>{
+					console.log("公司标签",res)
+					// 截取前三个
+					const targetArr = res.data.result.items;
+					this.compAllTagList =targetArr
+					this.compTagList = targetArr.slice(0,3);
+				})
+			},
             // 触底加载
             reachBottom() {
                 if (!this.hasNext) return;
@@ -669,7 +724,8 @@
 		flex-wrap: wrap;
 		padding-bottom: 10rpx;
 		box-sizing: border-box;
-		border-bottom: 1px solid #ddd;
+		/* border-bottom: 1px solid #ddd; */
+		align-items: center;
 	}
 	.detail-tag-item{
 		margin:0 10rpx ;
@@ -719,5 +775,18 @@
 		font-size: 1.1em;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+	}
+	.taglist-container{
+		width:100%;
+		display:flex;
+		justify-content: space-between;
+		align-items: center;
+		padding:0 20rpx;
+		border-bottom: 1px solid #ccc;
+		
+	}
+	.detail-tag-right{
+		width:10%;
+		flex: 0 0 auto;
 	}
 </style>
