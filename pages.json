@@ -315,6 +315,12 @@
 		"style": {
 			
 		}
+	},
+	{
+		"path":"pages/member/selfTagsPage",
+		"style": {
+			
+		}
 	}
   ],
   "globalStyle": {

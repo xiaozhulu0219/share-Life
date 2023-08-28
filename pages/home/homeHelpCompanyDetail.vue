@@ -141,7 +141,7 @@
                             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
                                   @click="dislikeComment(item.id)">&#xe60f
                             </view>
-                            <span class="comment-likeCount">{{item.likeCount}}</span>
+                            <span class="comment-likeCount">{{item.upLikeCount}}</span>
                         </view>
                     </view>
                 </view>

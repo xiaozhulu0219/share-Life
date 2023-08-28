@@ -251,6 +251,13 @@ const routes = [{
 		 meta:{
 			 title:'homeComTagsList'
 		 }
+	 },
+	 {
+		 path:'/pages/member/selfTagsPage',
+		 name:'selfTagsPage',
+		 meta:{
+			 title:'selfTagsPage'
+		 }
 	 }
     // ,
     // {

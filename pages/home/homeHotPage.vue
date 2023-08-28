@@ -159,11 +159,13 @@
 						.stringify(item))
 				});
 			},
-			reachBottom() {
+			 reachBottom() {
+				
 				console.log("触底了");
 				if (!this.hasNext) return;
 				// 触底加载
-				this.updataHotPage()
+				 this.updataHotPage()
+				
 			},
 			updataHotPage() {
 				if (this.isDownLoading) return;
@@ -174,7 +176,7 @@
 					size
 				} = this.hotListPage;
 
-				this.$http.get(this.hotPageUrl, {
+				return this.$http.get(this.hotPageUrl, {
 					params: {
 						page: num,
 						pagesize: size

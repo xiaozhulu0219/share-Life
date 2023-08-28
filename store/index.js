@@ -39,6 +39,7 @@ export default new Vuex.Store({
 			size:10
 		},
 		myLabelList:[],
+		selfLabelList:[],
 		lovesCount:0,
 		followCount:0,
 		commentsCount:0,
@@ -66,6 +67,9 @@ export default new Vuex.Store({
 		},
 		changeMyLabelList(state,payload){
 			state.myLabelList = payload 
+		},
+		changeSelfLabelList(state,payload){
+			state.selfLabelList = payload
 		},
 		changehomeListStore: (state, payload) => {
 			state.homeListStore = payload

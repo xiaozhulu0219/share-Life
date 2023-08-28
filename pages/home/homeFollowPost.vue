@@ -160,7 +160,7 @@
 				 
 				 const {num,size} = this.followListPage;
 				 console.log("請求好友頁第",num)
-				this.$http.get(this.followPostUrl, {
+				return this.$http.get(this.followPostUrl, {
 					params: {
 						page: this.followListPage.num,
 						pagesize:size

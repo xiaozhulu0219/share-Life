@@ -91,7 +91,18 @@
                     </view>
                 </navigator>
             </view>
-
+			<view class="cu-list menu">
+			    <navigator class="cu-item arrow"
+			               :url="`/pages/member/selfTagsPage`"
+			               :style="[{animationDelay: '0.8s'}]">
+			        <view class="content">
+			            <text class="text-grey">个人标签</text>
+			        </view>
+			        <view class="action tag">
+			            <text class="text-grey">{{personalMsg.sign}}</text>
+			        </view>
+			    </navigator>
+			</view>
             <!-- <view class="cu-list menu">
                 <navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/dreamCompanySign" :style="[{animationDelay: '0.9s'}]">
                     <view class="content">
@@ -152,7 +163,7 @@
 			}
 		},
         methods: {
-			...mapMutations(['changeMyLabelList']),
+			...mapMutations(['changeMyLabelList','changeSelfLabelList']),
             getSubStringText(text, len) {
                 if (!text || text.length == 0) {
                     return '';
@@ -178,6 +189,8 @@
 						console.log(res.data,"数据")
 						// 存一下请求的标签到仓库中
                         this.personalMsg = res.data.result;
+						
+						console.log(res.data.result,"结果")
 						if(!res.data.result.dreamCompanySign){
 							this.changeMyLabelList([])
 						}else
@@ -185,6 +198,13 @@
 						 	const labelList = res.data.result.dreamCompanySign.split(',');
 							
 							this.changeMyLabelList(labelList)
+						}
+						// 保存自定义标签
+						if(!res.data.result.sign){
+							this.changeSelfLabelList([])
+						}else{
+							const selflabelList = res.data.result.sign.split(',');
+							this.changeSelfLabelList(selflabelList)
 						}
                         this.personalMsg.sex = sex === 1 ? '男' : '女';
                         this.personalMsg.sexNum = sex;
