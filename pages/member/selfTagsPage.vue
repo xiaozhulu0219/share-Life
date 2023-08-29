@@ -96,8 +96,11 @@
 				<view class="customTag-mask" v-if="showCustomModal">
 				    <view class="customTag-box">
 				        <view class="tag-title">自定义标签</view>
-				        <input type="text" class="tag-input" v-model="cusTagName" maxlength="6"
-				               placeholder="最长6个字" placeholder-color="#999"/>
+				        <input 
+						type="text" class="tag-input" v-model="cusTagName" maxlength="6"
+								@input="oninput"
+				               placeholder="最长6个字" 
+							   placeholder-color="#999"/>
 				        <view class="buttons">
 				            <view class="btn" @tap.stop="showCustomModal = false">取消</view>
 				            <view class="btn-confirm btn" @tap="getCustomTagConfirm">保存</view>
@@ -112,6 +115,10 @@
 
 
 <script>
+	import {
+		keyWords
+	} from '@/common/util/constants';
+	import textTip from "@/pages/component/textTip.js";
 	import {mapState,mapMutations} from "vuex"
 	export default {
 		created() {
@@ -119,6 +126,7 @@
 			this.queryTags();
 			this.getCustomTag();
 		},
+		mixins: [textTip],
 		computed:{
 			...mapState(['selfLabelList']),
 			
@@ -148,6 +156,21 @@
 			}
 		},
 		methods:{
+			oninput(){
+				let value = this.cusTagName;
+				if (value !== null) {
+					// console.log(value,'2222')
+					for (const i in keyWords) {
+						const reg = new RegExp(keyWords[i], 'g');
+						value = value.replace(reg, ''.padEnd(keyWords[i].length, '*'));
+					}
+					// console.log(value,'3333')
+					// 判断当前是否添加了标签
+				this.$nextTick(() => {
+					this.cusTagName = value;
+				});
+				}
+			},
 			// 获取自定义标签
 			removeTags(tar){
 				console.log("移除这一项",tar)
@@ -223,6 +246,12 @@
 				    this.$tip.toast('请输入标签');
 					uni.hideLoading()
 				    return;
+				}
+				if(this.cusTagName.indexOf('*') != -1){
+					// 关键词屏蔽
+					this.showTextTip('标签');
+					this.cusTagName = ''
+					return;
 				}
 				const params = {selfComSign: this.cusTagName, id: this.$store.getters.userid};
 				this.$http.get(this.addcustomTagUrl, {params}).then(res => {

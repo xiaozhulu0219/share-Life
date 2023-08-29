@@ -75,7 +75,10 @@
         <view class="customTag-mask" v-if="showCustomModal">
             <view class="customTag-box">
                 <view class="tag-title">自定义标签</view>
-                <input type="text" class="tag-input" v-model="tagName" maxlength="6"
+                <input type="text" class="tag-input" 
+				v-model="tagName" 
+				maxlength="6"
+				@input="oninput"
                        placeholder="最长6个字" placeholder-color="#999"/>
                 <view class="buttons">
                     <view class="btn" @tap.stop="showCustomModal = false">取消</view>
@@ -87,6 +90,10 @@
 </template>
 
 <script>
+	import {
+		keyWords
+	} from '@/common/util/constants';
+	import textTip from "@/pages/component/textTip.js";
 	import {mapState,mapMutations} from "vuex";
     export default {
         data() {
@@ -106,6 +113,7 @@
 				deleteTagsUrl:'/selfCompanySign/delete'
             };
         },
+		mixins: [textTip],
         onLoad: function (option) {
 			console.log("参数",this.$Route.query)
             this.queryTags(this.$Route.query);
@@ -136,6 +144,21 @@
 			}
 		},
         methods: {
+			oninput(){
+				let value= this.tagName;
+				if (value !== null) {
+					// console.log(value,'2222')
+					for (const i in keyWords) {
+						const reg = new RegExp(keyWords[i], 'g');
+						value = value.replace(reg, ''.padEnd(keyWords[i].length, '*'));
+					}
+					// console.log(value,'3333')
+					// 判断当前是否添加了标签
+				this.$nextTick(() => {
+					this.tagName = value;
+				});
+				}
+			},
 			removeTags(tar){
 				// 移除当前选中的tags
 				console.log("移除这一项",tar)
@@ -292,6 +315,12 @@
 					uni.hideLoading()
                     return;
                 }
+				if(this.tagName.indexOf('*') != -1){
+					// 关键词屏蔽
+					this.showTextTip('标签');
+					this.tagName = ''
+					return;
+				}
                 const params = {selfComSign: tagName, id: this.$store.getters.userid};
                 $http.get('/selfCompanySign/addSelfCompanySign', {params}).then(res => {
                     if (res.data.success) {

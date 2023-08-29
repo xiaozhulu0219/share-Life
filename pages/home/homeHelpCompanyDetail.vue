@@ -162,8 +162,9 @@
 <script>
     import configService from '@/common/service/config.service.js'
     import { keyWords } from '../../common/util/constants';
-
+	import textTip from "@/pages/component/textTip.js";
     export default {
+		
         name: "helpCompanyDetailForm",
         components: {},
         props: {},
@@ -282,6 +283,7 @@
 			this.getCompTagList();
 			
         },
+		mixins: [textTip],
         onLoad(option) {
             //console.log("params过来了", option)
             const item = JSON.parse(decodeURIComponent(option.item));
@@ -401,7 +403,9 @@
                 //若评论中包含 “*” 或者为空 不允许保存
                 //console.log("inputValue值为空1：", inputValue);
                 if (inputValue === "" || inputValue.indexOf("*") != -1) {
-                    console.log("评论出现了违规词语、已被拦截：", inputValue);
+					this.showTextTip('评论');
+					console.log("评论出现了违规词语、已被拦截：", inputValue);
+					return;
                 } else {
                     const HelpCompanyCommentDto = {};
                     HelpCompanyCommentDto.helpCompanyId = this.comModel.id;

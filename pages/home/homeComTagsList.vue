@@ -140,7 +140,8 @@
 				console.log(this.taginpval)
 				if (this.taginpval === '' || this.taginpval.indexOf('*') != -1) {
 					console.log('动态内容出现了违规词语、已被拦截：', this.taginpval);
-					this.showTextTip('标签')
+					this.showTextTip('标签');
+					this.taginpval=''
 					return
 
 				}
