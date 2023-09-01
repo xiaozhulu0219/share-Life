@@ -106,6 +106,7 @@
 		width: 50rpx;
 		flex-shrink: 0;
 		text-align: center;
+		white-space: nowrap;
 	}
 
 	.title {

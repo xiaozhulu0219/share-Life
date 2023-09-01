@@ -2,19 +2,17 @@
 	<!--发布功能的表单页-->
 	<view>
 		<!--标题和返回-->
-		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
+		<!-- <cu-custom bgColor="bg-gradual-blue" :isBack="true">
 			<block slot="backText">返回</block>
 			<block slot="content">{{ myFormData.id ? '编辑动态' : '发动态'}}</block>
 			<block slot="right">
 				<view class="" @click="submit">
 					发布
 				</view>
-				<!--  <button class="cu-btn block bg-gray margin-tb-sm " size="small" >
-		            发布
-		        </button> -->
+				
 			</block>
 
-		</cu-custom>
+		</cu-custom> -->
 		<!-- <cu-custom isBack="t" :backRouterName="backRouteName">
             <block slot="backText">
             </block>
@@ -25,25 +23,75 @@
                 </button>
             </block>
         </cu-custom> -->
+		<commonTab :isBack="true">
+			<block slot="title">
+				<text>{{ myFormData.id ? '编辑动态' : '发动态'}}</text>
+			</block>
+			<block slot="right">
+				<view @click="submit">发布</view>
+			</block>
+		</commonTab>
+		<view class="" :style="{height:CustomBar +'px',width:'100%'}">
 
+		</view>
 		<view class="">
 			<form :model="myFormData">
-				<view class="main bg-white" :style="{backgroundColor:voteBc}">
+				<view class="main bg-white" :style="{backgroundColor:voteBc,paddingTop:'10px'}">
 					<view class="cu-form-group textarea">
 						<textarea :placeholder="'你可以在这里:\n1.爆料职场新鲜事 \n2.分享面试跳槽经验 \n3.与同行交流、吐槽解压'"
 							style="width: 18px; height:300px;" name="input" v-model="myFormData.textContent"
-							:maxlength="maxLength" @input="onInput(myFormData.textContent,)" :adjust-position="false">
+							:maxlength="maxLength" @input="onInput(myFormData.textContent,)" :adjust-position="false"
+							@blur="onblur" :focus="isInputFocus">
                         </textarea>
 						<view class="maxlength-tip" v-if="(myFormData.textContent.length)>=(maxLength*0.8)">
 							{{myFormData.textContent.length}}/{{maxLength}}
 						</view>
-						<view class="tag-show-list">
+						<!-- <view class="tag-show-list">
 							<view class="tag-show-list-wrap">
 								<view class="tag-show-list-item" v-for="(item,index) in alreayChoosedTags" :key="index">
 									#{{item.content}}
 								</view>
 							</view>
 
+						</view> -->
+						<view class="tags-container" :class="{show:tagsPanelShow}">
+							<!-- <view class="already-choosed-list">
+								<view class="already-choosed-list-item" v-for="(item,index) in alreayChoosedTags"
+									:key="index">
+									#{{item.content}}
+									<view class="edit-close" v-if="tagsEditMode" @click="removechoosedTag(index)">
+										×
+									</view>
+								</view>
+							</view>
+							<view class="add-tags">
+								<view class="add-tags-left">
+									<text>#</text>
+									<input type="text" class="add-tags-left-text" v-model="tagInpVal"
+										@input="searchTags">
+								</view>
+								<view class="add-tags-right">
+									<text @click="addinpTags" v-if="tagsList.length===0 && this.tagInpVal !==''" class="add-tags-right-item">添加</text>
+									<text v-if="alreayChoosedTags.length>0" @click="tagsEditMode=(!tagsEditMode)">
+										{{tagsEditMode?'完成':'编辑'}}
+									</text>
+								</view>
+							</view> -->
+							<view class="tags-list">
+								<view class="tags-list-item" v-for="(item,index) in tagsList" :key="index"
+									@click="addOldTags(item)">
+									<view class="tags-list-item-left">
+										#{{item.textContent}}
+									</view>
+									<view class="tags-list-item-right">
+										{{item.quoteNum}}次搜索
+									</view>
+						
+								</view>
+								<view class="" v-if="tagsList.length===0">
+									暂无相似标签~
+								</view>
+							</view>
 						</view>
 					</view>
 
@@ -56,45 +104,7 @@
 
 						</view>
 						<view class="fixed-content">
-							<view class="tags-container" :class="{show:tagsPanelShow}">
-								<!-- <view class="already-choosed-list">
-									<view class="already-choosed-list-item" v-for="(item,index) in alreayChoosedTags"
-										:key="index">
-										#{{item.content}}
-										<view class="edit-close" v-if="tagsEditMode" @click="removechoosedTag(index)">
-											×
-										</view>
-									</view>
-								</view>
-								<view class="add-tags">
-									<view class="add-tags-left">
-										<text>#</text>
-										<input type="text" class="add-tags-left-text" v-model="tagInpVal"
-											@input="searchTags">
-									</view>
-									<view class="add-tags-right">
-										<text @click="addinpTags" v-if="tagsList.length===0 && this.tagInpVal !==''" class="add-tags-right-item">添加</text>
-										<text v-if="alreayChoosedTags.length>0" @click="tagsEditMode=(!tagsEditMode)">
-											{{tagsEditMode?'完成':'编辑'}}
-										</text>
-									</view>
-								</view> -->
-								<view class="tags-list">
-									<view class="tags-list-item" v-for="(item,index) in tagsList" :key="index"
-										@click="addOldTags(item)">
-										<view class="tags-list-item-left">
-											#{{item.textContent}}
-										</view>
-										<view class="tags-list-item-right">
-											{{item.quoteNum}}次搜索
-										</view>
-										
-									</view>
-									<view class="" v-if="tagsList.length===0">
-										暂无相似标签~
-									</view>
-								</view>
-							</view>
+							
 							<view class="bottom-content">
 								<view class="middle">
 									<view class="huati" @click="handleTags">
@@ -199,7 +209,8 @@
 	import myImageUpload from '@/components/my-componets/my-image-upload.vue'
 	import myVideoUpload from "@/components/my-componets/myVideoUpload.vue"
 	import textTip from "@/pages/component/textTip.js";
-	import debounce from "@/common/util/debounce.js"
+	import debounce from "@/common/util/debounce.js";
+	import commonTab from '../component/commonTab.vue';
 	import {
 		keyWords
 	} from '../../common/util/constants';
@@ -211,7 +222,8 @@
 		components: {
 			myDate,
 			myImageUpload,
-			myVideoUpload
+			myVideoUpload,
+			commonTab
 		},
 		props: {
 			formData: {
@@ -223,6 +235,7 @@
 		mixins: [textTip],
 		data() {
 			return {
+				isInputFocus: true,
 				tagsEditMode: false,
 				tagInpVal: '',
 				seeType: 1,
@@ -316,6 +329,9 @@
 			}
 		},
 		methods: {
+			onblur() {
+				this.isInputFocus = false;
+			},
 			handleUpLoadVedio(vSrc) {
 				// shangchu
 
@@ -335,7 +351,12 @@
 
 				// 当前的文本内容添加搜索到的文本内容
 				// const str = this.myFormData.textContent;
-				this.myFormData.textContent = this.myFormData.textContent.replace(/(#(\S+)$)|(#$)/, '#' + tar.textContent)
+				this.myFormData.textContent = this.myFormData.textContent.replace(/(#(\S+)$)|(#$)/, '#' + tar.textContent +
+					' ')
+				this.tagsPanelShow = false;
+				this.$nextTick(()=>{
+					this.isInputFocus=true;
+				})
 				console.log(this.myFormData.textContent)
 			},
 			// testget(){
@@ -376,7 +397,7 @@
 						console.log(res.data, "搜索了")
 						this.tagsList = res.data.result;
 						// textContent
-						console.log(this.tagsList ,"这里")
+						console.log(this.tagsList, "这里")
 					}
 				})
 			},
@@ -420,6 +441,12 @@
 				//添加话题标签
 				// 
 				this.tagsPanelShow = !this.tagsPanelShow;
+				if (this.tagsPanelShow) {
+					this.myFormData.textContent += '#'
+				}
+				this.$nextTick(()=>{
+					this.isInputFocus=true;
+				})
 			},
 			changeAuth() {
 				// 选择动态权限
@@ -836,13 +863,15 @@
 	}
 
 	.tags-container {
-		height: 600rpx;
+		left: 0px;
+		height: 300rpx;
+		overflow-y: scroll;
 		width: 100%;
 		// background-color: rgba(255,255,255,.7);
 		position: absolute;
-		background-color: #e0e2e3;
-
-		top: 0rpx;
+		background-color: #fff;
+		
+		top: 250px;
 		transform: translateY(-100%);
 		display: none;
 		overflow-y: scroll;
@@ -998,20 +1027,21 @@
 	}
 
 	.tags-list-item {
-		padding:0rpx 20rpx;
+		padding: 0rpx 20rpx;
 		width: 80%;
 		margin: 15rpx auto;
-		display:flex;
-		width:100%;
+		display: flex;
+		width: 100%;
 		justify-content: space-between;
 		align-items: center;
-		
-	}	
-	.tags-list-item-right{
-		width:30%;
+
+	}
+
+	.tags-list-item-right {
+		width: 30%;
 		text-align: right;
 		font-size: 0.8em;
-		color:#666;
-		
+		color: #666;
+
 	}
 </style>
