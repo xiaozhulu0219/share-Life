@@ -41,7 +41,9 @@
 						<textarea :placeholder="'你可以在这里:\n1.爆料职场新鲜事 \n2.分享面试跳槽经验 \n3.与同行交流、吐槽解压'"
 							style="width: 18px; height:300px;" name="input" v-model="myFormData.textContent"
 							:maxlength="maxLength" @input="onInput(myFormData.textContent,)" :adjust-position="false"
-							@blur="onblur" :focus="isInputFocus">
+							@blur="onblur" 
+							:focus="isInputFocus"
+							@keydown.delete="handleKeyDown">
                         </textarea>
 						<view class="maxlength-tip" v-if="(myFormData.textContent.length)>=(maxLength*0.8)">
 							{{myFormData.textContent.length}}/{{maxLength}}
@@ -329,6 +331,18 @@
 			}
 		},
 		methods: {
+			handleKeyDown(e){
+				console.log(e,"keydown");
+				const length = this.myFormData.textContent.length;
+				if(this.myFormData.textContent[length-1]==='#'){
+					console.log("在这处理")
+					this.tagsPanelShow = false;
+				}
+				if(this.myFormData.textContent===''){
+					console.log("xixi")
+					this.tagsPanelShow = false;
+				}
+			},
 			onblur() {
 				this.isInputFocus = false;
 			},

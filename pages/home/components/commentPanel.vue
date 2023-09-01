@@ -97,7 +97,9 @@
 				}
 				// 数据改变是异步的
 				this.$nextTick(() => {
+					
 					this.inputVal= value;
+					console.log(this.inputVal,"数据改变了")
 				});
 				console.log('置换后value:', value);
 			},
@@ -131,7 +133,7 @@
 				setTimeout(()=>{
 					this.$emit("cancelComment");
 					this.inputVal = '';
-				},0)
+				},500)
 			},
 
 			sbmitComment() {
