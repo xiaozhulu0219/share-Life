@@ -61,7 +61,10 @@
 		<bottomTab PageCur="home"></bottomTab>
 		<!-- </scroll-view> -->
 		<popupForUpdate ref="popup" :updateObj="updateObj"
-		@updateApp="updateApp"></popupForUpdate>
+		@updateApp="updateApp"
+		:loadingMode="loadingMode"
+		:loadProgress="loadProgress"
+		></popupForUpdate>
 	</view>
 </template>
 

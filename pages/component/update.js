@@ -8,15 +8,22 @@ import {
 				updateUrl: '/systemConfiguration/systemConfiguration/showData',
 				isDownloadFinish:false,
 				filename:'',
-				version:''
+				version:'',
+				loadingMode:false,
+				loadProgress:0,// 下载百分比
 			}
 		},
 		methods: {
 			updateNotForce(){
+				// this.$http.get(this.updateUrl).then(res => {
+				// 	console.log(res,"下载链接")
+				// })
+				
 				//	#ifdef H5
 				uni.hideLoading()
 				console.log("直接弹出")
-				this.$refs.popup.open()
+				this.$refs.popup.open();
+				
 				// #endif
 				
 				// #ifdef APP-PLUS
@@ -96,21 +103,29 @@ import {
 				// #ifdef APP-PLUS
 				let platform = uni.getSystemInfoSync().platform //手机平台
 				if (platform === 'android') {
-					uni.showLoading({
-						title: '下载中...'
-					})
-					downloadApp(tarUrl).then((fileName) => {
+					// uni.showLoading({
+					// 	title: '下载中...'
+					// })
+					
+					downloadApp(tarUrl,current=>{
+						console.log(current,"下载进度");
+						this.loadingMode= true;
+						this.loadProgress=current;
+					}).then((fileName) => {
 						if (fileName) {
-							uni.hideLoading()
+							
 							uni.showToast({
 								title:"下载完成",
 								icon:'none'
 							})
+							this.loadingMode= false;
 							this.isDownloadFinish = true;
 							this.filename = fileName;
 							console.log(this.filename,"下载结果")
 							this.handleInstallApp();
 						}
+					}).catch(err=>{
+						console.log("错误原因",err)
 					})
 				}
 				// #endif

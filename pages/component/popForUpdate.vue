@@ -24,14 +24,26 @@
 						
 					</view>
 					<view class="update-footer">
-						<view class="update-btn btn bg-gradual-blue" @click="handleUpdate">
-							立即更新
+						<view class="update-btn btn " 
+						@click="handleUpdate"
+						:class="{isLoading:loadingMode,'bg-gradual-blue':!loadingMode}"
+						>
+							<text class="progress-text">{{loadingMode?'下载中:'+loadProgress+'%':'立即更新'}}</text>
+							<view v-if="loadingMode" class="progress bg-gradual-blue"
+							:style="{width:progressWidth}">
+								
+								
+							</view>
 						</view>
 						<view class="cancel-btn btn" @click="close" v-if="!updateObj.force">
 							取消
 						</view>
 					</view>
-					
+					<!-- <view class="progress-container">
+						<view class="load-progress">
+							
+						</view>
+					</view> -->
 				</view>
 			</uni-popup>
 		</view>
@@ -40,7 +52,14 @@
 <script>
 	export default {
 		data(){
-			return {}
+			return {
+				
+			}
+		},
+		computed:{
+			progressWidth(){
+				return (this.loadProgress*400/100) +'rpx'
+			}
 		},
 		methods:{
 			handleMask(){
@@ -61,7 +80,9 @@
 			
 		},
 		props:{
-			updateObj:Object
+			updateObj:Object,
+			loadingMode:Boolean,
+			loadProgress:Number
 		}
 	}
 </script>
@@ -71,8 +92,8 @@
 		width:70vw;
 		background-color: #fff;
 		border-radius: 30rpx;
-		
 	}
+	
 	.update-header{
 		padding:20rpx 0;
 		box-sizing: border-box;
@@ -108,14 +129,29 @@
 	}
 	.btn{
 		height:60rpx;
-		width:80%;
+		width:400rpx;
 		margin: 0 auto;
 		border-radius: 30rpx;
 		line-height:60rpx;
 		text-align: center;
-		
-		
-		
+		position: relative;
+		overflow: hidden;
+		z-index: 0;
+	}
+	.progress-text{
+		color: #fff;
+		z-index: 99;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%,-50%);
+	}
+	.progress{
+		height: 100%;
+		position: absolute;
+		top: 0rpx;
+		left: 0rpx;
+		z-index: 9;
 	}
 	.cancel-btn{
 		margin-top: 10rpx;
@@ -124,5 +160,8 @@
 		
 		/* background-color: #ddd; */
 	}
-	
+	.update-footer .isLoading.btn{
+		background-color: #ccc;
+		
+	}
 </style>
