@@ -644,7 +644,7 @@
 							...this.myFormData,
 							seeType: this.seeType,
 							inforType: this.inforType,
-							tags: allTags
+							tags: allTags 
 						}
 
 						console.log(targetObj, '..')
