@@ -10,7 +10,6 @@
 </template>
 
 <script>
-
     import bottomTab from '../component/bottomTab.vue';
     export default {
       name: 'index', // 主页
@@ -30,7 +29,8 @@
             ++this.commponent2Key;
             ++this.commponent3Key;
             ++this.commponent4Key;
-        }
+        },
+		
     };
 </script>
 

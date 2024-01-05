@@ -6,6 +6,7 @@
                 <block slot="backText">返回</block>
                 <block slot="content">设置</block>
                 <!--<view slot="right"  @tap="rightClick">编辑</view>-->
+
             </cu-custom>
 
             <!-- list列表 -->
@@ -34,20 +35,36 @@
                 </navigator>
             </view>
             <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
+                <view class="cu-item" @click="handleUpdateApp">
                     <text class="cuIcon-link" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">更新app</text>
                     </view>
+                </view>
+            </view>
+            <view class="cu-list menu">
+                <navigator class="cu-item" url="/pages/setting/productAdvice">
+                    <text class="cuIcon-comment" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
+                    <view class="content"><!-- 设置页面涉及新增页面的，都放在setting目录下 -->
+                        <text class="text-grey" style="font-size: 40rpx;">产品建议</text>
+                    </view>
                 </navigator>
             </view>
             <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
+                <view class="cu-item" url="/pages/user/userexit" @click="contactqq">
                     <text class="cuIcon-service" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">联系客服</text>
                     </view>
-                </navigator>
+                </view>
+            </view>
+            <view class="cu-list menu">
+                <view class="cu-item" @click="handleLogOff">
+                    <text class="cuIcon-delete" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
+                    <view class="content">
+                        <text class="text-grey" style="font-size: 40rpx;">注销账户</text>
+                    </view>
+                </view>
             </view>
             <view class="cu-list menu">
                 <navigator class="cu-item" url="/pages/user/userexit">
@@ -58,23 +75,25 @@
                 </navigator>
             </view>
             <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
-                    <text class="cuIcon-delete" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
-                    <view class="content">
-                        <text class="text-grey" style="font-size: 40rpx;">注销账户</text>
-                    </view>
-                </navigator>
-            </view>
-            <view class="cu-list menu">
-                <navigator class="cu-item" url="/pages/user/userexit">
+                <!-- <navigator class="cu-item" url="/pages/user/userexit">
                     <text class="cuIcon-exit" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
                     <view class="content">
                         <text class="text-grey" style="font-size: 40rpx;">退出app</text>
                     </view>
-                </navigator>
+                </navigator> -->
+				<view class="cu-item" @click="handleExit" >
+					<text class="cuIcon-exit" style="font-size: 40rpx; margin-left: 240rpx; margin-right: 12rpx; margin-bottom: 8rpx"></text>
+					<view class="content">
+					    <text class="text-grey" style="font-size: 40rpx;">退出app</text>
+					</view>
+				</view>
             </view>
 
         </scroll-view>
+		<popupForUpdate ref="popup" :updateObj="updateObj"
+		@updateApp="updateApp"
+		:loadingMode="loadingMode"
+		:loadProgress="loadProgress"></popupForUpdate>
     </view>
 </template>
 
@@ -86,14 +105,25 @@
     import myDate from '@/components/my-componets/my-date.vue';
     import {ACCESS_TOKEN} from '@/common/util/constants.js';
     import configService from '@/common/service/config.service.js'
-
+	import {mapMutations,mapState} from "vuex"
+	import popupForUpdate from "@/pages/component/popForUpdate.vue"
+	import updateMixin from "@/pages/component/update.js"
     export default {
         components: {
-            appSelect, myImageUpload, myDate, secondPickerVue
+            appSelect,
+			 myImageUpload,
+			 myDate,
+			 secondPickerVue,
+			popupForUpdate,
         },
+		computed:{
+			...mapState(['homeListStore','hotListStore'])
+		},
+		mixins:[updateMixin],
         data() {
             return {
                 // job_type,
+				updateObj:{},
                 personalMsg: {
                     avatar: '',
                     nickName: '',
@@ -107,6 +137,9 @@
                     status: 1,
                     identity: ''
                 },
+				contactUrl:'/systemConfiguration/systemConfiguration/showData',
+				accountOffUrl:'/sys/cancelAccount',
+				updateUrl:'/systemConfiguration/systemConfiguration/showData',
                 userUrl: '/sys/user/queryById',
                 positionUrl: '/sys/position/list',
                 departUrl: '/sys/user/userDepartList',
@@ -114,12 +147,102 @@
                 fileUrl: configService.fileSaveURL,
                 imgList: [],
                 pathlist: [],
+				version:''
             };
         },
         onShow() {
             this.loadinfo();
         },
+
         methods: {
+			contactqq(){
+				// 联系客服
+				// 获取qq号
+				this.$http.get(this.contactUrl).then(res=>{
+					// 获取客服qq
+					if(res.data.success){
+						const targetServiceCode = res.data.result.serviceContact;
+						// 在h5中
+						// #ifdef H5
+
+						location.href=`http://wpa.qq.com/msgrd?v=3&uin=${targetServiceCode}&site=qq&menu=yes`
+						// #endif
+						// #ifdef APP-PLUS
+						// 检测升级
+						plus.runtime.openURL("mqq://im/chat?chat_type=wpa&uin=${targetServiceCode}&version=1&src_type=web")
+						// #endif
+					}
+				})
+				// location.href="http://wpa.qq.com/msgrd?v=3&uin=12345678&site=qq&menu=yes"
+			},
+			handleLogOff(){
+				console.log("用户要注销账户")
+				// 弹出确框
+				uni.showModal({
+					title:'确认注销',
+					content:'注销当前账户，账户内数据将全部删除，请谨慎操作',
+					success:(res)=>{
+						// console.log(res,"选择")
+						if(res.confirm){
+							// 注销
+							this.$http.post(this.accountOffUrl).then(res=>{
+								console.log('结果',res)
+								if(res.data.success){
+									// 注销成功跳转注销成功
+									// 弹出注销成功modal
+									this.clearUserStoreList()
+									uni.navigateTo({
+										url:'/pages/login/login?from=setting',
+
+									})
+								}
+							})
+							return
+						}
+						if(res.cancel){
+							return
+						}
+
+					}
+				})
+			},
+			
+			handleUpdateApp(){
+				// console.log("用户要更新app");
+				// 弹出检测更新modal
+				uni.showLoading({
+					title:"检测更新..."
+				})
+				this.updateNotForce()
+				
+				// const localVersion = uni.getSystemInfoSync();
+				// console.log(localVersion,"当前版本")
+				// 获取当前版本数据
+				
+			},
+			...mapMutations(['clearUserStoreList']),
+			handleExit(){
+				// console.log("用户要退出");
+				uni.showModal({
+					title:'确认退出',
+					success:(res)=>{
+						// 跳转登陆页面
+						// 清除当前缓存的数据
+						if(res.confirm){
+							// 用户退出
+							this.clearUserStoreList()
+							uni.navigateTo({
+								url:'/pages/login/login?from=setting',
+
+							})
+						}else if(res.cancel){
+							return
+						}
+
+
+					}
+				})
+			},
             getSubStringText(text, len) {
                 if (!text || text.length == 0) {
                     return '';

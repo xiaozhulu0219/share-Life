@@ -2,9 +2,11 @@
 	<!--个人页的一些页面--我的收藏-->
 	<view class="list-wrap">
 		<scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
-			<view v-for="(item,index) in MyCollectList" :key="index" class="card" @click="toMemInformationDetail(item)">
-				<image class="medias_size" :src="item.medias[0]" mode="widthFix" alt=""></image>
-				<view>{{ item.textContent.substr(0, 35) }}</view>
+			<view v-for="(item,index) in MyCollectList" :key="index" class="card" >
+				<AvatarName :avatarInfo="{nickname:item.nickname,avatar:item.avatar,uuId:item.uuId}"></AvatarName>
+				
+				<image v-if="item.inforType !=1" class="medias_size" :src="item.medias[0]" mode="widthFix" alt="" @click="toMemInformationDetail(item)"></image>
+				<view class="inforText" @click="toMemInformationDetail(item)">{{item.textContent}}</view>
 			</view>
 			<view v-if='isDownLoading' class="load-text">加载中....</view>
 			<view v-if="!isDownLoading && !hasNext" class="noMore">---没有更多数据---</view>
@@ -14,9 +16,10 @@
 
 <script>
 	import configService from '@/common/service/config.service.js';
-
+	import AvatarName from "./avatarName.vue"
 	export default {
 		name: 'MyCollectList',
+		
 		data() {
 			return {
 				pageInfo: {
@@ -26,6 +29,7 @@
 				hasNext: true,
 				isDownLoading: false,
 				findMyCollectPageUrl: '/information/movements/findMyCollectPage',
+				
 				MyCollectList: [],
 				fileUrl: configService.fileSaveURL,
 			};
@@ -33,6 +37,9 @@
 		created() {
 			console.log(9999);
 			this.getMyCollectList();
+		},
+		components:{
+			AvatarName
 		},
 		methods: {
 			// 触底加载
@@ -50,7 +57,7 @@
 					params: { page: num, pagesize: size }
 				}).then(res => {
 					const { success, result } = res.data;
-					console.log('。。。。。', result.items);
+					// console.log('###', result.items);
 					if (success) {
 						const { pages, items, page } = result;
 						if (num === 1) this.MyCollectList = [];
@@ -67,6 +74,7 @@
 							}
 						}
 						this.MyCollectList = this.MyCollectList.concat(items);
+						console.log(this.MyCollectList,"收藏列表")
 						this.hasNext = pages > page;
 						this.isDownLoading = false;
 					} else {
@@ -78,10 +86,17 @@
 				});
 			},
 			toMemInformationDetail(item) {
+				// console.log("点击跳转到详情页", item)
+				// uni.navigateTo({
+				// 	url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
+				// })
 				console.log("点击跳转到详情页", item)
+				// 直接跳转到动态页面
+				
 				uni.navigateTo({
-					url: '/pages/member/memberInforDetail?item=' + encodeURIComponent(JSON.stringify(item))
-				})
+					url: '/pages/home/homeInforDetail?' + 'item=' + encodeURIComponent(JSON
+						.stringify(item))
+				});
 			},
 		}
 	};
@@ -113,7 +128,9 @@
 			font-size: 20rpx;
 		}
 	}
-
+.text-space{
+		height:40rpx;
+	}
 	.medias_size {
 		max-width: 180px;
 		width: 180px;
@@ -128,5 +145,14 @@
 	}
 	.noMore {
 		color: #ccc;
+	}
+	.inforText{
+		display: -webkit-box; /* 将容器以弹性盒子形式布局 */
+		  -webkit-line-clamp: 3; /* 限制文本显示为两行 */
+		  -webkit-box-orient: vertical; /* 将弹性盒子的主轴方向设置为垂直方向 */
+		  overflow: hidden; /* 隐藏容器中超出部分的内容 */
+		  text-overflow: ellipsis; /* 超出容器范围的文本显示省略号 */
+		word-break:break-all;
+		
 	}
 </style>

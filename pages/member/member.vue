@@ -3,6 +3,9 @@
     <view>
         <scroll-view scroll-y class="page">
             <!-- 头部logo-->
+			<view class="spaceTop " :style="{height:topSpace+'px'}">
+				
+			</view>
             <view class="UCenter-bg">
                 <view class="padding text-right text-xl text-exit">
                     <view class="iconfont ml-1 search-icon" style="; margin-top: 250rpx"   @click="toSetting()">&#xe8b8</view>
@@ -34,7 +37,7 @@
                                 <text :style="{color:'#ddd'}">粉丝</text>
                             </view>
                             <view class="flex flex-direction align-center margin-right-xl" @click="showLikeModel=true">
-                                <text>{{FocusFansNumVo.loveCollectCount}}</text>
+                                <text>{{FocusFansNumVo.loveCollectCount +FocusFansNumVo.collectCount}}</text>
                                 <text :style="{color:'#ddd'}">获赞与收藏</text>
                             </view>
                             <!-- 获赞收藏弹框 -->
@@ -59,7 +62,7 @@
 <!--                <swiper :current="activeTab" class="padding" style="height: 100%;" circular @change="changeSwiper">-->
                 <swiper :current="activeTab" class="padding" style="height: 100%;"  @change="changeSwiper">
                     <swiper-item v-for="(item,index) in tabs" :key="index">
-                        <MyPublishList v-if="index === 0"/>
+                        <MyPublishList ref="myPublishList" @editpopUp="handlPopup" v-show="index === 0"/>
                         <MyHelpCompanyList v-if="index === 1"/>
                         <MyCollectList v-if="index === 2"/>
                         <MyLoveInforList v-if="index === 3"/>
@@ -69,6 +72,9 @@
             </view>
         </scroll-view>
         <bottomTab PageCur="member"></bottomTab>
+		<ToEditPublishPopup ref='toEditPublishPopup'
+		 :myFormData="editTarget"
+		 @authChange="handleAuthChange"></ToEditPublishPopup>
     </view>
 </template>
 
@@ -81,8 +87,7 @@
     import configService from '@/common/service/config.service.js';
     import bottomTab from '../component/bottomTab.vue';
     import memberLikeCountModal from './memberLikeCountModal.vue'
-
-
+	import ToEditPublishPopup from '@/pages/member/toEditPublishPopup.vue';
     export default {
         name: 'member',
         components: {
@@ -91,8 +96,22 @@
             MyCollectList,
             MyLoveInforList,
             bottomTab,
-            memberLikeCountModal
+            memberLikeCountModal,
+			ToEditPublishPopup
         },
+		onShow(){
+			
+			this.queryfocusFansByUuId();
+			this.queryHelpComNumByUuId();
+			if(this.$refs.myPublishList){
+				console.log("充值了")
+				this.$refs.myPublishList[0].pageInfo.num=0;
+				this.$refs.myPublishList[0].getMyPublishInforList()
+			}
+			console.log("出现",this.$refs.myPublishList)
+			// this.$refs.myPublishList[0].pageInfo.num=0;
+			// this.$refs.myPublishList[0].getMyPublishInforList()
+		},
         data() {
             return {
               showLikeModel: false, // 是否显示获赞弹框
@@ -134,7 +153,8 @@
                 queryHelpComNumByUuIdUrl: '/comcommon/queryHelpComNumByUuId',
                 userId: '',
                 id: '',
-                fileUrl: configService.fileSaveURL
+                fileUrl: configService.fileSaveURL,
+				editTarget:{},
             };
         },
         watch: {
@@ -151,8 +171,26 @@
         created() {
             this.queryfocusFansByUuId();
             this.queryHelpComNumByUuId();
+			// 刷新状态
+			
+			
+			
         },
         methods: {
+			handleAuthChange(inforId,target){
+				console.log(inforId,target,"要修改的对象")
+				// 找到目标对象 更改seetype的值
+				
+				console.log(this.$refs.myPublishList[0].myPublishInforList)
+				const targetIndex = this.$refs.myPublishList[0].myPublishInforList.findIndex((item)=>{
+					return item.inforId === inforId
+				})
+				this.$refs.myPublishList[0].myPublishInforList[targetIndex].seeType = target
+			},
+			handlPopup(tar){
+				this.editTarget = tar;
+				this.$refs.toEditPublishPopup.showModal();
+			},
           changeSwiper(e) {
             const curTab = e.detail.current;
             this.activeTab = curTab;
@@ -253,7 +291,14 @@
     };
 </script>
 
-<style>
+<style lang="scss" scoped>
+	.page{
+		background-color: rgba(0, 0, 0, .5);
+	}
+	.spaceTop{
+		width:100%;
+		 /* background-color: rgba(0, 0, 0, .5); */
+	}
     .UCenter-bg {
         /* #ifdef MP-WEIXIN */
         /* background-image: url('https://static.jeecg.com/upload/test/blue_1595818030310.png'); */
@@ -262,8 +307,8 @@
         /* background-image: url('/static/blue.png'); */
         /* #endif */
         /* background-size: cover; */
-        background-color: rgba(0, 0, 0, .5);
-        height: 500rpx;
+        /* background-color: rgba(0, 0, 0, .5); */
+        max-height: 500rpx;
         /* display: flex; */
         /* justify-content: center; */
         /* padding-top: 40rpx; */
@@ -306,8 +351,8 @@
 
     .UCenter-bg .signature {
         margin-top: -30rpx;
-        width: 100%;
-        height: 110rpx;
+        width: 90%;
+        max-height: 115rpx;
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
@@ -345,7 +390,7 @@
 
     .mine-tab {
         position: relative;
-        top: -50rpx;
+        /* top: -50rpx; */
         height: calc(100vh - 200rpx - env(safe-area-inset-bottom) / 2);
         background-color: #fff;
         border-radius: 30rpx 30rpx 0 0;

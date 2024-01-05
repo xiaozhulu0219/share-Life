@@ -10,16 +10,52 @@
 </template>
 
 <script>
+	import {mapState,mapGetters} from "vuex";
 	export default {
 		data() {
 			return {
+				timer:null
 			}
 		},
-		onLoad() {},
+		watch:{
+			uuId:{
+				handler(newVal){
+					
+					if(this.newVal !==''){
+						// console.log('aaa')
+						uni.hideLoading();
+						clearTimeout(this.timer);
+						this.timer = null
+						uni.navigateTo({
+							url:'/pages/home/home'
+						})
+					}
+				}
+			}
+		},
+		computed:{
+			...mapState(['uuId'])
+		},
+		onLoad() {
+			uni.showLoading({
+					title:"恢复登录中..."
+			});
+			// 判断是否有数据
+			this.timer = setTimeout(()=>{
+				// 如果3000后没有数据就隐藏loading
+				if(this.uuId===''){
+					// console.log('bbb')
+					uni.hideLoading();
+					clearTimeout(this.timer);
+					this.timer = null
+				}
+			},10000)
+			
+		},
 		methods: {
 			goLogin(){
 				uni.navigateTo({
-					url:'../../wx/login/index'
+					url:'/pages/login/login'
 				})
 			},
 			goRegister(){

@@ -24,7 +24,7 @@
 
 <script>
     import {keyWords} from '../../common/util/constants';
-
+	import textTip from "@/pages/component/textTip.js";
     export default {
         data() {
             return {
@@ -36,6 +36,9 @@
                 }
             };
         },
+		mixins:[
+			textTip
+		],
         onLoad: function (option) {
             console.log('this.$Route.query', this.$Route.query);
             const query = this.$Route.query;
@@ -70,6 +73,7 @@
                 this.myFormData.signature = this.myFormData.signature;
                 if (this.myFormData.signature === '' || this.myFormData.signature.indexOf('*') != -1) {
                     console.log('签名出现了违规词语、已被拦截：', this.myFormData.signature);
+					this.showTextTip('签名')
                 } else {
                     console.log('myform', this.myFormData);
                     this.$tip.loading();
@@ -83,9 +87,12 @@
                         this.$tip.loaded();
                         if (res.data.success) {
                             this.$tip.toast('提交成功');
-                            this.$Router.replace({
-                                name: 'memberdetail'
-                            });
+                            // this.$Router.replace({
+                            //     name: 'memberdetail'
+                            // });
+							uni.navigateBack({
+								delta:-1
+							})
                             /* uni.navigateTo({
                                 url: '/pages/user/userdetail'
                             }) */

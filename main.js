@@ -89,7 +89,8 @@ Vue.component('cu-custom', cuCustom);
 Vue.config.productionTip = false;
 
 App.mpType = 'app';
-
+// 初始化列表数据
+store.commit('clearUserStoreList')
 const app = new Vue({
 	store,
 	MinCache,

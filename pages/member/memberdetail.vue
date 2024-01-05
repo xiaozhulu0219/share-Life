@@ -5,15 +5,20 @@
             <cu-custom bgColor="bg-gradual-pink" :isBack="true">
                 <block slot="backText">返回</block>
                 <block slot="content">编辑资料</block>
+				<block slot="right">
+					<backToHome></backToHome>
+				</block>
             </cu-custom>
 
             <!-- list列表 -->
             <view class="cu-list menu">
-                <view class="cu-item" :style="[{animationDelay: '0.1s'}]">
-                    <view class="img" @tap="changeAvatar">
+                <view class="cu-item"  :style="[{animationDelay: '0.1s'}]">
+                    <view class="img imgwrap" @tap="changeAvatar">
                         <!--	<img src="../../static/avatar_boy.png" mode="" class="png round" style="width: 90px;height: 90px;top: 20%;left: 50%;"></img>-->
-                        <image class="cu-avatar round sm" :src="fileUrl+personalMsg.avatar" alt="" style="width: 90px;height: 90px;top: 20%;left: 50%;"></image>
-                        <text class="cuIcon-cameraaddfill cameraadd"></text>
+                        <image class="cu-avatar round sm " :src="urlSrc" alt="" mode="aspectFill" style="width: 90px;height: 90px;top: 20%;left: 50%;">
+							<text  class="cuIcon-cameraaddfill cameraadd"></text>
+						</image>
+						
                     </view>
                 </view>
             </view>
@@ -86,7 +91,18 @@
                     </view>
                 </navigator>
             </view>
-
+			<view class="cu-list menu">
+			    <navigator class="cu-item arrow"
+			               :url="`/pages/member/selfTagsPage`"
+			               :style="[{animationDelay: '0.8s'}]">
+			        <view class="content">
+			            <text class="text-grey">个人标签</text>
+			        </view>
+			        <view class="action tag">
+			            <text class="text-grey">{{personalMsg.sign}}</text>
+			        </view>
+			    </navigator>
+			</view>
             <!-- <view class="cu-list menu">
                 <navigator class="cu-item arrow animation-slide-bottom" url="/pages/member/dreamCompanySign" :style="[{animationDelay: '0.9s'}]">
                     <view class="content">
@@ -109,10 +125,11 @@
     import myImageUpload from '@/components/my-componets/my-image-upload.vue';
     import myDate from '@/components/my-componets/my-date.vue';
     import configService from '@/common/service/config.service.js'
-
+	import {mapState,mapMutations} from "vuex";
+	import backToHome from "@/pages/component/backToHome.vue";
     export default {
         components: {
-            appSelect, myImageUpload, myDate, secondPickerVue
+            appSelect, myImageUpload, myDate, secondPickerVue,backToHome
         },
         data() {
             return {
@@ -140,7 +157,13 @@
         onShow() {
             this.loadinfo();
         },
+		computed:{
+			urlSrc(){
+				return this.fileUrl+this.personalMsg.avatar
+			}
+		},
         methods: {
+			...mapMutations(['changeMyLabelList','changeSelfLabelList']),
             getSubStringText(text, len) {
                 if (!text || text.length == 0) {
                     return '';
@@ -157,11 +180,32 @@
                 this.$tip.loading();
                 this.$http.get(this.userUrl, {params: {id: this.$store.getters.userid}}).then(res => {
                     if (res.data.success) {
+						const ttemp = {...res.data.result}
                         const {avatar, sex, status} = res.data.result;
+						console.log(avatar,'avatar1')
                         if (avatar && avatar.length > 0) {
                             this.personalMsg.avatar = api.getFileAccessHttpUrl(avatar);
                         }
+						console.log(res.data,"数据")
+						// 存一下请求的标签到仓库中
                         this.personalMsg = res.data.result;
+						
+						console.log(res.data.result,"结果")
+						if(!res.data.result.dreamCompanySign){
+							this.changeMyLabelList([])
+						}else
+						{
+						 	const labelList = res.data.result.dreamCompanySign.split(',');
+							
+							this.changeMyLabelList(labelList)
+						}
+						// 保存自定义标签
+						if(!res.data.result.sign){
+							this.changeSelfLabelList([])
+						}else{
+							const selflabelList = res.data.result.sign.split(',');
+							this.changeSelfLabelList(selflabelList)
+						}
                         this.personalMsg.sex = sex === 1 ? '男' : '女';
                         this.personalMsg.sexNum = sex;
                         this.personalMsg.status = status === 1 ? '正常' : '冻结';
@@ -193,6 +237,9 @@
                     filePath: tempFilePaths,
                     name: 'file',
                     success: (uploadFileRes) => {
+						uni.showLoading({
+							title:'loading...'
+						})
                         console.log('filePath:',tempFilePaths );
                         let path = JSON.parse(uploadFileRes.data).message
                         this.pathlist.push(path);
@@ -210,12 +257,16 @@
                     }
                 }).then(res => {
                     console.log(res)
+					this.personalMsg.avatar= res.data.result;
+					uni.hideLoading()
                     this.$tip.loaded();
                     if (res.data.success) {
                         this.$tip.toast('提交成功')
                     }
-                }).catch(() => {
+                }).catch((err) => {
+					uni.hideLoading()
                     this.$tip.loaded();
+					console.log(err,"错误原因")
                     this.$tip.error('提交失败')
                 });
                 },
@@ -292,17 +343,18 @@
 
     .img {
         cursor: pointer;
+		/* background-color: antiquewhite; */
         margin-top: -45rpx;
+		/* position: relative */
     }
-
+	.imgwrap{
+		position: relative;
+	}
     .cameraadd {
-        //cursor: pointer;
-        margin-top: -20rpx;
-        border-radius: 50%;
-        margin-left: 255rpx;
-        //margin-right: 255rpx;
-        margin-bottom: 20rpx;
-
+        /* position: absolute; */
+		position: absolute;
+		bottom:20rpx;
+		right:40rpx;
     }
 
 </style>

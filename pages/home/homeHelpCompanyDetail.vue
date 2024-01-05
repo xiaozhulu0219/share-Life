@@ -7,7 +7,7 @@
             <block slot="content">{{model.title}}详情</block>
         </cu-custom>
         <!--详情区域-->
-        <view class="company">
+       <!-- <view class="company">
             <view class="company-companyName">{{model.companyName}}</view>
             <view class="company-legalPerson">{{model.legalPerson}}</view>
         </view>
@@ -19,7 +19,84 @@
             <view class="company-companyStatus">{{model.companyStatus}}</view>
             <view class="company-bussinessAddress">{{model.bussinessAddress}}</view>
             <view class="company-organizationCode">{{model.organizationCode}}</view>
-        </view>
+        </view> -->
+		
+		<!-- 不要删上面注释代码 -->
+		<view class="company-detail-container">
+			<view class="company-detail-top">
+				<view class="detail-top-left">
+					<view class="detail-top-title">
+						{{comModel.companyName}}
+					</view>
+					<view class="detail-top-info">
+						组织编码:{{comModel.organizationCode}} | 经营地:{{comModel.bussinessAddress}}
+						
+					</view>
+					
+					
+				</view>
+				<view class="detail-top-right">
+					<text class="status-wrap" :class="{active:comModel.companyStatus==='存续'}">
+						{{comModel.companyStatus}}
+					</text>
+				</view>
+				
+			</view>
+			<view class="taglist-container">
+				
+				<view class="detail-tag-list">
+					<view class="" style="color: #aaa;" v-if="compTagList.length===0">
+						暂无标签 点击右边箭头去添加
+					</view>
+					<view   v-for="(item,index) in compTagList" :key="index" :class="['detail-tag-item',classList[index]]">
+						#{{item.content}}
+					</view>
+					<!-- <view class="detail-tag-item b">
+						#可接受残疾人
+					</view>
+					<view class="detail-tag-item c">
+						#体恤员工
+					</view>
+					<view class="detail-tag-item d">
+						#米面粮油
+					</view> -->
+				</view>
+				<view class="detail-tag-right">
+					<view class="cuIcon-pullright"
+					 style="font-size: 1.5em;"
+					 @click="toTagsDetail">
+						
+					</view>
+				</view>
+			</view>
+			
+			<view class="company-detail-body">
+				<view class="detail-body-item ">
+					<view class="body-item-top">
+						法定代表人
+					</view>
+					<view class="body-item-bottom">
+						{{comModel.legalPerson}}
+					</view>
+				</view>
+				<view class="detail-body-item">
+					<view class="body-item-top">
+						注册资金
+					</view>
+					<view class="body-item-bottom">
+						{{comModel.registeredCapital}}
+					</view>
+				</view>
+				<view class="detail-body-item">
+					<view class="body-item-top">
+						注册时间
+					</view>
+					<view class="body-item-bottom">
+						{{comModel.registerTime.split(' ')[0]}}
+					</view>
+				</view>
+			</view>
+		</view>
         <view class="company">
             <view class="iconfont ml-1" style="font-size: 45rpx; color: #fbbd08;" v-if="comModel.hasUpLiked == 0"
                   @click="likeCom(comModel.id)">&#xe8ad
@@ -39,9 +116,9 @@
             <span class="company-commentCount">{{comModel.commentCount}}</span>
         </view>
 
-        <view class="companyTag">
+        <!-- <view class="companyTag">
             <span>#歧视女生</span> <span>#可接受残疾人</span> <span>#体恤员工</span> <span>#米面粮油</span>
-        </view>
+        </view> -->
         <view class="list-wrap">
             <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
 
@@ -64,7 +141,7 @@
                             <view class="iconfont ml-1" style="font-size: 45rpx; color: #dd524d;" v-else
                                   @click="dislikeComment(item.id)">&#xe60f
                             </view>
-                            <span class="comment-likeCount">{{item.likeCount}}</span>
+                            <span class="comment-likeCount">{{item.upLikeCount}}</span>
                         </view>
                     </view>
                 </view>
@@ -85,8 +162,9 @@
 <script>
     import configService from '@/common/service/config.service.js'
     import { keyWords } from '../../common/util/constants';
-
+	import textTip from "@/pages/component/textTip.js";
     export default {
+		
         name: "helpCompanyDetailForm",
         components: {},
         props: {},
@@ -103,6 +181,8 @@
                 backRouteName: 'index',
                 findPageCommentByIdUrl: "/company/comments/list", //根据助力公司的id拿到所有评论
                 url: {
+					addCompTagListUrl:'/company/tags/saveTagForCom',
+					getCompTagListUrl:'/company/tags/tagsList',
                     findHelpComByIdUrl: "/company/findHelpComById", //根据助力公司的tianyanchaId拿到详情
                     likeComUrl: "/company/upLike", //向上点赞公司
                     upDislikeComUrl: "/company/upDislike", //取消向上点赞公司
@@ -188,6 +268,9 @@
                 commentsList: [],
                 fileUrl: configService.fileSaveURL,
                 inputValue: '',
+				compTagList:[],
+				compAllTagList:[],
+				classList:['a','b','c'],
             }
         },
         created() {
@@ -197,11 +280,15 @@
             this.findHelpComById(this.model.tianyanchaId);
             //查询评论列表时用助力公司的id、但不是从列表跳过来的（那个经过json转化已经变了。需要的是查询单条的接口返回的id）
             this.findPageCommentById(this.model.tianyanchaId);//临时传 tianyanchaId 到了后台再转为id去查询
+			this.getCompTagList();
+			
         },
+		mixins: [textTip],
         onLoad(option) {
             //console.log("params过来了", option)
             const item = JSON.parse(decodeURIComponent(option.item));
-            this.model = item
+            this.model = item;
+			console.log( this.model,'555')
             this.model.title = item.companyName.substr(5)
             // this.model.companyName = "公司名称：" + item.companyName
             // this.model.legalPerson = "法人：" + item.legalPerson
@@ -212,7 +299,40 @@
             // this.model.organizationCode = "组织编码：" + item.organizationCode
 
         },
+		onShow() {
+			this.getCompTagList();
+		},
         methods: {
+			toTagsDetail(){
+				// 跳转公司标签详情页面
+				// 带上公司信息
+				this.model.tagListInfo = this.compAllTagList;
+				const target = encodeURIComponent(JSON.stringify(this.model))
+				uni.navigateTo({
+					url:'/pages/home/homeComTagsList?item='+target
+				})
+			},
+			// addTags(){
+			// 	this.$http.post(this.url.addCompTagListUrl,{
+			// 		helpCompanyId:this.model.id,
+			// 		tag: '双休'
+			// 	}).then(res=>{
+			// 		console.log(res,"添加结果")
+			// 	})
+			// },
+			getCompTagList(){
+				this.$http.get(this.url.getCompTagListUrl,{
+					params:{
+						id:this.model.tianyanchaId
+					}
+				}).then(res=>{
+					console.log("公司标签",res)
+					// 截取前三个
+					const targetArr = res.data.result.items;
+					this.compAllTagList =targetArr
+					this.compTagList = targetArr.slice(0,3);
+				})
+			},
             // 触底加载
             reachBottom() {
                 if (!this.hasNext) return;
@@ -228,6 +348,7 @@
                     }
                 }).then((res) => {
                     if (res.data.success) {
+						
                         console.log("查询详情返回的数据", res);
                         this.comModel = res.data.result;
                         //console.log("赋值以后的数据", this.comModel);
@@ -282,7 +403,9 @@
                 //若评论中包含 “*” 或者为空 不允许保存
                 //console.log("inputValue值为空1：", inputValue);
                 if (inputValue === "" || inputValue.indexOf("*") != -1) {
-                    console.log("评论出现了违规词语、已被拦截：", inputValue);
+					this.showTextTip('评论');
+					console.log("评论出现了违规词语、已被拦截：", inputValue);
+					return;
                 } else {
                     const HelpCompanyCommentDto = {};
                     HelpCompanyCommentDto.helpCompanyId = this.comModel.id;
@@ -559,5 +682,115 @@
     .noMore {
         color: #ccc;
     }
-
+	.company-detail-container{
+		width: 100%;
+		padding-top: 30rpx;
+		box-sizing: border-box;
+	}
+	.company-detail-top{
+		display: flex;
+		align-items: flex-start;
+		width: 100%;
+		padding-left: 10rpx;
+		
+	}		
+	.detail-top-left{
+		flex: 1 1 auto;
+		flex-wrap: wrap;
+	}
+	.detail-top-title{
+		font-weight: bold;
+		font-size: 1.5em;
+		margin-bottom: 10rpx;
+	}
+	.detail-top-right{
+		width: 15%;
+		flex: 0 0 auto;
+	}
+	.detail-top-right .status-wrap{
+		font-size: 0.8em;
+		color:#fbbd08;
+		font-weight: bold;
+		border: 1px solid #fbbd08;
+		border-radius: 15%;
+		padding : 0 10rpx;
+	}
+	.status-wrap.active{
+		color: rgb(65,168,99);
+		border: 1px solid rgb(65,168,99);
+	}
+	.detail-top-info{
+		color: #aaa;
+	}
+	.detail-tag-list{
+		margin: 10rpx 0;
+		display:flex;
+		flex-wrap: wrap;
+		padding-bottom: 10rpx;
+		box-sizing: border-box;
+		/* border-bottom: 1px solid #ddd; */
+		align-items: center;
+	}
+	.detail-tag-item{
+		margin:0 10rpx ;
+		padding:0 10rpx;
+	}
+	.detail-tag-item.a{
+		background-color: rgb(239,239,253);
+	}
+	.detail-tag-item.b{
+		background-color: rgb(253,220,220);
+	}
+	.detail-tag-item.c{
+		background-color: rgb(220,250,200);
+	}
+	.detail-tag-item.d{
+		background-color: rgb(255,255,173);
+	}
+	.company-detail-body{
+		display:flex;
+		height: 130rpx;
+		border-bottom: 5px solid #eee;
+		
+	}
+	.detail-body-item{
+		display: flex;
+		flex-direction: column;
+		width: 33%;
+		
+		
+	}
+	.body-item-top{
+		height:50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #aaa;
+		border-right: 1rpx solid #eee;
+		font-weight: bold;
+	}
+	.body-item-bottom{
+		height:50%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		font-weight: bold;
+		font-size: 1.1em;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.taglist-container{
+		width:100%;
+		display:flex;
+		justify-content: space-between;
+		align-items: center;
+		padding:0 20rpx;
+		border-bottom: 1px solid #ccc;
+		
+	}
+	.detail-tag-right{
+		width:10%;
+		flex: 0 0 auto;
+	}
 </style>

@@ -7,10 +7,25 @@
                 新增关注消息
             </block>
         </commonTab>
-        <view class="list-wrap">
+        <view class="list-wrap" :style="{marginTop:50+topSpace-5+'px'}">
             <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
             <view v-for="(item,index) in this.myFocusMsg" :key="index" class="card">
-                <view class="detail-title">
+				<view class="myLoveMsg-item-wrap">
+					<view class="item-left-left">
+						<image class="card-avatar-img " :src="item.avatar" mode="aspectFill" alt=""
+							@click="toMemberdetail(item.uuId)"></image>
+					</view>
+					<view class="item-left-right">
+						<view class="item-left-right-top">{{item.nickName }}</view>
+						<view class="item-left-right-bottom">
+							<text class="cuIcon-titles" style="color: #ddd;">
+								
+							</text>
+						{{item.title }}  <text class="inner-text"> {{item.createTime }}</text>
+						</view>
+					</view>
+				</view>
+                <!-- <view class="detail-title">
                     <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toMemberdetail(item.uuId)"></image>
                 </view>
                 <view class="detail-content">
@@ -32,7 +47,7 @@
                             互相关注
                         </button>
                     </view>
-                </view>
+                </view> -->
             </view>
                 <view v-if='isDownLoading' class="load-text">加载中....</view>
                 <view v-if="!isDownLoading && !hasNext" class="noMore">---多多互动，才会收获更多的关注呦---</view>
@@ -213,7 +228,7 @@
 <style lang="scss" scoped>
     .list-wrap {
         height: calc(114vh - 280rpx);
-        margin-top: 100rpx; /*盒子距离顶部的距离*/
+        /*盒子距离顶部的距离*/
     }
 
     .card {
@@ -222,7 +237,7 @@
         border-radius: 20rpx;
         margin-bottom: 10rpx; /*盒子间的距离*/
         margin-top: 10rpx; /*盒子距离顶部的距离*/
-        line-height: 85rpx; /*行高*/
+        // line-height: 85rpx; /*行高*/
     }
 
     .card-avatar {
@@ -293,5 +308,55 @@
     .noMore {
         color: #ccc;
     }
-
+.myLoveMsg-item-wrap{
+		display: flex;
+		width:100%;
+		box-sizing: border-box;
+		padding:20rpx 20rpx;
+	}
+	.myLoveMsg-item-left{
+		flex:1 1 auto;
+		display: flex;
+		align-items: flex-start;
+	}
+	.myLoveMsg-item-right{
+		width:30%;
+		flex: 0 0 auto;
+		// background-color: yellow;
+	}
+	.item-left-left{
+		width: 15% ;
+		flex:0 0 auto;
+		
+		.card-avatar-img{
+			height:80rpx;
+			width:80rpx;
+			border-radius: 50%;
+			
+		}
+	}
+	.item-left-right{
+		flex:1 1 auto;
+		display: flex;
+		flex-direction: column;
+			.item-left-right-top{
+				font-size: 1.1em;
+				font-weight: bold;
+				margin-bottom:15rpx;
+				
+			}
+			.item-left-right-bottom{
+				margin-bottom:30rpx;
+				color:#bbb
+			}
+			.inner-text{
+				font-size: 0.7rem;
+				margin-left: 20rpx;
+			}
+	}
+	.card-medias-inner{
+		max-height:120rpx;
+		
+	}
+	
 </style>

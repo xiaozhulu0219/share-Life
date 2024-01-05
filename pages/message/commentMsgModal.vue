@@ -7,21 +7,38 @@
                 评论消息
             </block>
         </commonTab>
-        <view class="list-wrap">
+        <view class="list-wrap" :style="{marginTop:50+topSpace-5+'px'}">
             <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
             <view v-for="(item,index) in this.myCommentMsg" :key="index" class="card">
-                <view class="detail-title">
-                    <image class="card-avatar round sm" :src="item.avatar" mode="aspectFit" alt="" @click="toInformationDetail(item.busId)"></image>
-                </view>
+                
                 <view class="detail-content">
-                    <view class="detail-info">
+                    <!-- <view class="detail-info">
                         <view style="font-size: 40rpx; margin-top: 10rpx">{{item.nickName }}</view>
                         <view style="margin-right: 10rpx; margin-top: 10rpx">{{item.title }}  {{item.createTime }} </view>
                         <view style="margin-right: 10rpx; margin-top: 10rpx">{{item.content }}</view>
                         <view style="margin-right: 10rpx; margin-top: 10rpx" v-if="item.pubType == 3">{{item.backContent }}</view>
-                    </view>
-                    <view class="comment-iconlikeCount"> <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
-                        <image class="card-medias" :src="item.medias" mode="aspectFit" alt="" @click="toInformationDetail(item.busId)"></image>
+                    </view> -->
+					<view class="detail-content-top">
+						<view class="detail-title">
+						    <image class="card-avatar-img" :src="item.avatar" mode="aspectFill" alt="" @click="toInformationDetail(item.busId)"></image>
+						</view>
+						<view class="detail-title-info">
+							<view class="detail-title-name">{{item.nickName }}</view>
+							<view class="info-time">{{item.title }}  {{item.createTime }} </view>
+							<view class="infor-content">
+								<view class="cuIcon-titles" style="color: #ddd;">
+									
+								</view>
+								<view  class="infor-content-text">{{item.content }}</view>
+							</view>
+						</view>
+					</view>
+					
+					<!-- <view class="detail-content-top-detail">
+						<view style="margin-right: 10rpx; margin-top: 10rpx">{{item.title }}  {{item.createTime }} </view>
+					</view> -->
+                    <view class="comment-iconlikeCount" > <!-- 这块将来要根据 业务类型和业务id 去查询具体的东西  -->
+                        <image class="card-medias"  v-if="item.medias!==''" :src="item.medias" mode="aspectFit" alt="" @click="toInformationDetail(item.busId)"></image>
                     </view>
                 </view>
             </view>
@@ -106,17 +123,27 @@
                     params: {page: num, pagesize: size}
                 }).then(res => {
                     const {success, result} = res.data;
+					
                     console.log('。。。。。', result.records);
                     if (success) {
+						
                         const {pages, records, current} = result;
+						
                         if (num === 1) this.myCommentMsg = [];
                         if (records.length) {
                             for (const d of records) {
-                                d.avatar = this.fileUrl + d.avatar
-                                d.medias = this.fileUrl + d.medias
+								if(d.medias===''){
+									d.avatar = this.fileUrl + d.avatar
+									console.log("没有图片")
+								}else{
+									d.medias = this.fileUrl + d.medias
+									d.avatar = this.fileUrl + d.avatar
+								}
                             }
                         }
+						
                         this.myCommentMsg = this.myCommentMsg.concat(records);
+						console.log(this.myCommentMsg,"need")
                         this.hasNext = pages > current;
                         this.isDownLoading = false;
                     } else {
@@ -154,7 +181,7 @@
 <style lang="scss" scoped>
     .list-wrap {
         height: calc(114vh - 280rpx);
-        margin-top: 100rpx; /*盒子距离顶部的距离*/
+        /*盒子距离顶部的距离*/
     }
 
     .card {
@@ -181,14 +208,14 @@
 
     .detail-title {
         //display: flex;
-        margin-right: 100rpx;
         // justify-content: space-between;
     }
 
     .detail-content {
         display: flex;
         justify-content: space-between;
-        margin-left: 80rpx;
+		align-items: flex-start;
+        // margin-left: 80rpx;
     }
 
     .detail-info {
@@ -204,20 +231,24 @@
 
     .comment-iconlikeCount {
         //font-weight: bold;
-        margin-right: 200rpx;
+		width: 25%;
+		flex: 0 0 auto;
+		// background-color:red;
+        // margin-right: 200rpx;
         //margin-left: 35rpx;
-        //margin-top: 30rpx;
+        margin-top: 30rpx;
+		padding-left: 20rpx;
         //display: flex;
         //justify-content: space-between;
     }
 
     .card-medias {
-        max-width: 80px;
-        width: 80px;
-        width: expression(this.width > 80 ? "80px" : this.width);
-        height: 80px;
-        height: expression(this.height > 80 ? "80px" : this.height);
-        position: absolute;
+        
+        max-height:120rpx;
+        // width: expression(this.width > 80 ? "80px" : this.width);
+        // height: 80px;
+        // height: expression(this.height > 80 ? "80px" : this.height);
+        // position: absolute;
         //font-size: 20rpx;
         //margin-top: 1rpx;
         //margin-right: 150rpx;
@@ -232,5 +263,57 @@
     .noMore {
         color: #ccc;
     }
-
+	.container{
+		.list-wrap{
+			.detail-content{
+				padding: 10rpx;
+				box-sizing: border-box;
+				.detail-content-top{
+					display: flex;
+					align-items: flex-start;
+					// width:100%;
+					flex: 1 1 auto;
+					.detail-title{
+						width: 20%;
+						flex:0 0 auto;
+						overflow: hidden;
+						.card-avatar-img{
+							height: 90rpx;
+							width: 90rpx;
+							border-radius: 50%;
+						}
+					}
+					.detail-title-info{
+						flex: 1 1 auto;
+						line-height: 40rpx;
+						display: flex;
+						flex-direction: column;
+						.detail-title-name{
+							margin-top: 10rpx;
+							color: #333;
+							font-weight: bold;
+						}
+						.info-time{
+							margin-top: 10rpx;
+							font-size: 0.8em;
+							color: #ccc;
+						}
+						.infor-content{
+							display: flex;
+							margin-top:10rpx;
+							.infor-content-text{
+								font-size:0.9em;
+								display: -webkit-box; /* 将容器以弹性盒子形式布局 */
+								  -webkit-line-clamp: 3; /* 限制文本显示为两行 */
+								  -webkit-box-orient: vertical; /* 将弹性盒子的主轴方向设置为垂直方向 */
+								  overflow: hidden; /* 隐藏容器中超出部分的内容 */
+								  text-overflow: ellipsis; /* 超出容器范围的文本显示省略号 */
+								word-break:break-all;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 </style>

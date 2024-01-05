@@ -2,7 +2,7 @@
     "name" : "look",
     "appid" : "__UNI__9615CA0",
     "description" : "评价公司、分享生活",
-    "versionName" : "2.01",
+    "versionName" : "1.1",
     "versionCode" : 2,
     "transformPx" : false,
     "app-plus" : {
@@ -43,16 +43,18 @@
                     "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
-                ]
+                ],
+                "permissionPhoneState" : {
+                    "request" : "always",
+                    "prompt" : "为保证您正常、安全地使用，需要获取设备识别码（部分手机提示为获取手机号码）使用权限，请允许。"
+                }
             },
             "ios" : {
                 "dSYMs" : false
             },
             /* ios打包配置 */
             "sdkConfigs" : {
-                "ad" : {
-                    "ks-content" : {}
-                },
+                "ad" : {},
                 "maps" : {
                     "amap" : {
                         "appkey_ios" : "87f4d2a4a0c42e0c86cf312c8b8154e8",
@@ -84,14 +86,73 @@
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "",
-                    "xhdpi" : "",
-                    "xxhdpi" : "",
-                    "xxxhdpi" : ""
+                    "hdpi" : "D:/workspace/ShareLife/look的logo/android图标配置/72_72.png",
+                    "xhdpi" : "D:/workspace/ShareLife/look的logo/android图标配置/96_96.png",
+                    "xxhdpi" : "D:/workspace/ShareLife/look的logo/android图标配置/144_144.png",
+                    "xxxhdpi" : "D:/workspace/ShareLife/look的logo/android图标配置/192_192.png"
+                },
+                "ios" : {
+                    "appstore" : "D:/workspace/ShareLife/look的logo/app store/1024_1024.png",
+                    "iphone" : {
+                        "app@2x" : "D:/workspace/ShareLife/look的logo/iphone图标配置/120_120.png",
+                        "app@3x" : "D:/workspace/ShareLife/look的logo/iphone图标配置/180_180.png",
+                        "spotlight@2x" : "D:/workspace/ShareLife/look的logo/iphone图标配置/80_80.png",
+                        "spotlight@3x" : "D:/workspace/ShareLife/look的logo/iphone图标配置/120_120.png",
+                        "settings@2x" : "D:/workspace/ShareLife/look的logo/iphone图标配置/58_58.png",
+                        "settings@3x" : "D:/workspace/ShareLife/look的logo/iphone图标配置/87_87.png",
+                        "notification@2x" : "D:/workspace/ShareLife/look的logo/iphone图标配置/40_40.png",
+                        "notification@3x" : "D:/workspace/ShareLife/look的logo/iphone图标配置/60_60.png"
+                    },
+                    "ipad" : {
+                        "app" : "D:/workspace/ShareLife/look的logo/iPad图标配置/76_76.png",
+                        "app@2x" : "D:/workspace/ShareLife/look的logo/iPad图标配置/152_152.png",
+                        "proapp@2x" : "D:/workspace/ShareLife/look的logo/iPad图标配置/167_167.png",
+                        "spotlight" : "D:/workspace/ShareLife/look的logo/iPad图标配置/40_40.png",
+                        "spotlight@2x" : "D:/workspace/ShareLife/look的logo/iPad图标配置/80_80.png",
+                        "settings" : "D:/workspace/ShareLife/look的logo/iPad图标配置/29_29.png",
+                        "settings@2x" : "D:/workspace/ShareLife/look的logo/iPad图标配置/58_58.png",
+                        "notification" : "D:/workspace/ShareLife/look的logo/iPad图标配置/20_20.png",
+                        "notification@2x" : "D:/workspace/ShareLife/look的logo/iPad图标配置/40_40.png"
+                    }
                 }
             },
             "splashscreen" : {
-                "androidStyle" : "common"
+                "androidStyle" : "default",
+                "iosStyle" : "default",
+                "android" : {
+                    "hdpi" : "D:/workspace/ShareLife/启动页/android/480_762.png",
+                    "xhdpi" : "D:/workspace/ShareLife/启动页/android/720_1242.png",
+                    "xxhdpi" : "D:/workspace/ShareLife/启动页/android/1080_1882.png"
+                },
+                "ios" : {
+                    "iphone" : {
+                        "portrait-896h@3x" : "D:/workspace/ShareLife/启动页/iPhone/1242_2688.png",
+                        "landscape-896h@3x" : "D:/workspace/ShareLife/启动页/iPhone/2688_1242.png",
+                        "portrait-896h@2x" : "D:/workspace/ShareLife/启动页/iPhone/828_1792.png",
+                        "landscape-896h@2x" : "D:/workspace/ShareLife/启动页/iPhone/1792_828.png",
+                        "iphonex" : "D:/workspace/ShareLife/启动页/iPhone/1125_2436.png",
+                        "iphonexl" : "D:/workspace/ShareLife/启动页/iPhone/2436_1125.png",
+                        "retina55" : "D:/workspace/ShareLife/启动页/iPhone/1242_2208.png",
+                        "retina55l" : "D:/workspace/ShareLife/启动页/iPhone/2208_1242.png",
+                        "retina47" : "D:/workspace/ShareLife/启动页/iPhone/750_1334.png",
+                        "retina47l" : "D:/workspace/ShareLife/启动页/iPhone/1334_750.png",
+                        "retina40" : "D:/workspace/ShareLife/启动页/iPhone/640_1136.png",
+                        "retina40l" : "D:/workspace/ShareLife/启动页/iPhone/1136_640.png",
+                        "retina35" : "D:/workspace/ShareLife/启动页/iPhone/640_960.png"
+                    },
+                    "ipad" : {
+                        "portrait-1366h@2x" : "D:/workspace/ShareLife/启动页/ipad/2048_2732.png",
+                        "landscape-1366h@2x" : "D:/workspace/ShareLife/启动页/ipad/2732_2048.png",
+                        "portrait-1194h@2x" : "D:/workspace/ShareLife/启动页/ipad/1668_2388.png",
+                        "landscape-1194h@2x" : "D:/workspace/ShareLife/启动页/ipad/2388_1668.png",
+                        "portrait-1112h@2x" : "D:/workspace/ShareLife/启动页/ipad/1668_2224.png",
+                        "landscape-1112h@2x" : "D:/workspace/ShareLife/启动页/ipad/2224_1668.png",
+                        "portrait-retina7" : "D:/workspace/ShareLife/启动页/ipad/1536_2048.png",
+                        "landscape-retina7" : "D:/workspace/ShareLife/启动页/ipad/2048_1536.png",
+                        "portrait7" : "D:/workspace/ShareLife/启动页/ipad/768_1024.png",
+                        "landscape7" : "D:/workspace/ShareLife/启动页/ipad/1024_768.png"
+                    }
+                }
             }
         }
     },

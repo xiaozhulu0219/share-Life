@@ -23,6 +23,7 @@
 
 <script>
     import { keyWords } from '../../common/util/constants';
+	import textTip from "@/pages/component/textTip.js";
     export default {
         data() {
             return {
@@ -34,6 +35,7 @@
                 }
             };
         },
+		mixins:[textTip],
         onLoad: function(option) {
             console.log('this.$Route.query', this.$Route.query);
             const query = this.$Route.query;
@@ -48,6 +50,12 @@
             }
         },
         methods: {
+			// handletest(){
+			// 	console.log(uni)
+			// 	uni.navigateBack({
+			// 		delta:-1
+			// 	})
+			// },
             onInput(value) {
                 if (value !== null) {
                     for (const i in keyWords) {
@@ -65,6 +73,7 @@
                 const myForm = this.myFormData;
                 if (this.myFormData.nickName === '' || this.myFormData.nickName.indexOf('*') != -1) {
                     console.log('昵称出现了违规词语、已被拦截：', this.myFormData.nickName);
+					this.showTextTip('昵称')
                 } else {
                 console.log('myForm', myForm);
                 this.$tip.loading();
@@ -78,9 +87,10 @@
                     this.$tip.loaded();
                     if (res.data.success) {
                         this.$tip.toast('提交成功');
-                        this.$Router.replace({
-                            name: 'memberdetail'
-                        });
+                        uni.navigateBack({
+                        	delta:-1
+                        })
+						// uni.navigateBack()
                         /* uni.navigateTo({
                             url: '/pages/user/userdetail'
                         }) */

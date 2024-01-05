@@ -3,7 +3,7 @@
     <scroll-view scroll-y class="page">
         <cu-custom bgColor="bg-gradual-pink" :isBack="true">
             <block slot="backText">返回</block>
-            <block slot="content">我的关注</block>
+            <block slot="content">{{uuId===myUuid?'我的关注':'她/他的关注'}}</block>
         </cu-custom>
         <mescroll-body ref="mescrollRef" bottom="88" @init="mescrollInit" :up="upOption" :down="downOption" @down="downCallback" @up="upCallback">
             <view v-for="(item,index) in myFocusList" :key="index" class="card"> 
@@ -38,7 +38,7 @@
     import MescrollMixin from "@/components/mescroll-uni/mescroll-mixins.js";
     import Mixin from "@/common/mixin/Mixin.js";
     import configService from '@/common/service/config.service.js'
-
+	import {mapState} from "vuex"
     export default {
         name: 'focusModal',
         mixins: [MescrollMixin, Mixin],
@@ -69,17 +69,26 @@
         created() {
             this.getMyFocusList();
             //this.getFocusORFans(); //判断两个用户的关注关系
+			// console.log(this.myUuid,"我的uuid");
+			// console.log(this.uuId,"当前是谁的关注页面")
         },
         onLoad(option) {
             const item = JSON.parse(decodeURIComponent(option.item));
             this.uuId = item;
+			// console.log("当前是谁的关注页面",item)
             console.log("关注页加载时拿到的uuid：", item)
             console.log("this.uuId：", this.uuId)
             //这里进来的 uuid 是当前登录用户的 因为是根据当前登录用户的信息查的关注列表
            // this.getFocusORFans(item); //判断两个用户的关注关系
         },
+		computed:{
+			...mapState({
+				myUuid:'uuId'
+			})
+		},
         methods: {
             //判断两个用户的关注关系是什么
+			
             getMyFocusList() {
                 this.$http.get(this.findMyFocusPageUrl, {
                     params: {

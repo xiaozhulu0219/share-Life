@@ -1,10 +1,16 @@
 {
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	
     {
       "path": "pages/index/index",
       "style": {}
     },
+	{
+		"path":"pages/engine/engine",
+		"style": {}
+	},
+	
     {
       "path": "pages/home/home",
       "style": {}
@@ -115,7 +121,10 @@
     },
     {
       "path": "pages/information/inforPublishForm",
-      "style": {}
+      "style": {
+		  "app-plus": {
+		  	}
+	  }
     },
     {
       "path": "pages/helpcompany/helpCompanyLikeQueryList",
@@ -212,7 +221,14 @@
     },
     {
       "path": "pages/home/homeInforDetail",
-      "style": {}
+      "style": {
+		  "app-plus": {
+		  		 "softinputMode": "adjustResize"
+		  	},
+			"h5": {
+				"softinputMode": "adjustResize"
+			}
+	  }
     },
     {
       "path": "pages/home/homeSearch",
@@ -230,6 +246,9 @@
       "path": "pages/setting/setting",
       "style": {}
     },
+	{
+		"path": "pages/setting/productAdvice"
+	},
     {
       "path": "pages/common/exit",
       "style": {}
@@ -283,7 +302,25 @@
     {
       "path": "pages/common/helloWorld",
       "style": {}
-    }
+    },
+	{
+		"path": "pages/message/noticeList",
+		"style": {
+			
+		}
+	},
+	{
+		"path":"pages/home/homeComTagsList",
+		"style": {
+			
+		}
+	},
+	{
+		"path":"pages/member/selfTagsPage",
+		"style": {
+			
+		}
+	}
   ],
   "globalStyle": {
     "mp-alipay": {

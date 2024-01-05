@@ -4,24 +4,48 @@
         <commonTab :isBack="true" :backRouterName="backRouteName">
             <block slot="title"> ShareLife
             </block>
+			<block slot="right" >
+				<backToHome style="font-size:1.4em;"></backToHome>
+			</block>
         </commonTab>
-        <view class="card">
+        <view class="card" :style="{marginTop:50+topSpace-5+'px'}">
             <view class="list-wrap">
                 <scroll-view scroll-y @scrolltolower="reachBottom" style="height: 100%;">
                     <view v-for="(item,index) in homeSearchInforList" :key="index" class="card">
-                        <image class="medias_size" :src="item.medias[0]" mode="aspectFit" alt=""
+						<view class="space-text" v-if="item.inforType==1">
+							
+						</view>
+                        <image class="medias_size" v-if="item.inforType!=1" :src="item.medias[0]" mode="widthFix" alt=""
                                @click="toInformationDetail(item)"></image>
                         <view class="card-text" @click="toInformationDetail(item)">{{item.textContent.substr(0, 35) }}
                         </view>
                         <view class="card-line">
-                            <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt=""></image>
+                            <!-- <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt=""></image>
                             <view class="card-nickname">{{item.nickname}}</view>
                             <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx">&#xe60b</view>
                             <view class="card-ipAddress">{{item.ipAddress}}</view>
                             <view class="iconfont ml-1" style="color: #dd524d; margin-top: 8rpx"
                                   @click="loveInfor(item.inforId,index)">&#xe617
                             </view>
-                            <view class="card-loveCount">{{item.loveCount}}</view>
+                            <view class="card-loveCount">{{item.loveCount}}</view> -->
+							<view class="result-info">
+								<view class="result-info-left">
+									 <image class="card-avatar round" :src="item.avatar" mode="aspectFit" alt=""></image>
+									 <view class="" style="margin-left: 10rpx;">{{item.nickname}}</view>
+								</view>
+								<view class="result-info-right">
+									<view class="result-info-left-item">
+										<view class="iconfont ml-1" style="color: #dd524d; ">&#xe60b</view>
+										<view class="card-ipAddress">{{item.ipAddress}}</view>
+									</view>
+									<view class="result-info-left-item">
+										<view class="iconfont ml-1" style="color: #dd524d; "
+										      @click="loveInfor(item.inforId,index)">&#xe617
+										</view>
+										<view class="card-loveCount">{{item.loveCount}}</view> 
+									</view>
+								</view>
+							</view>
                         </view>
                     </view>
                     <view v-if='isDownLoading' class="load-text">加载中....</view>
@@ -40,14 +64,15 @@
     import homeModal from './homeInforModal.vue'
     import configService from '@/common/service/config.service.js'
     import commonTab from "../component/commonTab";
-
+	import backToHome from "@/pages/component/backToHome.vue"
     export default {
         name: "homeSearchResultPage",
         mixins: [],
         components: {
             HomeSignModal,
             homeModal,
-            commonTab
+            commonTab,
+			backToHome
         },
         data() {
             return {
@@ -162,6 +187,7 @@
     .card {
         background-color:  #fff;
         padding: 20rpx 20rpx;
+		
         border-radius: 20rpx;
         line-height: 35rpx;  /*行高*/
         border-bottom: #eee solid 5rpx;
@@ -240,4 +266,25 @@
         flex-shrink: 0;
         flex: 2;
     }
+	.space-text{
+		height: 40rpx;
+	}
+	.result-info{
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.result-info-left{
+		display: flex;
+		align-items: center;
+	}
+	.result-info-right{
+		display: flex;
+		align-items: center;
+	}
+	.result-info-left-item{
+		display: flex;
+		align-items: center;
+	}
 </style>

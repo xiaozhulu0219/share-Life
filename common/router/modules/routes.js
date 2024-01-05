@@ -204,6 +204,13 @@ const routes = [{
             title: '设置页'
         }
     },
+	{
+		path:'/pages/setting/productAdvice',
+		name:'productAdvice',
+		meta:{
+			title:'产品与建议'
+		}
+	},
     {
         path: '/pages/user/userexit',
         name: 'userexit',
@@ -231,7 +238,27 @@ const routes = [{
         meta: {
             title: 'success'
         }
-     }
+     },
+	 {
+		 path:'/pages/message/noticeList',
+		 name:'noticeList',
+		 meta:{
+			 title:'noticeList'
+		 }
+	 },{
+		 path:'/pages/home/homeComTagsList',
+		 name:'homeComTagsList',
+		 meta:{
+			 title:'homeComTagsList'
+		 }
+	 },
+	 {
+		 path:'/pages/member/selfTagsPage',
+		 name:'selfTagsPage',
+		 meta:{
+			 title:'selfTagsPage'
+		 }
+	 }
     // ,
     // {
     //     path: '/pages/addressbook/member',
